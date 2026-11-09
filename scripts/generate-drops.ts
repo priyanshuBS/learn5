@@ -139,7 +139,7 @@ function spreadMcqAnswers(items: RawItem[]): void {
 function extraChecks(drop: Drop, history: Awaited<ReturnType<typeof loadHistory>>): string[] {
   const problems: string[] = [];
   // Titles should name the topics, not the slot or date (e.g. not "Morning Science Quiz – 2026-11-10").
-  if (/\d{4}-\d{2}-\d{2}|(morning|afternoon|evening|quiz|drop)/i.test(drop.title)) {
+  if (/\d{4}-\d{2}-\d{2}|\b(morning|afternoon|evening|quiz|drop)\b/i.test(drop.title)) {
     problems.push(
       `Title "${drop.title}" is too generic. Name the topics instead (no time of day, date, "quiz" or "drop").`,
     );
