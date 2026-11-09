@@ -77,39 +77,8 @@ export default function ProgressScreen() {
   return (
     <Screen>
       <PageHeader title="Progress" subtitle="Your level, streaks and badges" />
-      <Card className="gap-4 md:flex-row md:items-center">
-        <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600">
-            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
-              {user?.email?.[0] ?? '?'}
-            </Txt>
-          </View>
-          <View className="flex-1">
-            <Txt weight="semibold" numberOfLines={1}>
-              {user?.email ?? 'Signed in'}
-            </Txt>
-            {expiresAt ? (
-              <Muted>
-                Signed in until{' '}
-                {new Date(expiresAt).toLocaleDateString('en-IN', {
-                  day: 'numeric',
-                  month: 'short',
-                })}
-              </Muted>
-            ) : null}
-            <SyncLine />
-          </View>
-        </View>
-        <Button
-          label="Sign out"
-          icon="log-out"
-          variant="secondary"
-          size="md"
-          onPress={() => void signOut()}
-        />
-      </Card>
 
-      <View className="mt-4 gap-4 xl:flex-row">
+      <View className="gap-4 xl:flex-row">
         {/* Level */}
         <View className="xl:flex-[3]">
           <Gradient colors={HERO_GRADIENT} lip={HERO_LIP} radius={28} className="p-6 md:p-7">
@@ -281,7 +250,38 @@ export default function ProgressScreen() {
       </Card>
 
       <SectionTitle title="Account" />
-      <Card className="flex-row flex-wrap items-center justify-between gap-3">
+      <Card className="gap-4 md:flex-row md:items-center">
+        <View className="flex-1 flex-row items-center gap-3">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600">
+            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
+              {user?.email?.[0] ?? '?'}
+            </Txt>
+          </View>
+          <View className="flex-1">
+            <Txt weight="semibold" numberOfLines={1}>
+              {user?.email ?? 'Signed in'}
+            </Txt>
+            {expiresAt ? (
+              <Muted>
+                Signed in until{' '}
+                {new Date(expiresAt).toLocaleDateString('en-IN', {
+                  day: 'numeric',
+                  month: 'short',
+                })}
+              </Muted>
+            ) : null}
+            <SyncLine />
+          </View>
+        </View>
+        <Button
+          label="Sign out"
+          icon="log-out"
+          variant="secondary"
+          size="md"
+          onPress={() => void signOut()}
+        />
+      </Card>
+      <Card className="mt-3 flex-row flex-wrap items-center justify-between gap-3">
         <View className="flex-row flex-wrap gap-5">
           <TextLink label="Privacy policy" onPress={() => router.push('/privacy')} />
           <TextLink label="Terms of use" onPress={() => router.push('/terms')} />
