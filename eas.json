@@ -10,14 +10,14 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_APP_URL": "https://learn5.priyanshusingh.co.in",
+        "EXPO_PUBLIC_APP_URL": "https://learn5.expo.app",
         "EXPO_PUBLIC_REPORT_EMAIL": "support@priyanshusingh.co.in"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_APP_URL": "https://learn5.priyanshusingh.co.in",
+        "EXPO_PUBLIC_APP_URL": "https://learn5.expo.app",
         "EXPO_PUBLIC_REPORT_EMAIL": "support@priyanshusingh.co.in"
       }
     }

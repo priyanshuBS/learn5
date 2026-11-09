@@ -100,7 +100,7 @@ reminder repeats daily at the chosen time and is re-created on app start if the 
    `--profile production` and `npx eas-cli@latest submit`. App IDs: `in.priyanshusingh.learn5`.
    iOS needs an Apple Developer account; Android needs a Google Play Console account.
 7. Store listings: screenshots, description, the privacy policy URL
-   (`https://learn5.priyanshusingh.co.in/privacy`) and the data-safety form (email +
+   (`https://learn5.expo.app/privacy`) and the data-safety form (email +
    learning progress, no ads, no tracking).
 
 ## Deploy

@@ -8,7 +8,7 @@
     "scheme": "learn5",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
+      "icon": "./assets/images/icon.png",
       "supportsTablet": true,
       "bundleIdentifier": "in.priyanshusingh.learn5",
       "infoPlist": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#050508",
+        "backgroundColor": "#2E1065",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -47,7 +47,7 @@
         {
           "backgroundColor": "#050508",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "imageWidth": 120
         }
       ],
       "expo-secure-store",
@@ -62,6 +62,17 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
-    "description": "5 questions. 5 minutes. Learn a little every day."
+    "description": "5 questions. 5 minutes. Learn a little every day.",
+    "extra": {
+      "router": {
+        "apiRoutes": true,
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "e808c8b0-34fc-483a-a1aa-4084e3261a25"
+      }
+    }
   }
 }
