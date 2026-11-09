@@ -1,5 +1,5 @@
 /**
- * Home — the daily dashboard. All six subjects are equal, so none is pushed first.
+ * Home — the daily dashboard. All subjects are equal, so none is pushed first.
  *   1. greeting, heading and a one-line summary of today
  *   2. a compact strip: today's progress, streak, points / level
  *   3. every subject with today's drops and its one next step (the main content)

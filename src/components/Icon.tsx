@@ -69,6 +69,7 @@ import Trophy from 'lucide-react-native/icons/trophy';
 import User from 'lucide-react-native/icons/user';
 import X from 'lucide-react-native/icons/x';
 import Zap from 'lucide-react-native/icons/zap';
+import CodeXml from 'lucide-react-native/icons/code-xml';
 import Trash2 from 'lucide-react-native/icons/trash-2';
 import ShieldCheck from 'lucide-react-native/icons/shield-check';
 import Bell from 'lucide-react-native/icons/bell';
@@ -92,6 +93,7 @@ const ICONS = {
   physics: Atom,
   chemistry: FlaskConical,
   biology: Leaf,
+  'computer-science': CodeXml,
   // Arrows
   'arrow-left': ArrowLeft,
   'arrow-right': ArrowRight,

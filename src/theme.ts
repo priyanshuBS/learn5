@@ -50,6 +50,7 @@ export const CATEGORY_ICONS: Record<string, IconName> = {
   physics: 'physics',
   chemistry: 'chemistry',
   biology: 'biology',
+  'computer-science': 'computer-science',
 };
 
 /** Line icons for each badge. */

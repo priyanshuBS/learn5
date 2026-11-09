@@ -74,7 +74,7 @@ async function schedule(hour: number, minute: number): Promise<void> {
   await N.scheduleNotificationAsync({
     content: {
       title: 'Your 5 minutes are ready',
-      body: 'Fresh drops are open in all 6 subjects. Keep your streak going!',
+      body: 'Fresh drops are open in every subject. Keep your streak going!',
     },
     trigger: {
       type: N.SchedulableTriggerInputTypes.DAILY,

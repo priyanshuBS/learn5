@@ -21,6 +21,13 @@
     "tagline": "Puzzles, patterns and logic"
   },
   {
+    "id": "computer-science",
+    "name": "Computer Science",
+    "emoji": "💻",
+    "color": "#F97316",
+    "tagline": "Computers, coding and the internet"
+  },
+  {
     "id": "physics",
     "name": "Physics",
     "emoji": "⚡",

@@ -39,6 +39,15 @@ import { categoryTone, colors, GLOW } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
 
+const SUBJECT_WORDS: Record<number, string> = {
+  5: 'Five',
+  6: 'Six',
+  7: 'Seven',
+  8: 'Eight',
+  9: 'Nine',
+  10: 'Ten',
+};
+
 const FEATURES: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'lightbulb',
@@ -116,8 +125,9 @@ export default function WelcomeScreen() {
               </GradientText>
             </Txt>
             <Muted className="mt-7 max-w-lg text-[17px] leading-7">
-              5 questions. 5 minutes. Bite-size drops in English, Math, Reasoning, Physics,
-              Chemistry and Biology — in simple English, with a clear “why” after every answer.
+              5 questions. 5 minutes. Bite-size drops in English, Math, Reasoning, Computer Science,
+              Physics, Chemistry and Biology — in simple English, with a clear “why” after every
+              answer.
             </Muted>
             <View className="mt-10 gap-3 sm:flex-row">
               <Button
@@ -129,8 +139,8 @@ export default function WelcomeScreen() {
               <Button label="I have an account" variant="secondary" onPress={goLogIn} />
             </View>
             <View className="mt-10 flex-row flex-wrap gap-x-8 gap-y-4">
-              <HeroStat value="6" label="Subjects" />
-              <HeroStat value="18" label="Drops a day" />
+              <HeroStat value={`${categories.length}`} label="Subjects" />
+              <HeroStat value={`${categories.length * 3}`} label="Drops a day" />
               <HeroStat value="5 min" label="Each drop" />
             </View>
           </View>
@@ -165,7 +175,7 @@ export default function WelcomeScreen() {
         {/* Subjects */}
         <SectionHeading
           eyebrow="01 · Subjects"
-          title="Six subjects."
+          title={`${SUBJECT_WORDS[categories.length] ?? categories.length} subjects.`}
           accent="One daily habit."
           text="School-level facts from trusted textbooks, explained simply."
         />

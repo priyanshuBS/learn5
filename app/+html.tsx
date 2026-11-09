@@ -8,7 +8,7 @@ import type { PropsWithChildren } from 'react';
 const TITLE = 'Learn5 — 5 questions. 5 minutes. Get smarter every day.';
 
 const DESCRIPTION =
-  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Math, Reasoning, Physics, Chemistry and Biology.';
+  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Math, Reasoning, Computer Science, Physics, Chemistry and Biology.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
 const BACKGROUND_CSS = `

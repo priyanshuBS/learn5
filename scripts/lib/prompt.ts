@@ -19,6 +19,8 @@ const CATEGORY_RULES: Record<string, string> = {
     'Motion, force, energy, work, gravity, light, sound, heat, electricity, magnetism, simple machines — linked to daily life.',
   chemistry:
     'Matter, atoms and molecules, elements and the periodic table, acids, bases and salts, metals and non-metals, everyday reactions (rusting, cooking, cleaning). No instructions for dangerous experiments.',
+  'computer-science':
+    'How computers work (input, processing, output, storage, memory), hardware and software, binary numbers and bits/bytes, storage units (KB, MB, GB), the internet and the web (IP address, browser, URL, email), algorithms and flowcharts, simple coding logic in plain pseudocode (loops, if/else, variables), data and files, and online safety (strong passwords, phishing). No company, product or app brand names. For code, use short plain pseudocode, not a real programming language.',
   biology:
     'Cells, the human body, plants, animals, food and nutrition (as science, not diet advice), ecosystems, microorganisms. No medical advice.',
 };
