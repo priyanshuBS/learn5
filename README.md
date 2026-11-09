@@ -103,6 +103,22 @@ reminder repeats daily at the chosen time and is re-created on app start if the 
    (`https://learn5.priyanshusingh.co.in/privacy`) and the data-safety form (email +
    learning progress, no ads, no tracking).
 
+## Deploy
+
+Website + API (EAS Hosting) — `app.json` uses `"web": { "output": "server" }` so API routes deploy:
+
+```bash
+npx eas-cli@latest login
+npx expo export --platform web            # builds dist/ (EXPO_PUBLIC_* are baked in here)
+npx eas-cli@latest deploy                 # preview URL
+npx eas-cli@latest deploy --prod --environment production   # production URL + server secrets
+```
+
+Server secrets (`DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`) live in the EAS
+`production` environment (`eas env:set … --environment production`). Phone apps:
+`npx eas-cli@latest build --platform android --profile preview` (test APK), then
+`--profile production` and `npx eas-cli@latest submit`.
+
 ## Environment variables
 
 All settings live in `.env.local` (gitignored; template: `.env.example`). None may be empty.
