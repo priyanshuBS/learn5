@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-08",
+  "category": "chemistry",
+  "drop": 2,
+  "title": "Metals and Non-Metals",
+  "items": [
+    {
+      "id": "chemistry-2026-11-08-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Metals",
+      "question": "Which of these is a metal?",
+      "options": ["Sulphur", "Carbon", "Oxygen", "Iron"],
+      "answerIndex": 3,
+      "explanation": "Iron is a metal: it is hard, shiny when polished and conducts heat and electricity. Sulphur, carbon and oxygen are non-metals. Iron is used to make bridges, tools and cooking pans.",
+      "source": "NCERT Class 8 Science"
+    },
+    {
+      "id": "chemistry-2026-11-08-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Mercury",
+      "question": "Mercury is a metal that is liquid at room temperature.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Almost all metals are solid at room temperature, but mercury is a liquid. It was used in old thermometers. Mercury is poisonous, so it should never be touched.",
+      "source": "NCERT Class 8 Science"
+    },
+    {
+      "id": "chemistry-2026-11-08-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Rusting",
+      "question": "Iron rusts when it comes in contact with:",
+      "options": ["Oxygen and water", "Only sunlight", "Only salt", "Nitrogen and sand"],
+      "answerIndex": 0,
+      "explanation": "Rusting needs both oxygen and water (or moisture). Rust is a reddish-brown layer called iron oxide. Painting or oiling iron keeps air and water away, so it does not rust.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "chemistry-2026-11-08-d2-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Malleability",
+      "question": "Metals that can be beaten into thin sheets are called ___.",
+      "answer": "malleable",
+      "explanation": "Malleable means it can be hammered into thin sheets without breaking. Aluminium foil used to wrap food is a good example. Most non-metals, like sulphur, break instead.",
+      "source": "NCERT Class 8 Science"
+    },
+    {
+      "id": "chemistry-2026-11-08-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Graphite",
+      "question": "Which non-metal is a good conductor of electricity?",
+      "options": ["Sulphur", "Graphite", "Iodine", "Phosphorus"],
+      "answerIndex": 1,
+      "explanation": "Most non-metals do not conduct electricity, but graphite (a form of carbon) does. That is why it is used in some batteries. The \"lead\" in your pencil is actually graphite.",
+      "source": "NCERT Class 10 Science"
+    }
+  ]
+}

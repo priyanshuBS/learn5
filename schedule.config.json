@@ -1,0 +1,12 @@
+{
+  "$comment": "When each drop OPENS (24-hour HH:MM, in the timezone below). Order per category: [drop 1, drop 2, drop 3]. Used by the API (a drop is only served after its time) and the app. Drops are written ahead of time by the daily generator.",
+  "timezone": "Asia/Kolkata",
+  "drops": {
+    "english": ["07:00", "13:00", "19:00"],
+    "math": ["07:30", "13:30", "19:30"],
+    "reasoning": ["08:00", "14:00", "20:00"],
+    "physics": ["08:30", "14:30", "20:30"],
+    "chemistry": ["09:00", "15:00", "21:00"],
+    "biology": ["09:30", "15:30", "21:30"]
+  }
+}

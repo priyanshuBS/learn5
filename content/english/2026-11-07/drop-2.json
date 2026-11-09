@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-07",
+  "category": "english",
+  "drop": 2,
+  "title": "Grammar Made Easy",
+  "items": [
+    {
+      "id": "english-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Plural of child",
+      "question": "What is the plural of 'child'?",
+      "options": ["Childs", "Children", "Childes", "Childrens"],
+      "answerIndex": 1,
+      "explanation": "'Child' has a special plural: 'children'. We say 'one child, two children'. 'Childrens' is a common mistake because 'children' is already plural.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d2-02",
+      "type": "fact_card",
+      "difficulty": "easy",
+      "topic": "Silent letters",
+      "fact": "In the word 'knife', the letter 'k' is silent. You say it like 'nife'.",
+      "explanation": "Many English words that start with 'kn' have a silent k: knee, knock, know and knife. Remembering this group helps you spell and say them correctly.",
+      "funFact": "About 600 years ago, people really did say the k in these words.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d2-03",
+      "type": "true_false",
+      "difficulty": "medium",
+      "topic": "Fewer vs less",
+      "question": "'There were less people at the party' is the correct way to say it.",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "Use 'fewer' for things you can count, like people, chairs or apples. Use 'less' for things you cannot count, like water or time. So the correct sentence is 'There were fewer people at the party.'",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-07-d2-04",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Subject-verb agreement",
+      "question": "Which sentence about tea is correct?",
+      "options": [
+        "She don't like tea.",
+        "She doesn't likes tea.",
+        "She not like tea.",
+        "She doesn't like tea."
+      ],
+      "answerIndex": 3,
+      "explanation": "With he, she or it, we use 'doesn't' and then the base verb with no 's'. So: 'She doesn't like tea.' The 's' is already in 'does', so we don't add it to 'like'.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    },
+    {
+      "id": "english-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Past perfect tense",
+      "question": "By the time we reached the station, the train ___. Choose the right words.",
+      "options": ["has left", "had left", "leaves", "is leaving"],
+      "answerIndex": 1,
+      "explanation": "When two things happened in the past, use 'had' + past form for the one that happened first. The train left first, and then we reached. So we say 'the train had left'.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    }
+  ]
+}

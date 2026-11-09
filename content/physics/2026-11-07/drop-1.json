@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-07",
+  "category": "physics",
+  "drop": 1,
+  "title": "Forces All Around You",
+  "items": [
+    {
+      "id": "physics-2026-11-07-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Unit of force",
+      "question": "What is the SI unit of force?",
+      "options": ["Joule", "Newton", "Watt", "Pascal"],
+      "answerIndex": 1,
+      "explanation": "Force is measured in newtons (N). One newton is about the force you feel holding a small apple in your hand.",
+      "funFact": "The unit is named after the scientist Isaac Newton.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Friction",
+      "question": "A ball rolling on the ground slowly stops mainly because of friction.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Friction is the force that acts when two surfaces rub against each other. It works against motion, so the rolling ball slows down. On smooth ice, friction is lower, so the ball rolls much farther.",
+      "source": "NCERT Class 8 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Newton's third law",
+      "question": "When you push a wall, the wall pushes back on you just as hard. Which law explains this?",
+      "options": [
+        "Newton's first law",
+        "Newton's second law",
+        "Newton's third law",
+        "The law of gravity"
+      ],
+      "answerIndex": 2,
+      "explanation": "Newton's third law says every action has an equal and opposite reaction. You push the wall, and the wall pushes you back with the same force. This is also how a rocket moves: gas is pushed down, so the rocket is pushed up.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Newton's second law",
+      "question": "Force = mass × ___.",
+      "answer": "acceleration",
+      "explanation": "Newton's second law says Force = mass × acceleration (F = m × a). Acceleration means how quickly speed changes. A heavier cart needs a bigger push to speed up as fast as a light one.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Calculating force",
+      "question": "A 2 kg box speeds up at 3 m/s². What force is acting on it?",
+      "options": ["5 N", "6 N", "1.5 N", "9 N"],
+      "answerIndex": 1,
+      "explanation": "Use F = m × a. Here m = 2 kg and a = 3 m/s². So F = 2 × 3 = 6 newtons. Adding the numbers (5 N) is a common mistake.",
+      "source": "NCERT Class 9 Science"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-07",
+  "category": "chemistry",
+  "drop": 1,
+  "title": "Matter Matters",
+  "items": [
+    {
+      "id": "chemistry-2026-11-07-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "States of matter",
+      "question": "Which of these is a gas at room temperature?",
+      "options": ["Iron", "Oxygen", "Water", "Salt"],
+      "answerIndex": 1,
+      "explanation": "Matter is found as solid, liquid or gas. At room temperature, iron and salt are solids, water is a liquid, and oxygen is a gas. We breathe oxygen from the air.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Physical vs chemical change",
+      "question": "Ice melting into water is a chemical change.",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "Melting is a physical change: the ice only changes shape and state, and no new substance is made. You can freeze the water back into ice. A chemical change, like burning paper, makes something new.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Evaporation",
+      "question": "Wet clothes dry in the sun. Which process turns the water in them into a gas?",
+      "options": ["Freezing", "Condensation", "Evaporation", "Melting"],
+      "answerIndex": 2,
+      "explanation": "Evaporation is when a liquid slowly turns into a gas (vapour). Sun, wind and heat make it faster. That is why clothes dry quicker on a hot, windy day.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Formula of water",
+      "question": "The chemical formula of water is ___.",
+      "answer": "H2O",
+      "acceptedAnswers": ["H₂O"],
+      "explanation": "Each water molecule has 2 hydrogen atoms (H) and 1 oxygen atom (O). So we write it H₂O. A single drop of water has billions and billions of these molecules.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Sublimation",
+      "question": "Naphthalene balls kept in a cupboard slowly get smaller but never become liquid. What is this called?",
+      "options": ["Melting", "Sublimation", "Condensation", "Freezing"],
+      "answerIndex": 1,
+      "explanation": "Sublimation is when a solid turns straight into a gas without becoming a liquid first. Naphthalene and camphor both do this. That is why their smell spreads through the cupboard.",
+      "source": "NCERT Class 9 Science"
+    }
+  ]
+}

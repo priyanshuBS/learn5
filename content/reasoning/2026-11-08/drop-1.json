@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-08",
+  "category": "reasoning",
+  "drop": 1,
+  "title": "Number Detective",
+  "items": [
+    {
+      "id": "reasoning-2026-11-08-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Counting by fives",
+      "question": "What comes next: 5, 10, 15, 20, ?",
+      "options": ["22", "25", "30", "35"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Each gap is 5 (10 − 5 = 5, 15 − 10 = 5). Step 2: Keep adding 5. Step 3: 20 + 5 = 25.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Doubling series",
+      "question": "In the series 1, 2, 4, 8, 16, the next number is 24.",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Each number is double the one before: 1×2 = 2, 2×2 = 4, 4×2 = 8. Step 2: 8×2 = 16. Step 3: So the next is 16×2 = 32, not 24.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Double plus one series",
+      "question": "Find the next number: 3, 7, 15, 31, ?",
+      "options": ["47", "62", "63", "64"],
+      "answerIndex": 2,
+      "explanation": "Step 1: 3×2 + 1 = 7. Step 2: 7×2 + 1 = 15, and 15×2 + 1 = 31. Step 3: 31×2 + 1 = 63.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Backward letter series",
+      "question": "What comes next: Z, X, V, T, ___",
+      "answer": "R",
+      "explanation": "Step 1: Z to X skips Y, X to V skips W. Step 2: The letters go backwards, skipping one each time. Step 3: After T, skip S, so the answer is R.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Fibonacci series",
+      "question": "What comes next: 1, 1, 2, 3, 5, 8, 13, ?",
+      "options": ["18", "20", "21", "26"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Look closely: 1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5. Step 2: Each number is the sum of the two before it. Step 3: 8 + 13 = 21.",
+      "funFact": "This is the Fibonacci series. It appears in sunflower seeds and pine cones!",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

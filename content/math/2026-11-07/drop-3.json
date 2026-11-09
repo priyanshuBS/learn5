@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-07",
+  "category": "math",
+  "drop": 3,
+  "title": "Money Math",
+  "items": [
+    {
+      "id": "math-2026-11-07-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Making change",
+      "question": "You buy things for ₹45 and ₹38 and pay with a ₹100 note. How much change do you get?",
+      "options": ["₹13", "₹17", "₹23", "₹27"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Total cost = ₹45 + ₹38 = ₹83. Step 2: Change = ₹100 − ₹83 = ₹17. A shop helper counts up: ₹83 + ₹7 = ₹90, + ₹10 = ₹100, so ₹17.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Simple interest",
+      "question": "The simple interest on ₹1,000 at 10% per year for 2 years is ₹200.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Simple interest = Principal × Rate × Time ÷ 100. So 1,000 × 10 × 2 ÷ 100 = ₹200. You earn ₹100 each year, and 2 years gives ₹200.",
+      "source": "NCERT Class 7 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Sharing in a ratio",
+      "question": "Share ₹600 between Asha and Ravi in the ratio 2 : 3. How much does Ravi get?",
+      "options": ["₹240", "₹300", "₹360", "₹400"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Total parts = 2 + 3 = 5. Step 2: One part = ₹600 ÷ 5 = ₹120. Step 3: Ravi gets 3 parts = 3 × ₹120 = ₹360. Asha gets ₹240.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Unitary method",
+      "question": "If 4 pens cost ₹60, then 7 pens cost ₹___.",
+      "answer": "105",
+      "explanation": "First find the cost of one pen: ₹60 ÷ 4 = ₹15. Then 7 pens cost 7 × ₹15 = ₹105. Finding the value of one first is called the unitary method.",
+      "source": "NCERT Class 7 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Compound interest",
+      "question": "₹10,000 is saved at 10% compound interest per year. How much will it be after 2 years?",
+      "options": ["₹11,000", "₹12,000", "₹12,100", "₹12,210"],
+      "answerIndex": 2,
+      "explanation": "Year 1: 10% of ₹10,000 = ₹1,000, so it becomes ₹11,000. Year 2: 10% of ₹11,000 = ₹1,100, so it becomes ₹12,100. With compound interest, you also earn interest on the interest.",
+      "source": "NCERT Class 8 Mathematics"
+    }
+  ]
+}

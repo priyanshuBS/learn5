@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-07",
+  "category": "physics",
+  "drop": 3,
+  "title": "Energy in Daily Life",
+  "items": [
+    {
+      "id": "physics-2026-11-07-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Kinetic energy",
+      "question": "What kind of energy does a moving bicycle have because of its motion?",
+      "options": ["Kinetic energy", "Sound energy", "Chemical energy", "Nuclear energy"],
+      "answerIndex": 0,
+      "explanation": "Kinetic energy is the energy of movement. Anything that moves has it: a rolling ball, a flying bird, a moving bicycle. The faster it moves, the more kinetic energy it has.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Solar panels",
+      "question": "A solar panel changes light energy from the Sun into electrical energy.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Solar panels are made of special cells that produce electricity when sunlight falls on them. This is why they are placed on rooftops facing the Sun.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Potential energy",
+      "question": "A book kept on a high shelf has energy because of its height. What is this energy called?",
+      "options": ["Kinetic energy", "Potential energy", "Heat energy", "Light energy"],
+      "answerIndex": 1,
+      "explanation": "Potential energy is stored energy because of position or height. If the book falls, this stored energy turns into kinetic energy. Water stored high up in a dam works the same way.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Unit of energy",
+      "question": "The SI unit of energy is the ___.",
+      "answer": "joule",
+      "acceptedAnswers": ["joules", "J"],
+      "explanation": "Energy and work are both measured in joules (J). Lifting a small apple about 1 metre uses about 1 joule of energy.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Power",
+      "question": "A motor does 600 joules of work in 10 seconds. What is its power?",
+      "options": ["6 W", "60 W", "600 W", "6,000 W"],
+      "answerIndex": 1,
+      "explanation": "Power is how fast work is done: Power = Work ÷ Time. So 600 J ÷ 10 s = 60 watts (W). A 60 W bulb uses 60 joules of energy every second.",
+      "source": "NCERT Class 9 Science"
+    }
+  ]
+}

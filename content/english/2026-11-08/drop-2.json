@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-08",
+  "category": "english",
+  "drop": 2,
+  "title": "Words With Power",
+  "items": [
+    {
+      "id": "english-2026-11-08-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Meaning of generous",
+      "question": "What does 'generous' mean?",
+      "options": ["Happy to give and share", "Very angry", "Easily scared", "Always late"],
+      "answerIndex": 0,
+      "explanation": "A generous person likes to give money, time or help to others. For example: 'She was generous and shared her lunch with everyone.'",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Irregular plural: mouse",
+      "question": "The plural of 'mouse' (the animal) is 'mice'.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Some words change inside to become plural: one mouse, two mice. Another example is one tooth, two teeth.",
+      "funFact": "For computer mice, both \"mice\" and \"mouses\" are used.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Since vs for",
+      "question": "Fill the gap: 'I have lived here ___ 2015.'",
+      "options": ["for", "since", "from", "by"],
+      "answerIndex": 1,
+      "explanation": "Use 'since' with a starting point in time: since 2015, since Monday. Use 'for' with a length of time: for 10 years, for two days.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    },
+    {
+      "id": "english-2026-11-08-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Homophones",
+      "fact": "Homophones are words that sound the same but have different meanings and spellings, like 'sea' and 'see'.",
+      "explanation": "Other examples are 'right' and 'write', 'flower' and 'flour', 'their' and 'there'. When you hear them, the sentence tells you which one is meant.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-08-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Idiom: beat around the bush",
+      "question": "What does 'beat around the bush' mean?",
+      "options": [
+        "To work hard in a garden",
+        "To win very easily",
+        "To avoid saying something directly",
+        "To walk very fast"
+      ],
+      "answerIndex": 2,
+      "explanation": "If you 'beat around the bush', you talk about other things and avoid the main point. For example: 'Stop beating around the bush and tell me what happened.'",
+      "source": "Cambridge Dictionary"
+    }
+  ]
+}

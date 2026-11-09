@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-07",
+  "category": "biology",
+  "drop": 2,
+  "title": "Plants Power Up",
+  "items": [
+    {
+      "id": "biology-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Photosynthesis",
+      "question": "What do green plants use to make their own food?",
+      "options": [
+        "Sunlight, water and carbon dioxide",
+        "Sunlight, oxygen and salt",
+        "Soil, sugar and nitrogen",
+        "Water, oxygen and darkness"
+      ],
+      "answerIndex": 0,
+      "explanation": "Plants make food in their leaves using sunlight, water and carbon dioxide from the air. This process is called photosynthesis. The food made is a type of sugar.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "biology-2026-11-07-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Oxygen from plants",
+      "question": "Plants give out oxygen during photosynthesis.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "While making food, plants release oxygen into the air. Humans and animals breathe in this oxygen. That is one reason trees are so important for us.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "biology-2026-11-07-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Roots",
+      "question": "Which part of a plant takes in water from the soil?",
+      "options": ["Leaves", "Flowers", "Roots", "Fruits"],
+      "answerIndex": 2,
+      "explanation": "Roots grow into the soil and soak up water and minerals. They also hold the plant firmly in the ground. The water then travels up the stem to the leaves.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "biology-2026-11-07-d2-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Chlorophyll",
+      "question": "The green pigment in leaves that captures sunlight is called ___.",
+      "answer": "chlorophyll",
+      "acceptedAnswers": ["chlorophyl"],
+      "explanation": "Chlorophyll gives leaves their green colour. It traps the energy of sunlight so the plant can make food. Without it, photosynthesis cannot happen.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "biology-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Stomata",
+      "question": "What are the tiny pores on leaves that let gases in and out called?",
+      "options": ["Stomata", "Xylem", "Phloem", "Petals"],
+      "answerIndex": 0,
+      "explanation": "Stomata are tiny openings, mostly on the underside of leaves. Carbon dioxide enters and oxygen and water vapour leave through them. Xylem and phloem are tubes that carry water and food inside the plant.",
+      "source": "NCERT Class 10 Science"
+    }
+  ]
+}

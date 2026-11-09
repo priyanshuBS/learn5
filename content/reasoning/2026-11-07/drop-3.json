@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-07",
+  "category": "reasoning",
+  "drop": 3,
+  "title": "Think It Through",
+  "items": [
+    {
+      "id": "reasoning-2026-11-07-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Turning directions",
+      "question": "You are facing north and you turn right. Which direction are you facing now?",
+      "options": ["South", "East", "West", "North"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Picture a compass: north at the top, east on the right. Step 2: Facing north, your right hand points east. Step 3: Turning right means you now face east.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Simple syllogism",
+      "question": "'All roses are flowers. All flowers need water.' From this, we can say that all roses need water.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Step 1: Every rose is inside the group \"flowers\". Step 2: Every flower is inside the group \"things that need water\". Step 3: So every rose is also inside that group — all roses need water.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Family relations",
+      "question": "Ravi is a boy. Ravi's father has only one son. That son's sister is Neha. How is Neha related to Ravi?",
+      "options": ["Mother", "Aunt", "Cousin", "Sister"],
+      "answerIndex": 3,
+      "explanation": "Step 1: Ravi's father's only son must be Ravi himself. Step 2: That son's sister is Neha. Step 3: So Neha is Ravi's sister.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Days of the week",
+      "question": "If today is Monday, then 3 days from today will be ___.",
+      "answer": "Thursday",
+      "acceptedAnswers": ["Thurs"],
+      "explanation": "Step 1: 1 day after Monday is Tuesday. Step 2: 2 days after is Wednesday. Step 3: 3 days after is Thursday.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Position in a line",
+      "question": "In a line of 5 people, Asha is 2nd from the left. What is her position from the right?",
+      "options": ["2nd", "3rd", "4th", "5th"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Use the rule: position from right = total − position from left + 1. Step 2: 5 − 2 + 1 = 4. Step 3: Asha is 4th from the right. Draw 5 dots to check!",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

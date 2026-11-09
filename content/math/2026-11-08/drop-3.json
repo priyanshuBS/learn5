@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-08",
+  "category": "math",
+  "drop": 3,
+  "title": "Shapes and Numbers",
+  "items": [
+    {
+      "id": "math-2026-11-08-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Perimeter of a square",
+      "question": "What is the perimeter of a square with sides of 5 cm?",
+      "options": ["10 cm", "15 cm", "20 cm", "25 cm"],
+      "answerIndex": 2,
+      "explanation": "Perimeter is the distance all the way around. A square has 4 equal sides, so 4 × 5 = 20 cm. 25 is the area (in square cm), not the perimeter.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-08-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "The only even prime",
+      "question": "2 is the only even prime number.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "A prime number can be divided exactly only by 1 and itself. Every other even number can also be divided by 2, so it is not prime. That leaves 2 as the only even prime.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-08-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Area of a rectangle",
+      "question": "A room is 4 m long and 3 m wide. What is its floor area?",
+      "options": ["7 square metres", "12 square metres", "14 square metres", "24 square metres"],
+      "answerIndex": 1,
+      "explanation": "Area of a rectangle = length × width = 4 × 3 = 12 square metres. 14 m is the perimeter (4 + 3 + 4 + 3), which is a different thing.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-08-d3-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Angles in a triangle",
+      "fact": "The three angles inside any triangle always add up to 180 degrees.",
+      "explanation": "It does not matter if the triangle is big, small, thin or wide. So if two angles are 60° and 70°, the third must be 180 − 60 − 70 = 50°.",
+      "source": "NCERT Class 7 Mathematics"
+    },
+    {
+      "id": "math-2026-11-08-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Averages",
+      "question": "The average of 5 numbers is 20. When one more number is added, the average becomes 22. What is the new number?",
+      "options": ["22", "30", "32", "42"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Total of 5 numbers = 5 × 20 = 100. Step 2: Total of 6 numbers = 6 × 22 = 132. Step 3: New number = 132 − 100 = 32.",
+      "source": "NCERT Class 7 Mathematics"
+    }
+  ]
+}

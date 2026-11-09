@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-07",
+  "category": "chemistry",
+  "drop": 2,
+  "title": "Acids and Bases",
+  "items": [
+    {
+      "id": "chemistry-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Acids taste sour",
+      "question": "Which of these is sour because it contains an acid?",
+      "options": ["Lemon juice", "Sugar syrup", "Salt water", "Baking soda solution"],
+      "answerIndex": 0,
+      "explanation": "Lemon juice contains citric acid, which gives it a sour taste. Many fruits like oranges and tamarind are sour for the same reason. Baking soda is the opposite of an acid — it is a base.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Litmus test",
+      "question": "Blue litmus paper turns red when it is dipped in an acid.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Litmus is a natural dye used to test acids and bases. Acids turn blue litmus red. Bases turn red litmus blue. An easy way to remember: \"acid = red\".",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "pH of pure water",
+      "question": "On the pH scale from 0 to 14, what is the pH of pure water?",
+      "options": ["0", "5", "7", "14"],
+      "answerIndex": 2,
+      "explanation": "pH 7 means neutral — neither acid nor base. Below 7 is acidic (like lemon juice), and above 7 is basic (like soap solution). Pure water sits right in the middle.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Neutralisation",
+      "fact": "When an acid and a base react together, they form a salt and water. This reaction is called neutralisation.",
+      "explanation": "The acid and base cancel out each other's effects. For example, hydrochloric acid and sodium hydroxide make common salt and water. Farmers add lime (a base) to soil that is too acidic for the same reason.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Stomach acid",
+      "question": "Which acid is made in our stomach and helps to digest food?",
+      "options": ["Sulphuric acid", "Hydrochloric acid", "Citric acid", "Acetic acid"],
+      "answerIndex": 1,
+      "explanation": "The stomach makes hydrochloric acid (HCl). It helps break down food and kills many germs that come in with food. A thick layer of mucus protects the stomach wall from this acid.",
+      "source": "NCERT Class 10 Science"
+    }
+  ]
+}

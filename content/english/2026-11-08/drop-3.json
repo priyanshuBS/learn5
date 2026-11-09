@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-08",
+  "category": "english",
+  "drop": 3,
+  "title": "Grammar Check-Up",
+  "items": [
+    {
+      "id": "english-2026-11-08-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Past tense of eat",
+      "question": "Fill the gap: 'Yesterday I ___ rice for dinner.'",
+      "options": ["eated", "eats", "ate", "eating"],
+      "answerIndex": 2,
+      "explanation": "'Eat' is an irregular verb, so its past form is 'ate', not 'eated'. We use 'eaten' after have or has: 'I have eaten'.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Adverbs",
+      "question": "In the sentence 'She runs quickly', the word 'quickly' is an adverb.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "An adverb tells us how, when or where an action happens. 'Quickly' tells us how she runs. Many adverbs end in -ly, like slowly, softly and happily.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    },
+    {
+      "id": "english-2026-11-08-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Superlative of good",
+      "question": "Fill the gap: 'This is the ___ day of my life.'",
+      "options": ["goodest", "better", "most good", "best"],
+      "answerIndex": 3,
+      "explanation": "'Good' is irregular: good, better, best. Use 'best' when comparing one thing with all others. 'Goodest' is not a real English word.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Neither ... nor",
+      "question": "Fill in the missing word: 'Neither Ravi ___ Sita came to the party.'",
+      "answer": "nor",
+      "explanation": "'Neither' goes with 'nor', and 'either' goes with 'or'. The sentence means Ravi did not come, and Sita did not come either.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    },
+    {
+      "id": "english-2026-11-08-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Passive voice",
+      "question": "Which sentence is the passive voice of 'The cat chased the mouse'?",
+      "options": [
+        "The mouse chased the cat.",
+        "The cat was chased by the mouse.",
+        "The mouse was chased by the cat.",
+        "The mouse is chased by the cat."
+      ],
+      "answerIndex": 2,
+      "explanation": "In the passive voice, the object (the mouse) comes first, then 'was/were' + past form, then 'by' + the doer. The action is in the past, so we use 'was chased', not 'is chased'.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    }
+  ]
+}

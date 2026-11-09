@@ -1,0 +1,7 @@
+node_modules
+dist
+.expo
+package-lock.json
+content/index.json
+content/_errors.log
+src/content/bundled.generated.ts

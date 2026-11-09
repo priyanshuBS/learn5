@@ -41,3 +41,8 @@ example
 # generated native folders
 /ios
 /android
+
+# server secrets (DATABASE_URL, AUTH_SECRET, RESEND_API_KEY) — never commit
+.env
+.env.local
+.env.production

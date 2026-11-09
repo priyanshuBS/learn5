@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-07",
+  "category": "physics",
+  "drop": 2,
+  "title": "Light and Sound",
+  "items": [
+    {
+      "id": "physics-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Light is faster than sound",
+      "question": "Which of these travels the fastest?",
+      "options": ["Sound in air", "Light in air", "Sound in water", "Sound in steel"],
+      "answerIndex": 1,
+      "explanation": "Light travels about 3,00,000 km every second, which is almost a million times faster than sound in air. Sound is faster in water and steel than in air, but still far slower than light.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Sound needs a medium",
+      "question": "Sound can travel through empty space (a vacuum).",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "Sound needs something to travel through, like air, water or a solid wall. Space is almost empty, so there is nothing to carry sound. Astronauts use radios to talk on a spacewalk.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Reflection of light",
+      "question": "When light bounces off a mirror, it is called:",
+      "options": ["Refraction", "Reflection", "Dispersion", "Absorption"],
+      "answerIndex": 1,
+      "explanation": "Reflection is when light bounces back from a surface. Smooth, shiny surfaces like mirrors reflect light very well, which is why you can see yourself in them.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Refraction",
+      "fact": "A straw in a glass of water looks bent because light changes direction when it moves from water into air. This is called refraction.",
+      "explanation": "Light travels at different speeds in water and in air. When it crosses from one to the other at an angle, it bends. The straw is straight — only the light coming from it has bent.",
+      "source": "NCERT Class 10 Science"
+    },
+    {
+      "id": "physics-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Distance from thunder",
+      "question": "You see lightning and hear the thunder 3 seconds later. Sound travels about 340 m per second in air. About how far away was the lightning?",
+      "options": ["340 m", "680 m", "1,020 m", "3,400 m"],
+      "answerIndex": 2,
+      "explanation": "Light reaches you almost instantly, but sound takes time. Distance = speed × time = 340 × 3 = 1,020 m, or about 1 km. So every 3 seconds of delay means about 1 km away.",
+      "source": "NCERT Class 9 Science"
+    }
+  ]
+}

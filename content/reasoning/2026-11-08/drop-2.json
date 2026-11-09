@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-08",
+  "category": "reasoning",
+  "drop": 2,
+  "title": "Smart Analogies",
+  "items": [
+    {
+      "id": "reasoning-2026-11-08-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Opposite analogy",
+      "question": "Hot is to cold as up is to ___?",
+      "options": ["High", "Down", "Top", "Sky"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Find the link — cold is the opposite of hot. Step 2: Use the same link for \"up\". Step 3: The opposite of up is down.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Workplace analogy",
+      "question": "'Doctor is to hospital as teacher is to school' is a correct analogy.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Step 1: The link is \"person : place where they work\". Step 2: A doctor works in a hospital. Step 3: A teacher works in a school, so the analogy is correct.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Creator analogy",
+      "question": "Book is to author as statue is to ___?",
+      "options": ["Painter", "Sculptor", "Writer", "Builder"],
+      "answerIndex": 1,
+      "explanation": "Step 1: The link is \"thing : the person who makes it\". Step 2: An author writes a book. Step 3: A sculptor makes a statue.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d2-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Number analogy",
+      "question": "4 is to 16 as 5 is to ___.",
+      "answer": "25",
+      "explanation": "Step 1: Find the link: 4 × 4 = 16, so 16 is 4 squared. Step 2: Use the same link for 5. Step 3: 5 × 5 = 25.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Odd one out: shapes",
+      "question": "Which is the odd one out: Circle, Triangle, Square, Cube?",
+      "options": ["Circle", "Triangle", "Square", "Cube"],
+      "answerIndex": 3,
+      "explanation": "Step 1: Circle, triangle and square are flat (2D) shapes you can draw on paper. Step 2: A cube is a solid (3D) shape, like a dice. Step 3: So the cube is the odd one out.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

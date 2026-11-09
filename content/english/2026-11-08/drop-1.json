@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-08",
+  "category": "english",
+  "drop": 1,
+  "title": "Spot the Mistake",
+  "items": [
+    {
+      "id": "english-2026-11-08-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Spelling: receive",
+      "question": "Which spelling is correct?",
+      "options": ["Recieve", "Receive", "Receeve", "Riceive"],
+      "answerIndex": 1,
+      "explanation": "The correct spelling is 'receive'. A helpful rule is 'i before e, except after c'. Since the letters come after c, we write 'ei': rec-ei-ve.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Your vs you're",
+      "question": "'Your welcome' is the correct reply when someone says 'Thank you'.",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "The correct reply is 'You're welcome', because you're = you are. 'Your' shows that something belongs to you, as in 'Is this your bag?'",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-08-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Meaning of enormous",
+      "question": "What does 'enormous' mean?",
+      "options": ["Tiny", "Narrow", "Quick", "Huge"],
+      "answerIndex": 3,
+      "explanation": "Enormous means extremely big. For example: 'An elephant is an enormous animal.' Tiny means the opposite — very small.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Collective nouns",
+      "question": "Fill in the group name: a ___ of lions.",
+      "answer": "pride",
+      "explanation": "A group of lions is called a 'pride'. Other group names are a herd of cows, a flock of sheep and a swarm of bees.",
+      "funFact": "A group of crows is called a \"murder\" of crows!",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-08-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Affect vs effect",
+      "question": "Choose the right word: 'Lack of sleep can ___ your mood.'",
+      "options": ["effect", "affect", "afect", "effects"],
+      "answerIndex": 1,
+      "explanation": "'Affect' is usually a verb, which means to change something: 'Rain affects traffic.' 'Effect' is usually a noun, the result: 'Rain has an effect on traffic.' Here we need the action word, so 'affect' is right.",
+      "source": "Cambridge Dictionary"
+    }
+  ]
+}

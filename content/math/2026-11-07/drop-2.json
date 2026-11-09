@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-07",
+  "category": "math",
+  "drop": 2,
+  "title": "Mental Math Tricks",
+  "items": [
+    {
+      "id": "math-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Multiplying by 11",
+      "question": "Use the 11 trick: what is 23 × 11?",
+      "options": ["233", "243", "253", "263"],
+      "answerIndex": 2,
+      "explanation": "For a two-digit number times 11, write the two digits and put their sum in the middle. 2 _ 3, and 2 + 3 = 5, so 23 × 11 = 253.",
+      "funFact": "If the middle sum is 10 or more, carry the 1 to the left digit.",
+      "source": "Vedic Mathematics, Bharati Krishna Tirtha"
+    },
+    {
+      "id": "math-2026-11-07-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Multiplying by 5",
+      "question": "Multiplying a number by 5 is the same as multiplying it by 10 and then halving it.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "5 is half of 10. So 5 × 48 = (10 × 48) ÷ 2 = 480 ÷ 2 = 240. This is often faster than multiplying by 5 directly.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Squaring numbers ending in 5",
+      "question": "What is 15 × 15?",
+      "options": ["215", "225", "235", "255"],
+      "answerIndex": 1,
+      "explanation": "For a number ending in 5, take the first digit (1) and multiply it by the next number (2): 1 × 2 = 2. Then write 25 at the end. So 15 × 15 = 225. It also works for 35 × 35 = 1225.",
+      "source": "Vedic Mathematics, Bharati Krishna Tirtha"
+    },
+    {
+      "id": "math-2026-11-07-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Divisibility by 3",
+      "fact": "A number can be divided exactly by 3 if the sum of its digits can be divided by 3.",
+      "explanation": "Take 471: 4 + 7 + 1 = 12. Since 12 can be divided by 3, so can 471 (471 ÷ 3 = 157). This trick saves time when checking big numbers.",
+      "source": "NCERT Class 6 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Near-100 multiplication",
+      "question": "What is 98 × 102?",
+      "options": ["9996", "9994", "10004", "9896"],
+      "answerIndex": 0,
+      "explanation": "Write it as (100 − 2) × (100 + 2). This equals 100 × 100 − 2 × 2 = 10,000 − 4 = 9,996. The trick works whenever two numbers are the same distance above and below a round number.",
+      "source": "NCERT Class 8 Mathematics"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-07",
+  "category": "reasoning",
+  "drop": 2,
+  "title": "Crack the Code",
+  "items": [
+    {
+      "id": "reasoning-2026-11-07-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Odd one out: food",
+      "question": "Which is the odd one out: Apple, Mango, Carrot, Banana?",
+      "options": ["Apple", "Mango", "Carrot", "Banana"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Find what most of them have in common. Step 2: Apple, mango and banana are fruits. Step 3: A carrot is a root vegetable, so it is the odd one out.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "One-step letter code",
+      "question": "If CAT is written as DBU (each letter moves one step forward), then DOG is written as EPH.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Step 1: In the code, C→D, A→B, T→U: each letter moves one step forward. Step 2: Do the same for DOG: D→E, O→P, G→H. Step 3: DOG becomes EPH.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Number-letter code",
+      "question": "If 1 = A, 2 = B, 3 = C and so on, what does 8-5-12-16 spell?",
+      "options": ["HEAL", "HELP", "HOLD", "HELM"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Count letters of the alphabet: 8 = H, 5 = E. Step 2: 12 = L, 16 = P. Step 3: Put them together: HELP. (HELM would end in 13 = M.)",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Mirror images",
+      "fact": "A mirror swaps left and right. That is why the word AMBULANCE is often written backwards on the front of ambulances.",
+      "explanation": "Step 1: A driver in front sees the ambulance in the rear-view mirror. Step 2: The mirror flips the backwards word. Step 3: So the driver reads AMBULANCE the right way and can quickly make way.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Two-step letter code",
+      "question": "In a code, MANGO is written as OCPIQ. How is APPLE written in that code?",
+      "options": ["CRRNG", "BQQMF", "CRRMG", "DSSOH"],
+      "answerIndex": 0,
+      "explanation": "Step 1: Compare: M→O, A→C, N→P, G→I, O→Q. Each letter moves 2 steps forward. Step 2: Apply to APPLE: A→C, P→R, P→R, L→N, E→G. Step 3: APPLE becomes CRRNG.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

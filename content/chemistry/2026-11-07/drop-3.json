@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-07",
+  "category": "chemistry",
+  "drop": 3,
+  "title": "Elements and Atoms",
+  "items": [
+    {
+      "id": "chemistry-2026-11-07-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Symbol for oxygen",
+      "question": "What is the chemical symbol for oxygen?",
+      "options": ["O", "Ox", "Oy", "Om"],
+      "answerIndex": 0,
+      "explanation": "Each element has a short symbol. Oxygen is O, hydrogen is H and carbon is C. Symbols help scientists everywhere write chemistry the same way.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Elements",
+      "question": "Gold is an element.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "An element is a pure substance made of only one kind of atom. Gold is made only of gold atoms, so it is an element. Its symbol is Au, from the Latin word \"aurum\".",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Electrons",
+      "question": "Which tiny particle in an atom has a negative charge?",
+      "options": ["Proton", "Neutron", "Electron", "Nucleus"],
+      "answerIndex": 2,
+      "explanation": "An atom has protons (positive) and neutrons (no charge) in its centre, called the nucleus. Electrons (negative) move around the nucleus. Moving electrons are what we call electricity in wires.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Symbol for sodium",
+      "question": "The chemical symbol for sodium is ___.",
+      "answer": "Na",
+      "explanation": "Sodium's symbol is Na, from its Latin name \"natrium\". It is not \"So\". Sodium is found in common salt, sodium chloride (NaCl).",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "chemistry-2026-11-07-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Neutral atoms",
+      "question": "A carbon atom has 6 protons. How many electrons does a neutral carbon atom have?",
+      "options": ["3", "6", "12", "14"],
+      "answerIndex": 1,
+      "explanation": "In a neutral atom, the positive and negative charges balance. So the number of electrons equals the number of protons. Carbon has 6 protons, so it has 6 electrons.",
+      "source": "NCERT Class 9 Science"
+    }
+  ]
+}

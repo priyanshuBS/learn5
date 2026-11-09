@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "learn5",
+    "name": "Learn5",
     "slug": "learn5",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,11 +8,12 @@
     "scheme": "learn5",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#4F46E5",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -20,19 +21,31 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Learn5",
+      "shortName": "Learn5",
+      "description": "5 questions. 5 minutes. Get smarter every day.",
+      "themeColor": "#4F46E5",
+      "backgroundColor": "#F7F7FA"
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "apiRoutes": true
+        }
+      ],
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#4F46E5",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-08",
+  "category": "biology",
+  "drop": 2,
+  "title": "Food and Nutrition",
+  "items": [
+    {
+      "id": "biology-2026-11-08-d2-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Carbohydrates",
+      "question": "Which nutrient mainly gives our body energy?",
+      "options": ["Carbohydrates", "Vitamins", "Minerals", "Water"],
+      "answerIndex": 0,
+      "explanation": "Carbohydrates are the main energy-giving food. Rice, wheat, potatoes and sugar are rich in them. Fats also give energy, while vitamins and minerals keep the body working well.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "biology-2026-11-08-d2-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Proteins",
+      "question": "Proteins help our body grow and repair itself.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Proteins are called body-building foods. They help build muscles and repair injuries. Pulses (dal), milk, eggs and paneer are good sources of protein.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "biology-2026-11-08-d2-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Vitamin C",
+      "question": "A long-term lack of vitamin C in food can cause which disease?",
+      "options": ["Scurvy", "Rickets", "Night blindness", "Goitre"],
+      "answerIndex": 0,
+      "explanation": "Scurvy causes bleeding gums and slow healing of wounds. Vitamin C is found in fruits like amla, oranges and lemons. Long ago, sailors on long trips often got scurvy because they had no fresh fruit.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "biology-2026-11-08-d2-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Roughage",
+      "fact": "Roughage (dietary fibre) gives no energy, but it helps food move smoothly through the intestines.",
+      "explanation": "Roughage is found in whole grains, fruits, vegetables and pulses. Our body cannot digest it, but it helps get rid of undigested food.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "biology-2026-11-08-d2-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Vitamin D",
+      "question": "Which vitamin can our skin make when it is exposed to sunlight?",
+      "options": ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+      "answerIndex": 3,
+      "explanation": "When sunlight falls on our skin, the body makes vitamin D. Vitamin D helps us use calcium to build strong bones and teeth. That is why it is sometimes called the \"sunshine vitamin\".",
+      "source": "NCERT Class 6 Science"
+    }
+  ]
+}

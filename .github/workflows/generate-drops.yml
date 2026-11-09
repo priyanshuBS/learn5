@@ -1,0 +1,60 @@
+# Daily question generator (cron job).
+#
+# Runs in GitHub's cloud — your laptop can be off.
+# Each run fills any missing drops for TODAY and TOMORROW (Asia/Kolkata) and
+# skips drops that already exist, so a failed run is finished by the next one.
+#
+# One-time setup (GitHub → your repo → Settings → Secrets and variables → Actions):
+#   DATABASE_URL   your Neon connection string
+#   GROQ_API_KEY   your Groq API key
+# Optional variable: GROQ_MODEL (default: openai/gpt-oss-120b)
+#
+# Run it by hand any time: Actions tab → "Generate drops" → "Run workflow".
+name: Generate drops
+
+on:
+  schedule:
+    # Cron times are UTC. 00:30 UTC = 06:00 IST (before the first drop at 07:00),
+    # 12:30 UTC = 18:00 IST (writes tomorrow's drops, with time to spare).
+    - cron: '30 0 * * *'
+    - cron: '30 12 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Only this date (YYYY-MM-DD). Empty = today and tomorrow.'
+        required: false
+      category:
+        description: 'Only this category (e.g. math). Empty = all.'
+        required: false
+
+# Never run two generators at the same time.
+concurrency:
+  group: generate-drops
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - name: Generate missing drops
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          INPUT_DATE: ${{ inputs.date }}
+          INPUT_CATEGORY: ${{ inputs.category }}
+        run: |
+          ARGS=""
+          if [ -n "$INPUT_DATE" ]; then ARGS="$ARGS --date=$INPUT_DATE"; fi
+          if [ -n "$INPUT_CATEGORY" ]; then ARGS="$ARGS --category=$INPUT_CATEGORY"; fi
+          npm run generate-drops -- $ARGS

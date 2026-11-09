@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-08",
+  "category": "reasoning",
+  "drop": 3,
+  "title": "Logic Lab",
+  "items": [
+    {
+      "id": "reasoning-2026-11-08-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Odd one out: numbers",
+      "question": "Which number is the odd one out: 5, 7, 9, 11?",
+      "options": ["5", "7", "9", "11"],
+      "answerIndex": 2,
+      "explanation": "Step 1: All four are odd numbers, so look deeper. Step 2: 5, 7 and 11 are prime — only 1 and the number itself divide them. Step 3: 9 = 3 × 3 is not prime, so 9 is the odd one out.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Walking back",
+      "question": "If you walk 3 km north and then 3 km south, you end up where you started.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Step 1: North and south are opposite directions. Step 2: The 3 km south cancels the 3 km north. Step 3: So you are back at the start, even though you walked 6 km in total.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Clock angles",
+      "question": "A clock shows exactly 3:00. What is the angle between the hour hand and the minute hand?",
+      "options": ["45°", "60°", "90°", "120°"],
+      "answerIndex": 2,
+      "explanation": "Step 1: A full circle is 360°, and the clock has 12 hour marks, so each mark is 360 ÷ 12 = 30°. Step 2: At 3:00 the hands are 3 marks apart. Step 3: 3 × 30° = 90°, a right angle.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-08-d3-04",
+      "type": "fact_card",
+      "difficulty": "medium",
+      "topic": "Pigeonhole principle",
+      "fact": "In any group of 13 people, at least two of them were born in the same month.",
+      "explanation": "Step 1: There are only 12 months. Step 2: Even if the first 12 people all have different months, the 13th person must share a month with someone. Step 3: This idea is called the pigeonhole principle.",
+      "source": "Britannica"
+    },
+    {
+      "id": "reasoning-2026-11-08-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Some and all logic",
+      "question": "'Some cats are black. All black things are dark.' Which statement must be true?",
+      "options": [
+        "All cats are dark",
+        "Some cats are dark",
+        "No cats are dark",
+        "All dark things are cats"
+      ],
+      "answerIndex": 1,
+      "explanation": "Step 1: Only some cats are black, so we know nothing about all cats. Step 2: The black cats are black things, and all black things are dark. Step 3: So those cats are dark — some cats are dark.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

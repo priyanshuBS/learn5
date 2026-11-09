@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-07",
+  "category": "reasoning",
+  "drop": 1,
+  "title": "Patterns Everywhere",
+  "items": [
+    {
+      "id": "reasoning-2026-11-07-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Even number series",
+      "question": "What comes next: 2, 4, 6, 8, ?",
+      "options": ["9", "10", "12", "16"],
+      "answerIndex": 1,
+      "explanation": "Step 1: Look at the gaps: 4 − 2 = 2, 6 − 4 = 2, 8 − 6 = 2. Step 2: Each number is 2 more than the one before. Step 3: 8 + 2 = 10.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Skipping letter series",
+      "question": "In the series A, C, E, G, the next letter is I.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "Step 1: A to C skips B, C to E skips D, E to G skips F. Step 2: The pattern skips one letter each time. Step 3: After G, skip H, so the next letter is I.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Animal home analogy",
+      "question": "Bird is to nest as bee is to ___?",
+      "options": ["Hive", "Den", "Burrow", "Stable"],
+      "answerIndex": 0,
+      "explanation": "Step 1: Find the link — a nest is the home of a bird. Step 2: Use the same link for a bee. Step 3: A bee lives in a hive. (A den is for a lion, a burrow for a rabbit, a stable for a horse.)",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Square number series",
+      "question": "What comes next: 1, 4, 9, 16, 25, ___",
+      "answer": "36",
+      "explanation": "Step 1: Notice 1 = 1×1, 4 = 2×2, 9 = 3×3, 16 = 4×4, 25 = 5×5. Step 2: These are square numbers. Step 3: The next is 6×6 = 36.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    },
+    {
+      "id": "reasoning-2026-11-07-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Growing difference series",
+      "question": "What comes next: 2, 6, 12, 20, 30, ?",
+      "options": ["36", "40", "42", "44"],
+      "answerIndex": 2,
+      "explanation": "Step 1: Find the gaps: 4, 6, 8, 10. Step 2: Each gap grows by 2, so the next gap is 12. Step 3: 30 + 12 = 42.",
+      "funFact": "These numbers are 1×2, 2×3, 3×4, 4×5, 5×6 — so next is 6×7 = 42.",
+      "source": "R.S. Aggarwal, A Modern Approach to Verbal & Non-Verbal Reasoning"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-07",
+  "category": "english",
+  "drop": 1,
+  "title": "Words That Confuse Everyone",
+  "items": [
+    {
+      "id": "english-2026-11-07-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Synonym of happy",
+      "question": "Which word means the same as 'happy'?",
+      "options": ["Joyful", "Angry", "Tired", "Afraid"],
+      "answerIndex": 0,
+      "explanation": "Joyful means full of happiness. For example: 'The children were joyful on the last day of school.' Angry, tired and afraid describe other feelings.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Its vs it's",
+      "question": "'It's' is a short form of 'it is' or 'it has'.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "It's = it is or it has, as in 'It's raining.' Its (no apostrophe) shows that something belongs to it, as in 'The dog wagged its tail.'",
+      "funFact": "A quick test: if you can say \"it is\" instead, use it's.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-07-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Advice vs advise",
+      "question": "Which sentence uses 'advise' or 'advice' correctly?",
+      "options": [
+        "Can you advice me on this?",
+        "She gave me a good advise.",
+        "Can you advise me on this?",
+        "He advices me every day."
+      ],
+      "answerIndex": 2,
+      "explanation": "Advise (with s) is the action: 'Please advise me.' Advice (with c) is the thing you get: 'She gave me good advice.' So 'Can you advise me on this?' is correct.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Good at",
+      "question": "Fill in the right word: 'Riya is very good ___ drawing.'",
+      "answer": "at",
+      "explanation": "We say 'good at' a skill or a subject. For example: 'He is good at cricket' and 'She is good at maths.'",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Idiom: break the ice",
+      "question": "What does the idiom 'break the ice' mean?",
+      "options": [
+        "To break something by accident",
+        "To help people relax and start talking",
+        "To end a friendship suddenly",
+        "To make a very serious mistake"
+      ],
+      "answerIndex": 1,
+      "explanation": "To 'break the ice' means to say or do something that makes shy or quiet people feel relaxed. For example, a teacher may play a game on the first day to break the ice.",
+      "source": "Cambridge Dictionary"
+    }
+  ]
+}

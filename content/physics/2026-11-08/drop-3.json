@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-08",
+  "category": "physics",
+  "drop": 3,
+  "title": "Heat and Magnets",
+  "items": [
+    {
+      "id": "physics-2026-11-08-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Boiling point of water",
+      "question": "At sea level, at what temperature does pure water boil?",
+      "options": ["50 °C", "90 °C", "100 °C", "120 °C"],
+      "answerIndex": 2,
+      "explanation": "Pure water boils at 100 °C at sea level. On high mountains, the air pressure is lower, so water boils at a lower temperature. That is why cooking takes longer up there.",
+      "source": "NCERT Class 9 Science"
+    },
+    {
+      "id": "physics-2026-11-08-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Magnetic poles",
+      "question": "The north pole of one magnet attracts the north pole of another magnet.",
+      "options": ["True", "False"],
+      "answerIndex": 1,
+      "explanation": "Like poles repel (push away) and unlike poles attract (pull together). So north and north push away, while north and south pull together. Try it with two fridge magnets!",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "physics-2026-11-08-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Radiation of heat",
+      "question": "Heat from the Sun reaches the Earth mainly by:",
+      "options": ["Conduction", "Convection", "Radiation", "Evaporation"],
+      "answerIndex": 2,
+      "explanation": "Space between the Sun and Earth is almost empty. Conduction and convection need matter to carry heat, but radiation does not. You feel radiation as warmth on your skin when you stand in sunlight.",
+      "source": "NCERT Class 7 Science"
+    },
+    {
+      "id": "physics-2026-11-08-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Compass",
+      "question": "The marked end of a compass needle points roughly towards the geographic ___ pole of the Earth.",
+      "answer": "north",
+      "explanation": "A compass needle is a small magnet. The Earth acts like a giant magnet too, so the needle lines up north-south. People have used compasses for hundreds of years to find their way.",
+      "source": "NCERT Class 6 Science"
+    },
+    {
+      "id": "physics-2026-11-08-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Thermal expansion",
+      "question": "Older railway tracks have small gaps between the rails. Why?",
+      "options": [
+        "So the rails can expand in summer heat",
+        "To save metal",
+        "To make trains faster",
+        "To let rainwater drain away"
+      ],
+      "answerIndex": 0,
+      "explanation": "Metals expand (get slightly longer) when they get hot. Without gaps, the rails would push against each other on hot days and could bend. The gaps give them room to grow.",
+      "source": "NCERT Class 7 Science"
+    }
+  ]
+}

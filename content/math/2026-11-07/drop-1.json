@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-07",
+  "category": "math",
+  "drop": 1,
+  "title": "Percent Power",
+  "items": [
+    {
+      "id": "math-2026-11-07-d1-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Half of a number",
+      "question": "What is 50% of 80?",
+      "options": ["20", "30", "40", "60"],
+      "answerIndex": 2,
+      "explanation": "50% means half. Half of 80 is 80 ÷ 2 = 40. So whenever you see 50%, just divide by 2.",
+      "source": "NCERT Class 8 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d1-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Percent as a fraction",
+      "question": "25% is the same as one quarter (1/4).",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "25% means 25 out of 100. 25/100 can be simplified to 1/4. So 25% of ₹200 is the same as a quarter of ₹200, which is ₹50.",
+      "source": "NCERT Class 8 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d1-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Discounts",
+      "question": "A shirt costs ₹800. The shop gives a 20% discount. What is the sale price?",
+      "options": ["₹600", "₹640", "₹660", "₹780"],
+      "answerIndex": 1,
+      "explanation": "Step 1: 20% of ₹800 = 800 × 20 ÷ 100 = ₹160. Step 2: Sale price = ₹800 − ₹160 = ₹640.",
+      "funFact": "Quick check: paying 80% of ₹800 gives the same ₹640.",
+      "source": "NCERT Class 8 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d1-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Finding 10 percent",
+      "question": "10% of 370 is ___.",
+      "answer": "37",
+      "explanation": "To find 10%, divide by 10 — just move the decimal point one place left. 370 becomes 37.0, so 10% of 370 is 37.",
+      "source": "NCERT Class 8 Mathematics"
+    },
+    {
+      "id": "math-2026-11-07-d1-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Up then down by a percent",
+      "question": "A price goes up by 10% and then comes down by 10%. Compared to the start, the final price is:",
+      "options": ["The same", "10% lower", "1% higher", "1% lower"],
+      "answerIndex": 3,
+      "explanation": "Start with ₹100. Up 10%: ₹100 + ₹10 = ₹110. Down 10% of ₹110: ₹110 − ₹11 = ₹99. ₹99 is 1% less than ₹100, because the second 10% was taken from a bigger number.",
+      "source": "NCERT Class 8 Mathematics"
+    }
+  ]
+}

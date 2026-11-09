@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-07",
+  "category": "english",
+  "drop": 3,
+  "title": "Idioms and Everyday Phrases",
+  "items": [
+    {
+      "id": "english-2026-11-07-d3-01",
+      "type": "mcq",
+      "difficulty": "easy",
+      "topic": "Opposite of brave",
+      "question": "Which word is the opposite of 'brave'?",
+      "options": ["Bold", "Strong", "Cowardly", "Fearless"],
+      "answerIndex": 2,
+      "explanation": "A brave person faces danger. A cowardly person runs away from it out of fear. Bold and fearless mean almost the same as brave, so they are not opposites.",
+      "source": "Oxford Learner's Dictionaries"
+    },
+    {
+      "id": "english-2026-11-07-d3-02",
+      "type": "true_false",
+      "difficulty": "easy",
+      "topic": "Idiom: piece of cake",
+      "question": "The idiom 'a piece of cake' means something that is very easy.",
+      "options": ["True", "False"],
+      "answerIndex": 0,
+      "explanation": "When a task is 'a piece of cake', it is very easy to do. For example: 'The test was a piece of cake!' It has nothing to do with real cake.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-07-d3-03",
+      "type": "mcq",
+      "difficulty": "medium",
+      "topic": "Then vs than",
+      "question": "Which sentence comparing heights is correct?",
+      "options": [
+        "My brother is taller than me.",
+        "My brother is taller then me.",
+        "My brother is more taller than me.",
+        "My brother is tall than me."
+      ],
+      "answerIndex": 0,
+      "explanation": "Use 'than' to compare two things: 'taller than', 'better than'. Use 'then' for time: 'First eat, then play.' Also, never say 'more taller' — 'taller' already means 'more tall'.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "id": "english-2026-11-07-d3-04",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "A vs an",
+      "question": "Fill in 'a' or 'an': 'She is ___ honest person.'",
+      "answer": "an",
+      "explanation": "We choose 'a' or 'an' by the first sound, not the first letter. In 'honest' the h is silent, so it starts with a vowel sound 'on'. That is why we say 'an honest person', but 'a house'.",
+      "source": "Wren & Martin, High School English Grammar and Composition"
+    },
+    {
+      "id": "english-2026-11-07-d3-05",
+      "type": "mcq",
+      "difficulty": "hard",
+      "topic": "Idiom: once in a blue moon",
+      "question": "What does 'once in a blue moon' mean?",
+      "options": ["Every month", "Very rarely", "Only at night", "When the sky is clear"],
+      "answerIndex": 1,
+      "explanation": "'Once in a blue moon' means something happens very rarely. For example: 'My uncle visits us once in a blue moon.' The moon does not really turn blue.",
+      "source": "Cambridge Dictionary"
+    }
+  ]
+}

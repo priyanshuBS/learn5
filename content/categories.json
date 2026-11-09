@@ -1,0 +1,44 @@
+[
+  {
+    "id": "english",
+    "name": "English",
+    "emoji": "📖",
+    "color": "#DB2777",
+    "tagline": "Words, grammar and idioms"
+  },
+  {
+    "id": "math",
+    "name": "Math",
+    "emoji": "🧮",
+    "color": "#2563EB",
+    "tagline": "Quick tricks and everyday math"
+  },
+  {
+    "id": "reasoning",
+    "name": "Reasoning",
+    "emoji": "🧩",
+    "color": "#D97706",
+    "tagline": "Puzzles, patterns and logic"
+  },
+  {
+    "id": "physics",
+    "name": "Physics",
+    "emoji": "⚡",
+    "color": "#7C3AED",
+    "tagline": "How the world moves and works"
+  },
+  {
+    "id": "chemistry",
+    "name": "Chemistry",
+    "emoji": "🧪",
+    "color": "#0891B2",
+    "tagline": "What everything is made of"
+  },
+  {
+    "id": "biology",
+    "name": "Biology",
+    "emoji": "🌱",
+    "color": "#65A30D",
+    "tagline": "Life, the body and nature"
+  }
+]

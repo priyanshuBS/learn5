@@ -1,0 +1,4 @@
+/* Loads Tailwind's building blocks. Imported once, in app/_layout.tsx. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

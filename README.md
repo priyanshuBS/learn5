@@ -1,56 +1,116 @@
-# Welcome to your Expo app 👋
+# Learn5
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**5 questions. 5 minutes. Get smarter every day.**
 
-## Get started
+A gamified micro-learning app for English, Math, Reasoning, Physics, Chemistry and Biology.
+One Expo codebase ships as an Android app, an iOS app and a website.
 
-1. Install dependencies
+> Status: **Phase 1 done** (project setup, schema, validator, content guide, sample content).
+> The full README arrives in Phase 6.
 
-   ```bash
-   npm install
-   ```
+## Quick start
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+You need Node.js LTS (v24 works) and npm.
 
 ```bash
-npm run reset-project
+npm install            # once, downloads all packages
+npm run web            # opens the app in your browser
+npm start              # shows a QR code: scan it with the Expo Go app on your phone
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Sign-in (email + one-time code)
 
-### Other setup steps
+People sign in with their email: we email a 6-digit code (valid 10 minutes, 5 tries),
+and after verifying it they stay signed in for **7 days** on that device.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+User journey: **Welcome page** (`/welcome`, public) → **Sign up / Log in** (`/sign-in`) →
+the app (Home, quizzes, progress…). Signed-out visitors to any app page land on Welcome;
+signed-in visitors to Welcome or Sign in land on Home. Sign out returns to Welcome.
 
-## Learn more
+- Server code: `app/api/auth/*+api.ts` (Expo Router API routes) → `src/server/` (Neon Postgres).
+- App code: `src/features/auth/` (store, API client, rules), `app/welcome.tsx`, `app/sign-in.tsx`.
+- The root layout (`app/_layout.tsx`) uses `Stack.Protected` to choose public vs app screens.
+- Only hashes of codes and session tokens are stored in the database.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Daily questions (cron job + Groq)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Questions live in the database (table `drops`), not on your laptop.
 
-## Join the community
+- `.github/workflows/generate-drops.yml` runs **twice a day in GitHub's cloud**
+  (06:00 and 18:00 IST). Each run calls `npm run generate-drops`, which fills any missing
+  drops for **today and tomorrow** and skips existing ones. A failed run is finished by
+  the next one.
+- For each drop the AI (Groq, `openai/gpt-oss-120b`) writes 5 items. The code then checks
+  them with `src/lib/schema.ts` (5 items, type and difficulty mix, ids, no topic repeated
+  within 30 days, no question repeated within 60 days). A second AI pass fact-checks every
+  answer. Bad drops are retried with feedback and never saved.
+- The app reads `GET /api/content` (the list) and `GET /api/content/drop?path=…` (one
+  drop). A drop is only returned after its opening time. Responses are cached because drops
+  never change.
+- Setup: push the repo to GitHub and add the secrets `DATABASE_URL` and `GROQ_API_KEY`
+  (Settings → Secrets and variables → Actions). Run it by hand from the Actions tab.
+- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=math --dry-run`).
+- `npm run seed-drops` copies the hand-written files in `content/` into the database.
+  The newest files are also packed into the app for offline use (`npm run bundle-content`).
+- The AI instructions are in `scripts/lib/prompt.ts`, a short version of `CONTENT_GUIDE.md`.
 
-Join our community of developers creating universal apps.
+## Progress is saved to your account
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Results, fixed mistakes and "wrong answer" reports are stored per user in Neon
+(`drop_results`, `fixed_mistakes`, `answer_reports`) through `POST /api/progress/sync`.
+
+- The phone keeps a local copy, so the app opens instantly and works offline. New
+  changes wait as "pending" and are sent on the next sync (sign-in, app open, after
+  each drop, before sign-out).
+- A new phone downloads the user's progress on first sign-in. Only changes since the
+  last sync are downloaded after that.
+- The first play of a drop wins, even across devices, and points are recalculated on the server.
+- Signing out removes progress from the device once it is saved. Another person
+  signing in on the same phone starts clean.
+- Code: `src/features/progress/` (store, sync, merge, schema) and `src/server/progress.ts`.
+
+## Environment variables
+
+All settings live in `.env.local` (gitignored; template: `.env.example`). None may be empty.
+
+| Name                       | Where used  | What it is                                                  |
+| -------------------------- | ----------- | ----------------------------------------------------------- |
+| `DATABASE_URL`             | server only | Neon Postgres connection string                             |
+| `AUTH_SECRET`              | server only | Long random string used to hash sign-in codes               |
+| `RESEND_API_KEY`           | server only | Resend key for sending the code emails                      |
+| `EMAIL_FROM`               | server only | Sender, on the verified domain `email.priyanshusingh.co.in` |
+| `GROQ_API_KEY`             | cron only   | Groq key used by the daily question generator               |
+| `EXPO_PUBLIC_APP_URL`      | app         | Live website; phone production builds call its `/api`       |
+| `EXPO_PUBLIC_REPORT_EMAIL` | app         | Where "Report wrong answer" emails go                       |
+
+`EXPO_PUBLIC_*` values are copied into the app, so they must never be secrets.
+The `EXPO_PUBLIC_*` values are placeholders until deployment.
+
+Setup: fill in `.env.local`, then run `npm run db:migrate` (creates the sign-in and
+progress tables; safe to run again after updates). For production, deploy the API (e.g. EAS Hosting,
+`npx eas-cli@latest deploy`) and set the same variables in the hosting/build environment.
+
+## Useful commands
+
+| Command                    | What it does                                        |
+| -------------------------- | --------------------------------------------------- |
+| `npm run validate-content` | Checks every drop file against the rules            |
+| `npm run build-index`      | Re-creates `content/index.json` (list of all drops) |
+| `npm run db:migrate`       | Creates/updates the database tables (Neon)          |
+| `npm test`                 | Runs the automatic tests                            |
+| `npm run typecheck`        | Checks TypeScript types                             |
+| `npm run lint`             | Finds likely bugs                                   |
+| `npm run format`           | Tidies code formatting                              |
+
+## Where things live
+
+| Path                   | What it is                                                          |
+| ---------------------- | ------------------------------------------------------------------- |
+| `app/`                 | Screens (Expo Router: each file is a screen)                        |
+| `src/lib/schema.ts`    | **The rulebook** for content (Zod). Single source of truth          |
+| `src/lib/dates.ts`     | Date helpers shared by app and scripts                              |
+| `content/`             | All learning content (`<category>/<YYYY-MM-DD>/drop-<n>.json`)      |
+| `content/index.json`   | Auto-generated list of drops. Never edit by hand                    |
+| `schedule.config.json` | All drop/task times in one place                                    |
+| `CONTENT_GUIDE.md`     | Writing rules for people, scheduled tasks and the future API script |
+| `scripts/`             | `validate-content.ts`, `build-index.ts`                             |
