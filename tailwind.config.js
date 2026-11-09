@@ -34,8 +34,8 @@ module.exports = {
           400: '#22D3EE',
           500: '#06B6D4',
         },
-        canvas: '#F7F7FB',
-        line: '#E6E6EF',
+        canvas: '#F5F4FA',
+        line: '#E4E2EE',
         ink: {
           DEFAULT: '#050508',
           soft: '#08080D',

@@ -10,7 +10,7 @@ const DESCRIPTION =
 
 // Page background before the app loads (avoids a white flash in dark mode).
 const BACKGROUND_CSS = `
-body { background-color: #F7F7FB; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { background-color: #F5F4FA; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 html.dark body { background-color: #050508; }
 `;
 

@@ -55,19 +55,19 @@ export function Aurora() {
       <Glow
         color={GLOW.violet}
         size={560}
-        opacity={dark ? 0.22 : 0.1}
+        opacity={dark ? 0.22 : 0.16}
         style={{ top: -180, left: -220 }}
       />
       <Glow
         color={GLOW.cyan}
         size={520}
-        opacity={dark ? 0.14 : 0.07}
+        opacity={dark ? 0.14 : 0.12}
         style={{ top: -120, right: -240 }}
       />
       <Glow
         color={GLOW.violet}
         size={480}
-        opacity={dark ? 0.1 : 0.05}
+        opacity={dark ? 0.1 : 0.08}
         style={{ top: 620, right: -200 }}
       />
     </View>
