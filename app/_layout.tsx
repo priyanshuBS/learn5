@@ -26,7 +26,7 @@ import { useAuth, useAuthBootstrap } from '@/features/auth/store';
 import { useContentBootstrap } from '@/features/content/store';
 import { useProgressSync } from '@/features/progress/sync';
 import { useRemindersBootstrap } from '@/features/reminders/reminders';
-import { useThemeBootstrap } from '@/features/theme/store';
+import { useThemeBootstrap, useThemeReady } from '@/features/theme/store';
 import { useColorScheme } from '@/hooks/useScheme';
 import { colors } from '@/theme';
 
@@ -47,10 +47,11 @@ export default function RootLayout() {
   useAuthBootstrap();
   useProgressSync();
   useThemeBootstrap();
+  const themeReady = useThemeReady();
   useRemindersBootstrap();
   const authStatus = useAuth((s) => s.status);
 
-  const ready = fontsLoaded || !!fontError;
+  const ready = (fontsLoaded || !!fontError) && themeReady;
   // While the saved session is being read (and while the website is pre-built),
   // allow every screen, so nothing redirects too early. Phones keep the splash up.
   const authLoading = authStatus === 'loading';
@@ -64,7 +65,8 @@ export default function RootLayout() {
 
   return (
     <>
-      <StatusBar style="auto" />
+      {/* Follow the app's theme (not the phone's), so the clock and battery icons stay visible. */}
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,

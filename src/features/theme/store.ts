@@ -6,7 +6,7 @@
  * app/+html.tsx reads the same saved choice before the page paints (no flash).
  */
 import { colorScheme } from 'nativewind';
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { Appearance, Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -61,6 +61,20 @@ function apply(preference: ThemePreference): void {
   } catch {
     // Very old browsers/devices: keep the default look.
   }
+}
+
+// Phones: switch to the default (dark) look straight away, before the first screen
+// is drawn, so a phone set to light mode never flashes a light screen first.
+// The saved choice replaces it as soon as it has been read from the device.
+if (!isWeb) apply('dark');
+
+/** True once the saved choice has been read (phones keep the splash screen up until then). */
+export function useThemeReady(): boolean {
+  return useSyncExternalStore(
+    (onChange) => useTheme.persist.onFinishHydration(onChange),
+    () => useTheme.persist.hasHydrated(),
+    () => true, // website pre-render: nothing to wait for
+  );
 }
 
 /** Applies the saved choice and follows the device while on "System". Use once, in the root layout. */
