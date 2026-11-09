@@ -138,45 +138,14 @@ export default function SignInScreen() {
       className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Screen width="narrow" fill contentClassName="max-w-[460px] pt-4 md:pt-6">
+      <Screen width="narrow" fill contentClassName="max-w-[500px] pt-4 md:pt-6">
         <View className="flex-row items-center justify-between">
           <IconButton icon="arrow-left" label="Back to home page" onPress={goBack} />
           <ThemeIconButton />
         </View>
 
-        <View className="flex-1 justify-center py-8">
-          <View className="items-center">
-            <Logo showWordmark={false} size="lg" />
-            <Txt
-              weight="heavy"
-              accessibilityRole="header"
-              className="mt-6 text-center text-[34px] leading-[40px]"
-            >
-              {step === 'code'
-                ? 'Check your email'
-                : mode === 'signup'
-                  ? 'Create your account'
-                  : 'Welcome back'}
-            </Txt>
-            <Muted className="mt-2 text-center text-[15px] leading-6">
-              {step === 'email' ? (
-                mode === 'signup' ? (
-                  'Enter your email and we’ll send you a sign-in code.'
-                ) : (
-                  'Enter your email to get a sign-in code.'
-                )
-              ) : (
-                <>
-                  We sent a {OTP_LENGTH}-digit code to{'\n'}
-                  <Txt weight="semibold" className="text-[15px]">
-                    {email}
-                  </Txt>
-                </>
-              )}
-            </Muted>
-          </View>
-
-          <View className="relative mt-8">
+        <View className="flex-1 justify-center py-6">
+          <View className="relative">
             <Glow
               color={GLOW.violet}
               size={420}
@@ -189,7 +158,37 @@ export default function SignInScreen() {
               opacity={dark ? 0.22 : 0.1}
               style={{ bottom: -150, right: -140 }}
             />
-            <Card className="p-6 md:p-7">
+            <Card className="p-6 md:p-8">
+              <View className="mb-7 items-center">
+                <Logo showWordmark={false} size="lg" />
+                <Txt
+                  weight="heavy"
+                  accessibilityRole="header"
+                  className="mt-5 text-center text-[30px] leading-[36px]"
+                >
+                  {step === 'code'
+                    ? 'Check your email'
+                    : mode === 'signup'
+                      ? 'Create your account'
+                      : 'Welcome back'}
+                </Txt>
+                <Muted className="mt-2 text-center text-[15px] leading-6">
+                  {step === 'email' ? (
+                    mode === 'signup' ? (
+                      'We’ll email you a code — no password needed.'
+                    ) : (
+                      'We’ll email you a code to sign in.'
+                    )
+                  ) : (
+                    <>
+                      We sent a {OTP_LENGTH}-digit code to{'\n'}
+                      <Txt weight="semibold" className="text-[15px]">
+                        {email}
+                      </Txt>
+                    </>
+                  )}
+                </Muted>
+              </View>
               {step === 'email' ? (
                 <>
                   <Txt weight="medium" className="mb-2 text-sm">
@@ -356,52 +355,58 @@ export default function SignInScreen() {
                   </Txt>
                 </View>
               ) : null}
+
+              <View className="mt-7 border-t border-line pt-5 dark:border-white/10">
+                {step === 'email' ? (
+                  <View className="mb-3 flex-row flex-wrap items-center justify-center gap-1">
+                    <Muted>
+                      {mode === 'signup' ? 'Already have an account?' : 'New to Learn5?'}
+                    </Muted>
+                    <Pressable
+                      accessibilityRole="button"
+                      onPress={() => {
+                        setMode(mode === 'signup' ? 'login' : 'signup');
+                        setError(null);
+                      }}
+                      hitSlop={8}
+                    >
+                      <Txt weight="semibold" className="text-sm text-brand-700 dark:text-brand-300">
+                        {mode === 'signup' ? 'Log in' : 'Create an account'}
+                      </Txt>
+                    </Pressable>
+                  </View>
+                ) : null}
+                <View className="flex-row items-center justify-center gap-1.5">
+                  <Icon name="lock" size={12} color={colors.mutedDark} />
+                  <Muted className="text-xs">
+                    No password needed · You stay signed in for {SESSION_DAYS} days
+                  </Muted>
+                </View>
+                <Muted className="mt-2 text-center text-xs leading-5">
+                  By continuing you agree to our{' '}
+                  <Txt
+                    accessibilityRole="link"
+                    onPress={() => router.push('/terms')}
+                    className="text-xs text-zinc-600 underline dark:text-zinc-300"
+                  >
+                    Terms
+                  </Txt>{' '}
+                  and{' '}
+                  <Txt
+                    accessibilityRole="link"
+                    onPress={() => router.push('/privacy')}
+                    className="text-xs text-zinc-600 underline dark:text-zinc-300"
+                  >
+                    Privacy Policy
+                  </Txt>
+                  .
+                </Muted>
+              </View>
             </Card>
           </View>
-
-          {step === 'email' ? (
-            <View className="mt-6 flex-row flex-wrap items-center justify-center gap-1">
-              <Muted>{mode === 'signup' ? 'Already have an account?' : 'New to Learn5?'}</Muted>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => {
-                  setMode(mode === 'signup' ? 'login' : 'signup');
-                  setError(null);
-                }}
-                hitSlop={8}
-              >
-                <Txt weight="semibold" className="text-sm text-brand-700 dark:text-brand-300">
-                  {mode === 'signup' ? 'Log in' : 'Create an account'}
-                </Txt>
-              </Pressable>
-            </View>
-          ) : null}
-          <View className="mt-4 flex-row items-center justify-center gap-1.5">
-            <Icon name="lock" size={12} color={colors.mutedDark} />
-            <Muted className="text-xs">
-              No password needed · You stay signed in for {SESSION_DAYS} days
-            </Muted>
-          </View>
-          <Muted className="mt-2 text-center text-xs leading-5">
-            By continuing you agree to our{' '}
-            <Txt
-              accessibilityRole="link"
-              onPress={() => router.push('/terms')}
-              className="text-xs text-zinc-600 underline dark:text-zinc-300"
-            >
-              Terms
-            </Txt>{' '}
-            and{' '}
-            <Txt
-              accessibilityRole="link"
-              onPress={() => router.push('/privacy')}
-              className="text-xs text-zinc-600 underline dark:text-zinc-300"
-            >
-              Privacy Policy
-            </Txt>
-            .
-          </Muted>
         </View>
+        {/* Same height as the top bar, so the card is centred on the whole screen. */}
+        <View className="h-10" />
       </Screen>
     </KeyboardAvoidingView>
   );

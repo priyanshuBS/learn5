@@ -45,6 +45,9 @@ export function Screen({
           fill && 'flex-grow pb-8',
           contentClassName,
         )}
+        // flexGrow as a style too: the most reliable way to let content fill the
+        // screen height on phones and the web (used to centre sign-in vertically).
+        contentContainerStyle={fill ? { flexGrow: 1 } : undefined}
         keyboardShouldPersistTaps="handled"
       >
         {children}
