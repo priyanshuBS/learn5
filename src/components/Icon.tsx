@@ -69,6 +69,11 @@ import Trophy from 'lucide-react-native/icons/trophy';
 import User from 'lucide-react-native/icons/user';
 import X from 'lucide-react-native/icons/x';
 import Zap from 'lucide-react-native/icons/zap';
+import Trash2 from 'lucide-react-native/icons/trash-2';
+import ShieldCheck from 'lucide-react-native/icons/shield-check';
+import Bell from 'lucide-react-native/icons/bell';
+import BellOff from 'lucide-react-native/icons/bell-off';
+import Scale from 'lucide-react-native/icons/scale';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { useColorScheme } from '@/hooks/useScheme';
@@ -144,6 +149,11 @@ const ICONS = {
   'log-out': LogOut,
   user: User,
   smartphone: Smartphone,
+  trash: Trash2,
+  shield: ShieldCheck,
+  bell: Bell,
+  'bell-off': BellOff,
+  scale: Scale,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;

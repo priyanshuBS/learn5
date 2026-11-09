@@ -382,6 +382,25 @@ export default function SignInScreen() {
               No password needed · You stay signed in for {SESSION_DAYS} days
             </Muted>
           </View>
+          <Muted className="mt-2 text-center text-xs leading-5">
+            By continuing you agree to our{' '}
+            <Txt
+              accessibilityRole="link"
+              onPress={() => router.push('/terms')}
+              className="text-xs text-zinc-600 underline dark:text-zinc-300"
+            >
+              Terms
+            </Txt>{' '}
+            and{' '}
+            <Txt
+              accessibilityRole="link"
+              onPress={() => router.push('/privacy')}
+              className="text-xs text-zinc-600 underline dark:text-zinc-300"
+            >
+              Privacy Policy
+            </Txt>
+            .
+          </Muted>
         </View>
       </Screen>
     </KeyboardAvoidingView>

@@ -13,6 +13,8 @@ export const OTP_MAX_ATTEMPTS = 5;
 export const OTP_RESEND_SECONDS = 60;
 /** At most this many codes per email per hour. */
 export const OTP_MAX_PER_HOUR = 5;
+/** At most this many codes per network (IP address) per hour, across all emails. */
+export const OTP_MAX_PER_IP_PER_HOUR = 20;
 /** You stay signed in for this many days, then sign in again. */
 export const SESSION_DAYS = 7;
 

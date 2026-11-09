@@ -286,7 +286,23 @@ export default function WelcomeScreen() {
         {/* Footer + giant faint wordmark */}
         <View className="mt-16 flex-row flex-wrap items-center justify-between gap-4">
           <Logo />
-          <Eyebrow>School-level facts, explained simply</Eyebrow>
+          <View className="flex-row flex-wrap items-center gap-5">
+            <Txt
+              accessibilityRole="link"
+              onPress={() => router.push('/privacy')}
+              className="text-[13px] text-zinc-500 dark:text-[#8E8EA3]"
+            >
+              Privacy
+            </Txt>
+            <Txt
+              accessibilityRole="link"
+              onPress={() => router.push('/terms')}
+              className="text-[13px] text-zinc-500 dark:text-[#8E8EA3]"
+            >
+              Terms
+            </Txt>
+            <Eyebrow>© 2026 Learn5</Eyebrow>
+          </View>
         </View>
         <Wordmark />
       </Animated.View>

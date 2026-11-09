@@ -19,6 +19,17 @@ export async function readBody<T extends z.ZodType>(
   return parsed.data;
 }
 
+/**
+ * The visitor's IP address from the hosting proxy headers, or null if unknown
+ * (e.g. local development). Used only for rate limits.
+ */
+export function clientIp(request: Request): string | null {
+  const h = request.headers;
+  const forwarded = h.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const ip = h.get('cf-connecting-ip') ?? forwarded ?? h.get('x-real-ip');
+  return ip && ip.length <= 64 ? ip : null;
+}
+
 /** Runs a handler and turns errors into JSON: { error: "..." }. Never leaks server details. */
 export async function handle(run: () => Promise<Response>): Promise<Response> {
   try {

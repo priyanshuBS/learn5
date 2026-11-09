@@ -19,5 +19,8 @@ export const APP_URL = clean(process.env.EXPO_PUBLIC_APP_URL);
 
 export const REPORT_EMAIL = (process.env.EXPO_PUBLIC_REPORT_EMAIL ?? '').trim();
 
+/** Shown on the Privacy and Terms pages for questions and deletion requests. */
+export const SUPPORT_EMAIL = REPORT_EMAIL || 'support@priyanshusingh.co.in';
+
 /** How long to wait for the internet before giving up and using saved content. */
 export const FETCH_TIMEOUT_MS = 8000;

@@ -14,6 +14,7 @@ import {
   OTP_LENGTH,
   OTP_MAX_ATTEMPTS,
   OTP_MAX_PER_HOUR,
+  OTP_MAX_PER_IP_PER_HOUR,
   OTP_RESEND_SECONDS,
   OTP_TTL_MINUTES,
   SESSION_DAYS,
@@ -95,8 +96,28 @@ function randomToken(): string {
 
 // ── 1. Send a code ──
 
-export async function requestOtp(email: string): Promise<{ resendAfterSec: number }> {
+/**
+ * @param ip the visitor's network address (null when unknown, e.g. local development).
+ *           Limits how many codes one network can ask for, across all emails.
+ */
+export async function requestOtp(
+  email: string,
+  ip: string | null = null,
+): Promise<{ resendAfterSec: number }> {
   const sql = getSql();
+
+  if (ip) {
+    const [byIp] = await sql`
+      SELECT count(*)::int AS last_hour FROM otp_codes
+      WHERE ip = ${ip} AND created_at > now() - interval '1 hour'`;
+    if (byIp.last_hour >= OTP_MAX_PER_IP_PER_HOUR) {
+      throw new AuthError(
+        'Too many codes asked for from this network. Please try again later.',
+        429,
+        3600,
+      );
+    }
+  }
 
   const [recent] = await sql`
     SELECT
@@ -115,8 +136,8 @@ export async function requestOtp(email: string): Promise<{ resendAfterSec: numbe
 
   const code = randomCode();
   const [row] = await sql`
-    INSERT INTO otp_codes (email, code_hash, expires_at)
-    VALUES (${email}, ${await hashCode(email, code)}, now() + make_interval(mins => ${OTP_TTL_MINUTES}))
+    INSERT INTO otp_codes (email, code_hash, expires_at, ip)
+    VALUES (${email}, ${await hashCode(email, code)}, now() + make_interval(mins => ${OTP_TTL_MINUTES}), ${ip})
     RETURNING id`;
 
   try {
@@ -233,4 +254,15 @@ export async function requireUser(request: Request): Promise<AuthUser> {
 export async function revokeSession(token: string): Promise<void> {
   const sql = getSql();
   await sql`DELETE FROM sessions WHERE token_hash = ${await sha256(token)}`;
+}
+
+/**
+ * Deletes the account and EVERYTHING linked to it: sessions, results, fixed
+ * mistakes and reports (the database removes those automatically with the user),
+ * plus any sign-in codes sent to the email. This cannot be undone.
+ */
+export async function deleteAccount(user: AuthUser): Promise<void> {
+  const sql = getSql();
+  await sql`DELETE FROM users WHERE id = ${user.id}`;
+  await sql`DELETE FROM otp_codes WHERE email = ${user.email}`;
 }

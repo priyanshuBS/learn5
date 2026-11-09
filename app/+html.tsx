@@ -5,6 +5,8 @@
 import { ScrollViewStyleReset, useServerDocumentContext } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 
+const TITLE = 'Learn5 — 5 questions. 5 minutes. Get smarter every day.';
+
 const DESCRIPTION =
   'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Math, Reasoning, Physics, Chemistry and Biology.';
 
@@ -52,7 +54,17 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
         <meta name="theme-color" content="#050508" />
-        <title>Learn5 — 5 questions. 5 minutes.</title>
+        <meta name="color-scheme" content="dark light" />
+        <meta name="apple-mobile-web-app-title" content="Learn5" />
+        {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Learn5" />
+        <meta property="og:title" content={TITLE} />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={TITLE} />
+        <meta name="twitter:description" content={DESCRIPTION} />
+        <title>{TITLE}</title>
         <ScrollViewStyleReset />
         <style dangerouslySetInnerHTML={{ __html: BACKGROUND_CSS }} />
         {headNodes}

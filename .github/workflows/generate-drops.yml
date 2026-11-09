@@ -58,3 +58,11 @@ jobs:
           if [ -n "$INPUT_DATE" ]; then ARGS="$ARGS --date=$INPUT_DATE"; fi
           if [ -n "$INPUT_CATEGORY" ]; then ARGS="$ARGS --category=$INPUT_CATEGORY"; fi
           npm run generate-drops -- $ARGS
+
+      # Keep the database small: remove old sign-in codes and ended sessions.
+      # Runs even if generating failed.
+      - name: Clean up old sign-in data
+        if: always()
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run cleanup

@@ -25,6 +25,7 @@ import { Logo } from '@/components/Logo';
 import { useAuth, useAuthBootstrap } from '@/features/auth/store';
 import { useContentBootstrap } from '@/features/content/store';
 import { useProgressSync } from '@/features/progress/sync';
+import { useRemindersBootstrap } from '@/features/reminders/reminders';
 import { useThemeBootstrap } from '@/features/theme/store';
 import { useColorScheme } from '@/hooks/useScheme';
 import { colors } from '@/theme';
@@ -46,6 +47,7 @@ export default function RootLayout() {
   useAuthBootstrap();
   useProgressSync();
   useThemeBootstrap();
+  useRemindersBootstrap();
   const authStatus = useAuth((s) => s.status);
 
   const ready = fontsLoaded || !!fontError;
@@ -83,6 +85,9 @@ export default function RootLayout() {
           <Stack.Screen name="welcome" options={{ animation: 'fade' }} />
           <Stack.Screen name="sign-in" />
         </Stack.Protected>
+        {/* Legal pages: open to everyone, signed in or not. */}
+        <Stack.Screen name="privacy" />
+        <Stack.Screen name="terms" />
       </Stack>
       {/* Covers the screen while the saved session is read, so no page flashes
           before the right one opens (phones show the splash screen instead). */}

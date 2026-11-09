@@ -2,6 +2,8 @@
  * Progress — level, points, streaks and all 5 badges.
  * (Address stays /badges.)
  */
+import { router } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
@@ -13,16 +15,19 @@ import { Gradient } from '@/components/Gradient';
 import { Icon } from '@/components/Icon';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
 import { ProgressRing } from '@/components/ProgressBar';
+import { RemindersSettings } from '@/components/RemindersCard';
 import { Screen } from '@/components/Screen';
 import { StatCard } from '@/components/StatCard';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LoadingView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
+import { deleteMyAccount } from '@/features/account/deleteAccount';
 import { useAuth } from '@/features/auth/store';
 import { useProgress } from '@/features/progress/store';
 import { syncProgress, useSyncStatus } from '@/features/progress/sync';
 import { LEVELS } from '@/features/levels/levels';
 import { useAppData } from '@/hooks/useAppData';
+import { confirmAsync, notify } from '@/lib/confirm';
 import { colors, HERO_GRADIENT, HERO_LIP, GLOW } from '@/theme';
 
 export default function ProgressScreen() {
@@ -30,6 +35,28 @@ export default function ProgressScreen() {
   const user = useAuth((s) => s.user);
   const expiresAt = useAuth((s) => s.expiresAt);
   const signOut = useAuth((s) => s.signOut);
+  const [deleting, setDeleting] = useState(false);
+
+  const onDeleteAccount = async () => {
+    const ok = await confirmAsync({
+      title: 'Delete your account?',
+      message:
+        'This permanently deletes your account, progress, streaks and badges on every device. It cannot be undone.',
+      confirmLabel: 'Delete account',
+      destructive: true,
+    });
+    if (!ok) return;
+    setDeleting(true);
+    try {
+      await deleteMyAccount();
+    } catch (err) {
+      notify(
+        'Could not delete your account',
+        err instanceof Error ? err.message : 'Please check your internet connection and try again.',
+      );
+      setDeleting(false);
+    }
+  };
   if (!ready) {
     return (
       <Screen>
@@ -196,6 +223,9 @@ export default function ProgressScreen() {
         })}
       </View>
 
+      <SectionTitle title="Reminders" />
+      <RemindersSettings />
+
       <SectionTitle title="Appearance" />
       <Card className="gap-4 md:flex-row md:items-center md:justify-between">
         <View className="flex-1">
@@ -237,6 +267,27 @@ export default function ProgressScreen() {
           onPress={() => void signOut()}
         />
       </Card>
+
+      <View className="mt-4 flex-row flex-wrap items-center justify-between gap-3 px-1">
+        <View className="flex-row flex-wrap gap-5">
+          <TextLink label="Privacy policy" onPress={() => router.push('/privacy')} />
+          <TextLink label="Terms of use" onPress={() => router.push('/terms')} />
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Delete my account"
+          accessibilityState={{ disabled: deleting, busy: deleting }}
+          disabled={deleting}
+          onPress={() => void onDeleteAccount()}
+          hitSlop={8}
+          className="flex-row items-center gap-1.5 rounded-full px-3 py-2 active:bg-rose-500/10 web:hover:bg-rose-500/10"
+        >
+          <Icon name="trash" size={14} color={colors.danger} />
+          <Txt weight="semibold" className="text-[13px] text-rose-600 dark:text-rose-400">
+            {deleting ? 'Deleting…' : 'Delete account'}
+          </Txt>
+        </Pressable>
+      </View>
     </Screen>
   );
 }
@@ -280,6 +331,14 @@ function SyncLine() {
       >
         {text}
       </Txt>
+    </Pressable>
+  );
+}
+
+function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#8E8EA3]">{label}</Txt>
     </Pressable>
   );
 }

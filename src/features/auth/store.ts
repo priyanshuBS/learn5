@@ -36,6 +36,8 @@ interface AuthState {
   /** Checks the code and signs in. Throws ApiError. */
   verifyOtp: (email: string, code: string) => Promise<void>;
   signOut: () => Promise<void>;
+  /** Forgets the session on this device only (no server call, no before-sign-out work). */
+  forgetSession: () => Promise<void>;
 }
 
 function isSession(value: unknown): value is SessionPayload {
@@ -128,6 +130,8 @@ export const useAuth = create<AuthState>()((set, get) => {
         expiresAt: session.expiresAt,
       });
     },
+
+    forgetSession: clear,
 
     signOut: async () => {
       const { token } = get();

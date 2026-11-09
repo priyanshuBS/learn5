@@ -70,4 +70,6 @@ export const authApi = {
     apiRequest<{ user: AuthUser; expiresAt: string }>('/api/auth/session', {}, token),
   logout: (token: string) =>
     apiRequest<{ ok: true }>('/api/auth/logout', { method: 'POST' }, token),
+  deleteAccount: (token: string) =>
+    apiRequest<{ ok: true }>('/api/account/delete', { method: 'POST' }, token),
 };

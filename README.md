@@ -5,8 +5,7 @@
 A gamified micro-learning app for English, Math, Reasoning, Physics, Chemistry and Biology.
 One Expo codebase ships as an Android app, an iOS app and a website.
 
-> Status: **Phase 1 done** (project setup, schema, validator, content guide, sample content).
-> The full README arrives in Phase 6.
+> Status: feature-complete for launch — see the **Launch checklist** below for the remaining setup steps.
 
 ## Quick start
 
@@ -68,6 +67,41 @@ Results, fixed mistakes and "wrong answer" reports are stored per user in Neon
 - Signing out removes progress from the device once it is saved. Another person
   signing in on the same phone starts clean.
 - Code: `src/features/progress/` (store, sync, merge, schema) and `src/server/progress.ts`.
+
+## Accounts, privacy and safety
+
+- **Delete account** (Progress → Account): `POST /api/account/delete` removes the user and
+  all their data (progress, reports, sessions, sign-in codes). Required by the App Store
+  and Google Play.
+- **Legal pages**: `/privacy` and `/terms` (open to everyone, linked from Welcome, Sign in
+  and Progress). Written from what the app really does; have them reviewed before launch.
+- **Rate limits** on sign-in codes: 1 per minute and 5 per hour per email, plus 20 per hour
+  per network (IP address).
+- **Clean-up**: `npm run cleanup` deletes old sign-in codes and ended sessions. The cron job
+  runs it after generating drops.
+
+## Daily reminders
+
+Phones only (`expo-notifications`, local notifications — works in Expo Go). Off until the
+user turns it on in Progress → Reminders, or from the prompt after their first drop. The
+reminder repeats daily at the chosen time and is re-created on app start if the phone lost it.
+
+## Launch checklist (things only you can do)
+
+1. **Rotate the Groq key** (it was shared in chat) and add GitHub secrets `DATABASE_URL`
+   and `GROQ_API_KEY` (Settings → Secrets and variables → Actions → New repository secret).
+2. **Deploy the website + API** (e.g. `npx eas-cli@latest deploy`) and set the server
+   secrets there: `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`.
+3. Point `learn5.priyanshusingh.co.in` at it, then check `EXPO_PUBLIC_APP_URL` in
+   `.env.local` and `eas.json`.
+4. Make sure `support@priyanshusingh.co.in` receives email (reports and privacy requests).
+5. **App icon and splash**: replace the images in `assets/images/` with your Learn5 artwork.
+6. Phone builds: `npx eas-cli@latest build --profile preview` to test, then
+   `--profile production` and `npx eas-cli@latest submit`. App IDs: `in.priyanshusingh.learn5`.
+   iOS needs an Apple Developer account; Android needs a Google Play Console account.
+7. Store listings: screenshots, description, the privacy policy URL
+   (`https://learn5.priyanshusingh.co.in/privacy`) and the data-safety form (email +
+   learning progress, no ads, no tracking).
 
 ## Environment variables
 

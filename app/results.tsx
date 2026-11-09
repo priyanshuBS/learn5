@@ -12,6 +12,7 @@ import { CARD_CLASSES } from '@/components/Card';
 import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Confetti } from '@/components/Confetti';
+import { ReminderPrompt } from '@/components/RemindersCard';
 import { Glow } from '@/components/Glow';
 import { Gradient } from '@/components/Gradient';
 import { ProgressRing } from '@/components/ProgressBar';
@@ -239,6 +240,9 @@ export default function ResultsScreen() {
           text={badge.description}
         />
       ))}
+
+      {/* After a first (scoring) play: offer a daily reminder, once */}
+      {justScored ? <ReminderPrompt /> : null}
 
       {/* Actions */}
       <View className="mt-6 gap-2.5">
