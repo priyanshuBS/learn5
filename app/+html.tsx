@@ -12,8 +12,8 @@ const DESCRIPTION =
 
 // Page background before the app loads (avoids a white flash in dark mode).
 const BACKGROUND_CSS = `
-body { background-color: #F5F4FA; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #050508; }
+body { background-color: #F7F7F5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #111113; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -53,7 +53,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#050508" />
+        <meta name="theme-color" content="#111113" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}

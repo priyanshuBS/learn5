@@ -1,5 +1,5 @@
 /**
- * WeekStreak — the last 7 days as flame circles: filled = you played that day.
+ * WeekStreak — the last 7 days as circles: filled = you played that day.
  * Today shows a dashed ring until you play.
  */
 import { View } from 'react-native';
@@ -43,11 +43,11 @@ export function WeekStreak({
     >
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl border-orange-200 bg-orange-100 dark:border-orange-900 dark:bg-orange-500/15">
+          <View className="h-10 w-10 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-500/15">
             <Icon name="flame" size={20} color={colors.streak} filled />
           </View>
           <View>
-            <Txt weight="bold" className="text-lg tracking-tight">
+            <Txt weight="bold" className="text-lg">
               {current} day{current === 1 ? '' : 's'}
             </Txt>
             <Muted className="text-xs">Current streak</Muted>
@@ -69,27 +69,23 @@ export function WeekStreak({
             <View key={day} className="items-center gap-1.5">
               <View
                 className={twMerge(
-                  'h-10 w-10 items-center justify-center rounded-full',
-                  played && 'bg-brand-500 web:shadow-[0_0_18px_-2px_rgba(139,92,246,0.8)]',
-                  !played && isToday && 'border border-dashed border-brand-400',
-                  !played &&
-                    !isToday &&
-                    'border-zinc-200 bg-zinc-100 dark:border-black/40 dark:bg-white/5',
+                  'h-9 w-9 items-center justify-center rounded-full',
+                  played && 'bg-orange-500',
+                  !played && isToday && 'border border-dashed border-zinc-400 dark:border-zinc-500',
+                  !played && !isToday && 'bg-[#F1F0EC] dark:bg-ink-raised',
                 )}
               >
                 {played ? (
                   <Icon name="flame" size={16} color={colors.white} filled />
                 ) : isToday ? (
-                  <View className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+                  <View className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />
                 ) : null}
               </View>
               <Txt
                 weight={isToday ? 'bold' : 'medium'}
                 className={twMerge(
                   'text-[11px]',
-                  isToday
-                    ? 'text-brand-700 dark:text-brand-300'
-                    : 'text-zinc-400 dark:text-zinc-500',
+                  isToday ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 dark:text-zinc-500',
                 )}
               >
                 {LETTERS[weekday(day)]}

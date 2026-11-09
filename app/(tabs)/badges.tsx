@@ -10,11 +10,9 @@ import { twMerge } from 'tailwind-merge';
 import { BadgeCard } from '@/components/BadgeCard';
 import { Button } from '@/components/Button';
 import { Card, CARD_CLASSES } from '@/components/Card';
-import { Glow } from '@/components/Glow';
-import { Gradient } from '@/components/Gradient';
 import { Icon } from '@/components/Icon';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
-import { ProgressRing } from '@/components/ProgressBar';
+import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
 import { RemindersSettings } from '@/components/RemindersCard';
 import { Screen } from '@/components/Screen';
 import { StatCard } from '@/components/StatCard';
@@ -28,7 +26,7 @@ import { syncProgress, useSyncStatus } from '@/features/progress/sync';
 import { LEVELS } from '@/features/levels/levels';
 import { useAppData } from '@/hooks/useAppData';
 import { confirmAsync, notify } from '@/lib/confirm';
-import { colors, HERO_GRADIENT, HERO_LIP, GLOW } from '@/theme';
+import { colors } from '@/theme';
 
 export default function ProgressScreen() {
   const { ready, stats } = useAppData();
@@ -81,58 +79,40 @@ export default function ProgressScreen() {
       <View className="gap-4 xl:flex-row">
         {/* Level */}
         <View className="xl:flex-[3]">
-          <Gradient colors={HERO_GRADIENT} lip={HERO_LIP} radius={28} className="p-6 md:p-7">
-            <Glow
-              color={GLOW.violet}
-              size={380}
-              opacity={0.55}
-              style={{ top: -180, right: -140 }}
-            />
-            <Glow color={GLOW.cyan} size={300} opacity={0.3} style={{ bottom: -170, left: -120 }} />
-
+          <Card className="p-6">
             <View className="flex-row items-center gap-5">
               <ProgressRing
                 value={level.progress}
-                size={92}
-                strokeWidth={9}
-                color={colors.white}
-                trackColor="rgba(255,255,255,0.18)"
+                size={84}
+                strokeWidth={8}
                 label={`Level progress ${Math.round(level.progress * 100)} percent`}
               >
-                <Txt weight="heavy" className="text-3xl tracking-tighter text-white">
+                <Txt weight="bold" className="text-2xl">
                   {level.level}
                 </Txt>
               </ProgressRing>
               <View className="flex-1">
-                <Txt
-                  weight="semibold"
-                  className="text-[11px] uppercase tracking-widest text-white/70"
-                >
-                  Current level
-                </Txt>
-                <Txt weight="heavy" className="mt-1 text-[28px] tracking-tight text-white">
+                <Muted className="text-[13px]">Current level</Muted>
+                <Txt weight="bold" className="mt-0.5 text-[24px] leading-8">
                   {level.name}
                 </Txt>
                 <View className="mt-1 flex-row items-center gap-1.5">
-                  <Icon name="star" size={14} color={colors.white} filled />
-                  <Txt weight="semibold" className="text-[15px] text-white">
-                    {points.toLocaleString('en-IN')} points
-                  </Txt>
+                  <Icon name="star" size={14} color={colors.points} filled />
+                  <Muted className="text-[14px]">{points.toLocaleString('en-IN')} points</Muted>
                 </View>
               </View>
             </View>
-            <View className="mt-6 h-2 overflow-hidden rounded-full bg-white/20">
-              <View
-                className="h-full rounded-full bg-white"
-                style={{ width: `${Math.round(level.progress * 100)}%` }}
-              />
-            </View>
-            <Txt className="mt-2 text-[13px] text-white/80">
+            <ProgressBar
+              value={level.progress}
+              className="mt-6"
+              label={`Level progress ${Math.round(level.progress * 100)} percent`}
+            />
+            <Muted className="mt-2 text-[13px]">
               {level.nextAt === null || !nextLevel
                 ? 'You reached the top level.'
                 : `${(level.nextAt - points).toLocaleString('en-IN')} points to Level ${nextLevel.level} · ${nextLevel.name}`}
-            </Txt>
-          </Gradient>
+            </Muted>
+          </Card>
         </View>
 
         {/* Stats */}
@@ -351,7 +331,7 @@ function SyncLine() {
 function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
-      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#8E8EA3]">{label}</Txt>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#9D9DA5]">{label}</Txt>
     </Pressable>
   );
 }

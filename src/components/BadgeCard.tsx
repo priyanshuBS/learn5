@@ -32,7 +32,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
               'h-12 w-12 items-center justify-center rounded-2xl border',
               badge.earned
                 ? 'border-amber-200 bg-amber-50 dark:border-amber-500/25 dark:bg-amber-500/10'
-                : 'border-line bg-zinc-50 dark:border-ink-line dark:bg-white/[0.03]',
+                : 'border-line bg-zinc-50 dark:border-ink-line dark:bg-ink-card',
             )}
           >
             <Icon

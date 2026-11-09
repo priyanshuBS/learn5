@@ -20,11 +20,9 @@ import { twMerge } from 'tailwind-merge';
 
 import { useColorScheme } from '@/hooks/useScheme';
 import type { FactCardItem } from '@/lib/schema';
-import { colors, HERO_GRADIENT, HERO_LIP, GLOW } from '@/theme';
+import { colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
-import { Glow } from './Glow';
-import { Gradient } from './Gradient';
 import { Icon } from './Icon';
 import { Txt } from './Txt';
 
@@ -63,20 +61,8 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
 
   const hint = (
     <View className="mt-8 flex-row items-center gap-1.5">
-      <Icon
-        name="refresh"
-        size={14}
-        color={
-          showBack ? (scheme === 'dark' ? colors.mutedDark : colors.muted) : 'rgba(255,255,255,0.7)'
-        }
-      />
-      <Txt
-        weight="medium"
-        className={twMerge(
-          'text-[13px]',
-          showBack ? 'text-zinc-500 dark:text-zinc-400' : 'text-white/70 dark:text-white/70',
-        )}
-      >
+      <Icon name="refresh" size={14} color={scheme === 'dark' ? colors.mutedDark : colors.muted} />
+      <Txt weight="medium" className="text-[13px] text-zinc-500 dark:text-zinc-400">
         Tap to flip
       </Txt>
     </View>
@@ -97,11 +83,12 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
           <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
               <View className="flex-row items-center gap-2">
-                <Icon name="lightbulb" size={16} color={colors.brand} />
-                <Txt
-                  weight="semibold"
-                  className="text-[11px] uppercase tracking-widest text-brand-700 dark:text-brand-300"
-                >
+                <Icon
+                  name="lightbulb"
+                  size={16}
+                  color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
+                />
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
                   Why it’s true
                 </Txt>
               </View>
@@ -120,39 +107,27 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
             {hint}
           </View>
         ) : (
-          <Gradient
-            colors={HERO_GRADIENT}
-            lip={HERO_LIP}
-            radius={24}
-            className="min-h-72 justify-between p-6 md:p-8"
-          >
-            <Glow color={GLOW.violet} size={380} opacity={0.55} style={{ top: -180, left: -140 }} />
-            <Glow
-              color={GLOW.cyan}
-              size={300}
-              opacity={0.35}
-              style={{ bottom: -160, right: -110 }}
-            />
-
+          <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
               <View className="flex-row items-center gap-2">
-                <Icon name="sparkles" size={16} color={colors.brandOnDark} />
-                <Txt
-                  weight="semibold"
-                  className="text-[11px] uppercase tracking-widest text-brand-200 dark:text-brand-200"
-                >
+                <Icon
+                  name="sparkles"
+                  size={16}
+                  color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
+                />
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
                   Did you know?
                 </Txt>
               </View>
               <Txt
                 weight="semibold"
-                className="mt-5 text-2xl leading-9 tracking-tight text-white dark:text-white md:text-[26px] md:leading-10"
+                className="mt-5 text-2xl leading-9 md:text-[26px] md:leading-10"
               >
                 {item.fact}
               </Txt>
             </View>
             {hint}
-          </Gradient>
+          </View>
         )}
       </Pressable>
     </Animated.View>

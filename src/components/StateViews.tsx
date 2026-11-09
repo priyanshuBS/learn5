@@ -4,7 +4,8 @@
 import { ActivityIndicator, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
-import { colors } from '@/theme';
+import { useColorScheme } from '@/hooks/useScheme';
+import { brandTone, colors } from '@/theme';
 
 import { Button } from './Button';
 import { Icon, type IconName } from './Icon';
@@ -38,8 +39,9 @@ export function MessageView({
   secondaryLabel?: string;
   onSecondary?: () => void;
 }) {
+  const dark = useColorScheme() === 'dark';
   const toneColor =
-    tone === 'success' ? colors.success : tone === 'warning' ? colors.warning : colors.brand;
+    tone === 'success' ? colors.success : tone === 'warning' ? colors.warning : brandTone(dark);
   return (
     <View className="items-center px-6 py-16">
       <View
@@ -81,5 +83,5 @@ export function MessageView({
 
 /** Grey placeholder blocks while a page loads. */
 export function SkeletonBlock({ className }: { className: string }) {
-  return <View className={twMerge('rounded-2xl bg-zinc-200/60 dark:bg-white/5', className)} />;
+  return <View className={twMerge('rounded-2xl bg-zinc-200/60 dark:bg-ink-raised', className)} />;
 }

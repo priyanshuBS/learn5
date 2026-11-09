@@ -7,7 +7,7 @@
  * Quiz and Results live outside this group, so they open full-screen.
  */
 import { Tabs } from 'expo-router/js-tabs';
-import { useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 
 import { AppNav } from '@/components/AppNav';
 import { useIsClient } from '@/hooks/useClient';
@@ -15,6 +15,7 @@ import { useColorScheme } from '@/hooks/useScheme';
 import { colors } from '@/theme';
 
 const SIDEBAR_MIN_WIDTH = 1024;
+const isWeb = Platform.OS === 'web';
 
 export default function TabsLayout() {
   const { width } = useWindowDimensions();
@@ -30,7 +31,11 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarPosition: wide ? 'left' : 'bottom',
-        sceneStyle: { backgroundColor: scheme === 'dark' ? colors.ink : colors.canvas },
+        // Phones paint the page colour here; on the website each page's own
+        // classes do it (a colour from code would not match the pre-rendered HTML).
+        sceneStyle: isWeb
+          ? undefined
+          : { backgroundColor: scheme === 'dark' ? colors.ink : colors.canvas },
       }}
     >
       <Tabs.Screen name="index" options={{ title: 'Home' }} />

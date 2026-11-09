@@ -3,88 +3,68 @@
  * Address: /welcome   (signed-out visitors to any app page land here)
  *
  * Explains Learn5, then sends people to sign up or log in. The quizzes open
- * only after signing in. Styled after priyanshusingh.co.in: near-black, glass,
- * violet → cyan glows, big display type and small mono labels.
+ * only after signing in.
  */
 import { router } from 'expo-router';
-import { useEffect, type ReactNode } from 'react';
-import { useWindowDimensions, View } from 'react-native';
-import Animated, {
-  Easing,
-  FadeIn,
-  FadeInDown,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
+import { View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import categoriesFile from '../content/categories.json';
 import { Button } from '@/components/Button';
-import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from '@/components/Card';
+import { CARD_CLASSES } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { DifficultyBadge, Tag } from '@/components/DifficultyBadge';
-import { Glow, GlowDot, GradientLine, GradientText } from '@/components/Glow';
 import { Icon, type IconName } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { QuizProgress } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { ThemeIconButton } from '@/components/ThemeToggle';
-import { Eyebrow, Muted, Txt } from '@/components/Txt';
+import { Muted, Txt } from '@/components/Txt';
 import { useColorScheme } from '@/hooks/useScheme';
 import { signInHref } from '@/lib/routes';
 import { CategoriesFileSchema } from '@/lib/schema';
-import { categoryTone, colors, GLOW } from '@/theme';
+import { brandTone, colors } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
-
-const SUBJECT_WORDS: Record<number, string> = {
-  5: 'Five',
-  6: 'Six',
-  7: 'Seven',
-  8: 'Eight',
-  9: 'Nine',
-  10: 'Ten',
-};
 
 const FEATURES: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'lightbulb',
-    title: 'Simple explanations',
-    text: 'Every answer explains the “why” in plain, easy English.',
+    title: 'Clear explanations',
+    text: 'Every answer explains the “why” in plain English.',
   },
   {
     icon: 'calendar',
-    title: '3 new drops a day',
-    text: 'Fresh questions every morning, afternoon and evening.',
+    title: 'Three drops a day',
+    text: 'New questions every morning, afternoon and evening.',
   },
   {
     icon: 'review',
-    title: 'Review your mistakes',
-    text: 'Replay the questions you got wrong until you get them right.',
+    title: 'Review mistakes',
+    text: 'Replay the questions you got wrong until they stick.',
   },
   {
     icon: 'flashcards',
     title: 'Flashcards',
-    text: 'Collect surprising facts and flip through them any time.',
+    text: 'Keep the facts you liked and flip through them any time.',
   },
   {
     icon: 'flame',
-    title: 'Streaks and badges',
-    text: 'Small daily wins, points and levels that keep you going.',
+    title: 'Streaks and levels',
+    text: 'Points, levels and badges that reward showing up.',
   },
   {
     icon: 'smartphone',
     title: 'Phone and web',
-    text: 'Learn on Android, iPhone or in your browser.',
+    text: 'Use it on Android, iPhone or in your browser.',
   },
 ];
 
 const STEPS = [
   { title: 'Sign up with your email', text: 'No password. We email you a 6-digit code.' },
-  { title: 'Play a 5-question drop', text: 'Pick a subject. Each drop takes about 5 minutes.' },
-  { title: 'Grow a little every day', text: 'Earn points, keep your streak, collect badges.' },
+  { title: 'Play a 5-question drop', text: 'Pick any subject. Each drop takes about 5 minutes.' },
+  { title: 'Come back tomorrow', text: 'Keep your streak, earn points and level up.' },
 ];
 
 const goSignUp = () => router.push(signInHref('signup'));
@@ -92,156 +72,112 @@ const goLogIn = () => router.push(signInHref('login'));
 
 export default function WelcomeScreen() {
   const dark = useColorScheme() === 'dark';
-  const lilac = dark ? '#C4B5FD' : colors.brandDark;
+  const iconColor = brandTone(dark);
 
   return (
     <Screen contentClassName="pt-4 md:pt-6">
-      <Animated.View entering={FadeIn.duration(300)}>
+      <Animated.View entering={FadeIn.duration(250)}>
         {/* Top bar */}
         <View className="flex-row items-center justify-between">
           <Logo />
-          <View className="flex-row items-center gap-1.5">
+          <View className="flex-row items-center gap-1">
             <ThemeIconButton />
             <Button label="Log in" variant="ghost" size="sm" onPress={goLogIn} />
-            <Button label="Get started" size="sm" onPress={goSignUp} />
+            <View className="hidden sm:flex">
+              <Button label="Sign up" size="sm" onPress={goSignUp} />
+            </View>
           </View>
         </View>
 
         {/* Hero */}
-        <View className="mt-16 gap-14 md:mt-24 lg:flex-row lg:items-center">
+        <View className="mt-12 gap-12 md:mt-20 lg:flex-row lg:items-center">
           <View className="lg:flex-1">
-            <View className="flex-row items-center gap-2.5 self-start rounded-full border border-line bg-white px-3.5 py-1.5 dark:border-white/10 dark:bg-white/[0.035]">
-              <GlowDot />
-              <Eyebrow>New drops every day</Eyebrow>
-            </View>
             <Txt
-              weight="heavy"
+              weight="bold"
               accessibilityRole="header"
-              className="mt-8 text-[48px] leading-[50px] md:text-[76px] md:leading-[76px]"
+              className="text-[38px] leading-[44px] md:text-[52px] md:leading-[58px]"
             >
-              Learn a little.{'\n'}
-              <GradientText className="text-[48px] leading-[50px] md:text-[76px] md:leading-[76px]">
-                Every single day.
-              </GradientText>
+              Learn something new in five minutes a day.
             </Txt>
-            <Muted className="mt-7 max-w-lg text-[17px] leading-7">
-              5 questions. 5 minutes. Bite-size drops in English, Math, Reasoning, Computer Science,
-              Physics, Chemistry and Biology — in simple English, with a clear “why” after every
-              answer.
+            <Muted className="mt-5 max-w-lg text-[17px] leading-7">
+              Short daily quizzes in {categories.length} school subjects, with a clear explanation
+              after every answer. Free, and no password needed.
             </Muted>
-            <View className="mt-10 gap-3 sm:flex-row">
-              <Button
-                label="Start learning — free"
-                icon="arrow-right"
-                iconRight
-                onPress={goSignUp}
-              />
-              <Button label="I have an account" variant="secondary" onPress={goLogIn} />
+            <View className="mt-8 gap-3 sm:flex-row">
+              <Button label="Get started" variant="accent" onPress={goSignUp} />
+              <Button label="I already have an account" variant="secondary" onPress={goLogIn} />
             </View>
-            <View className="mt-10 flex-row flex-wrap gap-x-8 gap-y-4">
-              <HeroStat value={`${categories.length}`} label="Subjects" />
-              <HeroStat value={`${categories.length * 3}`} label="Drops a day" />
-              <HeroStat value="5 min" label="Each drop" />
+            <View className="mt-8 flex-row flex-wrap gap-x-6 gap-y-2">
+              <Fact text={`${categories.length} subjects`} />
+              <Fact text={`${categories.length * 3} new drops a day`} />
+              <Fact text="5 questions each" />
             </View>
           </View>
 
-          {/* Layout classes on a plain View: Animated.View doesn't apply responsive classes. */}
-          <View className="pb-6 lg:flex-1">
-            <Animated.View entering={FadeInDown.delay(150).duration(500)}>
-              <ProductPreview />
-            </Animated.View>
+          <View className="lg:flex-1">
+            <ProductPreview />
           </View>
-        </View>
-
-        {/* Subjects marquee */}
-        <View className="-mx-4 mt-20 md:-mx-8 xl:-mx-10">
-          <GradientLine className="opacity-40" />
-          <Marquee>
-            {categories.map((c) => (
-              <View key={c.id} className="flex-row items-center gap-3 px-6 py-5">
-                <CategoryIcon category={c} size="sm" />
-                <Txt weight="bold" className="text-xl">
-                  {c.name}
-                </Txt>
-                <Txt className="text-xl" style={{ color: categoryTone(c.color, dark) }}>
-                  ✦
-                </Txt>
-              </View>
-            ))}
-          </Marquee>
-          <GradientLine className="opacity-40" />
         </View>
 
         {/* Subjects */}
-        <SectionHeading
-          eyebrow="01 · Subjects"
-          title={`${SUBJECT_WORDS[categories.length] ?? categories.length} subjects.`}
-          accent="One daily habit."
-          text="School-level facts from trusted textbooks, explained simply."
+        <Section
+          title="Subjects"
+          text="School-level topics from trusted textbooks, explained simply."
         />
-        <View className="-m-2 flex-row flex-wrap">
-          {categories.map((category) => (
-            <View key={category.id} className="w-1/2 p-2 md:w-1/3">
+        <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
+          {/* -1px: the card's edge hides the last row's divider line. */}
+          <View className="flex-row flex-wrap" style={{ marginBottom: -1 }}>
+            {categories.map((category) => (
               <View
-                className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-6')}
+                key={category.id}
+                className="w-full flex-row items-center gap-3.5 border-b border-line p-4 dark:border-ink-line sm:w-1/2 lg:w-1/3"
               >
-                <Glow
-                  color={category.color}
-                  size={220}
-                  opacity={dark ? 0.3 : 0.14}
-                  style={{ top: -110, left: -100 }}
-                />
                 <CategoryIcon category={category} size="md" />
-                <Txt weight="bold" className="mt-6 text-xl">
-                  {category.name}
-                </Txt>
-                <Muted className="mt-1 leading-5" numberOfLines={2}>
-                  {category.tagline}
-                </Muted>
+                <View className="flex-1">
+                  <Txt weight="semibold" className="text-[15px]">
+                    {category.name}
+                  </Txt>
+                  <Muted className="text-[13px]" numberOfLines={1}>
+                    {category.tagline}
+                  </Muted>
+                </View>
               </View>
+            ))}
+          </View>
+        </View>
+
+        {/* How it works */}
+        <Section title="How it works" />
+        <View className="gap-3 md:flex-row">
+          {STEPS.map((step, i) => (
+            <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
+              <View className="h-7 w-7 items-center justify-center rounded-full bg-[#F1F0EC] dark:bg-ink-raised">
+                <Txt weight="semibold" className="text-[13px]">
+                  {i + 1}
+                </Txt>
+              </View>
+              <Txt weight="semibold" className="mt-4 text-[16px]">
+                {step.title}
+              </Txt>
+              <Muted className="mt-1 text-[14px] leading-6">{step.text}</Muted>
             </View>
           ))}
         </View>
 
         {/* Features */}
-        <SectionHeading
-          eyebrow="02 · Features"
-          title="Everything you need"
-          accent="to learn daily."
-          text="Short, focused and rewarding — built to fit into any day."
-        />
-        <View className="-m-2 flex-row flex-wrap">
+        <Section title="What you get" />
+        <View className="-mx-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
-            <View key={f.title} className="w-full p-2 sm:w-1/2 lg:w-1/3">
-              <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'p-7')}>
-                <View className="h-11 w-11 items-center justify-center rounded-2xl border border-line bg-zinc-50 dark:border-white/10 dark:bg-white/5">
-                  <Icon name={f.icon} size={19} color={lilac} />
-                </View>
-                <Txt weight="bold" className="mt-6 text-xl">
+            <View key={f.title} className="w-full flex-row gap-3.5 px-2 py-3 sm:w-1/2 lg:w-1/3">
+              <View className="h-9 w-9 items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-500/15">
+                <Icon name={f.icon} size={17} color={iconColor} />
+              </View>
+              <View className="flex-1">
+                <Txt weight="semibold" className="text-[15px]">
                   {f.title}
                 </Txt>
-                <Muted className="mt-2 text-[15px] leading-6">{f.text}</Muted>
+                <Muted className="mt-0.5 text-[14px] leading-6">{f.text}</Muted>
               </View>
-            </View>
-          ))}
-        </View>
-
-        {/* How it works */}
-        <SectionHeading eyebrow="03 · How it works" title="Start in" accent="under a minute." />
-        <View className="gap-4 md:flex-row">
-          {STEPS.map((step, i) => (
-            <View key={step.title} className={twMerge(CARD_CLASSES, 'p-7 md:flex-1')}>
-              <Txt
-                weight="heavy"
-                className="text-[44px] leading-[48px] text-zinc-200 dark:text-white/10"
-              >
-                0{i + 1}
-              </Txt>
-              <GradientLine className="mt-4 w-12" />
-              <Txt weight="bold" className="mt-5 text-xl">
-                {step.title}
-              </Txt>
-              <Muted className="mt-2 text-[15px] leading-6">{step.text}</Muted>
             </View>
           ))}
         </View>
@@ -250,257 +186,130 @@ export default function WelcomeScreen() {
         <View
           className={twMerge(
             CARD_CLASSES,
-            'mt-24 items-center overflow-hidden px-6 py-16 md:py-24',
+            'mt-16 items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-8',
           )}
         >
-          <Glow
-            color={GLOW.violet}
-            size={520}
-            opacity={dark ? 0.35 : 0.15}
-            style={{ top: -260, left: -180 }}
-          />
-          <Glow
-            color={GLOW.cyan}
-            size={460}
-            opacity={dark ? 0.25 : 0.1}
-            style={{ bottom: -240, right: -160 }}
-          />
-          <Eyebrow>Ready when you are</Eyebrow>
-          <Txt
-            weight="heavy"
-            className="mt-5 text-center text-[40px] leading-[44px] md:text-[64px] md:leading-[66px]"
-          >
-            Your first 5 minutes{'\n'}
-            <GradientText className="text-center text-[40px] leading-[44px] md:text-[64px] md:leading-[66px]">
-              start now.
-            </GradientText>
-          </Txt>
-          <Muted className="mt-5 max-w-md text-center text-[15px] leading-6">
-            Create your free account with just your email. No password to remember.
-          </Muted>
-          <View className="mt-10">
-            <Button
-              label="Create free account"
-              variant="accent"
-              icon="arrow-right"
-              iconRight
-              onPress={goSignUp}
-            />
+          <View className="md:flex-1">
+            <Txt weight="bold" className="text-[22px] leading-8">
+              Start your first drop today
+            </Txt>
+            <Muted className="mt-1 text-[15px] leading-6">
+              Create a free account with just your email.
+            </Muted>
           </View>
+          <Button label="Create free account" variant="accent" onPress={goSignUp} />
         </View>
 
-        {/* Footer + giant faint wordmark */}
-        <View className="mt-16 flex-row flex-wrap items-center justify-between gap-4">
-          <Logo />
-          <View className="flex-row flex-wrap items-center gap-5">
+        {/* Footer */}
+        <View className="mt-12 flex-row flex-wrap items-center justify-between gap-4 border-t border-line pt-6 dark:border-ink-line">
+          <Muted className="text-[13px]">© 2026 Learn5</Muted>
+          <View className="flex-row items-center gap-5">
             <Txt
               accessibilityRole="link"
               onPress={() => router.push('/privacy')}
-              className="text-[13px] text-zinc-500 dark:text-[#8E8EA3]"
+              className="text-[13px] text-zinc-500 dark:text-zinc-400"
             >
               Privacy
             </Txt>
             <Txt
               accessibilityRole="link"
               onPress={() => router.push('/terms')}
-              className="text-[13px] text-zinc-500 dark:text-[#8E8EA3]"
+              className="text-[13px] text-zinc-500 dark:text-zinc-400"
             >
               Terms
             </Txt>
-            <Eyebrow>© 2026 Learn5</Eyebrow>
           </View>
         </View>
-        <Wordmark />
       </Animated.View>
     </Screen>
   );
 }
 
-function HeroStat({ value, label }: { value: string; label: string }) {
+function Fact({ text }: { text: string }) {
   return (
-    <View>
-      <Txt weight="heavy" className="text-[28px] leading-8">
-        {value}
-      </Txt>
-      <Eyebrow className="mt-1">{label}</Eyebrow>
+    <View className="flex-row items-center gap-1.5">
+      <Icon name="check" size={14} color={colors.success} strokeWidth={2.5} />
+      <Muted className="text-[14px]">{text}</Muted>
     </View>
   );
 }
 
-function SectionHeading({
-  eyebrow,
-  title,
-  accent,
-  text,
-}: {
-  eyebrow: string;
-  title: string;
-  accent: string;
-  text?: string;
-}) {
+function Section({ title, text }: { title: string; text?: string }) {
   return (
-    <View className="mb-8 mt-24 md:mt-32">
-      <Eyebrow className="text-brand-700 dark:text-[#C4B5FD]">{eyebrow}</Eyebrow>
+    <View className="mb-5 mt-16 md:mt-20">
       <Txt
-        weight="heavy"
+        weight="bold"
         accessibilityRole="header"
-        className="mt-4 text-[36px] leading-[40px] md:text-[56px] md:leading-[58px]"
+        className="text-[24px] leading-8 md:text-[28px]"
       >
-        {title}{' '}
-        <GradientText className="text-[36px] leading-[40px] md:text-[56px] md:leading-[58px]">
-          {accent}
-        </GradientText>
+        {title}
       </Txt>
-      {text ? <Muted className="mt-4 max-w-xl text-[16px] leading-7">{text}</Muted> : null}
-    </View>
-  );
-}
-
-/** A row of items that scrolls sideways forever (like the site's marquee). */
-function Marquee({ children }: { children: ReactNode }) {
-  const { width } = useWindowDimensions();
-  const x = useSharedValue(0);
-  // One copy is roughly this wide; we slide by exactly one copy, then repeat.
-  const copyWidth = Math.max(width, 1100);
-  useEffect(() => {
-    x.set(
-      withRepeat(withTiming(-copyWidth, { duration: 28000, easing: Easing.linear }), -1, false),
-    );
-  }, [x, copyWidth]);
-  const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
-  return (
-    <View
-      className="overflow-hidden"
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
-    >
-      <Animated.View style={[{ flexDirection: 'row' }, style]}>
-        <View style={{ width: copyWidth, flexDirection: 'row', justifyContent: 'space-around' }}>
-          {children}
-        </View>
-        <View style={{ width: copyWidth, flexDirection: 'row', justifyContent: 'space-around' }}>
-          {children}
-        </View>
-      </Animated.View>
-    </View>
-  );
-}
-
-/** The giant, barely-visible "Learn5" at the very bottom of the page. */
-function Wordmark() {
-  const { width } = useWindowDimensions();
-  const size = Math.min(Math.max(width * 0.19, 72), 260);
-  return (
-    <View pointerEvents="none" className="mt-6 items-center overflow-hidden">
-      <Txt
-        weight="heavy"
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-        className="text-zinc-900/[0.05] dark:text-white/[0.04]"
-        style={{ fontSize: size, lineHeight: size * 1.05, letterSpacing: -size * 0.06 }}
-      >
-        Learn5
-      </Txt>
+      {text ? <Muted className="mt-1.5 text-[15px] leading-6">{text}</Muted> : null}
     </View>
   );
 }
 
 /** A static picture of a quiz question, so visitors see what the app looks like. */
 function ProductPreview() {
-  const dark = useColorScheme() === 'dark';
   const math = categories.find((c) => c.id === 'math') ?? categories[0];
   const options = ['₹35', '₹45', '₹40', '₹54'];
   return (
-    <View accessible accessibilityLabel="Preview of a Learn5 question" className="relative">
-      <Glow
-        color={GLOW.violet}
-        size={520}
-        opacity={dark ? 0.35 : 0.18}
-        style={{ top: -140, left: -120 }}
-      />
-      <Glow
-        color={GLOW.cyan}
-        size={420}
-        opacity={dark ? 0.22 : 0.1}
-        style={{ bottom: -140, right: -110 }}
-      />
-      <View className={twMerge(CARD_CLASSES, 'p-6 web:shadow-2xl md:p-7')}>
-        <View className="flex-row items-center gap-4">
-          <View className="h-8 w-8 items-center justify-center rounded-full border border-line dark:border-white/15">
-            <Icon name="x" size={14} />
-          </View>
-          <QuizProgress segments={['correct', 'correct', 'current', 'todo', 'todo']} />
-          <Eyebrow>3/5</Eyebrow>
-        </View>
-        <View className="mt-7 flex-row flex-wrap items-center gap-2">
-          <Tag label={math.name} color={math.color} />
-          <DifficultyBadge difficulty="medium" />
-        </View>
-        <Txt weight="bold" className="mt-4 text-[22px] leading-8">
-          A ₹450 shirt is 10% off. How much do you save?
-        </Txt>
-        <View className="mt-6 gap-2.5">
-          {options.map((o, i) => {
-            const correct = i === 1;
-            return (
-              <View
-                key={o}
+    <View
+      accessible
+      accessibilityLabel="Preview of a Learn5 question"
+      className={twMerge(CARD_CLASSES, 'p-5 md:p-6')}
+    >
+      <View className="flex-row items-center gap-4">
+        <Icon name="x" size={16} color={colors.muted} />
+        <QuizProgress segments={['correct', 'correct', 'current', 'todo', 'todo']} />
+        <Muted className="text-[13px]">3/5</Muted>
+      </View>
+      <View className="mt-6 flex-row flex-wrap items-center gap-2">
+        <Tag label={math.name} color={math.color} />
+        <DifficultyBadge difficulty="medium" />
+      </View>
+      <Txt weight="semibold" className="mt-3 text-[19px] leading-7">
+        A ₹450 shirt is 10% off. How much do you save?
+      </Txt>
+      <View className="mt-5 gap-2">
+        {options.map((o, i) => {
+          const correct = i === 1;
+          return (
+            <View
+              key={o}
+              className={twMerge(
+                'flex-row items-center gap-3 rounded-xl border px-4 py-3',
+                correct
+                  ? 'border-green-600 bg-green-50 dark:border-green-500/70 dark:bg-green-500/10'
+                  : 'border-line dark:border-ink-line',
+              )}
+            >
+              <Txt
+                weight="semibold"
                 className={twMerge(
-                  'flex-row items-center gap-3 rounded-2xl border px-4 py-3',
-                  correct
-                    ? 'border-emerald-500 bg-emerald-50 dark:border-emerald-400/70 dark:bg-emerald-500/10'
-                    : 'border-line dark:border-white/10',
-                  !correct && i > 1 && 'opacity-40',
+                  'w-4 text-[13px]',
+                  correct ? 'text-green-700 dark:text-green-400' : 'text-zinc-400',
                 )}
               >
-                <View
-                  className={twMerge(
-                    'h-7 w-7 items-center justify-center rounded-full border',
-                    correct
-                      ? 'border-emerald-500 bg-emerald-500'
-                      : 'border-line dark:border-white/15',
-                  )}
-                >
-                  {correct ? (
-                    <Icon name="check" size={13} color={colors.white} strokeWidth={3} />
-                  ) : (
-                    <Txt
-                      weight="semibold"
-                      className="text-[11px] text-zinc-500 dark:text-[#8E8EA3]"
-                    >
-                      {String.fromCharCode(65 + i)}
-                    </Txt>
-                  )}
-                </View>
-                <Txt weight="medium" className="text-[15px]">
-                  {o}
-                </Txt>
-              </View>
-            );
-          })}
-        </View>
-        <View className="mt-5 flex-row items-start gap-2.5 rounded-2xl border border-emerald-500/25 bg-emerald-500/10 p-3.5">
-          <Icon name="check-circle" size={16} color={colors.success} />
-          <Txt className="flex-1 text-[13px] leading-5 text-emerald-900 dark:text-emerald-100">
-            <Txt weight="semibold" className="text-[13px] text-emerald-900 dark:text-emerald-100">
-              Spot on.{' '}
-            </Txt>
-            10% means move the decimal one place left: ₹450 → ₹45.
-          </Txt>
-        </View>
+                {String.fromCharCode(65 + i)}
+              </Txt>
+              <Txt weight="medium" className="flex-1 text-[15px]">
+                {o}
+              </Txt>
+              {correct ? (
+                <Icon name="check" size={16} color={colors.success} strokeWidth={2.5} />
+              ) : null}
+            </View>
+          );
+        })}
       </View>
-
-      {/* Floating streak chip */}
-      <View className="absolute -bottom-5 -left-2 flex-row items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-3 web:shadow-xl dark:border-white/15 dark:bg-[#0E0E15] md:-left-6">
-        <View className="h-8 w-8 items-center justify-center rounded-full bg-orange-500/15">
-          <Icon name="flame" size={16} color={colors.streak} filled />
-        </View>
-        <View>
-          <Txt weight="bold" className="text-[15px]">
-            7-day streak
-          </Txt>
-          <Eyebrow className="text-[10px]">Keep it going</Eyebrow>
-        </View>
+      <View className="mt-4 rounded-xl bg-[#F4F4F1] p-3.5 dark:bg-ink-raised">
+        <Txt weight="semibold" className="text-[13px]">
+          Why
+        </Txt>
+        <Muted className="mt-0.5 text-[13px] leading-5">
+          10% means moving the decimal point one place left: ₹450 becomes ₹45.
+        </Muted>
       </View>
     </View>
   );

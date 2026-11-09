@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the fonts (Inter, Bricolage Grotesque, JetBrains Mono)
+ *   - loads Tailwind styles and the Inter font
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -9,17 +9,17 @@
 import '../global.css';
 
 import {
-  BricolageGrotesque_700Bold,
-  BricolageGrotesque_800ExtraBold,
-} from '@expo-google-fonts/bricolage-grotesque';
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
-import { JetBrainsMono_500Medium } from '@expo-google-fonts/jetbrains-mono';
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 
 import { Logo } from '@/components/Logo';
 import { useAuth, useAuthBootstrap } from '@/features/auth/store';
@@ -39,9 +39,7 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
-    BricolageGrotesque_700Bold,
-    BricolageGrotesque_800ExtraBold,
-    JetBrainsMono_500Medium,
+    Inter_700Bold,
   });
   useContentBootstrap();
   useAuthBootstrap();
@@ -70,7 +68,12 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: scheme === 'dark' ? colors.ink : colors.canvas },
+          // Phones only: on the website each page's classes paint the background
+          // (a colour from code would not match the pre-rendered HTML).
+          contentStyle:
+            Platform.OS === 'web'
+              ? undefined
+              : { backgroundColor: scheme === 'dark' ? colors.ink : colors.canvas },
         }}
       >
         {/* Learning screens: only when signed in. */}

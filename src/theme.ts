@@ -7,40 +7,33 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  brand: '#8B5CF6',
-  brandDark: '#6D28D9',
-  brandSoft: '#F5F3FF',
-  brandOnDark: '#C4B5FD',
+  brand: '#2E5BDA',
+  brandDark: '#2448B5',
+  brandSoft: '#EEF3FF',
+  brandOnDark: '#8AA8F8',
   white: '#FFFFFF',
-  text: '#0B0B12',
-  textDark: '#F2F2F5',
-  muted: '#6B6B80',
-  mutedDark: '#8E8EA3',
-  line: '#E4E2EE',
-  inkLine: '#1E1E2A',
-  success: '#059669',
-  danger: '#E11D48',
+  text: '#18181B',
+  textDark: '#ECECEE',
+  muted: '#6B6B72',
+  mutedDark: '#9D9DA5',
+  line: '#E6E5E1',
+  inkLine: '#2A2A2F',
+  success: '#16A34A',
+  danger: '#DC2626',
   warning: '#D97706',
-  streak: '#F97316',
-  points: '#F59E0B',
-  canvas: '#F5F4FA',
-  ink: '#050508',
+  streak: '#EA580C',
+  points: '#D97706',
+  canvas: '#F7F7F5',
+  ink: '#111113',
   /** Empty part of progress rings. */
-  track: '#ECECF3',
-  trackDark: '#1C1C27',
+  track: '#ECEBE7',
+  trackDark: '#2A2A2F',
 } as const;
 
-/** Deep violet → indigo → teal: the hero slabs (always dark, white text on top). */
-export const HERO_GRADIENT = ['#170E33', '#2A1A63', '#0B3A4D'] as const;
-
-/** Kept for older call sites; heroes no longer have a 3D edge. */
-export const HERO_LIP = 'transparent';
-
-/** Small gradient for the logo mark and accents. */
-export const BRAND_GRADIENT = ['#C4B5FD', '#8B5CF6', '#22D3EE'] as const;
-
-/** Glow orbs behind content (like priyanshusingh.co.in). */
-export const GLOW = { violet: '#8B5CF6', cyan: '#22D3EE', lilac: '#C4B5FD' } as const;
+/** The brand blue that reads well on the current background. */
+export function brandTone(dark: boolean): string {
+  return dark ? colors.brandOnDark : colors.brand;
+}
 
 /** Line icons for each category (falls back to the category emoji if missing). */
 export const CATEGORY_ICONS: Record<string, IconName> = {
@@ -79,11 +72,6 @@ export function darken(hex: string, amount: number): string {
   const mix = (c: number) => Math.round(c * (1 - amount));
   const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(mix);
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
-}
-
-/** A rich gradient made from one colour (used for subject heroes). */
-export function gradientFrom(hex: string): readonly [string, string, string] {
-  return [darken(hex, 0.72), darken(hex, 0.86), '#07070C'];
 }
 
 /** A category colour that reads well on the current background (lighter in dark mode). */

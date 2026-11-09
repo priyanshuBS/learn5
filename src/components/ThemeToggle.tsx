@@ -37,7 +37,7 @@ export function ThemeToggle({
       accessibilityRole="radiogroup"
       accessibilityLabel="Appearance"
       className={twMerge(
-        'flex-row rounded-2xl border border-line bg-zinc-100/70 p-1 dark:border-ink-line dark:bg-white/[0.03]',
+        'flex-row rounded-2xl border border-line bg-zinc-100/70 p-1 dark:border-ink-line dark:bg-ink-card',
         className,
       )}
     >

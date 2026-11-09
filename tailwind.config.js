@@ -1,10 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 // Learn5 design system for Tailwind (NativeWind).
-//   brand  = Violet (with cyan "accent"): links, active states, glows
-//   canvas = light page background, line = light borders
-//   ink-*  = the near-black studio look (dark mode is the default)
-//   ink-*  = dark-mode page, cards, borders
-// Dark mode follows the phone / browser setting automatically ("dark:" classes).
+//   brand  = calm blue: buttons, links, active states, progress
+//   canvas / line = light page background and borders
+//   ink-*  = dark-mode page, cards, raised surfaces and borders
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -16,47 +14,47 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // One calm blue for actions, links and progress.
         brand: {
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6',
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
-          950: '#2E1065',
+          50: '#EEF3FF',
+          100: '#DDE7FF',
+          200: '#BFD1FE',
+          300: '#93B1FB',
+          400: '#6A91F6',
+          500: '#4473EE',
+          600: '#2E5BDA',
+          700: '#2448B5',
+          800: '#213D8F',
+          900: '#1F3570',
+          950: '#162245',
         },
+        // Kept as an alias of the brand blue (older class names).
         accent: {
-          300: '#67E8F9',
-          400: '#22D3EE',
-          500: '#06B6D4',
+          300: '#93B1FB',
+          400: '#6A91F6',
+          500: '#4473EE',
         },
-        canvas: '#F5F4FA',
-        line: '#E4E2EE',
+        // Light mode: warm paper background, soft borders.
+        canvas: '#F7F7F5',
+        line: '#E6E5E1',
+        // Dark mode: soft charcoal, not pure black.
         ink: {
-          DEFAULT: '#050508',
-          soft: '#08080D',
-          card: '#0E0E15',
-          raised: '#15151E',
-          line: '#1E1E2A',
+          DEFAULT: '#111113',
+          soft: '#151517',
+          card: '#19191C',
+          raised: '#212125',
+          line: '#2A2A2F',
         },
       },
-      // Fonts (same family as priyanshusingh.co.in):
-      //   body    = Inter (text)
-      //   display = Bricolage Grotesque (headings, numbers — bold weights)
-      //   mono    = JetBrains Mono (small uppercase labels)
-      // Each weight is its own font file, so weights are chosen with these classes
-      // (via the Txt component), not with "font-bold".
+      // One typeface, Inter, in four weights. Each weight is its own font file,
+      // so weights are chosen with these classes (via the Txt component), not "font-bold".
       fontFamily: {
         body: ['Inter_400Regular'],
         'body-medium': ['Inter_500Medium'],
         'body-semibold': ['Inter_600SemiBold'],
-        'body-bold': ['BricolageGrotesque_700Bold'],
-        'body-heavy': ['BricolageGrotesque_800ExtraBold'],
-        mono: ['JetBrainsMono_500Medium'],
+        'body-bold': ['Inter_700Bold'],
+        'body-heavy': ['Inter_700Bold'],
+        mono: ['Inter_500Medium'],
       },
     },
   },

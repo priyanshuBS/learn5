@@ -19,7 +19,7 @@ export type Tone = 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
 
 const TONES: Record<Tone, { box: string; text: string; icon: string }> = {
   neutral: {
-    box: 'bg-zinc-100 dark:bg-white/5',
+    box: 'bg-zinc-100 dark:bg-ink-raised',
     text: 'text-zinc-600 dark:text-zinc-300',
     icon: colors.muted,
   },
@@ -100,7 +100,7 @@ export function Tag({ label, color: base }: { label: string; color?: string }) {
   const color = base ? categoryTone(base, dark) : undefined;
   return (
     <View
-      className={twMerge('rounded-full px-2.5 py-1', !color && 'bg-zinc-100 dark:bg-white/5')}
+      className={twMerge('rounded-full px-2.5 py-1', !color && 'bg-zinc-100 dark:bg-ink-raised')}
       style={color ? { backgroundColor: withAlpha(color, dark ? 0.14 : 0.1) } : undefined}
     >
       <Txt

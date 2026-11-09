@@ -3,14 +3,13 @@
  * ProgressRing — a circular progress ring with content in the middle.
  * QuizProgress — one segment per question that turns green/red as you answer.
  */
-import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
 
 import { useColorScheme } from '@/hooks/useScheme';
-import { colors } from '@/theme';
+import { brandTone, colors } from '@/theme';
 
 export function ProgressBar({
   value,
@@ -24,6 +23,7 @@ export function ProgressBar({
   className?: string;
   label: string;
 }) {
+  const dark = useColorScheme() === 'dark';
   const percent = Math.round(Math.min(1, Math.max(0, value)) * 100);
   return (
     <View
@@ -32,23 +32,14 @@ export function ProgressBar({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
       className={twMerge(
-        'h-2 overflow-hidden rounded-full bg-zinc-200/70 dark:bg-white/10',
+        'h-2 overflow-hidden rounded-full bg-[#ECEBE7] dark:bg-ink-line',
         className,
       )}
     >
       <View
-        className="h-full overflow-hidden rounded-full"
-        style={{ width: `${percent}%`, backgroundColor: color }}
-      >
-        {color ? null : (
-          <LinearGradient
-            colors={['#8B5CF6', '#22D3EE']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={StyleSheet.absoluteFill}
-          />
-        )}
-      </View>
+        className="h-full rounded-full"
+        style={{ width: `${percent}%`, backgroundColor: color ?? brandTone(dark) }}
+      />
     </View>
   );
 }
@@ -57,7 +48,7 @@ export function ProgressRing({
   value,
   size = 64,
   strokeWidth = 6,
-  color = colors.brand,
+  color,
   trackColor,
   label,
   children,
@@ -104,7 +95,7 @@ export function ProgressRing({
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke={color}
+            stroke={color ?? brandTone(scheme === 'dark')}
             strokeWidth={strokeWidth}
             fill="none"
             strokeLinecap="round"
@@ -134,12 +125,12 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
           key={i}
           className={twMerge(
             'h-1.5 flex-1 overflow-hidden rounded-full',
-            state === 'todo' && 'bg-zinc-200 dark:bg-white/10',
-            state === 'current' && 'bg-brand-400',
-            state === 'correct' && 'bg-emerald-500',
-            state === 'wrong' && 'bg-rose-500',
+            state === 'todo' && 'bg-[#ECEBE7] dark:bg-ink-line',
+            state === 'current' && 'bg-brand-500',
+            state === 'correct' && 'bg-green-600',
+            state === 'wrong' && 'bg-red-500',
           )}
-        ></View>
+        />
       ))}
     </View>
   );

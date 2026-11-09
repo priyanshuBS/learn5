@@ -84,13 +84,15 @@ export function RemindersSettings() {
                 onPress={() => void setReminderTime(t.hour, t.minute)}
                 className={twMerge(
                   'rounded-full border px-4 py-2',
-                  active ? 'border-brand-500 bg-brand-500/15' : 'border-line dark:border-white/15',
+                  active ? 'border-brand-500 bg-brand-500/15' : 'border-line dark:border-ink-line',
                 )}
               >
                 <Txt
                   weight="semibold"
                   className="text-[13px]"
-                  style={active ? { color: dark ? '#C4B5FD' : colors.brandDark } : undefined}
+                  style={
+                    active ? { color: dark ? colors.brandOnDark : colors.brandDark } : undefined
+                  }
                 >
                   {t.label}
                 </Txt>
@@ -150,14 +152,20 @@ function IconTile({
         'h-11 w-11 items-center justify-center rounded-2xl border',
         active
           ? 'border-brand-500/30 bg-brand-500/15'
-          : 'border-line bg-zinc-50 dark:border-white/10 dark:bg-white/5',
+          : 'border-line bg-zinc-50 dark:border-ink-line dark:bg-ink-raised',
       )}
     >
       <Icon
         name={icon}
         size={19}
         color={
-          active ? (dark ? '#C4B5FD' : colors.brandDark) : dark ? colors.mutedDark : colors.muted
+          active
+            ? dark
+              ? colors.brandOnDark
+              : colors.brandDark
+            : dark
+              ? colors.mutedDark
+              : colors.muted
         }
       />
     </View>
@@ -184,7 +192,7 @@ function Switch({
       hitSlop={8}
       className={twMerge(
         'h-8 w-14 justify-center rounded-full px-1',
-        value ? 'bg-brand-500' : 'bg-zinc-200 dark:bg-white/15',
+        value ? 'bg-brand-500' : 'bg-zinc-200 dark:bg-ink-line',
         disabled && 'opacity-60',
       )}
     >

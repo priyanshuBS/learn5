@@ -170,19 +170,19 @@ function OptionButton({
         disabled={answered}
         onPress={onPress}
         className={twMerge(
-          'min-h-[60px] flex-row items-center gap-3.5 rounded-2xl border bg-white px-4 py-3 web:transition-all web:duration-200 dark:bg-white/[0.03]',
+          'min-h-[60px] flex-row items-center gap-3.5 rounded-2xl border bg-white px-4 py-3 web:transition-all web:duration-200 dark:bg-ink-card',
           state === 'idle' &&
-            'border-line active:border-brand-400 active:bg-brand-50 web:hover:-translate-y-0.5 web:hover:border-brand-300 web:hover:bg-brand-50/50 dark:border-white/10 dark:active:bg-brand-500/10 dark:web:hover:border-brand-400/60 dark:web:hover:bg-brand-500/10',
+            'border-line active:border-brand-400 active:bg-brand-50 web:hover:border-brand-300 web:hover:bg-brand-50/50 dark:border-ink-line dark:active:bg-brand-500/10 dark:web:hover:border-brand-400/60 dark:web:hover:bg-brand-500/10',
           good &&
             'border-emerald-500 bg-emerald-50 web:shadow-[0_0_30px_-8px_rgba(52,211,153,0.7)] dark:border-emerald-400/70 dark:bg-emerald-500/10',
           state === 'wrong' &&
             'border-rose-500 bg-rose-50 dark:border-rose-400/70 dark:bg-rose-500/10',
-          state === 'dim' && 'border-line opacity-40 dark:border-white/10',
+          state === 'dim' && 'border-line opacity-40 dark:border-ink-line',
         )}
       >
         <View
           className={twMerge(
-            'h-9 w-9 items-center justify-center rounded-full border border-line bg-canvas dark:border-white/15 dark:bg-white/[0.04]',
+            'h-9 w-9 items-center justify-center rounded-full border border-line bg-canvas dark:border-ink-line dark:bg-ink-card',
             good && 'border-emerald-600 bg-emerald-500 dark:border-emerald-600 dark:bg-emerald-500',
             state === 'wrong' &&
               'border-rose-600 bg-rose-500 dark:border-rose-600 dark:bg-rose-500',
@@ -193,7 +193,7 @@ function OptionButton({
           ) : state === 'wrong' ? (
             <Icon name="x" size={16} color={colors.white} strokeWidth={3.5} />
           ) : (
-            <Txt weight="heavy" className="text-[13px] text-zinc-500 dark:text-zinc-400">
+            <Txt weight="bold" className="text-[13px] text-zinc-500 dark:text-zinc-400">
               {marker}
             </Txt>
           )}
@@ -231,7 +231,7 @@ function FillBlankInput({
         autoCorrect={false}
         returnKeyType="done"
         className={twMerge(
-          'min-h-[60px] rounded-2xl border bg-white px-4 font-body-semibold text-xl text-zinc-900 web:outline-none dark:bg-white/[0.03] dark:text-zinc-100',
+          'min-h-[60px] rounded-2xl border bg-white px-4 font-body-semibold text-xl text-zinc-900 web:outline-none dark:bg-ink-card dark:text-zinc-100',
           !answer && 'border-line focus:border-brand-500 dark:border-ink-line',
           answer?.correct && 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10',
           answer && !answer.correct && 'border-rose-500 bg-rose-50 dark:bg-rose-500/10',

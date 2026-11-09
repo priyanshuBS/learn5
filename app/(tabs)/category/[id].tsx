@@ -8,8 +8,8 @@ import { View } from 'react-native';
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
 import { DropCard, TimelineDrop } from '@/components/DropCard';
-import { Glow } from '@/components/Glow';
-import { Gradient } from '@/components/Gradient';
+import { Card } from '@/components/Card';
+import { CategoryIcon } from '@/components/CategoryIcon';
 import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
@@ -27,7 +27,7 @@ import { useAppData } from '@/hooks/useAppData';
 import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
-import { CATEGORY_ICONS, colors, darken, gradientFrom, GLOW } from '@/theme';
+import { colors } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -87,47 +87,31 @@ export default function CategoryScreen() {
   const accuracy = answered > 0 ? `${Math.round((correct / answered) * 100)}%` : '—';
   const categoryMistakes = mistakes.filter((m) => m.drop.category === category.id).length;
 
-  const heroIcon = CATEGORY_ICONS[category.id];
-
   const openDrop = (entry: IndexEntry) =>
     router.push(isDone(entry) ? resultsHref(entry) : quizHref(entry));
 
   return (
     <Screen width="narrow">
-      {/* Subject hero, in the subject's own colour */}
-      <Gradient
-        colors={gradientFrom(category.color)}
-        lip={darken(category.color, 0.62)}
-        radius={28}
-        className="p-6 md:p-7"
-      >
-        <Glow color={category.color} size={420} opacity={0.55} style={{ top: -200, right: -160 }} />
-        <Glow color={GLOW.cyan} size={300} opacity={0.18} style={{ bottom: -170, left: -120 }} />
-
+      {/* Subject header */}
+      <Card className="p-6">
         <View className="flex-row items-center justify-between">
-          <IconButton icon="arrow-left" label="Go back" onPress={goBack} onDark />
-          <View className="h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
-            {heroIcon ? (
-              <Icon name={heroIcon} size={24} color={colors.white} />
-            ) : (
-              <Txt className="text-2xl">{category.emoji}</Txt>
-            )}
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+        </View>
+        <View className="mt-5 flex-row items-center gap-4">
+          <CategoryIcon category={category} size="lg" />
+          <View className="flex-1">
+            <Txt weight="bold" accessibilityRole="header" className="text-[28px] leading-[34px]">
+              {category.name}
+            </Txt>
+            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
           </View>
         </View>
-        <Txt
-          weight="heavy"
-          accessibilityRole="header"
-          className="mt-6 text-[32px] leading-10 tracking-tighter text-white"
-        >
-          {category.name}
-        </Txt>
-        <Txt className="mt-1 text-[15px] text-white/80">{category.tagline}</Txt>
         <View className="mt-6 flex-row gap-2">
           <HeroStat value={`${categoryResults.length}`} label="Drops done" />
           <HeroStat value={accuracy} label="Accuracy" />
           <HeroStat value={`${categoryMistakes}`} label="To review" />
         </View>
-      </Gradient>
+      </Card>
 
       {categoryMistakes > 0 ? (
         <Button
@@ -164,7 +148,7 @@ export default function CategoryScreen() {
       })}
 
       {hasMissing && catchUp ? (
-        <View className="rounded-3xl border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
+        <View className="rounded-2xl border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
           <View className="flex-row items-center gap-2">
             <Icon name="hourglass" size={16} color={colors.warning} />
             <Txt weight="semibold" className="text-amber-900 dark:text-amber-200">
@@ -191,9 +175,7 @@ export default function CategoryScreen() {
       ) : (
         dates.slice(0, daysShown).map((date) => (
           <View key={date} className="mb-4">
-            <Muted className="mb-2 mt-1 text-[11px] uppercase tracking-widest">
-              {friendlyDate(date, zonedNow.date)}
-            </Muted>
+            <Muted className="mb-2 mt-1 text-[13px]">{friendlyDate(date, zonedNow.date)}</Muted>
             {(byDate.get(date) ?? [])
               .slice()
               .sort((a, b) => a.drop - b.drop)
@@ -233,12 +215,12 @@ function HeroStat({ value, label }: { value: string; label: string }) {
     <View
       accessible
       accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-2xl border border-white/15 bg-white/10 px-3 py-3"
+      className="flex-1 rounded-xl bg-[#F4F4F1] px-3 py-3 dark:bg-ink-raised"
     >
-      <Txt weight="bold" className="text-xl tracking-tight text-white">
+      <Txt weight="bold" className="text-xl">
         {value}
       </Txt>
-      <Txt className="text-xs text-white/75">{label}</Txt>
+      <Muted className="text-xs">{label}</Muted>
     </View>
   );
 }

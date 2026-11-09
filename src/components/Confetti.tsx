@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const COLORS = ['#8B5CF6', '#C4B5FD', '#22D3EE', '#67E8F9', '#F2F2F5', '#34D399', '#A78BFA'];
+const COLORS = ['#2E5BDA', '#6A91F6', '#16A34A', '#EA580C', '#D97706', '#E5484D', '#12A594'];
 const COUNT = 36;
 
 /** Same pieces every render, different per index (no Math.random during render). */

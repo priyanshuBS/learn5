@@ -1,33 +1,34 @@
 /**
  * Home — the daily dashboard. All subjects are equal, so none is pushed first.
- *   1. greeting, heading and a one-line summary of today
- *   2. a compact strip: today's progress, streak, points / level
+ *   1. greeting, date and a one-line summary of today
+ *   2. a compact strip: today's progress, streak, points, level
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. this week: streak days and level progress
  */
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
-import { GradientText } from '@/components/Glow';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { SectionTitle } from '@/components/PageHeader';
-import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
+import { ProgressBar } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { SkeletonBlock } from '@/components/StateViews';
 import { ThemeIconButton } from '@/components/ThemeToggle';
-import { Eyebrow, Muted, Txt } from '@/components/Txt';
+import { Muted, Txt } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
+import { useColorScheme } from '@/hooks/useScheme';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
-import { colors } from '@/theme';
+import { brandTone, colors } from '@/theme';
 
 export default function HomeScreen() {
+  const dark = useColorScheme() === 'dark';
   const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
 
   if (!ready || !index) return <HomeSkeleton />;
@@ -52,100 +53,101 @@ export default function HomeScreen() {
 
   const summary =
     openNow > 0
-      ? `${openNow} ${openNow === 1 ? 'drop is' : 'drops are'} open now · pick any subject below.`
+      ? `${openNow} ${openNow === 1 ? 'drop is' : 'drops are'} open now. Each one takes about 5 minutes.`
       : doneToday === totalToday && totalToday > 0
-        ? 'You finished every drop today. Brilliant!'
-        : `Next drop ${next?.tomorrow ? 'tomorrow' : 'today'} at ${nextTime}.`;
+        ? 'You finished every drop today. Well done.'
+        : `The next drop opens ${next?.tomorrow ? 'tomorrow' : 'today'} at ${nextTime}.`;
 
   return (
     <Screen>
-      <Animated.View entering={FadeIn.duration(300)}>
+      <Animated.View entering={FadeIn.duration(250)}>
         {/* Phone top bar (the sidebar has these on wide screens) */}
-        <View className="mb-8 flex-row items-center justify-between lg:hidden">
+        <View className="mb-6 flex-row items-center justify-between lg:hidden">
           <Logo />
           <ThemeIconButton />
         </View>
 
         {/* Greeting */}
-        <Eyebrow>
-          {greeting(now)} · {longDate(zonedNow.date)}
-        </Eyebrow>
+        <Muted className="text-[14px]">{longDate(zonedNow.date)}</Muted>
         <Txt
-          weight="heavy"
+          weight="bold"
           accessibilityRole="header"
-          className="mt-3 text-[36px] leading-[40px] md:text-[54px] md:leading-[58px]"
+          className="mt-1 text-[28px] leading-[34px] md:text-[32px] md:leading-[40px]"
         >
-          Pick a subject.{'\n'}
-          <GradientText className="text-[36px] leading-[40px] md:text-[54px] md:leading-[58px]">
-            Learn in 5 minutes.
-          </GradientText>
+          {greeting(now)}
         </Txt>
-        <Muted className="mt-4 text-[15px] leading-6 md:text-base">{summary}</Muted>
+        <Muted className="mt-1.5 text-[15px] leading-6">{summary}</Muted>
 
         {/* Compact progress strip */}
-        <View className={twMerge(CARD_CLASSES, 'mt-8 flex-row')}>
-          <StatCell label="Today" value={`${doneToday}/${totalToday}`}>
-            <ProgressRing
+        <View className={twMerge(CARD_CLASSES, 'mt-6 flex-row')}>
+          <StatCell
+            label="Today"
+            value={`${doneToday}/${totalToday}`}
+            icon={<Icon name="check-circle" size={14} color={brandTone(dark)} />}
+          >
+            <ProgressBar
               value={totalToday ? doneToday / totalToday : 0}
-              size={26}
-              strokeWidth={3.5}
+              className="mt-2 h-1"
               label={`${doneToday} of ${totalToday} drops done today`}
             />
           </StatCell>
           <Divider />
-          <StatCell label="Day streak" value={`${streak.current}`}>
-            <Icon name="flame" size={20} color={colors.streak} filled />
-          </StatCell>
+          <StatCell
+            label="Streak"
+            value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
+            icon={<Icon name="flame" size={14} color={colors.streak} filled />}
+          />
           <Divider />
-          <StatCell label="Points" value={points.toLocaleString('en-IN')}>
-            <Icon name="star" size={20} color={colors.points} filled />
-          </StatCell>
+          <StatCell
+            label="Points"
+            value={points.toLocaleString('en-IN')}
+            icon={<Icon name="star" size={14} color={colors.points} filled />}
+          />
           <Divider className="hidden md:flex" />
           <View className="hidden flex-1 md:flex">
-            <StatCell label={level.name} value={`Level ${level.level}`}>
-              <Icon name="trophy" size={20} color={colors.brand} />
-            </StatCell>
+            <StatCell
+              label="Level"
+              value={`${level.level} · ${level.name}`}
+              icon={<Icon name="trophy" size={14} color={dark ? colors.mutedDark : colors.muted} />}
+            />
           </View>
         </View>
 
         {streak.current > 0 && !streak.playedToday ? (
-          <View className="mt-3 flex-row items-center gap-2.5 rounded-2xl border border-orange-500/25 bg-orange-500/10 px-4 py-3">
+          <View className="mt-3 flex-row items-center gap-2.5 rounded-xl bg-orange-50 px-4 py-3 dark:bg-orange-500/10">
             <Icon name="flame" size={15} color={colors.streak} />
-            <Txt className="flex-1 text-[13px] text-orange-700 dark:text-orange-200">
-              Play one drop today to keep your {streak.current}-day streak alive.
+            <Txt className="flex-1 text-[13px] text-orange-800 dark:text-orange-200">
+              Play one drop today to keep your {streak.current}-day streak.
             </Txt>
           </View>
         ) : null}
 
         {/* ── All subjects (the main content) ── */}
         <SectionTitle
-          eyebrow="Subjects"
-          title="Choose what to learn"
+          title="Subjects"
           right={
-            <Eyebrow>
-              {doneToday}/{totalToday} done
-            </Eyebrow>
+            <Muted className="text-[13px]">
+              {doneToday} of {totalToday} drops done
+            </Muted>
           }
         />
-        <View className="-m-2 flex-row flex-wrap">
-          {rows.map((row, i) => (
-            <View key={row.category.id} className="w-full p-2 md:w-1/2 xl:w-1/3">
-              <Animated.View entering={FadeInDown.delay(50 * i).duration(420)}>
-                <CategoryCard
-                  category={row.category}
-                  slots={row.slots}
-                  offsetMinutes={zonedNow.offsetMinutes}
-                  catchUp={row.catchUp}
-                  getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
-                />
-              </Animated.View>
+        <View className="-m-1.5 flex-row flex-wrap">
+          {rows.map((row) => (
+            <View key={row.category.id} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+              <CategoryCard
+                category={row.category}
+                slots={row.slots}
+                offsetMinutes={zonedNow.offsetMinutes}
+                catchUp={row.catchUp}
+                getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
+              />
             </View>
           ))}
         </View>
 
         {/* ── This week ── */}
-        <SectionTitle eyebrow="Progress" title="Your week" />
-        <View className="gap-4 md:flex-row">
+        <SectionTitle title="This week" />
+        <View className="gap-3 md:flex-row">
           <View className="md:flex-1">
             <WeekStreak
               playedDays={playedDays}
@@ -155,18 +157,18 @@ export default function HomeScreen() {
             />
           </View>
           <View className={twMerge(CARD_CLASSES, 'justify-between p-5 md:flex-1')}>
-            <View className="flex-row items-center justify-between">
+            <View className="flex-row items-start justify-between">
               <View>
-                <Eyebrow>Level {level.level}</Eyebrow>
-                <Txt weight="bold" className="mt-1.5 text-[22px] leading-7">
+                <Muted className="text-[13px]">Level {level.level}</Muted>
+                <Txt weight="bold" className="mt-0.5 text-lg">
                   {level.name}
                 </Txt>
               </View>
               <View className="items-end">
-                <Txt weight="bold" className="text-[22px] leading-7">
+                <Muted className="text-[13px]">Points</Muted>
+                <Txt weight="bold" className="mt-0.5 text-lg">
                   {points.toLocaleString('en-IN')}
                 </Txt>
-                <Eyebrow className="mt-1.5">Points</Eyebrow>
               </View>
             </View>
             <View className="mt-5">
@@ -188,27 +190,32 @@ export default function HomeScreen() {
 }
 
 function Divider({ className }: { className?: string }) {
-  return <View className={twMerge('my-5 w-px bg-line dark:bg-white/10', className)} />;
+  return <View className={twMerge('my-4 w-px bg-line dark:bg-ink-line', className)} />;
 }
 
 function StatCell({
   label,
   value,
+  icon,
   children,
 }: {
   label: string;
   value: string;
-  children: ReactNode;
+  icon: ReactNode;
+  children?: ReactNode;
 }) {
   return (
-    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 px-4 py-5 md:px-6">
-      <View className="h-7 justify-center">{children}</View>
-      <Txt weight="bold" className="mt-3 text-[22px] leading-7" numberOfLines={1}>
+    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 px-4 py-4 md:px-5">
+      <View className="flex-row items-center gap-1.5">
+        {icon}
+        <Muted className="text-[13px]" numberOfLines={1}>
+          {label}
+        </Muted>
+      </View>
+      <Txt weight="bold" className="mt-1 text-[18px] leading-6" numberOfLines={1}>
         {value}
       </Txt>
-      <Eyebrow className="mt-1 text-[10px]" numberOfLines={1}>
-        {label}
-      </Eyebrow>
+      {children}
     </View>
   );
 }
@@ -217,16 +224,16 @@ function StatCell({
 function HomeSkeleton() {
   return (
     <Screen>
-      <View className="mb-8 lg:hidden">
+      <View className="mb-6 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-3 w-48" />
-      <SkeletonBlock className="mt-4 h-12 w-80" />
-      <SkeletonBlock className="mt-8 h-28 rounded-3xl" />
-      <View className="-m-2 mt-14 flex-row flex-wrap">
+      <SkeletonBlock className="h-3 w-40" />
+      <SkeletonBlock className="mt-3 h-8 w-56" />
+      <SkeletonBlock className="mt-6 h-20 rounded-2xl" />
+      <View className="-m-1.5 mt-10 flex-row flex-wrap">
         {[0, 1, 2, 3, 4, 5].map((i) => (
-          <View key={i} className="w-full p-2 md:w-1/2 xl:w-1/3">
-            <SkeletonBlock className="h-60 rounded-3xl" />
+          <View key={i} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+            <SkeletonBlock className="h-40 rounded-2xl" />
           </View>
         ))}
       </View>

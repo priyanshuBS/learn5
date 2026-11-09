@@ -5,6 +5,14 @@
  */
 import { useColorScheme as useNativeWindScheme } from 'nativewind';
 
+import { useIsClient } from './useClient';
+
 export function useColorScheme(): 'light' | 'dark' {
-  return useNativeWindScheme().colorScheme === 'dark' ? 'dark' : 'light';
+  const scheme = useNativeWindScheme().colorScheme;
+  const isClient = useIsClient();
+  // Website: the pre-built HTML is made in light mode. While the browser takes
+  // over that HTML, answer "light" too so both match; it switches right after.
+  // (Colours set with classes are already correct, thanks to app/+html.tsx.)
+  if (!isClient) return 'light';
+  return scheme === 'dark' ? 'dark' : 'light';
 }

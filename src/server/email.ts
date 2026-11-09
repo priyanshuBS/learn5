@@ -35,7 +35,7 @@ export async function sendOtpEmail(to: string, code: string): Promise<void> {
 
   const html = `
 <div style="font-family:Arial,Helvetica,sans-serif;max-width:420px;margin:0 auto;padding:24px;color:#0B0B12">
-  <h2 style="margin:0 0 8px;color:#7C3AED">Learn5</h2>
+  <h2 style="margin:0 0 8px;color:#2E5BDA">Learn5</h2>
   <p style="margin:0 0 16px">Your sign-in code is:</p>
   <p style="font-size:32px;font-weight:bold;letter-spacing:8px;margin:0 0 16px">${code}</p>
   <p style="margin:0;color:#6B6B80;font-size:14px">It works for ${OTP_TTL_MINUTES} minutes.

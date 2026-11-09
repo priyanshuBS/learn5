@@ -43,7 +43,7 @@ export function LegalPage({
 
       <Eyebrow className="mt-12">{eyebrow}</Eyebrow>
       <Txt
-        weight="heavy"
+        weight="bold"
         accessibilityRole="header"
         className="mt-3 text-[38px] leading-[42px] md:text-[52px] md:leading-[56px]"
       >

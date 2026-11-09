@@ -211,7 +211,7 @@ export function DropCard({
         'mb-2 min-h-16 flex-row items-center gap-3.5 px-4 py-3.5',
       )}
     >
-      <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/5">
+      <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-ink-raised">
         <Icon
           name={SLOT_ICONS[drop - 1] ?? 'clock'}
           size={18}
@@ -275,7 +275,7 @@ export function TimelineDrop({
           className={twMerge(
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
-            available && 'bg-brand-500 web:shadow-[0_0_20px_-4px_rgba(139,92,246,0.8)]',
+            available && 'bg-brand-500',
             status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}

@@ -13,8 +13,6 @@ import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Confetti } from '@/components/Confetti';
 import { ReminderPrompt } from '@/components/RemindersCard';
-import { Glow } from '@/components/Glow';
-import { Gradient } from '@/components/Gradient';
 import { ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { StatCard } from '@/components/StatCard';
@@ -31,15 +29,7 @@ import { useAppData } from '@/hooks/useAppData';
 import { categoryHref, parseDropParams, quizHref, goHome } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { formatDuration } from '@/lib/time';
-import {
-  BADGE_ICONS,
-  colors,
-  HERO_GRADIENT,
-  HERO_LIP,
-  withAlpha,
-  type IconName,
-  GLOW,
-} from '@/theme';
+import { BADGE_ICONS, colors, type IconName } from '@/theme';
 
 function verdict(correct: number, total: number) {
   const ratio = total > 0 ? correct / total : 0;
@@ -93,7 +83,6 @@ export default function ResultsScreen() {
   const total = attempt.items.length;
   const { title, ring } = verdict(attempt.correctCount, total);
   const accuracy = Math.round((attempt.correctCount / total) * 100);
-  const ringTint = withAlpha(ring, 0.55);
 
   // Celebrations: only right after the first (scoring) play of this drop.
   // We compare stats without this drop ("before") and with it ("after").
@@ -145,48 +134,30 @@ export default function ResultsScreen() {
 
       {/* Score */}
       <View className="mt-5">
-        <Gradient
-          colors={HERO_GRADIENT}
-          lip={HERO_LIP}
-          radius={28}
-          className="items-center px-6 py-10"
-        >
-          <Glow color={GLOW.violet} size={420} opacity={0.6} style={{ top: -200, left: -150 }} />
-          <Glow color={GLOW.cyan} size={340} opacity={0.4} style={{ bottom: -180, right: -130 }} />
-
+        <View className={twMerge(CARD_CLASSES, 'items-center px-6 py-10')}>
           <Animated.View entering={ZoomIn.duration(350)}>
             <ProgressRing
               value={total > 0 ? attempt.correctCount / total : 0}
-              size={144}
-              strokeWidth={12}
-              color={colors.white}
-              trackColor="rgba(255,255,255,0.18)"
+              size={136}
+              strokeWidth={11}
+              color={ring}
               label={`You got ${attempt.correctCount} out of ${total} correct`}
             >
-              <Txt weight="heavy" className="text-5xl tracking-tighter text-white">
+              <Txt weight="bold" className="text-5xl">
                 {attempt.correctCount}
-                <Txt weight="medium" className="text-xl text-white/60">
+                <Txt weight="medium" className="text-xl text-[#6B6B72] dark:text-[#9D9DA5]">
                   /{total}
                 </Txt>
               </Txt>
             </ProgressRing>
           </Animated.View>
-          <Txt weight="heavy" className="mt-6 text-[28px] tracking-tight text-white">
+          <Txt weight="bold" className="mt-6 text-[26px]">
             {title}
           </Txt>
-          <Txt className="mt-1 text-center text-[15px] text-white/80">
-            {category.name} · {attempt.title}
-          </Txt>
-          <View
-            className="mt-4 flex-row items-center gap-1.5 rounded-full px-3 py-1"
-            style={{ backgroundColor: ringTint }}
-          >
-            <View className="h-1.5 w-1.5 rounded-full bg-white" />
-            <Txt weight="semibold" className="text-xs text-white">
-              {accuracy}% accuracy
-            </Txt>
-          </View>
-        </Gradient>
+          <Muted className="mt-1 text-center text-[15px]">
+            {category.name} · {attempt.title} · {accuracy}% accuracy
+          </Muted>
+        </View>
       </View>
 
       {/* Stats */}

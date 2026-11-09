@@ -1,11 +1,9 @@
 /**
- * Logo — the Learn5 brand mark: a gradient tile with "5" and the wordmark.
+ * Logo — the Learn5 brand mark: a blue tile with "5", and the wordmark.
  */
 import { View } from 'react-native';
+import { twMerge } from 'tailwind-merge';
 
-import { BRAND_GRADIENT } from '@/theme';
-
-import { Gradient } from './Gradient';
 import { Txt } from './Txt';
 
 export function Logo({
@@ -18,36 +16,24 @@ export function Logo({
   const lg = size === 'lg';
   return (
     <View
-      className="flex-row items-center gap-2.5"
+      className="flex-row items-center gap-2"
       accessible
       accessibilityRole="header"
       accessibilityLabel="Learn5"
     >
-      <Gradient
-        colors={BRAND_GRADIENT}
-        className={
-          lg
-            ? 'h-11 w-11 items-center justify-center rounded-xl'
-            : 'h-8 w-8 items-center justify-center rounded-[10px]'
-        }
+      <View
+        className={twMerge(
+          'items-center justify-center bg-brand-600',
+          lg ? 'h-10 w-10 rounded-xl' : 'h-7 w-7 rounded-lg',
+        )}
       >
-        <Txt weight="heavy" className={lg ? 'text-xl text-white' : 'text-base text-white'}>
+        <Txt weight="bold" className={lg ? 'text-lg text-white' : 'text-[15px] text-white'}>
           5
         </Txt>
-      </Gradient>
+      </View>
       {showWordmark ? (
-        <Txt weight="bold" className={lg ? 'text-2xl tracking-tight' : 'text-lg tracking-tight'}>
-          Learn
-          <Txt
-            weight="bold"
-            className={
-              lg
-                ? 'text-2xl text-brand-600 dark:text-brand-400'
-                : 'text-lg text-brand-600 dark:text-brand-400'
-            }
-          >
-            5
-          </Txt>
+        <Txt weight="bold" className={lg ? 'text-2xl' : 'text-[17px]'}>
+          Learn5
         </Txt>
       ) : null}
     </View>

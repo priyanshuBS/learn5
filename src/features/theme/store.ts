@@ -72,7 +72,8 @@ if (!isWeb) apply('dark');
 export function useThemeReady(): boolean {
   return useSyncExternalStore(
     (onChange) => useTheme.persist.onFinishHydration(onChange),
-    () => useTheme.persist.hasHydrated(),
+    // The website needs no wait: app/+html.tsx sets the theme before the page paints.
+    () => isWeb || useTheme.persist.hasHydrated(),
     () => true, // website pre-render: nothing to wait for
   );
 }

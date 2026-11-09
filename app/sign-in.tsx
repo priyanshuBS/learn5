@@ -20,7 +20,6 @@ import { twMerge } from 'tailwind-merge';
 
 import { Button, IconButton } from '@/components/Button';
 import { Card } from '@/components/Card';
-import { Glow } from '@/components/Glow';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { Screen } from '@/components/Screen';
@@ -32,7 +31,7 @@ import { useAuth } from '@/features/auth/store';
 import { useColorScheme } from '@/hooks/useScheme';
 import { haptics } from '@/lib/haptics';
 import { WELCOME_HREF } from '@/lib/routes';
-import { colors, GLOW } from '@/theme';
+import { colors } from '@/theme';
 
 const INPUT_CLASSES =
   'min-h-12 flex-1 font-body-medium text-base text-zinc-900 web:outline-none dark:text-zinc-100';
@@ -146,25 +145,13 @@ export default function SignInScreen() {
 
         <View className="flex-1 justify-center py-6">
           <View className="relative">
-            <Glow
-              color={GLOW.violet}
-              size={420}
-              opacity={dark ? 0.35 : 0.18}
-              style={{ top: -150, left: -150 }}
-            />
-            <Glow
-              color={GLOW.cyan}
-              size={360}
-              opacity={dark ? 0.22 : 0.1}
-              style={{ bottom: -150, right: -140 }}
-            />
             <Card className="p-6 md:p-8">
               <View className="mb-7 items-center">
                 <Logo showWordmark={false} size="lg" />
                 <Txt
-                  weight="heavy"
+                  weight="bold"
                   accessibilityRole="header"
-                  className="mt-5 text-center text-[30px] leading-[36px]"
+                  className="mt-5 text-center text-[26px] leading-[32px]"
                 >
                   {step === 'code'
                     ? 'Check your email'
@@ -265,7 +252,7 @@ export default function SignInScreen() {
                               error && 'border-rose-400 dark:border-rose-500/60',
                             )}
                           >
-                            <Txt weight="heavy" className="text-[26px]">
+                            <Txt weight="bold" className="text-[26px]">
                               {digit ?? ''}
                             </Txt>
                           </View>
@@ -356,7 +343,7 @@ export default function SignInScreen() {
                 </View>
               ) : null}
 
-              <View className="mt-7 border-t border-line pt-5 dark:border-white/10">
+              <View className="mt-7 border-t border-line pt-5 dark:border-ink-line">
                 {step === 'email' ? (
                   <View className="mb-3 flex-row flex-wrap items-center justify-center gap-1">
                     <Muted>

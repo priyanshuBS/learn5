@@ -1,9 +1,8 @@
 /**
- * Text components (same type system as priyanshusingh.co.in):
- *   Txt     — Inter for text; weight "bold"/"heavy" switch to Bricolage Grotesque
- *             (headings and numbers)
+ * Text components (one typeface: Inter).
+ *   Txt     — body text; weight picks the Inter weight
  *   Muted   — soft grey helper text
- *   Eyebrow — small uppercase JetBrains Mono label above a section or value
+ *   Eyebrow — small grey label above a section or value
  * Any className you pass overrides the defaults (thanks to tailwind-merge).
  */
 import { Text, type TextProps } from 'react-native';
@@ -14,7 +13,7 @@ const WEIGHTS = {
   medium: 'font-body-medium',
   semibold: 'font-body-semibold',
   bold: 'font-body-bold tracking-tight',
-  heavy: 'font-body-heavy tracking-tighter',
+  heavy: 'font-body-heavy tracking-tight',
 } as const;
 
 export type TxtWeight = keyof typeof WEIGHTS;
@@ -24,7 +23,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'text-base text-[#0B0B12] dark:text-[#F2F2F5]',
+        'text-base text-[#18181B] dark:text-[#ECECEE]',
         WEIGHTS[weight],
         className,
       )}
@@ -36,16 +35,16 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
 /** Small grey helper text. */
 export function Muted({ className, ...rest }: TxtProps) {
   return (
-    <Txt className={twMerge('text-sm text-[#6B6B80] dark:text-[#8E8EA3]', className)} {...rest} />
+    <Txt className={twMerge('text-sm text-[#6B6B72] dark:text-[#9D9DA5]', className)} {...rest} />
   );
 }
 
-/** Small uppercase monospace label, e.g. "UP NEXT" or "CURRENT LEVEL". */
+/** Small grey label, e.g. "Up next" or "Current level". */
 export function Eyebrow({ className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6B80] dark:text-[#8E8EA3]',
+        'font-body-medium text-[13px] text-[#6B6B72] dark:text-[#9D9DA5]',
         className,
       )}
       {...rest}

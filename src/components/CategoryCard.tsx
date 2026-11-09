@@ -1,13 +1,12 @@
 /**
- * CategoryCard — one subject on the Home screen, as a glass tile with a soft glow
- * in the subject's colour (priyanshusingh.co.in style).
- *   - today's 3 drops (morning / afternoon / evening) as small pills
- *   - ONE clear next step: a light "Play" pill, when the next drop opens, or "All done"
- * Tap the tile to open the subject page.
+ * CategoryCard — one subject on the Home screen.
+ *   - the subject (icon, name, tagline) and how many of today's drops are done
+ *   - today's 3 drops as a small 3-part bar, with each drop's opening time
+ *   - ONE clear next step: "Play", when the next drop opens, or "All done"
+ * Tap the top part to open the subject page.
  */
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { SLOT_NAMES, type DropSlot } from '@/features/drops/status';
@@ -16,13 +15,13 @@ import { useColorScheme } from '@/hooks/useScheme';
 import { categoryHref, quizHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
-import { CATEGORY_ICONS, categoryTone, colors, SLOT_ICONS, withAlpha } from '@/theme';
+import { categoryTone, colors, withAlpha } from '@/theme';
 
-import { Button, usePress } from './Button';
+import { Button } from './Button';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
-import { Glow } from './Glow';
+import { CategoryIcon } from './CategoryIcon';
 import { Icon, type IconName } from './Icon';
-import { Eyebrow, Muted, Txt } from './Txt';
+import { Muted, Txt } from './Txt';
 
 interface CategoryCardProps {
   category: Category;
@@ -41,7 +40,6 @@ export function CategoryCard({
   catchUp,
 }: CategoryCardProps) {
   const dark = useColorScheme() === 'dark';
-  const press = usePress(0.98);
   const tone = categoryTone(category.color, dark);
   const doneCount = slots.filter((s) => s.status === 'done').length;
   const open = slots.find((s) => s.status === 'available' && s.entry);
@@ -49,142 +47,114 @@ export function CategoryCard({
   const missing = slots.some((s) => s.status === 'missing');
   const allDone = slots.length > 0 && doneCount === slots.length;
   const scoreToday = slots.reduce((n, s) => n + (getResult(s)?.correctCount ?? 0), 0);
-  const icon = CATEGORY_ICONS[category.id];
   const mutedIcon = dark ? colors.mutedDark : colors.muted;
 
-  // Two tap areas side by side (never one inside the other — on the website a
-  // button inside a button is invalid HTML): the top opens the subject, the
-  // bottom row holds the Play button.
+  // Two tap areas one above the other (never one inside the other — on the
+  // website a button inside a button is invalid HTML).
   return (
-    <Animated.View style={press.style}>
-      <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-6')}>
-        <Glow
-          color={category.color}
-          size={260}
-          opacity={dark ? 0.28 : 0.14}
-          style={{ top: -120, left: -110 }}
-        />
-
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`${category.name}. ${category.tagline}. ${doneCount} of ${slots.length} drops done today. Open subject`}
-          onPress={() => router.push(categoryHref(category.id))}
-          onPressIn={press.onPressIn}
-          onPressOut={press.onPressOut}
-        >
-          <View className="flex-row items-start justify-between">
-            <View
-              className="h-12 w-12 items-center justify-center rounded-2xl border"
-              style={{
-                borderColor: withAlpha(tone, 0.35),
-                backgroundColor: withAlpha(tone, dark ? 0.14 : 0.1),
-              }}
-            >
-              {icon ? (
-                <Icon name={icon} size={22} color={tone} />
-              ) : (
-                <Txt className="text-xl">{category.emoji}</Txt>
-              )}
-            </View>
-            <View className="h-9 w-9 items-center justify-center rounded-full border border-line dark:border-white/15">
-              <Icon name="arrow-up-right" size={15} color={mutedIcon} />
-            </View>
+    <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES)}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${category.name}. ${category.tagline}. ${doneCount} of ${slots.length} drops done today. Open subject`}
+        onPress={() => router.push(categoryHref(category.id))}
+        className="p-5 pb-4"
+      >
+        <View className="flex-row items-center gap-3.5">
+          <CategoryIcon category={category} size="md" />
+          <View className="flex-1">
+            <Txt weight="semibold" className="text-[17px] leading-6" numberOfLines={1}>
+              {category.name}
+            </Txt>
+            <Muted className="text-[13px]" numberOfLines={1}>
+              {category.tagline}
+            </Muted>
           </View>
+          <Icon name="chevron-right" size={18} color={mutedIcon} />
+        </View>
 
-          <Txt weight="bold" className="mt-6 text-[22px] leading-7">
-            {category.name}
-          </Txt>
-          <Muted className="mt-1 text-[14px]" numberOfLines={1}>
-            {category.tagline}
-          </Muted>
-
-          {/* Today's 3 drops */}
-          <View className="mt-5 flex-row gap-2">
-            {slots.map((slot) => {
-              const done = slot.status === 'done';
-              const isOpen = slot.status === 'available';
-              return (
+        {/* Today's 3 drops */}
+        <View className="mt-5 flex-row gap-1.5">
+          {slots.map((slot) => {
+            const done = slot.status === 'done';
+            const isOpen = slot.status === 'available';
+            return (
+              <View key={slot.drop} className="flex-1">
                 <View
-                  key={slot.drop}
                   className={twMerge(
-                    'h-8 flex-1 flex-row items-center justify-center rounded-full border',
-                    !done && !isOpen && 'border-line dark:border-white/10',
+                    'h-1.5 rounded-full',
+                    !done && !isOpen && 'bg-[#ECEBE7] dark:bg-ink-line',
                   )}
                   style={
                     done
-                      ? { backgroundColor: tone, borderColor: tone }
+                      ? { backgroundColor: tone }
                       : isOpen
-                        ? {
-                            borderColor: withAlpha(tone, 0.6),
-                            backgroundColor: withAlpha(tone, 0.12),
-                          }
+                        ? { backgroundColor: withAlpha(tone, 0.35) }
                         : undefined
                   }
-                >
-                  <Icon
-                    name={done ? 'check' : (SLOT_ICONS[slot.drop - 1] ?? 'clock')}
-                    size={13}
-                    color={done ? '#050508' : isOpen ? tone : mutedIcon}
-                    strokeWidth={done ? 3 : 2}
-                  />
-                </View>
-              );
-            })}
-          </View>
-          <Eyebrow className="mt-2.5 text-[10px]">
-            {doneCount}/{slots.length} today{doneCount > 0 ? ` · ${scoreToday} correct` : ''}
-          </Eyebrow>
-        </Pressable>
+                />
+                <Muted className="mt-1.5 text-[12px]" numberOfLines={1}>
+                  {done ? 'Done' : localClockLabel(slot.time, offsetMinutes)}
+                </Muted>
+              </View>
+            );
+          })}
+        </View>
+      </Pressable>
 
-        {/* The one next step */}
-        <View className="mt-5">
-          {open?.entry ? (
-            <View className="flex-row items-center gap-3">
-              <Txt weight="semibold" className="flex-1 text-[14px]" numberOfLines={2}>
+      {/* The one next step */}
+      <View className="border-t border-line px-5 py-3.5 dark:border-ink-line">
+        {open?.entry ? (
+          <View className="flex-row items-center gap-3">
+            <View className="flex-1">
+              <Muted className="text-[12px]">{SLOT_NAMES[open.drop - 1]} drop · open now</Muted>
+              <Txt weight="medium" className="text-[14px] leading-5" numberOfLines={1}>
                 {open.entry.title}
               </Txt>
-              <Button
-                label="Play"
-                icon="play"
-                size="sm"
-                onPress={() => open.entry && router.push(quizHref(open.entry))}
-                accessibilityHint={`Starts the ${SLOT_NAMES[open.drop - 1]} drop`}
-              />
             </View>
-          ) : allDone ? (
-            <NextLine icon="check-circle" color={colors.success} text="All done for today" />
-          ) : missing && catchUp ? (
-            <View className="flex-row items-center gap-3">
-              <Muted className="flex-1 text-[13px]" numberOfLines={2}>
-                Running late · try “{catchUp.title}”
-              </Muted>
-              <Button
-                label="Play"
-                icon="play"
-                size="sm"
-                variant="secondary"
-                onPress={() => router.push(quizHref(catchUp))}
-              />
-            </View>
-          ) : next ? (
-            <NextLine
-              icon="clock"
-              color={mutedIcon}
-              text={`${SLOT_NAMES[next.drop - 1]} drop at ${localClockLabel(next.time, offsetMinutes)}`}
+            <Button
+              label="Play"
+              size="sm"
+              variant="accent"
+              onPress={() => open.entry && router.push(quizHref(open.entry))}
+              accessibilityHint={`Starts the ${SLOT_NAMES[open.drop - 1]} drop`}
             />
-          ) : (
-            <NextLine icon="moon" color={mutedIcon} text="New drops tomorrow morning" />
-          )}
-        </View>
+          </View>
+        ) : allDone ? (
+          <NextLine
+            icon="check-circle"
+            color={colors.success}
+            text={`All done today · ${scoreToday} correct`}
+          />
+        ) : missing && catchUp ? (
+          <View className="flex-row items-center gap-3">
+            <Muted className="flex-1 text-[13px]" numberOfLines={2}>
+              Running late · try “{catchUp.title}”
+            </Muted>
+            <Button
+              label="Play"
+              size="sm"
+              variant="secondary"
+              onPress={() => router.push(quizHref(catchUp))}
+            />
+          </View>
+        ) : next ? (
+          <NextLine
+            icon="clock"
+            color={mutedIcon}
+            text={`Next drop at ${localClockLabel(next.time, offsetMinutes)}${doneCount > 0 ? ` · ${scoreToday} correct so far` : ''}`}
+          />
+        ) : (
+          <NextLine icon="moon" color={mutedIcon} text="New drops tomorrow morning" />
+        )}
       </View>
-    </Animated.View>
+    </View>
   );
 }
 
 function NextLine({ icon, color, text }: { icon: IconName; color: string; text: string }) {
   return (
-    <View className="flex-row items-center gap-2">
-      <Icon name={icon} size={14} color={color} />
+    <View className="min-h-9 flex-row items-center gap-2">
+      <Icon name={icon} size={15} color={color} />
       <Muted className="text-[13px]">{text}</Muted>
     </View>
   );
