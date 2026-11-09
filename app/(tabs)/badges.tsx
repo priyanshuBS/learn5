@@ -36,6 +36,7 @@ export default function ProgressScreen() {
   const expiresAt = useAuth((s) => s.expiresAt);
   const signOut = useAuth((s) => s.signOut);
   const [deleting, setDeleting] = useState(false);
+  const [showAllLevels, setShowAllLevels] = useState(false);
 
   const onDeleteAccount = async () => {
     const ok = await confirmAsync({
@@ -68,12 +69,47 @@ export default function ProgressScreen() {
   const { level, points, streak, badges } = stats;
   const earned = badges.filter((b) => b.earned).length;
   const nextLevel = LEVELS[level.level];
+  // The levels around yours (one before, yours, two after); all of them on request.
+  const shownLevels = showAllLevels
+    ? LEVELS
+    : LEVELS.filter((l) => l.level >= level.level - 1 && l.level <= level.level + 2);
 
   return (
     <Screen>
       <PageHeader title="Progress" subtitle="Your level, streaks and badges" />
+      <Card className="gap-4 md:flex-row md:items-center">
+        <View className="flex-1 flex-row items-center gap-3">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600">
+            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
+              {user?.email?.[0] ?? '?'}
+            </Txt>
+          </View>
+          <View className="flex-1">
+            <Txt weight="semibold" numberOfLines={1}>
+              {user?.email ?? 'Signed in'}
+            </Txt>
+            {expiresAt ? (
+              <Muted>
+                Signed in until{' '}
+                {new Date(expiresAt).toLocaleDateString('en-IN', {
+                  day: 'numeric',
+                  month: 'short',
+                })}
+              </Muted>
+            ) : null}
+            <SyncLine />
+          </View>
+        </View>
+        <Button
+          label="Sign out"
+          icon="log-out"
+          variant="secondary"
+          size="md"
+          onPress={() => void signOut()}
+        />
+      </Card>
 
-      <View className="gap-4 xl:flex-row">
+      <View className="mt-4 gap-4 xl:flex-row">
         {/* Level */}
         <View className="xl:flex-[3]">
           <Gradient colors={HERO_GRADIENT} lip={HERO_LIP} radius={28} className="p-6 md:p-7">
@@ -185,7 +221,7 @@ export default function ProgressScreen() {
 
       <SectionTitle title="Levels" />
       <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
-        {LEVELS.map((l, i) => {
+        {shownLevels.map((l, i) => {
           const current = l.level === level.level;
           const reached = l.level <= level.level;
           return (
@@ -222,6 +258,15 @@ export default function ProgressScreen() {
           );
         })}
       </View>
+      {LEVELS.length > shownLevels.length || showAllLevels ? (
+        <Button
+          label={showAllLevels ? 'Show fewer levels' : `Show all ${LEVELS.length} levels`}
+          variant="ghost"
+          size="sm"
+          onPress={() => setShowAllLevels((v) => !v)}
+          className="mt-2 self-start"
+        />
+      ) : null}
 
       <SectionTitle title="Reminders" />
       <RemindersSettings />
@@ -236,39 +281,7 @@ export default function ProgressScreen() {
       </Card>
 
       <SectionTitle title="Account" />
-      <Card className="gap-4 md:flex-row md:items-center">
-        <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600">
-            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
-              {user?.email?.[0] ?? '?'}
-            </Txt>
-          </View>
-          <View className="flex-1">
-            <Txt weight="semibold" numberOfLines={1}>
-              {user?.email ?? 'Signed in'}
-            </Txt>
-            {expiresAt ? (
-              <Muted>
-                Signed in until{' '}
-                {new Date(expiresAt).toLocaleDateString('en-IN', {
-                  day: 'numeric',
-                  month: 'short',
-                })}
-              </Muted>
-            ) : null}
-            <SyncLine />
-          </View>
-        </View>
-        <Button
-          label="Sign out"
-          icon="log-out"
-          variant="secondary"
-          size="md"
-          onPress={() => void signOut()}
-        />
-      </Card>
-
-      <View className="mt-4 flex-row flex-wrap items-center justify-between gap-3 px-1">
+      <Card className="flex-row flex-wrap items-center justify-between gap-3">
         <View className="flex-row flex-wrap gap-5">
           <TextLink label="Privacy policy" onPress={() => router.push('/privacy')} />
           <TextLink label="Terms of use" onPress={() => router.push('/terms')} />
@@ -287,7 +300,7 @@ export default function ProgressScreen() {
             {deleting ? 'Deleting…' : 'Delete account'}
           </Txt>
         </Pressable>
-      </View>
+      </Card>
     </Screen>
   );
 }

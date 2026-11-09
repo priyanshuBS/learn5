@@ -21,7 +21,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
       accessibilityLabel={`${badge.name} badge. ${badge.description} ${
         badge.earned ? 'Earned.' : `Progress ${badge.progressLabel}.`
       }`}
-      className={twMerge(CARD_CLASSES, 'h-full p-4')}
+      className={twMerge(CARD_CLASSES, 'p-4')}
     >
       <View className="flex-row items-start justify-between">
         <View
@@ -48,7 +48,6 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
         {badge.name}
       </Txt>
       <Muted className="mt-0.5 text-[13px] leading-5">{badge.description}</Muted>
-      <View className="flex-1" />
       {badge.earned ? (
         <Txt weight="semibold" className="mt-3 text-xs text-emerald-700 dark:text-emerald-300">
           Earned

@@ -173,11 +173,7 @@ export default function WelcomeScreen() {
           {categories.map((category) => (
             <View key={category.id} className="w-1/2 p-2 md:w-1/3">
               <View
-                className={twMerge(
-                  CARD_CLASSES,
-                  CARD_PRESSABLE_CLASSES,
-                  'h-full overflow-hidden p-6',
-                )}
+                className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-6')}
               >
                 <Glow
                   color={category.color}
@@ -207,7 +203,7 @@ export default function WelcomeScreen() {
         <View className="-m-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
             <View key={f.title} className="w-full p-2 sm:w-1/2 lg:w-1/3">
-              <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full p-7')}>
+              <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'p-7')}>
                 <View className="h-11 w-11 items-center justify-center rounded-2xl border border-line bg-zinc-50 dark:border-white/10 dark:bg-white/5">
                   <Icon name={f.icon} size={19} color={lilac} />
                 </View>

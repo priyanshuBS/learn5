@@ -56,8 +56,8 @@ export function CategoryCard({
   // button inside a button is invalid HTML): the top opens the subject, the
   // bottom row holds the Play button.
   return (
-    <Animated.View style={[{ flex: 1 }, press.style]}>
-      <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full overflow-hidden p-6')}>
+    <Animated.View style={press.style}>
+      <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-6')}>
         <Glow
           color={category.color}
           size={260}

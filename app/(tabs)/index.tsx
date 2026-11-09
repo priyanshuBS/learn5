@@ -130,7 +130,7 @@ export default function HomeScreen() {
         <View className="-m-2 flex-row flex-wrap">
           {rows.map((row, i) => (
             <View key={row.category.id} className="w-full p-2 md:w-1/2 xl:w-1/3">
-              <Animated.View entering={FadeInDown.delay(50 * i).duration(420)} style={{ flex: 1 }}>
+              <Animated.View entering={FadeInDown.delay(50 * i).duration(420)}>
                 <CategoryCard
                   category={row.category}
                   slots={row.slots}
