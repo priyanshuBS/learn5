@@ -52,26 +52,26 @@ export function CategoryCard({
   const icon = CATEGORY_ICONS[category.id];
   const mutedIcon = dark ? colors.mutedDark : colors.muted;
 
+  // Two tap areas side by side (never one inside the other — on the website a
+  // button inside a button is invalid HTML): the top opens the subject, the
+  // bottom row holds the Play button.
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${category.name}. ${category.tagline}. ${doneCount} of ${slots.length} drops done today. Open subject`}
-      onPress={() => router.push(categoryHref(category.id))}
-      onPressIn={press.onPressIn}
-      onPressOut={press.onPressOut}
-      className="h-full"
-    >
-      <Animated.View style={[{ flex: 1 }, press.style]}>
-        <View
-          className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full overflow-hidden p-6')}
-        >
-          <Glow
-            color={category.color}
-            size={260}
-            opacity={dark ? 0.28 : 0.14}
-            style={{ top: -120, left: -110 }}
-          />
+    <Animated.View style={[{ flex: 1 }, press.style]}>
+      <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full overflow-hidden p-6')}>
+        <Glow
+          color={category.color}
+          size={260}
+          opacity={dark ? 0.28 : 0.14}
+          style={{ top: -120, left: -110 }}
+        />
 
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${category.name}. ${category.tagline}. ${doneCount} of ${slots.length} drops done today. Open subject`}
+          onPress={() => router.push(categoryHref(category.id))}
+          onPressIn={press.onPressIn}
+          onPressOut={press.onPressOut}
+        >
           <View className="flex-row items-start justify-between">
             <View
               className="h-12 w-12 items-center justify-center rounded-2xl border"
@@ -134,50 +134,50 @@ export function CategoryCard({
           <Eyebrow className="mt-2.5 text-[10px]">
             {doneCount}/{slots.length} today{doneCount > 0 ? ` · ${scoreToday} correct` : ''}
           </Eyebrow>
+        </Pressable>
 
-          {/* The one next step */}
-          <View className="mt-5">
-            {open?.entry ? (
-              <View className="flex-row items-center gap-3">
-                <Txt weight="semibold" className="flex-1 text-[14px]" numberOfLines={2}>
-                  {open.entry.title}
-                </Txt>
-                <Button
-                  label="Play"
-                  icon="play"
-                  size="sm"
-                  onPress={() => open.entry && router.push(quizHref(open.entry))}
-                  accessibilityHint={`Starts the ${SLOT_NAMES[open.drop - 1]} drop`}
-                />
-              </View>
-            ) : allDone ? (
-              <NextLine icon="check-circle" color={colors.success} text="All done for today" />
-            ) : missing && catchUp ? (
-              <View className="flex-row items-center gap-3">
-                <Muted className="flex-1 text-[13px]" numberOfLines={2}>
-                  Running late · try “{catchUp.title}”
-                </Muted>
-                <Button
-                  label="Play"
-                  icon="play"
-                  size="sm"
-                  variant="secondary"
-                  onPress={() => router.push(quizHref(catchUp))}
-                />
-              </View>
-            ) : next ? (
-              <NextLine
-                icon="clock"
-                color={mutedIcon}
-                text={`${SLOT_NAMES[next.drop - 1]} drop at ${localClockLabel(next.time, offsetMinutes)}`}
+        {/* The one next step */}
+        <View className="mt-5">
+          {open?.entry ? (
+            <View className="flex-row items-center gap-3">
+              <Txt weight="semibold" className="flex-1 text-[14px]" numberOfLines={2}>
+                {open.entry.title}
+              </Txt>
+              <Button
+                label="Play"
+                icon="play"
+                size="sm"
+                onPress={() => open.entry && router.push(quizHref(open.entry))}
+                accessibilityHint={`Starts the ${SLOT_NAMES[open.drop - 1]} drop`}
               />
-            ) : (
-              <NextLine icon="moon" color={mutedIcon} text="New drops tomorrow morning" />
-            )}
-          </View>
+            </View>
+          ) : allDone ? (
+            <NextLine icon="check-circle" color={colors.success} text="All done for today" />
+          ) : missing && catchUp ? (
+            <View className="flex-row items-center gap-3">
+              <Muted className="flex-1 text-[13px]" numberOfLines={2}>
+                Running late · try “{catchUp.title}”
+              </Muted>
+              <Button
+                label="Play"
+                icon="play"
+                size="sm"
+                variant="secondary"
+                onPress={() => router.push(quizHref(catchUp))}
+              />
+            </View>
+          ) : next ? (
+            <NextLine
+              icon="clock"
+              color={mutedIcon}
+              text={`${SLOT_NAMES[next.drop - 1]} drop at ${localClockLabel(next.time, offsetMinutes)}`}
+            />
+          ) : (
+            <NextLine icon="moon" color={mutedIcon} text="New drops tomorrow morning" />
+          )}
         </View>
-      </Animated.View>
-    </Pressable>
+      </View>
+    </Animated.View>
   );
 }
 
