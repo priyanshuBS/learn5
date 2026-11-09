@@ -47,7 +47,7 @@ QUESTIONS
 - funFact (optional): one fun line, max 200 characters.
 - source: a real, well-known reference for THIS subject that covers the fact: e.g. "NCERT Class 8 Mathematics" for math, "NCERT Class 9 Science" for science, "Oxford Learner's Dictionary" only for English words.
 - topic: short name, max 60 characters. All 5 topics in a drop must be different.
-- title: short and catchy, max 60 characters.
+- title: short and catchy, max 60 characters, about the TOPICS in this drop (e.g. "Bits, Bytes and Binary"). Never use the time of day, the date, the subject name or the words "quiz"/"drop" in the title.
 
 FACT-CHECK every item privately before answering: work each answer out again from scratch (recompute every number) and make sure every wrong option is wrong. If unsure, use a different fact. Do not write your checking into the explanation.
 
