@@ -34,7 +34,7 @@ import { WELCOME_HREF } from '@/lib/routes';
 import { colors } from '@/theme';
 
 const INPUT_CLASSES =
-  'min-h-12 flex-1 font-inter-medium text-base text-slate-900 web:outline-none dark:text-zinc-100';
+  'min-h-12 flex-1 font-body-medium text-base text-zinc-900 web:outline-none dark:text-zinc-100';
 
 const messageOf = (err: unknown) =>
   err instanceof Error ? err.message : 'Something went wrong. Please try again.';
@@ -181,7 +181,7 @@ export default function SignInScreen() {
               </Txt>
               <View
                 className={twMerge(
-                  'flex-row items-center gap-2.5 rounded-xl border bg-white px-3.5 dark:bg-ink',
+                  'flex-row items-center gap-2.5 rounded-2xl border bg-white px-4 dark:bg-ink',
                   emailFocused
                     ? 'border-brand-500 web:ring-4 web:ring-brand-500/15'
                     : 'border-line dark:border-ink-line',
@@ -241,16 +241,16 @@ export default function SignInScreen() {
                       <View
                         key={i}
                         className={twMerge(
-                          'h-14 flex-1 items-center justify-center rounded-xl border bg-white dark:bg-ink',
+                          'h-16 flex-1 items-center justify-center rounded-2xl border bg-white dark:bg-ink',
                           active
                             ? 'border-brand-500 web:ring-4 web:ring-brand-500/15'
                             : digit
-                              ? 'border-slate-300 dark:border-zinc-600'
+                              ? 'border-zinc-300 dark:border-zinc-600'
                               : 'border-line dark:border-ink-line',
                           error && 'border-rose-400 dark:border-rose-500/60',
                         )}
                       >
-                        <Txt weight="semibold" className="text-2xl">
+                        <Txt weight="heavy" className="text-[26px]">
                           {digit ?? ''}
                         </Txt>
                       </View>
@@ -295,7 +295,7 @@ export default function SignInScreen() {
                   className="flex-row items-center gap-1"
                 >
                   <Icon name="arrow-left" size={14} color={mutedIcon} />
-                  <Txt weight="medium" className="text-sm text-slate-600 dark:text-zinc-400">
+                  <Txt weight="medium" className="text-sm text-zinc-600 dark:text-zinc-400">
                     Change email
                   </Txt>
                 </Pressable>
@@ -311,8 +311,8 @@ export default function SignInScreen() {
                     className={twMerge(
                       'text-sm',
                       resendIn > 0 || busy
-                        ? 'text-slate-400 dark:text-zinc-500'
-                        : 'text-brand-600 dark:text-brand-300',
+                        ? 'text-zinc-400 dark:text-zinc-500'
+                        : 'text-brand-700 dark:text-brand-300',
                     )}
                   >
                     {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
@@ -353,7 +353,7 @@ export default function SignInScreen() {
               }}
               hitSlop={8}
             >
-              <Txt weight="semibold" className="text-sm text-brand-600 dark:text-brand-300">
+              <Txt weight="semibold" className="text-sm text-brand-700 dark:text-brand-300">
                 {mode === 'signup' ? 'Log in' : 'Create an account'}
               </Txt>
             </Pressable>

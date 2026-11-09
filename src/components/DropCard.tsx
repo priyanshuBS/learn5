@@ -144,7 +144,7 @@ export function SlotTile({
         <Txt
           className={twMerge(
             'text-xs',
-            available ? 'text-white/80 dark:text-white/80' : 'text-slate-500 dark:text-zinc-400',
+            available ? 'text-white/80 dark:text-white/80' : 'text-zinc-500 dark:text-zinc-400',
           )}
           numberOfLines={1}
         >
@@ -162,7 +162,7 @@ export function SlotTile({
             'text-[13px]',
             available && 'text-white dark:text-white',
             done && 'text-emerald-700 dark:text-emerald-300',
-            waiting && 'text-slate-500 dark:text-zinc-400',
+            waiting && 'text-zinc-500 dark:text-zinc-400',
             status === 'missing' && 'text-amber-700 dark:text-amber-300',
           )}
         >
@@ -211,7 +211,7 @@ export function DropCard({
         'mb-2 min-h-16 flex-row items-center gap-3.5 px-4 py-3.5',
       )}
     >
-      <View className="h-10 w-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5">
+      <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/5">
         <Icon
           name={SLOT_ICONS[drop - 1] ?? 'clock'}
           size={18}
@@ -221,7 +221,7 @@ export function DropCard({
       <View className="flex-1">
         <Txt
           weight="semibold"
-          className={twMerge('text-[15px]', muted && 'text-slate-500 dark:text-zinc-400')}
+          className={twMerge('text-[15px]', muted && 'text-zinc-500 dark:text-zinc-400')}
           numberOfLines={2}
         >
           {title}
@@ -230,5 +230,89 @@ export function DropCard({
       </View>
       <StatusChip status={status} timeLabel={timeLabel} scoreLabel={scoreLabel} />
     </Pressable>
+  );
+}
+
+/** One of today's drops on a vertical timeline (Category screen): morning → afternoon → evening. */
+export function TimelineDrop({
+  drop,
+  name,
+  time,
+  status,
+  title,
+  scoreLabel,
+  onPress,
+  last,
+}: {
+  drop: number;
+  name: string;
+  time: string;
+  status: SlotStatus;
+  title: string;
+  scoreLabel?: string;
+  onPress?: () => void;
+  /** No connecting line below the last item. */
+  last?: boolean;
+}) {
+  const dark = useColorScheme() === 'dark';
+  const done = status === 'done';
+  const available = status === 'available';
+  const waiting = status === 'upcoming' || status === 'locked';
+  const nodeIcon: IconName = done ? 'check' : (SLOT_ICONS[drop - 1] ?? 'clock');
+  const nodeColor =
+    done || available
+      ? colors.white
+      : status === 'missing'
+        ? colors.warning
+        : dark
+          ? colors.mutedDark
+          : colors.muted;
+
+  return (
+    <View className="flex-row gap-4">
+      <View className="items-center">
+        <View
+          className={twMerge(
+            'h-12 w-12 items-center justify-center rounded-full',
+            done && 'bg-emerald-500',
+            available && 'bg-brand-500 web:shadow-[0_0_20px_-4px_rgba(139,92,246,0.8)]',
+            status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
+            waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
+          )}
+        >
+          <Icon name={nodeIcon} size={18} color={nodeColor} strokeWidth={done ? 3 : 2} />
+        </View>
+        {!last ? (
+          <View className="my-1.5 w-0.5 flex-1 rounded-full bg-line dark:bg-ink-line" />
+        ) : null}
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${name} drop at ${time}. ${title}. ${a11yStatus(status, time, scoreLabel)}`}
+        accessibilityState={{ disabled: !onPress }}
+        disabled={!onPress}
+        onPress={onPress}
+        className={twMerge(
+          CARD_CLASSES,
+          onPress && CARD_PRESSABLE_CLASSES,
+          'mb-4 flex-1 flex-row items-center gap-3 px-4 py-4',
+          available && 'border-brand-200 dark:border-brand-500/30',
+        )}
+      >
+        <View className="flex-1">
+          <Muted className="text-xs">
+            {name} · {time}
+          </Muted>
+          <Txt
+            weight="semibold"
+            numberOfLines={2}
+            className={twMerge('mt-0.5 text-[15px]', waiting && 'text-zinc-500 dark:text-zinc-400')}
+          >
+            {title}
+          </Txt>
+        </View>
+        <StatusChip status={status} timeLabel={time} scoreLabel={scoreLabel} />
+      </Pressable>
+    </View>
   );
 }

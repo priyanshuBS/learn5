@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { Button, IconButton } from '@/components/Button';
+import { Card } from '@/components/Card';
 import { DifficultyBadge, Tag } from '@/components/DifficultyBadge';
 import { ExplanationPanel } from '@/components/ExplanationPanel';
 import { FlashCard } from '@/components/FlashCard';
@@ -257,7 +258,9 @@ function QuizPlayer({
         {item.type === 'fact_card' ? (
           <FlashCard item={item} flipped={flipped} onToggle={() => setFlipped((f) => !f)} />
         ) : (
-          <QuizCard item={item} answer={answer} onChoose={onChoose} onSubmitText={onSubmitText} />
+          <Card className="p-5 md:p-8">
+            <QuizCard item={item} answer={answer} onChoose={onChoose} onSubmitText={onSubmitText} />
+          </Card>
         )}
       </View>
 

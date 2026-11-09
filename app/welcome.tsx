@@ -3,29 +3,39 @@
  * Address: /welcome   (signed-out visitors to any app page land here)
  *
  * Explains Learn5, then sends people to sign up or log in. The quizzes open
- * only after signing in.
+ * only after signing in. Styled after priyanshusingh.co.in: near-black, glass,
+ * violet → cyan glows, big display type and small mono labels.
  */
 import { router } from 'expo-router';
-import { View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import { useEffect, type ReactNode } from 'react';
+import { useWindowDimensions, View } from 'react-native';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeInDown,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import categoriesFile from '../content/categories.json';
 import { Button } from '@/components/Button';
-import { Card, CARD_CLASSES } from '@/components/Card';
+import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { DifficultyBadge, Tag } from '@/components/DifficultyBadge';
-import { Gradient } from '@/components/Gradient';
+import { Glow, GlowDot, GradientLine, GradientText } from '@/components/Glow';
 import { Icon, type IconName } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { QuizProgress } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { ThemeIconButton } from '@/components/ThemeToggle';
-import { Muted, Txt } from '@/components/Txt';
+import { Eyebrow, Muted, Txt } from '@/components/Txt';
 import { useColorScheme } from '@/hooks/useScheme';
 import { signInHref } from '@/lib/routes';
 import { CategoriesFileSchema } from '@/lib/schema';
-import { colors, HERO_GRADIENT } from '@/theme';
+import { categoryTone, colors, GLOW } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
 
@@ -72,12 +82,12 @@ const goSignUp = () => router.push(signInHref('signup'));
 const goLogIn = () => router.push(signInHref('login'));
 
 export default function WelcomeScreen() {
-  const scheme = useColorScheme();
-  const check = scheme === 'dark' ? colors.brandOnDark : colors.brand;
+  const dark = useColorScheme() === 'dark';
+  const lilac = dark ? '#C4B5FD' : colors.brandDark;
 
   return (
     <Screen contentClassName="pt-4 md:pt-6">
-      <Animated.View entering={FadeIn.duration(250)}>
+      <Animated.View entering={FadeIn.duration(300)}>
         {/* Top bar */}
         <View className="flex-row items-center justify-between">
           <Logo />
@@ -89,229 +99,344 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Hero */}
-        <View className="mt-12 gap-12 md:mt-20 lg:flex-row lg:items-center">
+        <View className="mt-16 gap-14 md:mt-24 lg:flex-row lg:items-center">
           <View className="lg:flex-1">
-            <View className="flex-row items-center gap-2 self-start rounded-full border border-line bg-white px-3 py-1.5 dark:border-ink-line dark:bg-ink-card">
-              <Icon name="sparkles" size={13} color={colors.brand} />
-              <Txt weight="medium" className="text-[13px] text-slate-600 dark:text-zinc-300">
-                Daily micro-learning · 6 subjects
-              </Txt>
+            <View className="flex-row items-center gap-2.5 self-start rounded-full border border-line bg-white px-3.5 py-1.5 dark:border-white/10 dark:bg-white/[0.035]">
+              <GlowDot />
+              <Eyebrow>New drops every day</Eyebrow>
             </View>
             <Txt
               weight="heavy"
               accessibilityRole="header"
-              className="mt-6 text-[42px] leading-[48px] tracking-tighter md:text-[60px] md:leading-[64px]"
+              className="mt-8 text-[48px] leading-[50px] md:text-[76px] md:leading-[76px]"
             >
-              5 questions.{'\n'}5 minutes.{'\n'}
-              <Txt
-                weight="heavy"
-                className="text-[42px] leading-[48px] tracking-tighter text-brand-600 dark:text-brand-400 md:text-[60px] md:leading-[64px]"
-              >
-                Smarter every day.
-              </Txt>
+              Learn a little.{'\n'}
+              <GradientText className="text-[48px] leading-[50px] md:text-[76px] md:leading-[76px]">
+                Every single day.
+              </GradientText>
             </Txt>
-            <Muted className="mt-6 max-w-lg text-[17px] leading-7">
-              Bite-size quizzes in English, Math, Reasoning, Physics, Chemistry and Biology —
-              written in simple English, with a clear explanation after every answer.
+            <Muted className="mt-7 max-w-lg text-[17px] leading-7">
+              5 questions. 5 minutes. Bite-size drops in English, Math, Reasoning, Physics,
+              Chemistry and Biology — in simple English, with a clear “why” after every answer.
             </Muted>
-            <View className="mt-8 gap-3 sm:flex-row">
+            <View className="mt-10 gap-3 sm:flex-row">
               <Button
-                label="Get started — it’s free"
+                label="Start learning — free"
                 icon="arrow-right"
                 iconRight
                 onPress={goSignUp}
               />
-              <Button label="I already have an account" variant="secondary" onPress={goLogIn} />
+              <Button label="I have an account" variant="secondary" onPress={goLogIn} />
             </View>
-            <View className="mt-6 flex-row flex-wrap gap-x-5 gap-y-2">
-              {['Free forever', 'No password', 'About 5 minutes a drop'].map((t) => (
-                <View key={t} className="flex-row items-center gap-1.5">
-                  <Icon name="check" size={15} color={check} strokeWidth={2.5} />
-                  <Muted className="text-[13px]">{t}</Muted>
-                </View>
-              ))}
+            <View className="mt-10 flex-row flex-wrap gap-x-8 gap-y-4">
+              <HeroStat value="6" label="Subjects" />
+              <HeroStat value="18" label="Drops a day" />
+              <HeroStat value="5 min" label="Each drop" />
             </View>
           </View>
 
           {/* Layout classes on a plain View: Animated.View doesn't apply responsive classes. */}
-          <View className="pb-4 lg:flex-1">
-            <Animated.View entering={FadeInDown.delay(120).duration(400)}>
+          <View className="pb-6 lg:flex-1">
+            <Animated.View entering={FadeInDown.delay(150).duration(500)}>
               <ProductPreview />
             </Animated.View>
           </View>
         </View>
 
+        {/* Subjects marquee */}
+        <View className="-mx-4 mt-20 md:-mx-8 xl:-mx-10">
+          <GradientLine className="opacity-40" />
+          <Marquee>
+            {categories.map((c) => (
+              <View key={c.id} className="flex-row items-center gap-3 px-6 py-5">
+                <CategoryIcon category={c} size="sm" />
+                <Txt weight="bold" className="text-xl">
+                  {c.name}
+                </Txt>
+                <Txt className="text-xl" style={{ color: categoryTone(c.color, dark) }}>
+                  ✦
+                </Txt>
+              </View>
+            ))}
+          </Marquee>
+          <GradientLine className="opacity-40" />
+        </View>
+
         {/* Subjects */}
         <SectionHeading
-          eyebrow="Subjects"
-          title="Six subjects. One habit."
+          eyebrow="01 · Subjects"
+          title="Six subjects."
+          accent="One daily habit."
           text="School-level facts from trusted textbooks, explained simply."
         />
-        <View className="-m-1.5 flex-row flex-wrap">
+        <View className="-m-2 flex-row flex-wrap">
           {categories.map((category) => (
-            <View key={category.id} className="w-1/2 p-1.5 md:w-1/3 lg:w-1/6">
-              <Card className="h-full p-4">
-                <CategoryIcon category={category} />
-                <Txt weight="semibold" className="mt-3 text-[15px]">
+            <View key={category.id} className="w-1/2 p-2 md:w-1/3">
+              <View
+                className={twMerge(
+                  CARD_CLASSES,
+                  CARD_PRESSABLE_CLASSES,
+                  'h-full overflow-hidden p-6',
+                )}
+              >
+                <Glow
+                  color={category.color}
+                  size={220}
+                  opacity={dark ? 0.3 : 0.14}
+                  style={{ top: -110, left: -100 }}
+                />
+                <CategoryIcon category={category} size="md" />
+                <Txt weight="bold" className="mt-6 text-xl">
                   {category.name}
                 </Txt>
-                <Muted className="mt-0.5 text-[13px] leading-5" numberOfLines={2}>
+                <Muted className="mt-1 leading-5" numberOfLines={2}>
                   {category.tagline}
                 </Muted>
-              </Card>
+              </View>
             </View>
           ))}
         </View>
 
         {/* Features */}
         <SectionHeading
-          eyebrow="Features"
-          title="Everything you need to learn daily"
+          eyebrow="02 · Features"
+          title="Everything you need"
+          accent="to learn daily."
           text="Short, focused and rewarding — built to fit into any day."
         />
-        <View className={twMerge(CARD_CLASSES, 'flex-row flex-wrap overflow-hidden')}>
+        <View className="-m-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
-            <View key={f.title} className="w-full p-6 sm:w-1/2 lg:w-1/3">
-              <View className="h-10 w-10 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 dark:border-brand-500/20 dark:bg-brand-500/10">
-                <Icon name={f.icon} size={19} color={check} />
+            <View key={f.title} className="w-full p-2 sm:w-1/2 lg:w-1/3">
+              <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full p-7')}>
+                <View className="h-11 w-11 items-center justify-center rounded-2xl border border-line bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+                  <Icon name={f.icon} size={19} color={lilac} />
+                </View>
+                <Txt weight="bold" className="mt-6 text-xl">
+                  {f.title}
+                </Txt>
+                <Muted className="mt-2 text-[15px] leading-6">{f.text}</Muted>
               </View>
-              <Txt weight="semibold" className="mt-4 text-[15px]">
-                {f.title}
-              </Txt>
-              <Muted className="mt-1 leading-5">{f.text}</Muted>
             </View>
           ))}
         </View>
 
         {/* How it works */}
-        <SectionHeading eyebrow="How it works" title="Start in under a minute" />
-        <View className="gap-3 md:flex-row">
+        <SectionHeading eyebrow="03 · How it works" title="Start in" accent="under a minute." />
+        <View className="gap-4 md:flex-row">
           {STEPS.map((step, i) => (
-            <Card key={step.title} className="flex-row gap-4 md:flex-1">
-              <View className="h-8 w-8 items-center justify-center rounded-full bg-slate-900 dark:bg-white">
-                <Txt weight="bold" className="text-sm text-white dark:text-slate-900">
-                  {i + 1}
-                </Txt>
-              </View>
-              <View className="flex-1">
-                <Txt weight="semibold" className="text-[15px]">
-                  {step.title}
-                </Txt>
-                <Muted className="mt-1 leading-5">{step.text}</Muted>
-              </View>
-            </Card>
+            <View key={step.title} className={twMerge(CARD_CLASSES, 'p-7 md:flex-1')}>
+              <Txt
+                weight="heavy"
+                className="text-[44px] leading-[48px] text-zinc-200 dark:text-white/10"
+              >
+                0{i + 1}
+              </Txt>
+              <GradientLine className="mt-4 w-12" />
+              <Txt weight="bold" className="mt-5 text-xl">
+                {step.title}
+              </Txt>
+              <Muted className="mt-2 text-[15px] leading-6">{step.text}</Muted>
+            </View>
           ))}
         </View>
 
         {/* Final call to action */}
-        <Gradient
-          colors={HERO_GRADIENT}
-          className="mt-16 items-center rounded-3xl px-6 py-14 md:py-16"
+        <View
+          className={twMerge(
+            CARD_CLASSES,
+            'mt-24 items-center overflow-hidden px-6 py-16 md:py-24',
+          )}
         >
+          <Glow
+            color={GLOW.violet}
+            size={520}
+            opacity={dark ? 0.35 : 0.15}
+            style={{ top: -260, left: -180 }}
+          />
+          <Glow
+            color={GLOW.cyan}
+            size={460}
+            opacity={dark ? 0.25 : 0.1}
+            style={{ bottom: -240, right: -160 }}
+          />
+          <Eyebrow>Ready when you are</Eyebrow>
           <Txt
-            weight="bold"
-            className="text-center text-[28px] leading-9 tracking-tight text-white dark:text-white md:text-4xl md:leading-[48px]"
+            weight="heavy"
+            className="mt-5 text-center text-[40px] leading-[44px] md:text-[64px] md:leading-[66px]"
           >
-            Ready for your first 5 minutes?
+            Your first 5 minutes{'\n'}
+            <GradientText className="text-center text-[40px] leading-[44px] md:text-[64px] md:leading-[66px]">
+              start now.
+            </GradientText>
           </Txt>
-          <Txt className="mt-3 max-w-md text-center text-[15px] leading-6 text-brand-100 dark:text-brand-100">
+          <Muted className="mt-5 max-w-md text-center text-[15px] leading-6">
             Create your free account with just your email. No password to remember.
-          </Txt>
-          <View className="mt-8">
+          </Muted>
+          <View className="mt-10">
             <Button
               label="Create free account"
-              variant="inverse"
+              variant="accent"
               icon="arrow-right"
               iconRight
               onPress={goSignUp}
             />
           </View>
-        </Gradient>
-
-        {/* Footer */}
-        <View className="mt-12 flex-row flex-wrap items-center justify-between gap-4 border-t border-line pt-6 dark:border-ink-line">
-          <Logo />
-          <Muted className="text-[13px]">School-level facts, explained simply.</Muted>
         </View>
+
+        {/* Footer + giant faint wordmark */}
+        <View className="mt-16 flex-row flex-wrap items-center justify-between gap-4">
+          <Logo />
+          <Eyebrow>School-level facts, explained simply</Eyebrow>
+        </View>
+        <Wordmark />
       </Animated.View>
     </Screen>
+  );
+}
+
+function HeroStat({ value, label }: { value: string; label: string }) {
+  return (
+    <View>
+      <Txt weight="heavy" className="text-[28px] leading-8">
+        {value}
+      </Txt>
+      <Eyebrow className="mt-1">{label}</Eyebrow>
+    </View>
   );
 }
 
 function SectionHeading({
   eyebrow,
   title,
+  accent,
   text,
 }: {
   eyebrow: string;
   title: string;
+  accent: string;
   text?: string;
 }) {
   return (
-    <View className="mb-6 mt-20 md:mt-28">
+    <View className="mb-8 mt-24 md:mt-32">
+      <Eyebrow className="text-brand-700 dark:text-[#C4B5FD]">{eyebrow}</Eyebrow>
       <Txt
-        weight="semibold"
-        className="text-[13px] uppercase tracking-widest text-brand-600 dark:text-brand-400"
-      >
-        {eyebrow}
-      </Txt>
-      <Txt
-        weight="bold"
+        weight="heavy"
         accessibilityRole="header"
-        className="mt-2 text-[28px] leading-9 tracking-tight md:text-4xl md:leading-[44px]"
+        className="mt-4 text-[36px] leading-[40px] md:text-[56px] md:leading-[58px]"
       >
-        {title}
+        {title}{' '}
+        <GradientText className="text-[36px] leading-[40px] md:text-[56px] md:leading-[58px]">
+          {accent}
+        </GradientText>
       </Txt>
-      {text ? <Muted className="mt-2 max-w-xl text-[15px] leading-6">{text}</Muted> : null}
+      {text ? <Muted className="mt-4 max-w-xl text-[16px] leading-7">{text}</Muted> : null}
+    </View>
+  );
+}
+
+/** A row of items that scrolls sideways forever (like the site's marquee). */
+function Marquee({ children }: { children: ReactNode }) {
+  const { width } = useWindowDimensions();
+  const x = useSharedValue(0);
+  // One copy is roughly this wide; we slide by exactly one copy, then repeat.
+  const copyWidth = Math.max(width, 1100);
+  useEffect(() => {
+    x.set(
+      withRepeat(withTiming(-copyWidth, { duration: 28000, easing: Easing.linear }), -1, false),
+    );
+  }, [x, copyWidth]);
+  const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
+  return (
+    <View
+      className="overflow-hidden"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
+      <Animated.View style={[{ flexDirection: 'row' }, style]}>
+        <View style={{ width: copyWidth, flexDirection: 'row', justifyContent: 'space-around' }}>
+          {children}
+        </View>
+        <View style={{ width: copyWidth, flexDirection: 'row', justifyContent: 'space-around' }}>
+          {children}
+        </View>
+      </Animated.View>
+    </View>
+  );
+}
+
+/** The giant, barely-visible "Learn5" at the very bottom of the page. */
+function Wordmark() {
+  const { width } = useWindowDimensions();
+  const size = Math.min(Math.max(width * 0.19, 72), 260);
+  return (
+    <View pointerEvents="none" className="mt-6 items-center overflow-hidden">
+      <Txt
+        weight="heavy"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+        className="text-zinc-900/[0.05] dark:text-white/[0.04]"
+        style={{ fontSize: size, lineHeight: size * 1.05, letterSpacing: -size * 0.06 }}
+      >
+        Learn5
+      </Txt>
     </View>
   );
 }
 
 /** A static picture of a quiz question, so visitors see what the app looks like. */
 function ProductPreview() {
+  const dark = useColorScheme() === 'dark';
   const math = categories.find((c) => c.id === 'math') ?? categories[0];
   const options = ['₹35', '₹45', '₹40', '₹54'];
   return (
     <View accessible accessibilityLabel="Preview of a Learn5 question" className="relative">
-      <Gradient
-        colors={['#C7D2FE', '#E0E7FF', '#F5F3FF']}
-        className="absolute -inset-3 rounded-[32px] opacity-60 dark:opacity-15 md:-inset-5"
+      <Glow
+        color={GLOW.violet}
+        size={520}
+        opacity={dark ? 0.35 : 0.18}
+        style={{ top: -140, left: -120 }}
       />
-      <View className={twMerge(CARD_CLASSES, 'p-5 web:shadow-xl md:p-6')}>
+      <Glow
+        color={GLOW.cyan}
+        size={420}
+        opacity={dark ? 0.22 : 0.1}
+        style={{ bottom: -140, right: -110 }}
+      />
+      <View className={twMerge(CARD_CLASSES, 'p-6 web:shadow-2xl md:p-7')}>
         <View className="flex-row items-center gap-4">
-          <View className="h-8 w-8 items-center justify-center rounded-lg border border-line dark:border-ink-line">
-            <Icon name="x" size={15} />
+          <View className="h-8 w-8 items-center justify-center rounded-full border border-line dark:border-white/15">
+            <Icon name="x" size={14} />
           </View>
           <QuizProgress segments={['correct', 'correct', 'current', 'todo', 'todo']} />
-          <Muted className="text-[13px]">3/5</Muted>
+          <Eyebrow>3/5</Eyebrow>
         </View>
-        <View className="mt-6 flex-row flex-wrap items-center gap-2">
+        <View className="mt-7 flex-row flex-wrap items-center gap-2">
           <Tag label={math.name} color={math.color} />
           <DifficultyBadge difficulty="medium" />
         </View>
-        <Txt weight="semibold" className="mt-3 text-xl leading-8 tracking-tight">
+        <Txt weight="bold" className="mt-4 text-[22px] leading-8">
           A ₹450 shirt is 10% off. How much do you save?
         </Txt>
-        <View className="mt-5 gap-2">
+        <View className="mt-6 gap-2.5">
           {options.map((o, i) => {
             const correct = i === 1;
             return (
               <View
                 key={o}
                 className={twMerge(
-                  'flex-row items-center gap-3 rounded-xl border px-3.5 py-2.5',
+                  'flex-row items-center gap-3 rounded-2xl border px-4 py-3',
                   correct
-                    ? 'border-emerald-500 bg-emerald-50 dark:border-emerald-500/70 dark:bg-emerald-500/10'
-                    : 'border-line dark:border-ink-line',
-                  !correct && i > 1 && 'opacity-50',
+                    ? 'border-emerald-500 bg-emerald-50 dark:border-emerald-400/70 dark:bg-emerald-500/10'
+                    : 'border-line dark:border-white/10',
+                  !correct && i > 1 && 'opacity-40',
                 )}
               >
                 <View
                   className={twMerge(
-                    'h-6 w-6 items-center justify-center rounded-md border',
+                    'h-7 w-7 items-center justify-center rounded-full border',
                     correct
                       ? 'border-emerald-500 bg-emerald-500'
-                      : 'border-line bg-slate-50 dark:border-ink-line dark:bg-white/5',
+                      : 'border-line dark:border-white/15',
                   )}
                 >
                   {correct ? (
@@ -319,7 +444,7 @@ function ProductPreview() {
                   ) : (
                     <Txt
                       weight="semibold"
-                      className="text-[11px] text-slate-500 dark:text-zinc-400"
+                      className="text-[11px] text-zinc-500 dark:text-[#8E8EA3]"
                     >
                       {String.fromCharCode(65 + i)}
                     </Txt>
@@ -332,7 +457,7 @@ function ProductPreview() {
             );
           })}
         </View>
-        <View className="mt-4 flex-row items-start gap-2.5 rounded-xl bg-emerald-50 p-3 dark:bg-emerald-500/10">
+        <View className="mt-5 flex-row items-start gap-2.5 rounded-2xl border border-emerald-500/25 bg-emerald-500/10 p-3.5">
           <Icon name="check-circle" size={16} color={colors.success} />
           <Txt className="flex-1 text-[13px] leading-5 text-emerald-900 dark:text-emerald-100">
             <Txt weight="semibold" className="text-[13px] text-emerald-900 dark:text-emerald-100">
@@ -344,15 +469,15 @@ function ProductPreview() {
       </View>
 
       {/* Floating streak chip */}
-      <View className="absolute -bottom-4 -left-2 flex-row items-center gap-2 rounded-2xl border border-line bg-white px-3.5 py-2.5 web:shadow-lg dark:border-ink-line dark:bg-ink-raised md:-left-6">
-        <View className="h-8 w-8 items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-500/15">
+      <View className="absolute -bottom-5 -left-2 flex-row items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-3 web:shadow-xl dark:border-white/15 dark:bg-[#0E0E15] md:-left-6">
+        <View className="h-8 w-8 items-center justify-center rounded-full bg-orange-500/15">
           <Icon name="flame" size={16} color={colors.streak} filled />
         </View>
         <View>
-          <Txt weight="bold" className="text-sm">
+          <Txt weight="bold" className="text-[15px]">
             7-day streak
           </Txt>
-          <Muted className="text-xs">Keep it going</Muted>
+          <Eyebrow className="text-[10px]">Keep it going</Eyebrow>
         </View>
       </View>
     </View>

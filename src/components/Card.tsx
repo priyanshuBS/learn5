@@ -1,16 +1,16 @@
 /**
- * Card — the basic surface: white (dark: near-black) with a hairline border
- * and, on the website, a very soft shadow.
+ * Card — a glass panel (like priyanshusingh.co.in): a faint white fill and a thin
+ * white/10 border on the dark background; a clean white card in light mode.
  */
 import { View, type ViewProps } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 export const CARD_CLASSES =
-  'rounded-2xl border border-line bg-white web:shadow-sm dark:border-ink-line dark:bg-ink-card';
+  'rounded-3xl border border-line bg-white web:shadow-[0_1px_2px_rgba(11,11,18,0.04)] dark:border-white/10 dark:bg-white/[0.035] dark:web:backdrop-blur-xl';
 
-/** Pressable cards: a subtle lift on hover (website) and a tint when pressed. */
+/** Tappable cards: the border brightens and the card lifts a little on hover. */
 export const CARD_PRESSABLE_CLASSES =
-  'active:bg-slate-50 web:transition-colors web:hover:border-slate-300 dark:active:bg-ink-raised dark:web:hover:border-white/15';
+  'active:opacity-80 web:transition-all web:duration-300 web:hover:-translate-y-1 web:hover:border-zinc-300 dark:web:hover:border-white/20';
 
 export function Card({ className, ...rest }: ViewProps) {
   return <View className={twMerge(CARD_CLASSES, 'p-5', className)} {...rest} />;

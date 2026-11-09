@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the Inter font
+ *   - loads Tailwind styles and the fonts (Inter, Bricolage Grotesque, JetBrains Mono)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -9,13 +9,12 @@
 import '../global.css';
 
 import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  useFonts,
-} from '@expo-google-fonts/inter';
+  BricolageGrotesque_700Bold,
+  BricolageGrotesque_800ExtraBold,
+} from '@expo-google-fonts/bricolage-grotesque';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import { JetBrainsMono_500Medium } from '@expo-google-fonts/jetbrains-mono';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -39,8 +38,9 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
+    BricolageGrotesque_700Bold,
+    BricolageGrotesque_800ExtraBold,
+    JetBrainsMono_500Medium,
   });
   useContentBootstrap();
   useAuthBootstrap();

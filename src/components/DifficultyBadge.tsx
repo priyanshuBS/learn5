@@ -19,8 +19,8 @@ export type Tone = 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
 
 const TONES: Record<Tone, { box: string; text: string; icon: string }> = {
   neutral: {
-    box: 'bg-slate-100 dark:bg-white/5',
-    text: 'text-slate-600 dark:text-zinc-300',
+    box: 'bg-zinc-100 dark:bg-white/5',
+    text: 'text-zinc-600 dark:text-zinc-300',
     icon: colors.muted,
   },
   brand: {
@@ -60,7 +60,7 @@ export function Pill({
   return (
     <View
       className={twMerge(
-        'flex-row items-center gap-1 self-start rounded-full px-2.5 py-1',
+        'flex-row items-center gap-1 self-start rounded-full px-3 py-1.5',
         t.box,
         className,
       )}
@@ -88,7 +88,7 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
       className="flex-row items-center gap-1.5 rounded-full border border-line px-2.5 py-1 dark:border-ink-line"
     >
       <View className={twMerge('h-1.5 w-1.5 rounded-full', s.dot)} />
-      <Txt weight="medium" className="text-xs text-slate-600 dark:text-zinc-300">
+      <Txt weight="medium" className="text-xs text-zinc-600 dark:text-zinc-300">
         {s.label} · {POINTS_BY_DIFFICULTY[difficulty]} pts
       </Txt>
     </View>
@@ -100,12 +100,12 @@ export function Tag({ label, color: base }: { label: string; color?: string }) {
   const color = base ? categoryTone(base, dark) : undefined;
   return (
     <View
-      className={twMerge('rounded-full px-2.5 py-1', !color && 'bg-slate-100 dark:bg-white/5')}
+      className={twMerge('rounded-full px-2.5 py-1', !color && 'bg-zinc-100 dark:bg-white/5')}
       style={color ? { backgroundColor: withAlpha(color, dark ? 0.14 : 0.1) } : undefined}
     >
       <Txt
         weight="semibold"
-        className="text-xs text-slate-600 dark:text-zinc-300"
+        className="text-xs text-zinc-600 dark:text-zinc-300"
         style={color ? { color } : undefined}
         numberOfLines={1}
       >

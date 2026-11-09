@@ -20,9 +20,10 @@ import { twMerge } from 'tailwind-merge';
 
 import { useColorScheme } from '@/hooks/useScheme';
 import type { FactCardItem } from '@/lib/schema';
-import { colors, HERO_GRADIENT } from '@/theme';
+import { colors, HERO_GRADIENT, HERO_LIP, GLOW } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
+import { Glow } from './Glow';
 import { Gradient } from './Gradient';
 import { Icon } from './Icon';
 import { Txt } from './Txt';
@@ -73,7 +74,7 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
         weight="medium"
         className={twMerge(
           'text-[13px]',
-          showBack ? 'text-slate-500 dark:text-zinc-400' : 'text-white/70 dark:text-white/70',
+          showBack ? 'text-zinc-500 dark:text-zinc-400' : 'text-white/70 dark:text-white/70',
         )}
       >
         Tap to flip
@@ -99,18 +100,18 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
                 <Icon name="lightbulb" size={16} color={colors.brand} />
                 <Txt
                   weight="semibold"
-                  className="text-[11px] uppercase tracking-widest text-brand-600 dark:text-brand-300"
+                  className="text-[11px] uppercase tracking-widest text-brand-700 dark:text-brand-300"
                 >
                   Why it’s true
                 </Txt>
               </View>
-              <Txt className="mt-4 text-[17px] leading-8 text-slate-800 dark:text-zinc-200">
+              <Txt className="mt-4 text-[17px] leading-8 text-zinc-800 dark:text-zinc-200">
                 {item.explanation}
               </Txt>
               {item.funFact ? (
                 <View className="mt-4 flex-row gap-2.5 rounded-xl bg-amber-50/70 p-3.5 dark:bg-amber-500/5">
                   <Icon name="sparkles" size={16} color={colors.points} />
-                  <Txt className="flex-1 text-sm leading-6 text-slate-700 dark:text-zinc-300">
+                  <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                     {item.funFact}
                   </Txt>
                 </View>
@@ -121,8 +122,18 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
         ) : (
           <Gradient
             colors={HERO_GRADIENT}
-            className="min-h-72 justify-between rounded-2xl p-6 md:p-8"
+            lip={HERO_LIP}
+            radius={24}
+            className="min-h-72 justify-between p-6 md:p-8"
           >
+            <Glow color={GLOW.violet} size={380} opacity={0.55} style={{ top: -180, left: -140 }} />
+            <Glow
+              color={GLOW.cyan}
+              size={300}
+              opacity={0.35}
+              style={{ bottom: -160, right: -110 }}
+            />
+
             <View>
               <View className="flex-row items-center gap-2">
                 <Icon name="sparkles" size={16} color={colors.brandOnDark} />

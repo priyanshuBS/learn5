@@ -37,7 +37,7 @@ export function ThemeToggle({
       accessibilityRole="radiogroup"
       accessibilityLabel="Appearance"
       className={twMerge(
-        'flex-row rounded-xl border border-line bg-slate-100/70 p-1 dark:border-ink-line dark:bg-white/[0.03]',
+        'flex-row rounded-2xl border border-line bg-zinc-100/70 p-1 dark:border-ink-line dark:bg-white/[0.03]',
         className,
       )}
     >
@@ -53,7 +53,7 @@ export function ThemeToggle({
             className={twMerge(
               'min-h-8 flex-1 flex-row items-center justify-center gap-1.5 rounded-lg px-2.5 web:transition-colors',
               active
-                ? 'bg-white web:shadow-sm dark:bg-ink-raised'
+                ? ' border-zinc-300 bg-white dark:border-black/50 dark:bg-ink-raised'
                 : 'web:hover:bg-white/60 dark:web:hover:bg-white/5',
             )}
           >
@@ -75,9 +75,7 @@ export function ThemeToggle({
                 weight={active ? 'semibold' : 'medium'}
                 className={twMerge(
                   'text-[13px]',
-                  active
-                    ? 'text-slate-900 dark:text-zinc-100'
-                    : 'text-slate-500 dark:text-zinc-400',
+                  active ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-500 dark:text-zinc-400',
                 )}
               >
                 {o.label}

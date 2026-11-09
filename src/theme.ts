@@ -7,34 +7,40 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  brand: '#4F46E5',
-  brandDark: '#4338CA',
-  brandSoft: '#EEF2FF',
-  brandOnDark: '#A5B4FC',
+  brand: '#8B5CF6',
+  brandDark: '#6D28D9',
+  brandSoft: '#F5F3FF',
+  brandOnDark: '#C4B5FD',
   white: '#FFFFFF',
-  text: '#0F172A',
-  textDark: '#F4F4F5',
-  muted: '#64748B',
-  mutedDark: '#94A3B8',
-  line: '#E8E8EE',
-  inkLine: '#26262E',
+  text: '#0B0B12',
+  textDark: '#F2F2F5',
+  muted: '#6B6B80',
+  mutedDark: '#8E8EA3',
+  line: '#E6E6EF',
+  inkLine: '#1E1E2A',
   success: '#059669',
   danger: '#E11D48',
   warning: '#D97706',
   streak: '#F97316',
   points: '#F59E0B',
-  canvas: '#F7F7FA',
-  ink: '#09090B',
+  canvas: '#F7F7FB',
+  ink: '#050508',
   /** Empty part of progress rings. */
-  track: '#EDEDF2',
-  trackDark: '#24242B',
+  track: '#ECECF3',
+  trackDark: '#1C1C27',
 } as const;
 
-/** Deep indigo gradient for hero cards. */
-export const HERO_GRADIENT = ['#1E1B4B', '#312E81', '#4F46E5'] as const;
+/** Deep violet → indigo → teal: the hero slabs (always dark, white text on top). */
+export const HERO_GRADIENT = ['#170E33', '#2A1A63', '#0B3A4D'] as const;
+
+/** Kept for older call sites; heroes no longer have a 3D edge. */
+export const HERO_LIP = 'transparent';
 
 /** Small gradient for the logo mark and accents. */
-export const BRAND_GRADIENT = ['#6366F1', '#4F46E5', '#4338CA'] as const;
+export const BRAND_GRADIENT = ['#C4B5FD', '#8B5CF6', '#22D3EE'] as const;
+
+/** Glow orbs behind content (like priyanshusingh.co.in). */
+export const GLOW = { violet: '#8B5CF6', cyan: '#22D3EE', lilac: '#C4B5FD' } as const;
 
 /** Line icons for each category (falls back to the category emoji if missing). */
 export const CATEGORY_ICONS: Record<string, IconName> = {
@@ -66,9 +72,22 @@ export function lighten(hex: string, amount: number): string {
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
 }
 
+/** Mixes a hex colour with black: darken('#2563EB', 0.3) is 30% darker. */
+export function darken(hex: string, amount: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  const mix = (c: number) => Math.round(c * (1 - amount));
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(mix);
+  return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
+}
+
+/** A rich gradient made from one colour (used for subject heroes). */
+export function gradientFrom(hex: string): readonly [string, string, string] {
+  return [darken(hex, 0.72), darken(hex, 0.86), '#07070C'];
+}
+
 /** A category colour that reads well on the current background (lighter in dark mode). */
 export function categoryTone(hex: string, dark: boolean): string {
-  return dark ? lighten(hex, 0.35) : hex;
+  return dark ? lighten(hex, 0.25) : darken(hex, 0.12);
 }
 
 /** Adds transparency to a hex colour: withAlpha('#FF0000', 0.2). */

@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { categoryTone, lighten, withAlpha } from '@/theme';
+import { categoryTone, darken, lighten, withAlpha } from '@/theme';
 
 import { longDate } from '../time';
 
@@ -11,9 +11,14 @@ describe('colour helpers', () => {
     expect(lighten('#2563EB', 1)).toBe('#ffffff');
   });
 
-  it('uses lighter category colours only in dark mode', () => {
-    expect(categoryTone('#2563EB', false)).toBe('#2563EB');
-    expect(categoryTone('#2563EB', true)).not.toBe('#2563EB');
+  it('makes category colours lighter in dark mode and a little darker in light mode', () => {
+    expect(categoryTone('#2563EB', true)).toBe(lighten('#2563EB', 0.25));
+    expect(categoryTone('#2563EB', false)).toBe(darken('#2563EB', 0.12));
+  });
+
+  it('darkens towards black', () => {
+    expect(darken('#FFFFFF', 0.5)).toBe('#808080');
+    expect(darken('#2563EB', 0)).toBe('#2563eb');
   });
 
   it('adds transparency', () => {

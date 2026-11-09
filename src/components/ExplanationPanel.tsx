@@ -100,7 +100,7 @@ export function ExplanationPanel({
         <View className="px-5 pb-4 pt-4">
           {/* Fact cards show their explanation on the back of the card instead. */}
           {kind !== 'fact' ? (
-            <Txt className="text-[15px] leading-7 text-slate-700 dark:text-zinc-300">
+            <Txt className="text-[15px] leading-7 text-zinc-700 dark:text-zinc-300">
               {explanation}
             </Txt>
           ) : (
@@ -110,7 +110,7 @@ export function ExplanationPanel({
           {funFact && kind !== 'fact' ? (
             <View className="mt-4 flex-row gap-2.5 rounded-xl bg-amber-50/70 p-3.5 dark:bg-amber-500/5">
               <Icon name="sparkles" size={16} color={colors.points} />
-              <Txt className="flex-1 text-sm leading-6 text-slate-700 dark:text-zinc-300">
+              <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 <Txt weight="semibold" className="text-sm">
                   Fun fact{' '}
                 </Txt>
@@ -130,7 +130,7 @@ export function ExplanationPanel({
               disabled={reported}
               onPress={onReport}
               hitSlop={8}
-              className="min-h-9 flex-row items-center gap-1.5 rounded-lg px-2 active:bg-slate-100 web:hover:bg-slate-100 dark:active:bg-white/5 dark:web:hover:bg-white/5"
+              className="min-h-9 flex-row items-center gap-1.5 rounded-lg px-2 active:bg-zinc-100 web:hover:bg-zinc-100 dark:active:bg-white/5 dark:web:hover:bg-white/5"
             >
               <Icon
                 name={reported ? 'check-circle' : 'flag'}

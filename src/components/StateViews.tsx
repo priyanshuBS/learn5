@@ -81,5 +81,5 @@ export function MessageView({
 
 /** Grey placeholder blocks while a page loads. */
 export function SkeletonBlock({ className }: { className: string }) {
-  return <View className={twMerge('rounded-2xl bg-slate-200/60 dark:bg-white/5', className)} />;
+  return <View className={twMerge('rounded-2xl bg-zinc-200/60 dark:bg-white/5', className)} />;
 }

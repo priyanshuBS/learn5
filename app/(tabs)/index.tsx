@@ -1,22 +1,30 @@
 /**
- * Home — "Up next" drop, today's progress and stats, and today's drops for every category.
+ * Home — the daily dashboard.
+ *   1. greeting + big heading
+ *   2. "Up next" hero: the drop to play now (or a catch-up drop)
+ *   3. this week's streak + three small stats (today, points, level)
+ *   4. every subject with today's drops and its one next step
  */
 import { router } from 'expo-router';
-import { View } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import type { ReactNode } from 'react';
+import { Pressable, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import { twMerge } from 'tailwind-merge';
 
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
+import { usePress } from '@/components/Button';
+import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
+import { Glow, GlowDot, GradientText } from '@/components/Glow';
 import { Gradient } from '@/components/Gradient';
-import { Icon, type IconName } from '@/components/Icon';
+import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { SectionTitle } from '@/components/PageHeader';
 import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
-import { ThemeIconButton } from '@/components/ThemeToggle';
 import { SkeletonBlock } from '@/components/StateViews';
-import { Muted, Txt } from '@/components/Txt';
+import { ThemeIconButton } from '@/components/ThemeToggle';
+import { Eyebrow, Txt } from '@/components/Txt';
+import { WeekStreak } from '@/components/WeekStreak';
 import {
   dropKey,
   getCatchUpEntry,
@@ -25,15 +33,13 @@ import {
   SLOT_NAMES,
 } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { useColorScheme } from '@/hooks/useScheme';
 import { quizHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { friendlyDate, greeting, localClockLabel, longDate } from '@/lib/time';
-import { CATEGORY_ICONS, colors, HERO_GRADIENT } from '@/theme';
+import { CATEGORY_ICONS, colors, GLOW, HERO_GRADIENT } from '@/theme';
 
 export default function HomeScreen() {
-  const scheme = useColorScheme();
-  const { ready, index, zonedNow, now, stats, results, isDone } = useAppData();
+  const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
 
   if (!ready || !index) return <HomeSkeleton />;
 
@@ -73,195 +79,128 @@ export default function HomeScreen() {
   const doneToday = rows.reduce((n, r) => n + r.slots.filter((s) => s.status === 'done').length, 0);
   const totalToday = rows.reduce((n, r) => n + r.slots.length, 0);
   const { streak, level, points } = stats;
-  const upNextIcon = upNext ? CATEGORY_ICONS[upNext.category.id] : undefined;
+  const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
   return (
     <Screen>
-      <Animated.View entering={FadeIn.duration(250)}>
-        {/* Phone header (the logo and stats live in the sidebar on wide screens) */}
-        <View className="mb-6 flex-row items-center justify-between lg:hidden">
+      <Animated.View entering={FadeIn.duration(300)}>
+        {/* Phone top bar (the sidebar has these on wide screens) */}
+        <View className="mb-8 flex-row items-center justify-between lg:hidden">
           <Logo />
-          <ThemeIconButton />
+          <View className="flex-row items-center gap-2">
+            <View
+              accessible
+              accessibilityLabel={`${streak.current} day streak`}
+              className="flex-row items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1.5 dark:border-white/10 dark:bg-white/[0.04]"
+            >
+              <Icon name="flame" size={14} color={colors.streak} filled />
+              <Txt weight="bold" className="text-[13px]">
+                {streak.current}
+              </Txt>
+            </View>
+            <ThemeIconButton />
+          </View>
         </View>
 
-        <Muted className="text-[15px]">
+        {/* Greeting */}
+        <Eyebrow>
           {greeting(now)} · {longDate(zonedNow.date)}
-        </Muted>
+        </Eyebrow>
         <Txt
-          weight="bold"
+          weight="heavy"
           accessibilityRole="header"
-          className="mt-1 text-[26px] leading-9 tracking-tight md:text-[32px] md:leading-[42px]"
+          className="mt-3 text-[38px] leading-[42px] md:text-[56px] md:leading-[60px]"
         >
-          Ready for today’s 5 minutes?
+          Ready for today’s{'\n'}
+          <GradientText className="text-[38px] leading-[42px] md:text-[56px] md:leading-[60px]">
+            5 minutes?
+          </GradientText>
         </Txt>
 
-        <View className="mt-6 gap-4 xl:flex-row">
-          {/* Up next */}
-          <Gradient colors={HERO_GRADIENT} className="rounded-3xl p-6 md:p-7 xl:flex-[3]">
-            {upNextIcon ? (
-              <View className="absolute -right-4 -top-4 opacity-[0.12]" pointerEvents="none">
-                <Icon name={upNextIcon} size={150} color={colors.white} strokeWidth={1.25} />
+        <View className="mt-10 gap-4 xl:flex-row">
+          {/* ── Up next ── */}
+          <View className="xl:flex-[3]">
+            <UpNextHero
+              upNext={upNext}
+              doneToday={doneToday}
+              nextTime={nextTime}
+              nextTomorrow={!!next?.tomorrow}
+            />
+          </View>
+
+          {/* ── Streak + stats ── */}
+          <View className="gap-4 xl:flex-[2]">
+            <WeekStreak
+              playedDays={playedDays}
+              today={today}
+              current={streak.current}
+              best={streak.best}
+            />
+            {streak.current > 0 && !streak.playedToday ? (
+              <View className="flex-row items-center gap-2.5 rounded-2xl border border-orange-500/25 bg-orange-500/10 px-4 py-3">
+                <Icon name="flame" size={15} color={colors.streak} />
+                <Txt className="flex-1 text-[13px] text-orange-700 dark:text-orange-200">
+                  Play one drop today to keep your {streak.current}-day streak alive.
+                </Txt>
               </View>
             ) : null}
-            {upNext ? (
-              <>
-                <View className="flex-row flex-wrap items-center gap-2">
-                  <View className="flex-row items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
-                    <View className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    <Txt weight="semibold" className="text-xs text-white dark:text-white">
-                      Up next
-                    </Txt>
-                  </View>
-                  <Txt className="text-[13px] text-brand-200 dark:text-brand-200">
-                    {upNext.category.name} · {upNext.label}
-                  </Txt>
-                </View>
-                <Txt
-                  weight="bold"
-                  className="mt-4 max-w-lg text-[26px] leading-9 tracking-tight text-white dark:text-white md:text-[30px] md:leading-[40px]"
-                  numberOfLines={2}
-                >
-                  {upNext.entry.title}
-                </Txt>
-                <View className="mt-3 flex-row flex-wrap gap-x-5 gap-y-1.5">
-                  <HeroMeta icon="layers" text="5 questions" />
-                  <HeroMeta icon="timer" text="About 5 min" />
-                  <HeroMeta icon="star" text="Up to 100 pts" />
-                </View>
-                <View className="mt-7 flex-row">
-                  <Button
-                    label="Start drop"
-                    variant="inverse"
-                    icon="arrow-right"
-                    iconRight
-                    onPress={() => upNext && router.push(quizHref(upNext.entry))}
-                    accessibilityHint="Starts 5 quick questions"
-                  />
-                </View>
-              </>
-            ) : (
-              <>
-                <View className="flex-row items-center gap-1.5 self-start rounded-full bg-white/10 px-2.5 py-1">
-                  <Icon name="check-circle" size={13} color={colors.white} />
-                  <Txt weight="semibold" className="text-xs text-white dark:text-white">
-                    All caught up
-                  </Txt>
-                </View>
-                <Txt
-                  weight="bold"
-                  className="mt-4 text-[26px] leading-9 tracking-tight text-white dark:text-white"
-                >
-                  {doneToday > 0 ? 'Great work today.' : 'Your first drops open soon.'}
-                </Txt>
-                <Txt className="mt-2 text-[15px] text-brand-100 dark:text-brand-100">
-                  Next drop {next?.tomorrow ? 'tomorrow' : 'today'} at {nextTime}.
-                </Txt>
-              </>
-            )}
-          </Gradient>
-
-          {/* Today + stats */}
-          <Card className="justify-between gap-5 xl:flex-[2]">
-            <View className="flex-row items-center gap-4">
-              <ProgressRing
-                value={totalToday ? doneToday / totalToday : 0}
-                size={68}
-                strokeWidth={7}
-                label={`${doneToday} of ${totalToday} drops done today`}
-              >
-                <Txt weight="bold" className="text-[15px]">
-                  {totalToday ? Math.round((doneToday / totalToday) * 100) : 0}%
-                </Txt>
-              </ProgressRing>
-              <View className="flex-1">
-                <Txt weight="semibold" className="text-[15px]">
-                  Today’s progress
-                </Txt>
-                <Muted className="mt-0.5">
-                  {doneToday} of {totalToday} drops done
-                </Muted>
-                <View className="mt-1.5 flex-row items-center gap-1.5">
-                  <Icon
-                    name="clock"
-                    size={13}
-                    color={scheme === 'dark' ? colors.mutedDark : colors.muted}
-                  />
-                  <Muted className="text-[13px]">
-                    Next drop {next?.tomorrow ? 'tomorrow, ' : ''}
-                    {nextTime}
-                  </Muted>
-                </View>
-              </View>
+            <View className={twMerge(CARD_CLASSES, 'flex-row')}>
+              <StatCell label="Today" value={`${doneToday}/${totalToday}`}>
+                <ProgressRing
+                  value={totalToday ? doneToday / totalToday : 0}
+                  size={26}
+                  strokeWidth={3.5}
+                  label={`${doneToday} of ${totalToday} drops done today`}
+                />
+              </StatCell>
+              <View className="my-5 w-px bg-line dark:bg-white/10" />
+              <StatCell label="Points" value={points.toLocaleString('en-IN')}>
+                <Icon name="star" size={18} color={colors.points} filled />
+              </StatCell>
+              <View className="my-5 w-px bg-line dark:bg-white/10" />
+              <StatCell label={level.name} value={`Lvl ${level.level}`}>
+                <Icon name="trophy" size={18} color={colors.brandOnDark} />
+              </StatCell>
             </View>
-
-            <View className="flex-row border-t border-line pt-4 dark:border-ink-line">
-              <MiniStat
-                icon="flame"
-                color={colors.streak}
-                value={`${streak.current}`}
-                label="Day streak"
-              />
-              <MiniStat
-                icon="star"
-                color={colors.points}
-                value={points.toLocaleString('en-IN')}
-                label="Points"
-              />
-              <MiniStat
-                icon="trophy"
-                color={colors.brand}
-                value={`Lvl ${level.level}`}
-                label={level.name}
-              />
-            </View>
-
-            <View>
-              <View className="mb-1.5 flex-row justify-between">
-                <Muted className="text-xs">
-                  {level.nextAt ? `Progress to Level ${level.level + 1}` : 'Highest level reached'}
-                </Muted>
-                <Muted className="text-xs">
+            <View className={twMerge(CARD_CLASSES, 'px-5 py-4')}>
+              <View className="mb-2.5 flex-row justify-between">
+                <Eyebrow>{level.nextAt ? `To level ${level.level + 1}` : 'Highest level'}</Eyebrow>
+                <Eyebrow>
                   {level.nextAt
                     ? `${points.toLocaleString('en-IN')} / ${level.nextAt.toLocaleString('en-IN')}`
-                    : 'Top level'}
-                </Muted>
+                    : 'Legend'}
+                </Eyebrow>
               </View>
               <ProgressBar
                 value={level.progress}
                 label={`Level progress ${Math.round(level.progress * 100)} percent`}
               />
             </View>
-
-            {streak.current > 0 && !streak.playedToday ? (
-              <View className="flex-row items-center gap-2 rounded-xl bg-orange-50 px-3 py-2.5 dark:bg-orange-500/10">
-                <Icon name="flame" size={15} color={colors.streak} />
-                <Txt className="flex-1 text-[13px] text-orange-800 dark:text-orange-200">
-                  Play one drop today to keep your {streak.current}-day streak.
-                </Txt>
-              </View>
-            ) : null}
-          </Card>
+          </View>
         </View>
 
-        {/* Today's drops */}
+        {/* ── Subjects ── */}
         <SectionTitle
-          title="Today’s drops"
+          eyebrow="Subjects"
+          title="Your daily drops"
           right={
-            <Muted className="hidden md:flex">
-              {doneToday} of {totalToday} done
-            </Muted>
+            <Eyebrow>
+              {doneToday}/{totalToday} done
+            </Eyebrow>
           }
         />
         <View className="-m-2 flex-row flex-wrap">
-          {rows.map((row) => (
+          {rows.map((row, i) => (
             <View key={row.category.id} className="w-full p-2 md:w-1/2 xl:w-1/3">
-              <CategoryCard
-                category={row.category}
-                slots={row.slots}
-                offsetMinutes={zonedNow.offsetMinutes}
-                catchUp={row.catchUp}
-                getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
-              />
+              <Animated.View entering={FadeInDown.delay(60 * i).duration(450)} style={{ flex: 1 }}>
+                <CategoryCard
+                  category={row.category}
+                  slots={row.slots}
+                  offsetMinutes={zonedNow.offsetMinutes}
+                  catchUp={row.catchUp}
+                  getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
+                />
+              </Animated.View>
             </View>
           ))}
         </View>
@@ -270,37 +209,142 @@ export default function HomeScreen() {
   );
 }
 
-function HeroMeta({ icon, text }: { icon: IconName; text: string }) {
+function UpNextHero({
+  upNext,
+  doneToday,
+  nextTime,
+  nextTomorrow,
+}: {
+  upNext: { entry: IndexEntry; category: Category; label: string } | null;
+  doneToday: number;
+  nextTime: string;
+  nextTomorrow: boolean;
+}) {
+  const press = usePress(0.985);
+  const watermark = upNext ? CATEGORY_ICONS[upNext.category.id] : 'sparkles';
+  const start = () => upNext && router.push(quizHref(upNext.entry));
+
   return (
-    <View className="flex-row items-center gap-1.5">
-      <Icon name={icon} size={14} color={colors.brandOnDark} />
-      <Txt className="text-[13px] text-brand-100 dark:text-brand-100">{text}</Txt>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={
+        upNext
+          ? `Up next: ${upNext.entry.title}. ${upNext.category.name}. Start drop`
+          : 'All caught up'
+      }
+      accessibilityHint={upNext ? 'Starts 5 quick questions' : undefined}
+      disabled={!upNext}
+      onPress={start}
+      onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
+    >
+      <Animated.View style={press.style}>
+        <Gradient
+          colors={HERO_GRADIENT}
+          radius={28}
+          className="min-h-80 justify-between p-7 md:p-9"
+        >
+          {/* Glow orbs */}
+          <Glow color={GLOW.violet} size={420} opacity={0.55} style={{ top: -200, left: -160 }} />
+          <Glow color={GLOW.cyan} size={360} opacity={0.4} style={{ bottom: -200, right: -120 }} />
+          {watermark ? (
+            <View className="absolute right-7 top-7 opacity-[0.12]" pointerEvents="none">
+              <Icon name={watermark} size={120} color={colors.white} strokeWidth={1} />
+            </View>
+          ) : null}
+
+          {upNext ? (
+            <>
+              <View>
+                <View className="flex-row flex-wrap items-center gap-3">
+                  <GlassChip>
+                    <GlowDot />
+                    <Eyebrow className="text-white/90 dark:text-white/90">Up next</Eyebrow>
+                  </GlassChip>
+                  <Eyebrow className="text-white/60 dark:text-white/60">
+                    {upNext.category.name} · {upNext.label}
+                  </Eyebrow>
+                </View>
+                <Txt
+                  weight="heavy"
+                  className="mt-6 max-w-lg text-[32px] leading-[38px] text-white dark:text-white md:text-[42px] md:leading-[48px]"
+                  numberOfLines={3}
+                >
+                  {upNext.entry.title}
+                </Txt>
+              </View>
+
+              <View className="mt-10 flex-row items-end justify-between gap-4">
+                <View className="flex-1 flex-row flex-wrap gap-2">
+                  <GlassChip>
+                    <Icon name="layers" size={13} color="rgba(255,255,255,0.85)" />
+                    <Txt className="text-xs text-white/85 dark:text-white/85">5 questions</Txt>
+                  </GlassChip>
+                  <GlassChip>
+                    <Icon name="timer" size={13} color="rgba(255,255,255,0.85)" />
+                    <Txt className="text-xs text-white/85 dark:text-white/85">~5 min</Txt>
+                  </GlassChip>
+                  <GlassChip>
+                    <Icon name="star" size={13} color="rgba(255,255,255,0.85)" />
+                    <Txt className="text-xs text-white/85 dark:text-white/85">100 pts</Txt>
+                  </GlassChip>
+                </View>
+                <View className="h-[72px] w-[72px] items-center justify-center rounded-full bg-[#F2F2F5] web:shadow-[0_10px_40px_-8px_rgba(139,92,246,0.9)]">
+                  <Icon name="play" size={26} color="#050508" filled />
+                </View>
+              </View>
+            </>
+          ) : (
+            <>
+              <GlassChip>
+                <Icon name="check-circle" size={13} color={colors.white} />
+                <Eyebrow className="text-white/90 dark:text-white/90">All caught up</Eyebrow>
+              </GlassChip>
+              <View>
+                <Txt
+                  weight="heavy"
+                  className="text-[32px] leading-[38px] text-white dark:text-white"
+                >
+                  {doneToday > 0 ? 'Great work today.' : 'Your first drops open soon.'}
+                </Txt>
+                <Txt className="mt-2 text-[15px] text-white/70 dark:text-white/70">
+                  Next drop {nextTomorrow ? 'tomorrow' : 'today'} at {nextTime}.
+                </Txt>
+              </View>
+            </>
+          )}
+        </Gradient>
+      </Animated.View>
+    </Pressable>
+  );
+}
+
+function GlassChip({ children }: { children: ReactNode }) {
+  return (
+    <View className="flex-row items-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5">
+      {children}
     </View>
   );
 }
 
-function MiniStat({
-  icon,
-  color,
-  value,
+function StatCell({
   label,
+  value,
+  children,
 }: {
-  icon: IconName;
-  color: string;
-  value: string;
   label: string;
+  value: string;
+  children: ReactNode;
 }) {
   return (
-    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1">
-      <View className="flex-row items-center gap-1.5">
-        <Icon name={icon} size={15} color={color} filled={icon !== 'trophy'} />
-        <Txt weight="bold" className="text-[17px] tracking-tight" numberOfLines={1}>
-          {value}
-        </Txt>
-      </View>
-      <Muted className="mt-0.5 text-xs" numberOfLines={1}>
+    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 p-5">
+      <View className="h-7 justify-center">{children}</View>
+      <Txt weight="bold" className="mt-3 text-[22px] leading-7" numberOfLines={1}>
+        {value}
+      </Txt>
+      <Eyebrow className="mt-1 text-[10px]" numberOfLines={1}>
         {label}
-      </Muted>
+      </Eyebrow>
     </View>
   );
 }
@@ -309,19 +353,19 @@ function MiniStat({
 function HomeSkeleton() {
   return (
     <Screen>
-      <View className="mb-6 lg:hidden">
+      <View className="mb-8 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-4 w-48" />
-      <SkeletonBlock className="mt-3 h-8 w-72" />
-      <View className="mt-6 gap-4 xl:flex-row">
-        <SkeletonBlock className="h-56 rounded-3xl xl:flex-[3]" />
-        <SkeletonBlock className="h-56 xl:flex-[2]" />
+      <SkeletonBlock className="h-3 w-48" />
+      <SkeletonBlock className="mt-4 h-12 w-80" />
+      <View className="mt-10 gap-4 xl:flex-row">
+        <SkeletonBlock className="h-80 rounded-[28px] xl:flex-[3]" />
+        <SkeletonBlock className="h-80 rounded-3xl xl:flex-[2]" />
       </View>
-      <View className="-m-2 mt-12 flex-row flex-wrap">
+      <View className="-m-2 mt-14 flex-row flex-wrap">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <View key={i} className="w-full p-2 md:w-1/2 xl:w-1/3">
-            <SkeletonBlock className="h-40" />
+            <SkeletonBlock className="h-60 rounded-3xl" />
           </View>
         ))}
       </View>

@@ -6,13 +6,13 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import categoriesFile from '../../../content/categories.json';
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { CategoryIcon } from '@/components/CategoryIcon';
-import { DropCard } from '@/components/DropCard';
+import { Button, IconButton } from '@/components/Button';
+import { DropCard, TimelineDrop } from '@/components/DropCard';
+import { Glow } from '@/components/Glow';
+import { Gradient } from '@/components/Gradient';
 import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
-import { PageHeader, SectionTitle } from '@/components/PageHeader';
+import { SectionTitle } from '@/components/PageHeader';
 import { Screen } from '@/components/Screen';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
@@ -24,10 +24,10 @@ import {
   SLOT_NAMES,
 } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { quizHref, resultsHref, goHome } from '@/lib/routes';
+import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
-import { colors } from '@/theme';
+import { CATEGORY_ICONS, colors, darken, gradientFrom, GLOW } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -87,56 +87,84 @@ export default function CategoryScreen() {
   const accuracy = answered > 0 ? `${Math.round((correct / answered) * 100)}%` : '—';
   const categoryMistakes = mistakes.filter((m) => m.drop.category === category.id).length;
 
+  const heroIcon = CATEGORY_ICONS[category.id];
+
   const openDrop = (entry: IndexEntry) =>
     router.push(isDone(entry) ? resultsHref(entry) : quizHref(entry));
 
   return (
     <Screen width="narrow">
-      <PageHeader title={category.name} subtitle={category.tagline} back />
+      {/* Subject hero, in the subject's own colour */}
+      <Gradient
+        colors={gradientFrom(category.color)}
+        lip={darken(category.color, 0.62)}
+        radius={28}
+        className="p-6 md:p-7"
+      >
+        <Glow color={category.color} size={420} opacity={0.55} style={{ top: -200, right: -160 }} />
+        <Glow color={GLOW.cyan} size={300} opacity={0.18} style={{ bottom: -170, left: -120 }} />
 
-      {/* Summary */}
-      <Card className="flex-row items-center gap-4">
-        <CategoryIcon category={category} size="lg" />
-        <View className="flex-1 flex-row">
-          <Summary value={`${categoryResults.length}`} label="Drops done" />
-          <Summary value={accuracy} label="Accuracy" />
-          <Summary value={`${categoryMistakes}`} label="To review" />
+        <View className="flex-row items-center justify-between">
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} onDark />
+          <View className="h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
+            {heroIcon ? (
+              <Icon name={heroIcon} size={24} color={colors.white} />
+            ) : (
+              <Txt className="text-2xl">{category.emoji}</Txt>
+            )}
+          </View>
         </View>
-      </Card>
+        <Txt
+          weight="heavy"
+          accessibilityRole="header"
+          className="mt-6 text-[32px] leading-10 tracking-tighter text-white"
+        >
+          {category.name}
+        </Txt>
+        <Txt className="mt-1 text-[15px] text-white/80">{category.tagline}</Txt>
+        <View className="mt-6 flex-row gap-2">
+          <HeroStat value={`${categoryResults.length}`} label="Drops done" />
+          <HeroStat value={accuracy} label="Accuracy" />
+          <HeroStat value={`${categoryMistakes}`} label="To review" />
+        </View>
+      </Gradient>
+
       {categoryMistakes > 0 ? (
         <Button
           label={`Review ${categoryMistakes} ${categoryMistakes === 1 ? 'mistake' : 'mistakes'}`}
           icon="review"
           variant="soft"
           onPress={() => router.push({ pathname: '/review', params: { category: category.id } })}
-          className="mt-3"
+          className="mt-4"
         />
       ) : null}
 
-      {/* Today */}
-      <SectionTitle title="Today" />
-      {slots.map((slot) => {
+      {/* Today, as a timeline */}
+      <SectionTitle title="Today" subtitle="A new drop every morning, afternoon and evening." />
+      {slots.map((slot, i) => {
         const name = SLOT_NAMES[slot.drop - 1] ?? `Drop ${slot.drop}`;
         const time = localClockLabel(slot.time, zonedNow.offsetMinutes);
         const result = slot.entry ? results[dropKey(slot.entry)] : undefined;
         const entry = slot.entry;
         const showTitle = entry && (slot.status === 'available' || slot.status === 'done');
+        const waitingTitle = slot.status === 'missing' ? 'Running a little late' : 'Opens soon';
         return (
-          <DropCard
+          <TimelineDrop
             key={slot.drop}
             drop={slot.drop}
+            name={name}
+            time={time}
             status={slot.status}
-            title={showTitle ? entry.title : `${name} drop`}
-            meta={`${name} · ${time}`}
-            timeLabel={time}
+            title={showTitle ? entry.title : waitingTitle}
             scoreLabel={result ? `${result.correctCount}/${result.items.length}` : undefined}
             onPress={showTitle ? () => openDrop(entry) : undefined}
+            last={i === slots.length - 1}
           />
         );
       })}
 
       {hasMissing && catchUp ? (
-        <View className="mt-1 rounded-2xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-500/20 dark:bg-amber-500/10">
+        <View className="rounded-3xl border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
           <View className="flex-row items-center gap-2">
             <Icon name="hourglass" size={16} color={colors.warning} />
             <Txt weight="semibold" className="text-amber-900 dark:text-amber-200">
@@ -149,8 +177,9 @@ export default function CategoryScreen() {
           <Button
             label="Play latest drop"
             icon="play"
+            size="md"
             onPress={() => router.push(quizHref(catchUp))}
-            className="mt-3"
+            className="mt-4 self-start"
           />
         </View>
       ) : null}
@@ -199,13 +228,17 @@ export default function CategoryScreen() {
   );
 }
 
-function Summary({ value, label }: { value: string; label: string }) {
+function HeroStat({ value, label }: { value: string; label: string }) {
   return (
-    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 items-center">
-      <Txt weight="bold" className="text-xl">
+    <View
+      accessible
+      accessibilityLabel={`${label}: ${value}`}
+      className="flex-1 rounded-2xl border border-white/15 bg-white/10 px-3 py-3"
+    >
+      <Txt weight="bold" className="text-xl tracking-tight text-white">
         {value}
       </Txt>
-      <Muted className="text-xs">{label}</Muted>
+      <Txt className="text-xs text-white/75">{label}</Txt>
     </View>
   );
 }

@@ -26,7 +26,7 @@ interface ThemeState {
 export const useTheme = create<ThemeState>()(
   persist(
     (set) => ({
-      preference: 'system',
+      preference: 'dark',
       setPreference: (preference) => set({ preference }),
     }),
     {

@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 // Learn5 design system for Tailwind (NativeWind).
-//   brand  = Indigo: buttons, links, active states
+//   brand  = Violet (with cyan "accent"): links, active states, glows
 //   canvas = light page background, line = light borders
+//   ink-*  = the near-black studio look (dark mode is the default)
 //   ink-*  = dark-mode page, cards, borders
 // Dark mode follows the phone / browser setting automatically ("dark:" classes).
 module.exports = {
@@ -16,36 +17,46 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          50: '#EEF2FF',
-          100: '#E0E7FF',
-          200: '#C7D2FE',
-          300: '#A5B4FC',
-          400: '#818CF8',
-          500: '#6366F1',
-          600: '#4F46E5',
-          700: '#4338CA',
-          800: '#3730A3',
-          900: '#312E81',
-          950: '#1E1B4B',
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#7C3AED',
+          700: '#6D28D9',
+          800: '#5B21B6',
+          900: '#4C1D95',
+          950: '#2E1065',
         },
-        canvas: '#F7F7FA',
-        line: '#E8E8EE',
+        accent: {
+          300: '#67E8F9',
+          400: '#22D3EE',
+          500: '#06B6D4',
+        },
+        canvas: '#F7F7FB',
+        line: '#E6E6EF',
         ink: {
-          DEFAULT: '#09090B',
-          soft: '#0E0E12',
-          card: '#131318',
-          raised: '#1A1A21',
-          line: '#26262E',
+          DEFAULT: '#050508',
+          soft: '#08080D',
+          card: '#0E0E15',
+          raised: '#15151E',
+          line: '#1E1E2A',
         },
       },
-      // Inter: each weight is its own font file, so weights are chosen with
-      // these classes (via the Txt component), not with "font-bold".
+      // Fonts (same family as priyanshusingh.co.in):
+      //   body    = Inter (text)
+      //   display = Bricolage Grotesque (headings, numbers — bold weights)
+      //   mono    = JetBrains Mono (small uppercase labels)
+      // Each weight is its own font file, so weights are chosen with these classes
+      // (via the Txt component), not with "font-bold".
       fontFamily: {
-        inter: ['Inter_400Regular'],
-        'inter-medium': ['Inter_500Medium'],
-        'inter-semibold': ['Inter_600SemiBold'],
-        'inter-bold': ['Inter_700Bold'],
-        'inter-heavy': ['Inter_800ExtraBold'],
+        body: ['Inter_400Regular'],
+        'body-medium': ['Inter_500Medium'],
+        'body-semibold': ['Inter_600SemiBold'],
+        'body-bold': ['BricolageGrotesque_700Bold'],
+        'body-heavy': ['BricolageGrotesque_800ExtraBold'],
+        mono: ['JetBrainsMono_500Medium'],
       },
     },
   },

@@ -17,7 +17,7 @@ import { Icon, type IconName } from './Icon';
 import { Logo } from './Logo';
 import { ProgressBar } from './ProgressBar';
 import { ThemeToggle } from './ThemeToggle';
-import { Muted, Txt } from './Txt';
+import { Eyebrow, Muted, Txt } from './Txt';
 
 const NAV_ITEMS: { name: string; label: string; icon: IconName }[] = [
   { name: 'index', label: 'Home', icon: 'home' },
@@ -55,14 +55,14 @@ export function AppNav({
   if (variant === 'sidebar') {
     return (
       <View
-        className="w-64 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink-soft"
+        className="w-64 border-r border-line bg-white/80 px-3 pb-4 dark:border-white/10 dark:bg-white/[0.02]"
         style={{ paddingTop: insets.top + 20 }}
       >
         <View className="px-3">
           <Logo />
         </View>
 
-        <Muted className="mb-2 mt-8 px-3 text-[11px] uppercase tracking-widest">Menu</Muted>
+        <Eyebrow className="mb-3 mt-10 px-3">Menu</Eyebrow>
         <View className="gap-0.5" accessibilityRole="tablist">
           {NAV_ITEMS.map((item) => {
             const active = item.name === activeName;
@@ -75,10 +75,10 @@ export function AppNav({
                 accessibilityState={{ selected: active }}
                 onPress={() => go(item.name)}
                 className={twMerge(
-                  'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
+                  'min-h-11 flex-row items-center gap-3 rounded-full px-4 py-2 web:transition-colors',
                   active
-                    ? 'bg-slate-100 dark:bg-white/[0.06]'
-                    : 'active:bg-slate-100 web:hover:bg-slate-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]',
+                    ? 'border border-line bg-white dark:border-white/15 dark:bg-white/[0.07]'
+                    : 'border border-transparent active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
                 )}
               >
                 <Icon
@@ -91,7 +91,7 @@ export function AppNav({
                   weight={active ? 'semibold' : 'medium'}
                   className={twMerge(
                     'flex-1 text-[14px]',
-                    active ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-zinc-400',
+                    active ? 'text-[#0B0B12] dark:text-white' : 'text-zinc-500 dark:text-[#8E8EA3]',
                   )}
                 >
                   {item.label}
@@ -111,7 +111,7 @@ export function AppNav({
         <View className="flex-1" />
 
         {ready ? (
-          <View className="mx-1 rounded-xl border border-line p-3.5 dark:border-ink-line">
+          <View className="mx-1 rounded-3xl border border-line bg-white p-4 dark:border-white/10 dark:bg-white/[0.035]">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-1.5">
                 <Icon name="flame" size={15} color={colors.streak} filled />
@@ -147,9 +147,9 @@ export function AppNav({
             accessibilityRole="button"
             accessibilityLabel={`Account: ${email}. Open progress and account`}
             onPress={() => go('badges')}
-            className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-slate-100 web:hover:bg-slate-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
+            className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-500">
               <Txt weight="semibold" className="text-xs uppercase text-white">
                 {email[0]}
               </Txt>
@@ -163,56 +163,71 @@ export function AppNav({
     );
   }
 
+  // Phones: a floating pill bar. The active tab grows into a saffron pill with its label.
   return (
     <View
-      accessibilityRole="tablist"
-      className="flex-row border-t border-line bg-white/95 px-2 dark:border-ink-line dark:bg-ink-soft"
-      style={{ paddingBottom: Math.max(insets.bottom, 8) }}
+      className="bg-canvas px-4 pt-2 dark:bg-ink"
+      style={{ paddingBottom: Math.max(insets.bottom, 10) }}
     >
-      {NAV_ITEMS.map((item) => {
-        const active = item.name === activeName;
-        const badge = badgeFor(item.name);
-        return (
-          <Pressable
-            key={item.name}
-            accessibilityRole="tab"
-            accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
-            accessibilityState={{ selected: active }}
-            onPress={() => go(item.name)}
-            className="min-h-14 flex-1 items-center justify-center pt-2"
-          >
-            <View
+      <View
+        accessibilityRole="tablist"
+        className="flex-row items-center rounded-full border border-line bg-white p-1.5 dark:border-white/10 dark:bg-[#0E0E15]"
+        style={FLOATING_SHADOW}
+      >
+        {NAV_ITEMS.map((item) => {
+          const active = item.name === activeName;
+          const badge = badgeFor(item.name);
+          return (
+            <Pressable
+              key={item.name}
+              accessibilityRole="tab"
+              accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
+              accessibilityState={{ selected: active }}
+              onPress={() => go(item.name)}
               className={twMerge(
-                'h-8 w-14 items-center justify-center rounded-full',
-                active && 'bg-brand-50 dark:bg-brand-500/15',
+                'h-12 flex-row items-center justify-center gap-2 rounded-full',
+                active
+                  ? 'flex-[1.8] bg-[#0B0B12] dark:bg-[#F2F2F5]'
+                  : 'flex-1 active:bg-zinc-100 dark:active:bg-white/5',
               )}
             >
-              <Icon
-                name={item.icon}
-                size={20}
-                color={iconColor(active)}
-                strokeWidth={active ? 2.25 : 2}
-              />
-              {badge ? (
-                <View className="absolute right-2 top-0.5 h-4 min-w-4 items-center justify-center rounded-full border-2 border-white bg-rose-500 px-0.5 dark:border-ink-soft">
-                  <Txt weight="bold" className="text-[9px] leading-3 text-white dark:text-white">
-                    {badge > 9 ? '9+' : badge}
-                  </Txt>
-                </View>
+              <View>
+                <Icon
+                  name={item.icon}
+                  size={20}
+                  color={active ? (dark ? '#050508' : colors.white) : iconColor(false)}
+                  strokeWidth={active ? 2.25 : 2}
+                />
+                {badge && !active ? (
+                  <View className="absolute -right-2 -top-1.5 h-4 min-w-4 items-center justify-center rounded-full border border-white bg-rose-500 px-0.5 dark:border-ink-card">
+                    <Txt weight="bold" className="text-[9px] leading-3 text-white dark:text-white">
+                      {badge > 9 ? '9+' : badge}
+                    </Txt>
+                  </View>
+                ) : null}
+              </View>
+              {active ? (
+                <Txt
+                  weight="semibold"
+                  className="text-[13px] text-white dark:text-[#050508]"
+                  numberOfLines={1}
+                >
+                  {item.label}
+                </Txt>
               ) : null}
-            </View>
-            <Txt
-              weight={active ? 'semibold' : 'medium'}
-              className={twMerge(
-                'mt-1 text-[11px]',
-                active ? 'text-brand-700 dark:text-brand-200' : 'text-slate-500 dark:text-zinc-500',
-              )}
-            >
-              {item.label}
-            </Txt>
-          </Pressable>
-        );
-      })}
+            </Pressable>
+          );
+        })}
+      </View>
     </View>
   );
 }
+
+/** Soft shadow under the floating tab bar on phones (the website uses web:shadow-lg). */
+const FLOATING_SHADOW = {
+  shadowColor: '#000000',
+  shadowOpacity: 0.12,
+  shadowRadius: 18,
+  shadowOffset: { width: 0, height: 8 },
+  elevation: 8,
+} as const;

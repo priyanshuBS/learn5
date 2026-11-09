@@ -10,8 +10,8 @@ const DESCRIPTION =
 
 // Page background before the app loads (avoids a white flash in dark mode).
 const BACKGROUND_CSS = `
-body { background-color: #F7F7FA; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #09090B; }
+body { background-color: #F7F7FB; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #050508; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -24,7 +24,7 @@ const THEME_SCRIPT = `
     var query = window.matchMedia('(prefers-color-scheme: dark)');
     var apply = function () {
       // Read the choice each time: the user may have changed it in the app.
-      var pref = 'system';
+      var pref = 'dark';
       try {
         var saved = JSON.parse(localStorage.getItem('learn5:theme') || 'null');
         if (saved && saved.state && saved.state.preference) pref = saved.state.preference;
@@ -51,7 +51,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#4F46E5" />
+        <meta name="theme-color" content="#050508" />
         <title>Learn5 — 5 questions. 5 minutes.</title>
         <ScrollViewStyleReset />
         <style dangerouslySetInnerHTML={{ __html: BACKGROUND_CSS }} />

@@ -266,7 +266,7 @@ function ReviewPlayer({
         <Muted>{item.topic}</Muted>
       </View>
 
-      <View className="mt-4">
+      <Card className="mt-4 p-5 md:p-8">
         <QuizCard
           item={item}
           answer={answer}
@@ -287,7 +287,7 @@ function ReviewPlayer({
             });
           }}
         />
-      </View>
+      </Card>
 
       {answer ? (
         <ExplanationPanel

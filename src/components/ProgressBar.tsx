@@ -3,8 +3,9 @@
  * ProgressRing — a circular progress ring with content in the middle.
  * QuizProgress — one segment per question that turns green/red as you answer.
  */
+import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
 
@@ -13,7 +14,7 @@ import { colors } from '@/theme';
 
 export function ProgressBar({
   value,
-  color = colors.brand,
+  color,
   className,
   label,
 }: {
@@ -31,14 +32,23 @@ export function ProgressBar({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
       className={twMerge(
-        'h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-white/10',
+        'h-2 overflow-hidden rounded-full bg-zinc-200/70 dark:bg-white/10',
         className,
       )}
     >
       <View
-        className="h-full rounded-full"
+        className="h-full overflow-hidden rounded-full"
         style={{ width: `${percent}%`, backgroundColor: color }}
-      />
+      >
+        {color ? null : (
+          <LinearGradient
+            colors={['#8B5CF6', '#22D3EE']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
+      </View>
     </View>
   );
 }
@@ -123,13 +133,13 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
         <View
           key={i}
           className={twMerge(
-            'h-1.5 flex-1 rounded-full',
-            state === 'todo' && 'bg-slate-200 dark:bg-white/10',
-            state === 'current' && 'bg-brand-500',
+            'h-1.5 flex-1 overflow-hidden rounded-full',
+            state === 'todo' && 'bg-zinc-200 dark:bg-white/10',
+            state === 'current' && 'bg-brand-400',
             state === 'correct' && 'bg-emerald-500',
             state === 'wrong' && 'bg-rose-500',
           )}
-        />
+        ></View>
       ))}
     </View>
   );
