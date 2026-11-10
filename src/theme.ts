@@ -7,42 +7,44 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** Main colour: green. */
-  brand: '#16A34A',
-  brandDark: '#15803D',
-  brandSoft: '#ECFDF3',
-  brandOnDark: '#4ADE80',
-  /** Complementary colour: pink ("open now", highlights, the logo's dot). */
-  pop: '#FF3D7F',
-  popLight: '#FF6FA3',
+  /** Main colour: slate graphite (light mode). */
+  brand: '#23302D',
+  brandDark: '#1A2422',
+  brandSoft: '#F1F4F3',
+  /** Main colour on dark backgrounds (active tab, links): mint. */
+  brandOnDark: '#34D399',
+  /** Accent: mint (progress, "open now", highlights, the logo's dot). */
+  pop: '#10B981',
+  popLight: '#34D399',
+  popDark: '#059669',
   /** Older names. */
-  leaf: '#16A34A',
-  leafLight: '#4ADE80',
-  volt: '#FF3D7F',
+  leaf: '#10B981',
+  leafLight: '#34D399',
+  volt: '#10B981',
   /** Darkest text colour, used where code needs "black". */
-  black: '#14201A',
+  black: '#16201E',
   white: '#FFFFFF',
-  text: '#14201A',
-  textDark: '#EEF7F1',
-  muted: '#6B8276',
-  mutedDark: '#93AE9F',
-  line: '#E2EEE6',
-  inkLine: '#24392E',
+  text: '#16201E',
+  textDark: '#EDF2F1',
+  muted: '#66716F',
+  mutedDark: '#99A6A3',
+  line: '#E2E6E5',
+  inkLine: '#2D3735',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#F97316',
   points: '#E2A31A',
-  canvas: '#F6FBF8',
-  ink: '#0F1A15',
+  canvas: '#F6F7F7',
+  ink: '#161B1A',
   /** Empty part of progress rings. */
-  track: '#E4F0E8',
-  trackDark: '#24392E',
+  track: '#E5E9E8',
+  trackDark: '#2D3735',
 } as const;
 
-/** The green that reads well on the current background (progress, rings, accent icons). */
+/** Mint for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
-  return dark ? colors.brandOnDark : colors.brand;
+  return dark ? colors.popLight : colors.pop;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */

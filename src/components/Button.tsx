@@ -1,12 +1,12 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid green (light green with dark text in dark mode): the main action
+ *   primary   = solid graphite (light graphite with dark text in dark mode): the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
- *   soft      = light green tint
+ *   soft      = light grey tint
  *   success   = green, danger = red (quiz feedback)
- *   inverse   = white, for green panels
+ *   inverse   = white, for graphite panels
  *   ghost     = text only
  */
 import { ActivityIndicator, Pressable, View } from 'react-native';
@@ -34,8 +34,8 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-brand-400 web:hover:bg-brand-300', text: '#052E16' }
-        : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
+        ? { box: 'bg-brand-300 web:hover:bg-white', text: '#16201E' }
+        : { box: 'bg-brand-600 web:hover:bg-brand-500', text: '#FFFFFF' };
     case 'secondary':
       return dark
         ? {
@@ -55,11 +55,11 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-brand-50', text: '#14201A' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#16201E' };
     case 'ghost':
       return dark
-        ? { box: 'web:hover:bg-white/5', text: '#CAD8D0' }
-        : { box: 'web:hover:bg-black/5', text: '#3F4A44' };
+        ? { box: 'web:hover:bg-white/5', text: '#CDD3D2' }
+        : { box: 'web:hover:bg-black/5', text: '#3A4442' };
   }
 }
 

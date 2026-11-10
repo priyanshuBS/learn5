@@ -309,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#EEF5F1] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#F0F2F2] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

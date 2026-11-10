@@ -24,7 +24,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'text-base text-[#14201A] dark:text-[#EEF7F1]',
+        'text-base text-[#16201E] dark:text-[#EDF2F1]',
         WEIGHTS[weight],
         className,
       )}
@@ -36,7 +36,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
 /** Small grey helper text. */
 export function Muted({ className, ...rest }: TxtProps) {
   return (
-    <Txt className={twMerge('text-sm text-[#6B8276] dark:text-[#93AE9F]', className)} {...rest} />
+    <Txt className={twMerge('text-sm text-[#66716F] dark:text-[#99A6A3]', className)} {...rest} />
   );
 }
 
@@ -45,7 +45,7 @@ export function Eyebrow({ className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'font-body-medium text-[13px] text-[#6B8276] dark:text-[#93AE9F]',
+        'font-body-medium text-[13px] text-[#66716F] dark:text-[#99A6A3]',
         className,
       )}
       {...rest}

@@ -84,11 +84,7 @@ export default function HomeScreen() {
             label="Today"
             value={`${doneToday}/${totalToday}`}
             icon={
-              <Icon
-                name="check-circle"
-                size={14}
-                color={dark ? colors.brandOnDark : colors.brand}
-              />
+              <Icon name="check-circle" size={14} color={dark ? colors.popLight : colors.pop} />
             }
           >
             <ProgressBar
