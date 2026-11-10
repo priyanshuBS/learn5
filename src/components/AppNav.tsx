@@ -77,7 +77,7 @@ export function AppNav({
                 className={twMerge(
                   'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
                   active
-                    ? 'bg-[#FCE8ED] dark:bg-ink-raised'
+                    ? 'bg-[#FFE8F0] dark:bg-ink-raised'
                     : 'active:bg-black/5 web:hover:bg-black/[0.03] dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
                 )}
               >
@@ -92,8 +92,8 @@ export function AppNav({
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-[#2A1219] dark:text-[#F7E9EE]'
-                      : 'text-zinc-600 dark:text-[#B8A5AD]',
+                      ? 'text-[#1F1A1D] dark:text-[#EEF7F1]'
+                      : 'text-zinc-600 dark:text-[#93AE9F]',
                   )}
                 >
                   {item.label}
@@ -151,8 +151,8 @@ export function AppNav({
             onPress={() => go('badges')}
             className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-400">
-              <Txt weight="semibold" className="text-xs uppercase text-white dark:text-[#2A1219]">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-500">
+              <Txt weight="semibold" className="text-xs uppercase text-white dark:text-white">
                 {email[0]}
               </Txt>
             </View>

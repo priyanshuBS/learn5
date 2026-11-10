@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E11D48",
+        "backgroundColor": "#FF3D7F",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -32,8 +32,8 @@
       "name": "Learn5",
       "shortName": "Learn5",
       "description": "5 questions. 5 minutes. Get smarter every day.",
-      "themeColor": "#1A1216",
-      "backgroundColor": "#1A1216"
+      "themeColor": "#0F1A15",
+      "backgroundColor": "#0F1A15"
     },
     "plugins": [
       [
@@ -45,7 +45,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#1A1216",
+          "backgroundColor": "#0F1A15",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 120
         }
@@ -54,7 +54,7 @@
       [
         "expo-notifications",
         {
-          "color": "#E11D48"
+          "color": "#FF3D7F"
         }
       ]
     ],

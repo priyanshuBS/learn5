@@ -121,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-2xl bg-brand-100 p-4 dark:bg-brand-400/10 md:p-8 lg:flex-1">
+          <View className="rounded-2xl bg-brand-100 p-4 dark:bg-ink-raised md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -309,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F8EEF1] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#F8EEF2] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

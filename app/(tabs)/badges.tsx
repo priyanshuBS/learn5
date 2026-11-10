@@ -196,8 +196,8 @@ export default function ProgressScreen() {
                 Level {l.level} · {l.name}
               </Txt>
               {current ? (
-                <View className="rounded-full bg-brand-600 px-2 py-0.5 dark:bg-brand-400">
-                  <Txt weight="semibold" className="text-[11px] text-white dark:text-[#2A1219]">
+                <View className="rounded-full bg-brand-600 px-2 py-0.5 dark:bg-brand-500">
+                  <Txt weight="semibold" className="text-[11px] text-white dark:text-white">
                     You are here
                   </Txt>
                 </View>
@@ -232,8 +232,8 @@ export default function ProgressScreen() {
       <SectionTitle title="Account" />
       <Card className="gap-4 md:flex-row md:items-center">
         <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-400">
-            <Txt weight="bold" className="text-base uppercase text-white dark:text-[#2A1219]">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-500">
+            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
               {user?.email?.[0] ?? '?'}
             </Txt>
           </View>
@@ -331,7 +331,7 @@ function SyncLine() {
 function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
-      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#B8A5AD]">{label}</Txt>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#93AE9F]">{label}</Txt>
     </Pressable>
   );
 }

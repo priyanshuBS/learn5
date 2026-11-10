@@ -7,36 +7,40 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** Gold: the logo's dot. */
-  volt: '#FFC24B',
-  brand: '#E11D48',
-  brandDark: '#BE123C',
-  brandSoft: '#FFF1F3',
-  brandOnDark: '#FB6F92',
-  /** Darkest text colour (deep plum), used where code needs "black". */
-  black: '#2A1219',
+  /** Green: progress, "open now", the logo's dot. */
+  leaf: '#22C55E',
+  leafLight: '#4ADE80',
+  /** Older name for the logo-dot colour. */
+  volt: '#22C55E',
+  /** Hot pink: buttons, links, the active tab. */
+  brand: '#FF3D7F',
+  brandDark: '#E0246A',
+  brandSoft: '#FFF0F5',
+  brandOnDark: '#FF6FA3',
+  /** Darkest text colour, used where code needs "black". */
+  black: '#1F1A1D',
   white: '#FFFFFF',
-  text: '#2A1219',
-  textDark: '#F7E9EE',
-  muted: '#7A6970',
-  mutedDark: '#B8A5AD',
-  line: '#F1E4E7',
-  inkLine: '#3A2A31',
+  text: '#1F1A1D',
+  textDark: '#EEF7F1',
+  muted: '#857079',
+  mutedDark: '#93AE9F',
+  line: '#F3E3EA',
+  inkLine: '#24392E',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#F97316',
   points: '#E2A31A',
-  canvas: '#FFF7F8',
-  ink: '#1A1216',
+  canvas: '#FFF8FA',
+  ink: '#0F1A15',
   /** Empty part of progress rings. */
-  track: '#F1E4E7',
-  trackDark: '#3A2A31',
+  track: '#F3E6EC',
+  trackDark: '#24392E',
 } as const;
 
-/** The brand rose that reads well on the current background. */
+/** Green for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
-  return dark ? colors.brandOnDark : colors.brand;
+  return dark ? colors.leafLight : colors.leaf;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */
