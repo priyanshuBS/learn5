@@ -60,6 +60,10 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="theme-color" content="#0A0A0A" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
+        {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;
+            change both when the icon changes. Source: assets/images/favicon.png. */}
+        <link rel="icon" type="image/png" href="/learn5-icon.png?v=2" />
+        <link rel="apple-touch-icon" href="/learn5-icon.png?v=2" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Learn5" />

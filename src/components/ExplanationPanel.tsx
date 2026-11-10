@@ -63,13 +63,13 @@ export function ExplanationPanel({
               'h-7 w-7 items-center justify-center rounded-full',
               kind === 'correct' && 'bg-emerald-500',
               kind === 'wrong' && 'bg-rose-500',
-              kind === 'fact' && 'bg-volt',
+              kind === 'fact' && 'bg-amber-500',
             )}
           >
             <Icon
               name={kind === 'correct' ? 'check' : kind === 'wrong' ? 'x' : 'bookmark'}
               size={15}
-              color={kind === 'fact' ? colors.black : colors.white}
+              color={colors.white}
               strokeWidth={3}
             />
           </View>

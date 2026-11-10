@@ -185,19 +185,19 @@ export default function ProgressScreen() {
               <View
                 className={twMerge(
                   'h-5 w-5 items-center justify-center rounded-full',
-                  reached ? 'bg-volt' : 'border border-line dark:border-ink-line',
+                  reached ? 'bg-emerald-500' : 'border border-line dark:border-ink-line',
                 )}
               >
                 {reached ? (
-                  <Icon name="check" size={11} color={colors.black} strokeWidth={3.5} />
+                  <Icon name="check" size={11} color={colors.white} strokeWidth={3.5} />
                 ) : null}
               </View>
               <Txt weight={current ? 'semibold' : 'regular'} className="flex-1 text-[15px]">
                 Level {l.level} · {l.name}
               </Txt>
               {current ? (
-                <View className="rounded-full bg-volt px-2 py-0.5">
-                  <Txt weight="semibold" className="text-[11px] text-[#0A0A0A] dark:text-[#0A0A0A]">
+                <View className="rounded-full bg-[#0A0A0A] px-2 py-0.5 dark:bg-white">
+                  <Txt weight="semibold" className="text-[11px] text-white dark:text-[#0A0A0A]">
                     You are here
                   </Txt>
                 </View>
@@ -232,8 +232,8 @@ export default function ProgressScreen() {
       <SectionTitle title="Account" />
       <Card className="gap-4 md:flex-row md:items-center">
         <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-full bg-volt">
-            <Txt weight="bold" className="text-base uppercase text-[#0A0A0A] dark:text-[#0A0A0A]">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-[#0A0A0A] dark:bg-white">
+            <Txt weight="bold" className="text-base uppercase text-white dark:text-[#0A0A0A]">
               {user?.email?.[0] ?? '?'}
             </Txt>
           </View>

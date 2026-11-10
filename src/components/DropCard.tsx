@@ -108,7 +108,9 @@ export function SlotTile({
           ? 'hourglass'
           : null;
   const iconColor = available
-    ? colors.black
+    ? dark
+      ? colors.black
+      : colors.white
     : done
       ? colors.success
       : status === 'missing'
@@ -126,7 +128,8 @@ export function SlotTile({
       onPress={onPress}
       className={twMerge(
         'min-h-16 flex-1 justify-between rounded-xl border px-3 py-2.5 web:transition-colors',
-        available && 'border-volt bg-volt active:bg-volt-dim web:hover:bg-volt-dim',
+        available &&
+          'border-[#0A0A0A] bg-[#0A0A0A] active:opacity-90 web:hover:bg-[#262626] dark:border-white dark:bg-white dark:web:hover:bg-zinc-200',
         done &&
           'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
         waiting && 'border-dashed border-line dark:border-ink-line',
@@ -138,14 +141,20 @@ export function SlotTile({
         <Icon
           name={SLOT_ICONS[drop - 1] ?? 'clock'}
           size={13}
-          color={available ? 'rgba(10,10,10,0.7)' : dark ? colors.mutedDark : colors.muted}
+          color={
+            available
+              ? dark
+                ? 'rgba(10,10,10,0.7)'
+                : 'rgba(255,255,255,0.75)'
+              : dark
+                ? colors.mutedDark
+                : colors.muted
+          }
         />
         <Txt
           className={twMerge(
             'text-xs',
-            available
-              ? 'text-[#0A0A0A]/70 dark:text-[#0A0A0A]/70'
-              : 'text-zinc-500 dark:text-zinc-400',
+            available ? 'text-white/75 dark:text-[#0A0A0A]/70' : 'text-zinc-500 dark:text-zinc-400',
           )}
           numberOfLines={1}
         >
@@ -161,7 +170,7 @@ export function SlotTile({
           numberOfLines={1}
           className={twMerge(
             'text-[13px]',
-            available && 'text-[#0A0A0A] dark:text-[#0A0A0A]',
+            available && 'text-white dark:text-[#0A0A0A]',
             done && 'text-emerald-700 dark:text-emerald-300',
             waiting && 'text-zinc-500 dark:text-zinc-400',
             status === 'missing' && 'text-amber-700 dark:text-amber-300',
@@ -277,7 +286,7 @@ export function TimelineDrop({
           className={twMerge(
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
-            available && 'bg-volt',
+            available && 'bg-[#0A0A0A] dark:bg-white',
             status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}

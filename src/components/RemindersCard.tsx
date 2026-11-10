@@ -194,7 +194,7 @@ function Switch({
       hitSlop={8}
       className={twMerge(
         'h-8 w-14 justify-center rounded-full px-1',
-        value ? 'bg-[#0A0A0A] dark:bg-volt' : 'bg-zinc-200 dark:bg-ink-line',
+        value ? 'bg-emerald-500' : 'bg-zinc-200 dark:bg-ink-line',
         disabled && 'opacity-60',
       )}
     >

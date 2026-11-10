@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 // Learn5 design system for Tailwind (NativeWind).
-//   volt   = electric lime: the main actions and highlights (black text on it)
-//   brand  = lime tints (light) and olive text (dark shades)
+//   brand  = neutral greys: the UI is black and white
+//   volt   = lime, only as a tiny signal (logo dot)
 //   gold   = points and achievements
 //   canvas / line = off-white page background and borders
 //   ink-*  = dark-mode (black) page, cards, raised surfaces and borders
@@ -16,31 +16,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Electric lime: the one bright colour. Black text goes on top of it.
+        // Lime: used only as a tiny signal (the logo's dot). Black text goes on it.
         volt: {
           DEFAULT: '#C8F135',
           dim: '#B6DE1F',
         },
-        // Lime scale for tints and text. 50-400 are light (tints, text on black);
-        // 500-900 are dark olive (text on white, which plain lime can't do).
+        // "brand" is a neutral scale: the UI is black and white, and colour comes
+        // from the subjects and from meaning (green = correct, orange = streak, gold = points).
+        // 50-200: light tints, 300-400: light text on black, 500-900: dark text on white.
         brand: {
-          50: '#F5FBDF',
-          100: '#EAF6BC',
-          200: '#DCF08C',
-          300: '#D2F35A',
-          400: '#C8F135',
-          500: '#7FA30F',
-          600: '#5A7409',
-          700: '#465A07',
-          800: '#354405',
-          900: '#263104',
-          950: '#161D02',
+          50: '#F4F4F2',
+          100: '#E9E9E6',
+          200: '#D4D4D0',
+          300: '#E5E5E2',
+          400: '#D4D4D0',
+          500: '#737371',
+          600: '#262626',
+          700: '#171717',
+          800: '#0A0A0A',
+          900: '#0A0A0A',
+          950: '#0A0A0A',
         },
         // Kept as an alias of the brand scale (older class names).
         accent: {
-          300: '#D2F35A',
-          400: '#C8F135',
-          500: '#7FA30F',
+          300: '#E5E5E2',
+          400: '#D4D4D0',
+          500: '#737371',
         },
         // Gold for points and achievements.
         gold: {

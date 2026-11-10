@@ -126,7 +126,7 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
           className={twMerge(
             'h-1.5 flex-1 overflow-hidden rounded-full',
             state === 'todo' && 'bg-[#E5E5E2] dark:bg-ink-line',
-            state === 'current' && 'bg-[#0A0A0A] dark:bg-volt',
+            state === 'current' && 'bg-[#0A0A0A] dark:bg-white',
             state === 'correct' && 'bg-green-600',
             state === 'wrong' && 'bg-red-500',
           )}

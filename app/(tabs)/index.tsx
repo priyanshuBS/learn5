@@ -1,6 +1,6 @@
 /**
  * Home — the daily dashboard. All subjects are equal, so none is pushed first.
- *   1. a bold header (black; lime in dark mode): date, greeting, a one-line summary of today,
+ *   1. a bold black header: date, greeting, a one-line summary of today,
  *      and a strip with today's progress, streak, points and level
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. this week: streak days and level progress
@@ -25,14 +25,12 @@ import { Muted, Txt } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { useColorScheme } from '@/hooks/useScheme';
 import { quizHref } from '@/lib/routes';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
 export default function HomeScreen() {
-  const dark = useColorScheme() === 'dark';
   const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
 
   if (!ready || !index) return <HomeSkeleton />;
@@ -78,20 +76,20 @@ export default function HomeScreen() {
           <ThemeIconButton />
         </View>
 
-        {/* Header (black; lime in dark mode): greeting, summary, the next drop and key numbers */}
-        <View className="overflow-hidden rounded-3xl bg-[#0A0A0A] dark:bg-volt">
+        {/* Header (black; a dark card in dark mode): greeting, summary, the next drop and key numbers */}
+        <View className="overflow-hidden rounded-2xl bg-[#0A0A0A] dark:border dark:border-ink-line dark:bg-ink-card">
           <View className="px-6 pb-6 pt-6 md:px-8 md:pt-8">
-            <Txt className="text-[14px] text-white/60 dark:text-[#0A0A0A]/60">
+            <Txt className="text-[14px] text-white/60 dark:text-white/60">
               {longDate(zonedNow.date)}
             </Txt>
             <Txt
               weight="display"
               accessibilityRole="header"
-              className="mt-1 text-[32px] leading-[40px] text-white dark:text-[#0A0A0A] md:text-[40px] md:leading-[48px]"
+              className="mt-1 text-[32px] leading-[40px] text-white dark:text-white md:text-[40px] md:leading-[48px]"
             >
               {greeting(now)}
             </Txt>
-            <Txt className="mt-2 max-w-xl text-[15px] leading-6 text-white/75 dark:text-[#0A0A0A]/75">
+            <Txt className="mt-2 max-w-xl text-[15px] leading-6 text-white/75 dark:text-white/75">
               {summary}
             </Txt>
             {upNext?.slot?.entry ? (
@@ -104,7 +102,7 @@ export default function HomeScreen() {
                   accessibilityHint={`Starts ${displayTitle(upNext.slot.entry.title)}`}
                 />
                 <Txt
-                  className="flex-shrink text-[13px] text-white/60 dark:text-[#0A0A0A]/60"
+                  className="flex-shrink text-[13px] text-white/60 dark:text-white/60"
                   numberOfLines={1}
                 >
                   Up next · {displayTitle(upNext.slot.entry.title)}
@@ -112,18 +110,16 @@ export default function HomeScreen() {
               </View>
             ) : null}
           </View>
-          <View className="flex-row border-t border-white/10 dark:border-black/10">
+          <View className="flex-row border-t border-white/10 dark:border-ink-line">
             <StatCell
               label="Today"
               value={`${doneToday}/${totalToday}`}
-              icon={
-                <Icon name="check-circle" size={14} color={dark ? colors.black : colors.volt} />
-              }
+              icon={<Icon name="check-circle" size={14} color={colors.white} />}
             >
               <ProgressBar
                 value={totalToday ? doneToday / totalToday : 0}
-                color={dark ? colors.black : colors.volt}
-                className="mt-2 h-1 bg-white/15 dark:bg-black/15"
+                color={colors.white}
+                className="mt-2 h-1 bg-white/15 dark:bg-white/10"
                 label={`${doneToday} of ${totalToday} drops done today`}
               />
             </StatCell>
@@ -131,24 +127,20 @@ export default function HomeScreen() {
             <StatCell
               label="Streak"
               value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
-              icon={
-                <Icon name="flame" size={14} color={dark ? colors.black : colors.streak} filled />
-              }
+              icon={<Icon name="flame" size={14} color={colors.streak} filled />}
             />
             <Divider />
             <StatCell
               label="Points"
               value={points.toLocaleString('en-IN')}
-              icon={
-                <Icon name="star" size={14} color={dark ? colors.black : colors.points} filled />
-              }
+              icon={<Icon name="star" size={14} color={colors.points} filled />}
             />
             <Divider className="hidden md:flex" />
             <View className="hidden flex-1 md:flex">
               <StatCell
                 label="Level"
                 value={`${level.level} · ${level.name}`}
-                icon={<Icon name="trophy" size={14} color={dark ? colors.black : colors.white} />}
+                icon={<Icon name="trophy" size={14} color={colors.white} />}
               />
             </View>
           </View>
@@ -231,7 +223,7 @@ export default function HomeScreen() {
 }
 
 function Divider({ className }: { className?: string }) {
-  return <View className={twMerge('my-4 w-px bg-white/10 dark:bg-black/10', className)} />;
+  return <View className={twMerge('my-4 w-px bg-white/10 dark:bg-ink-line', className)} />;
 }
 
 function StatCell({
@@ -249,13 +241,13 @@ function StatCell({
     <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 px-4 py-4 md:px-5">
       <View className="flex-row items-center gap-1.5">
         {icon}
-        <Txt className="text-[13px] text-white/60 dark:text-[#0A0A0A]/60" numberOfLines={1}>
+        <Txt className="text-[13px] text-white/60 dark:text-white/60" numberOfLines={1}>
           {label}
         </Txt>
       </View>
       <Txt
         weight="display"
-        className="mt-1 text-[20px] leading-7 text-white dark:text-[#0A0A0A]"
+        className="mt-1 text-[20px] leading-7 text-white dark:text-white"
         numberOfLines={1}
       >
         {value}
@@ -272,7 +264,7 @@ function HomeSkeleton() {
       <View className="mb-6 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-56 rounded-3xl" />
+      <SkeletonBlock className="h-56 rounded-2xl" />
       <View className="-m-1.5 mt-10 flex-row flex-wrap">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <View key={i} className="w-full p-1.5 md:w-1/2 xl:w-1/3">

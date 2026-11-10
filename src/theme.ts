@@ -7,13 +7,13 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** Electric lime: the one bright colour. Put black on it, never white. */
+  /** Lime: only a tiny signal (the logo's dot). */
   volt: '#C8F135',
-  /** Olive: lime-family colour readable on white (icons, links). */
-  brand: '#5A7409',
-  brandDark: '#465A07',
-  brandSoft: '#F5FBDF',
-  brandOnDark: '#C8F135',
+  /** The UI accent is plain black (white in dark mode). */
+  brand: '#0A0A0A',
+  brandDark: '#262626',
+  brandSoft: '#F4F4F2',
+  brandOnDark: '#F5F5F4',
   black: '#0A0A0A',
   white: '#FFFFFF',
   text: '#0A0A0A',
@@ -34,9 +34,9 @@ export const colors = {
   trackDark: '#262626',
 } as const;
 
-/** The accent for progress and icons: black on light pages, lime on black ones. */
+/** The accent for progress and icons: black on light pages, white on dark ones. */
 export function brandTone(dark: boolean): string {
-  return dark ? colors.volt : colors.black;
+  return dark ? colors.textDark : colors.black;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */

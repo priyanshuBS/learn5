@@ -2,7 +2,7 @@
  * CategoryCard — one subject on the Home screen.
  *   - the subject (solid icon, name, tagline) and today's count, e.g. "1/3"
  *   - today's 3 drops as chips: Done / Open / Late / opening time
- *   - ONE clear next step: a lime "Play" bar when a drop is open, otherwise
+ *   - ONE clear next step: a "Play" button when a drop is open, otherwise
  *     a quiet line (catch-up, next drop time, or all done)
  * Tap the top part to open the subject page.
  */
@@ -20,6 +20,7 @@ import { localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
+import { Button } from './Button';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
 import { CategoryIcon } from './CategoryIcon';
 import { Icon, type IconName } from './Icon';
@@ -94,27 +95,23 @@ export function CategoryCard({
 
       {/* The one next step */}
       {open?.entry ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Play the ${SLOT_NAMES[open.drop - 1]} ${category.name} drop: ${displayTitle(open.entry.title)}`}
-          onPress={() => open.entry && router.push(quizHref(open.entry))}
-          className="flex-row items-center gap-3 bg-volt px-5 py-3.5 active:bg-volt-dim web:transition-colors web:hover:bg-volt-dim"
-        >
-          <View className="flex-1">
-            <Txt weight="bold" className="text-[14px] text-[#0A0A0A] dark:text-[#0A0A0A]">
-              Play {SLOT_NAMES[open.drop - 1].toLowerCase()} drop
-            </Txt>
-            <Txt
-              className="text-[13px] leading-5 text-[#0A0A0A]/70 dark:text-[#0A0A0A]/70"
-              numberOfLines={1}
-            >
-              {displayTitle(open.entry.title)}
-            </Txt>
+        <Footer>
+          <View className="flex-row items-center gap-3">
+            <View className="flex-1">
+              <Muted className="text-[12px]">{SLOT_NAMES[open.drop - 1]} drop · open now</Muted>
+              <Txt weight="medium" className="text-[14px] leading-5" numberOfLines={1}>
+                {displayTitle(open.entry.title)}
+              </Txt>
+            </View>
+            <Button
+              label="Play"
+              size="sm"
+              icon="play"
+              onPress={() => open.entry && router.push(quizHref(open.entry))}
+              accessibilityHint={`Starts ${displayTitle(open.entry.title)}`}
+            />
           </View>
-          <View className="h-9 w-9 items-center justify-center rounded-full bg-[#0A0A0A]">
-            <Icon name="arrow-right" size={17} color={colors.volt} strokeWidth={2.5} />
-          </View>
-        </Pressable>
+        </Footer>
       ) : allDone ? (
         <Footer>
           <NextLine
@@ -164,10 +161,10 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop done`}
-          className="h-7 flex-1 flex-row items-center justify-center gap-1 rounded-full bg-[#0A0A0A] px-2 dark:bg-white"
+          className="h-7 flex-1 flex-row items-center justify-center gap-1 rounded-full bg-emerald-50 px-2 dark:bg-emerald-500/15"
         >
-          <Icon name="check" size={12} color={colors.volt} strokeWidth={3} />
-          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#0A0A0A]">
+          <Icon name="check" size={12} color={colors.success} strokeWidth={3} />
+          <Txt weight="semibold" className="text-[12px] text-emerald-700 dark:text-emerald-300">
             Done
           </Txt>
         </View>
@@ -177,10 +174,10 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop open now`}
-          className="h-7 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-volt px-2"
+          className="h-7 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-[#0A0A0A] px-2 dark:bg-white"
         >
-          <View className="h-1.5 w-1.5 rounded-full bg-[#0A0A0A]" />
-          <Txt weight="semibold" className="text-[12px] text-[#0A0A0A] dark:text-[#0A0A0A]">
+          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#0A0A0A]" />
+          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#0A0A0A]">
             Open
           </Txt>
         </View>

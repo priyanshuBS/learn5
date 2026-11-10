@@ -100,9 +100,9 @@ export default function WelcomeScreen() {
               Learn something new in{' '}
               <Txt
                 weight="display"
-                className="bg-volt text-[38px] leading-[44px] text-[#0A0A0A] dark:text-[#0A0A0A] md:text-[52px] md:leading-[58px]"
+                className="text-[38px] leading-[44px] text-zinc-400 dark:text-zinc-500 md:text-[52px] md:leading-[58px]"
               >
-                {' five minutes '}
+                five minutes
               </Txt>{' '}
               a day.
             </Txt>
@@ -121,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-3xl bg-volt p-4 md:p-8 lg:flex-1">
+          <View className="rounded-2xl bg-[#E6E6E1] p-4 dark:bg-ink-soft md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -160,7 +160,7 @@ export default function WelcomeScreen() {
             <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
               <Txt
                 weight="display"
-                className="text-[34px] leading-[40px] text-[#0A0A0A] dark:text-volt"
+                className="text-[34px] leading-[40px] text-zinc-300 dark:text-zinc-700"
               >
                 {i + 1}
               </Txt>
@@ -191,15 +191,15 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 rounded-3xl bg-[#0A0A0A] p-6 dark:bg-volt md:flex-row md:items-center md:justify-between md:p-10">
+        <View className="mt-16 items-start gap-5 rounded-2xl bg-[#0A0A0A] p-6 dark:border dark:border-ink-line dark:bg-ink-card md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
             <Txt
               weight="display"
-              className="text-[26px] leading-9 text-white dark:text-[#0A0A0A] md:text-[30px]"
+              className="text-[26px] leading-9 text-white dark:text-white md:text-[30px]"
             >
               Start your first drop today
             </Txt>
-            <Txt className="mt-1 text-[15px] leading-6 text-white/70 dark:text-[#0A0A0A]/70">
+            <Txt className="mt-1 text-[15px] leading-6 text-white/70 dark:text-white/70">
               Create a free account with just your email.
             </Txt>
           </View>
