@@ -129,7 +129,7 @@ export function SlotTile({
       className={twMerge(
         'min-h-16 flex-1 justify-between rounded-xl border px-3 py-2.5 web:transition-colors',
         available &&
-          'border-[#0A0A0A] bg-[#0A0A0A] active:opacity-90 web:hover:bg-[#262626] dark:border-white dark:bg-white dark:web:hover:bg-zinc-200',
+          'border-brand-600 bg-brand-600 active:opacity-90 web:hover:bg-brand-700 dark:border-brand-400 dark:bg-brand-400 dark:web:hover:bg-brand-300',
         done &&
           'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
         waiting && 'border-dashed border-line dark:border-ink-line',
@@ -154,7 +154,7 @@ export function SlotTile({
         <Txt
           className={twMerge(
             'text-xs',
-            available ? 'text-white/75 dark:text-[#0A0A0A]/70' : 'text-zinc-500 dark:text-zinc-400',
+            available ? 'text-white/75 dark:text-[#2A1219]/70' : 'text-zinc-500 dark:text-zinc-400',
           )}
           numberOfLines={1}
         >
@@ -170,7 +170,7 @@ export function SlotTile({
           numberOfLines={1}
           className={twMerge(
             'text-[13px]',
-            available && 'text-white dark:text-[#0A0A0A]',
+            available && 'text-white dark:text-[#2A1219]',
             done && 'text-emerald-700 dark:text-emerald-300',
             waiting && 'text-zinc-500 dark:text-zinc-400',
             status === 'missing' && 'text-amber-700 dark:text-amber-300',
@@ -272,7 +272,9 @@ export function TimelineDrop({
   const nodeColor = done
     ? colors.white
     : available
-      ? colors.black
+      ? dark
+        ? colors.black
+        : colors.white
       : status === 'missing'
         ? colors.warning
         : dark
@@ -286,7 +288,7 @@ export function TimelineDrop({
           className={twMerge(
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
-            available && 'bg-[#0A0A0A] dark:bg-white',
+            available && 'bg-brand-600 dark:bg-brand-400',
             status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}

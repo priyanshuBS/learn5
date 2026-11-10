@@ -146,7 +146,7 @@ export default function ResultsScreen() {
             >
               <Txt weight="display" className="text-5xl">
                 {attempt.correctCount}
-                <Txt weight="medium" className="text-xl text-[#6B6B68] dark:text-[#A1A19E]">
+                <Txt weight="medium" className="text-xl text-[#7A6970] dark:text-[#B8A5AD]">
                   /{total}
                 </Txt>
               </Txt>

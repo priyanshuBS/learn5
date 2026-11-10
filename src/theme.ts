@@ -7,36 +7,36 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** Lime: only a tiny signal (the logo's dot). */
-  volt: '#C8F135',
-  /** The UI accent is plain black (white in dark mode). */
-  brand: '#0A0A0A',
-  brandDark: '#262626',
-  brandSoft: '#F4F4F2',
-  brandOnDark: '#F5F5F4',
-  black: '#0A0A0A',
+  /** Gold: the logo's dot. */
+  volt: '#FFC24B',
+  brand: '#E11D48',
+  brandDark: '#BE123C',
+  brandSoft: '#FFF1F3',
+  brandOnDark: '#FB6F92',
+  /** Darkest text colour (deep plum), used where code needs "black". */
+  black: '#2A1219',
   white: '#FFFFFF',
-  text: '#0A0A0A',
-  textDark: '#F5F5F4',
-  muted: '#6B6B68',
-  mutedDark: '#A1A19E',
-  line: '#E3E3DE',
-  inkLine: '#262626',
+  text: '#2A1219',
+  textDark: '#F7E9EE',
+  muted: '#7A6970',
+  mutedDark: '#B8A5AD',
+  line: '#F1E4E7',
+  inkLine: '#3A2A31',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#F97316',
   points: '#E2A31A',
-  canvas: '#F2F2EE',
-  ink: '#0A0A0A',
+  canvas: '#FFF7F8',
+  ink: '#1A1216',
   /** Empty part of progress rings. */
-  track: '#E5E5E2',
-  trackDark: '#262626',
+  track: '#F1E4E7',
+  trackDark: '#3A2A31',
 } as const;
 
-/** The accent for progress and icons: black on light pages, white on dark ones. */
+/** The brand rose that reads well on the current background. */
 export function brandTone(dark: boolean): string {
-  return dark ? colors.textDark : colors.black;
+  return dark ? colors.brandOnDark : colors.brand;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */

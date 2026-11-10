@@ -83,11 +83,16 @@ export default function HomeScreen() {
           <StatCell
             label="Today"
             value={`${doneToday}/${totalToday}`}
-            icon={<Icon name="check-circle" size={14} color={colors.success} />}
+            icon={
+              <Icon
+                name="check-circle"
+                size={14}
+                color={dark ? colors.brandOnDark : colors.brand}
+              />
+            }
           >
             <ProgressBar
               value={totalToday ? doneToday / totalToday : 0}
-              color={colors.success}
               className="mt-2 h-1"
               label={`${doneToday} of ${totalToday} drops done today`}
             />

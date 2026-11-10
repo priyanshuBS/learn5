@@ -1,10 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 // Learn5 design system for Tailwind (NativeWind).
-//   brand  = neutral greys: the UI is black and white
-//   volt   = lime, only as a tiny signal (logo dot)
-//   gold   = points and achievements
-//   canvas / line = off-white page background and borders
-//   ink-*  = dark-mode (black) page, cards, raised surfaces and borders
+//   brand  = raspberry rose: buttons, links, active states, progress
+//   volt   = gold: the logo's dot
+//   canvas / line = blush-white page background and borders
+//   ink-*  = dark-mode (plum-charcoal) page, cards, raised surfaces and borders
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -16,63 +15,61 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Lime: used only as a tiny signal (the logo's dot). Black text goes on it.
+        // Gold: the dot in the logo, points and achievements.
         volt: {
-          DEFAULT: '#C8F135',
-          dim: '#B6DE1F',
+          DEFAULT: '#FFC24B',
+          dim: '#F5B12E',
         },
-        // "brand" is a neutral scale: the UI is black and white, and colour comes
-        // from the subjects and from meaning (green = correct, orange = streak, gold = points).
-        // 50-200: light tints, 300-400: light text on black, 500-900: dark text on white.
+        // Raspberry rose: buttons, links, active states, progress.
+        // 50-200: light tints, 300-400: rose for dark mode, 500-900: rose for light mode.
         brand: {
-          50: '#F4F4F2',
-          100: '#E9E9E6',
-          200: '#D4D4D0',
-          300: '#E5E5E2',
-          400: '#D4D4D0',
-          500: '#737371',
-          600: '#262626',
-          700: '#171717',
-          800: '#0A0A0A',
-          900: '#0A0A0A',
-          950: '#0A0A0A',
+          50: '#FFF1F3',
+          100: '#FFE4E8',
+          200: '#FECDD6',
+          300: '#FDA4B8',
+          400: '#FB6F92',
+          500: '#F43F6B',
+          600: '#E11D48',
+          700: '#BE123C',
+          800: '#9F1239',
+          900: '#881337',
+          950: '#4C0519',
         },
         // Kept as an alias of the brand scale (older class names).
         accent: {
-          300: '#E5E5E2',
-          400: '#D4D4D0',
-          500: '#737371',
+          300: '#FDA4B8',
+          400: '#FB6F92',
+          500: '#F43F6B',
         },
-        // Gold for points and achievements.
         gold: {
           DEFAULT: '#E2A31A',
           soft: '#FBF0D2',
           light: '#F2C14E',
         },
-        // Light mode: soft off-white page, crisp borders.
-        canvas: '#F2F2EE',
-        line: '#E3E3DE',
-        // Dark mode: true black with graphite cards.
+        // Light mode: soft blush-white page, warm borders.
+        canvas: '#FFF7F8',
+        line: '#F1E4E7',
+        // Dark mode: deep plum-charcoal (not black).
         ink: {
-          DEFAULT: '#0A0A0A',
-          soft: '#0E0E0E',
-          card: '#141414',
-          raised: '#1C1C1C',
-          line: '#262626',
+          DEFAULT: '#1A1216',
+          soft: '#1E1519',
+          card: '#24191E',
+          raised: '#2E2127',
+          line: '#3A2A31',
         },
-        // Plain neutral greys (no colour tint).
+        // Greys with a hint of rose, so they sit well on blush and plum.
         zinc: {
-          50: '#FAFAFA',
-          100: '#F4F4F2',
-          200: '#E5E5E2',
-          300: '#D4D4D0',
-          400: '#A3A3A0',
-          500: '#737371',
-          600: '#525250',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
-          950: '#0A0A0A',
+          50: '#FBF8F9',
+          100: '#F5EFF1',
+          200: '#EADFE3',
+          300: '#D9CACF',
+          400: '#A8969D',
+          500: '#7A6970',
+          600: '#5E4F55',
+          700: '#47393F',
+          800: '#31262B',
+          900: '#21181C',
+          950: '#1A1216',
         },
       },
       // Space Grotesk for headings and big numbers; Inter for everything else.

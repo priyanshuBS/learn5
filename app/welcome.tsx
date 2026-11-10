@@ -100,7 +100,7 @@ export default function WelcomeScreen() {
               Learn something new in{' '}
               <Txt
                 weight="display"
-                className="text-[38px] leading-[44px] text-zinc-400 dark:text-zinc-500 md:text-[52px] md:leading-[58px]"
+                className="text-[38px] leading-[44px] text-brand-600 dark:text-brand-400 md:text-[52px] md:leading-[58px]"
               >
                 five minutes
               </Txt>{' '}
@@ -121,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-2xl bg-[#E6E6E1] p-4 dark:bg-ink-soft md:p-8 lg:flex-1">
+          <View className="rounded-2xl bg-brand-100 p-4 dark:bg-brand-400/10 md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -160,7 +160,7 @@ export default function WelcomeScreen() {
             <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
               <Txt
                 weight="display"
-                className="text-[34px] leading-[40px] text-zinc-300 dark:text-zinc-700"
+                className="text-[34px] leading-[40px] text-brand-600 dark:text-brand-400"
               >
                 {i + 1}
               </Txt>
@@ -191,7 +191,7 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 rounded-2xl bg-[#0A0A0A] p-6 dark:border dark:border-ink-line dark:bg-ink-card md:flex-row md:items-center md:justify-between md:p-10">
+        <View className="mt-16 items-start gap-5 rounded-2xl bg-brand-600 p-6 md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
             <Txt
               weight="display"
@@ -309,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F0F0EC] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#F8EEF1] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>
