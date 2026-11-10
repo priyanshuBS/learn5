@@ -32,7 +32,7 @@ export function ProgressBar({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
       className={twMerge(
-        'h-2 overflow-hidden rounded-full bg-[#E8E3D5] dark:bg-ink-line',
+        'h-2 overflow-hidden rounded-full bg-[#E5E5E2] dark:bg-ink-line',
         className,
       )}
     >
@@ -125,8 +125,8 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
           key={i}
           className={twMerge(
             'h-1.5 flex-1 overflow-hidden rounded-full',
-            state === 'todo' && 'bg-[#E8E3D5] dark:bg-ink-line',
-            state === 'current' && 'bg-brand-500',
+            state === 'todo' && 'bg-[#E5E5E2] dark:bg-ink-line',
+            state === 'current' && 'bg-[#0A0A0A] dark:bg-volt',
             state === 'correct' && 'bg-green-600',
             state === 'wrong' && 'bg-red-500',
           )}

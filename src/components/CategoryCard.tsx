@@ -82,7 +82,7 @@ export function CategoryCard({
                 <View
                   className={twMerge(
                     'h-1.5 rounded-full',
-                    !done && !isOpen && 'bg-[#E8E3D5] dark:bg-ink-line',
+                    !done && !isOpen && 'bg-[#E5E5E2] dark:bg-ink-line',
                   )}
                   style={
                     done

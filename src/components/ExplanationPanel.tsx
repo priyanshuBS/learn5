@@ -55,7 +55,7 @@ export function ExplanationPanel({
             'flex-row items-center gap-3 px-5 py-3.5',
             kind === 'correct' && 'bg-emerald-50 dark:bg-emerald-500/10',
             kind === 'wrong' && 'bg-rose-50 dark:bg-rose-500/10',
-            kind === 'fact' && 'bg-brand-50 dark:bg-brand-500/10',
+            kind === 'fact' && 'bg-brand-50 dark:bg-brand-400/10',
           )}
         >
           <View
@@ -63,13 +63,13 @@ export function ExplanationPanel({
               'h-7 w-7 items-center justify-center rounded-full',
               kind === 'correct' && 'bg-emerald-500',
               kind === 'wrong' && 'bg-rose-500',
-              kind === 'fact' && 'bg-brand-600',
+              kind === 'fact' && 'bg-volt',
             )}
           >
             <Icon
               name={kind === 'correct' ? 'check' : kind === 'wrong' ? 'x' : 'bookmark'}
               size={15}
-              color={colors.white}
+              color={kind === 'fact' ? colors.black : colors.white}
               strokeWidth={3}
             />
           </View>

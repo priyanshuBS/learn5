@@ -11,9 +11,13 @@ const DESCRIPTION =
   'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Math, Reasoning, Computer Science, Physics, Chemistry and Biology.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
+// --css-interop-darkMode: tells NativeWind "dark mode = the dark class" before its
+// own CSS arrives, so it reads the right theme at start instead of switching
+// later (same value Tailwind writes for darkMode: 'class').
 const BACKGROUND_CSS = `
-body { background-color: #F4F1E8; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #0E1512; }
+:root { --css-interop-darkMode: class dark; }
+body { background-color: #F2F2EE; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #0A0A0A; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -53,7 +57,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#0E1512" />
+        <meta name="theme-color" content="#0A0A0A" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}

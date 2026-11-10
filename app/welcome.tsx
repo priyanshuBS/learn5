@@ -99,10 +99,10 @@ export default function WelcomeScreen() {
             >
               Learn something new in{' '}
               <Txt
-                weight="display-italic"
-                className="text-[38px] leading-[44px] text-brand-600 dark:text-brand-400 md:text-[52px] md:leading-[58px]"
+                weight="display"
+                className="bg-volt text-[38px] leading-[44px] text-[#0A0A0A] dark:text-[#0A0A0A] md:text-[52px] md:leading-[58px]"
               >
-                five minutes
+                {' five minutes '}
               </Txt>{' '}
               a day.
             </Txt>
@@ -121,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-3xl bg-brand-600 p-4 dark:bg-brand-800 md:p-8 lg:flex-1">
+          <View className="rounded-3xl bg-volt p-4 md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -159,8 +159,8 @@ export default function WelcomeScreen() {
           {STEPS.map((step, i) => (
             <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
               <Txt
-                weight="display-italic"
-                className="text-[34px] leading-[40px] text-brand-600 dark:text-brand-400"
+                weight="display"
+                className="text-[34px] leading-[40px] text-[#0A0A0A] dark:text-volt"
               >
                 {i + 1}
               </Txt>
@@ -177,7 +177,7 @@ export default function WelcomeScreen() {
         <View className="-mx-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
             <View key={f.title} className="w-full flex-row gap-3.5 px-2 py-3 sm:w-1/2 lg:w-1/3">
-              <View className="h-9 w-9 items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-500/15">
+              <View className="h-9 w-9 items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-400/15">
                 <Icon name={f.icon} size={17} color={iconColor} />
               </View>
               <View className="flex-1">
@@ -191,15 +191,15 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 rounded-3xl bg-brand-600 p-6 dark:bg-brand-800 md:flex-row md:items-center md:justify-between md:p-10">
+        <View className="mt-16 items-start gap-5 rounded-3xl bg-[#0A0A0A] p-6 dark:bg-volt md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
             <Txt
               weight="display"
-              className="text-[26px] leading-9 text-[#F4F1E8] dark:text-[#F4F1E8] md:text-[30px]"
+              className="text-[26px] leading-9 text-white dark:text-[#0A0A0A] md:text-[30px]"
             >
               Start your first drop today
             </Txt>
-            <Txt className="mt-1 text-[15px] leading-6 text-[#F4F1E8]/75 dark:text-[#F4F1E8]/75">
+            <Txt className="mt-1 text-[15px] leading-6 text-white/70 dark:text-[#0A0A0A]/70">
               Create a free account with just your email.
             </Txt>
           </View>
@@ -309,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F1EDE2] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#F0F0EC] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

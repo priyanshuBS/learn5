@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 // Learn5 design system for Tailwind (NativeWind).
-//   brand  = forest green: buttons, links, active states, progress
+//   volt   = electric lime: the main actions and highlights (black text on it)
+//   brand  = lime tints (light) and olive text (dark shades)
 //   gold   = points and achievements
-//   canvas / line = cream page background and borders
-//   ink-*  = dark-mode page, cards, raised surfaces and borders
+//   canvas / line = off-white page background and borders
+//   ink-*  = dark-mode (black) page, cards, raised surfaces and borders
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -15,64 +16,69 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Forest green for actions, links and progress (mint in dark mode).
-        brand: {
-          50: '#EDF5F0',
-          100: '#D5E9DD',
-          200: '#ADD5BF',
-          300: '#86CFA8',
-          400: '#5FBF8F',
-          500: '#2F8562',
-          600: '#1F5C45',
-          700: '#194D3A',
-          800: '#153F30',
-          900: '#113327',
-          950: '#0A2019',
+        // Electric lime: the one bright colour. Black text goes on top of it.
+        volt: {
+          DEFAULT: '#C8F135',
+          dim: '#B6DE1F',
         },
-        // Kept as an alias of the brand green (older class names).
+        // Lime scale for tints and text. 50-400 are light (tints, text on black);
+        // 500-900 are dark olive (text on white, which plain lime can't do).
+        brand: {
+          50: '#F5FBDF',
+          100: '#EAF6BC',
+          200: '#DCF08C',
+          300: '#D2F35A',
+          400: '#C8F135',
+          500: '#7FA30F',
+          600: '#5A7409',
+          700: '#465A07',
+          800: '#354405',
+          900: '#263104',
+          950: '#161D02',
+        },
+        // Kept as an alias of the brand scale (older class names).
         accent: {
-          300: '#86CFA8',
-          400: '#5FBF8F',
-          500: '#2F8562',
+          300: '#D2F35A',
+          400: '#C8F135',
+          500: '#7FA30F',
         },
         // Gold for points and achievements.
         gold: {
-          DEFAULT: '#C99A2E',
-          soft: '#F6EBCF',
-          light: '#E0B44F',
+          DEFAULT: '#E2A31A',
+          soft: '#FBF0D2',
+          light: '#F2C14E',
         },
-        // Light mode: cream paper background, warm borders.
-        canvas: '#F4F1E8',
-        line: '#E4DFD1',
-        // Dark mode: deep green-black, not pure black.
+        // Light mode: soft off-white page, crisp borders.
+        canvas: '#F2F2EE',
+        line: '#E3E3DE',
+        // Dark mode: true black with graphite cards.
         ink: {
-          DEFAULT: '#0E1512',
-          soft: '#111A16',
-          card: '#15201B',
-          raised: '#1C2923',
-          line: '#263530',
+          DEFAULT: '#0A0A0A',
+          soft: '#0E0E0E',
+          card: '#141414',
+          raised: '#1C1C1C',
+          line: '#262626',
         },
-        // Greys with a hint of green, so they sit well on cream and green-black.
+        // Plain neutral greys (no colour tint).
         zinc: {
-          50: '#F6F5EF',
-          100: '#EEECE3',
-          200: '#E2DFD3',
-          300: '#CBC8BA',
-          400: '#9AA49D',
-          500: '#6B7870',
-          600: '#55625A',
-          700: '#3E4A43',
-          800: '#28332D',
-          900: '#18211C',
-          950: '#0E1512',
+          50: '#FAFAFA',
+          100: '#F4F4F2',
+          200: '#E5E5E2',
+          300: '#D4D4D0',
+          400: '#A3A3A0',
+          500: '#737371',
+          600: '#525250',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
       },
-      // Fraunces (a serif) for headings and big numbers; Inter for everything else.
+      // Space Grotesk for headings and big numbers; Inter for everything else.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['Fraunces_600SemiBold'],
-        'display-italic': ['Fraunces_600SemiBold_Italic'],
+        display: ['SpaceGrotesk_700Bold'],
         body: ['Inter_400Regular'],
         'body-medium': ['Inter_500Medium'],
         'body-semibold': ['Inter_600SemiBold'],

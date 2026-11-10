@@ -24,7 +24,7 @@ const TONES: Record<Tone, { box: string; text: string; icon: string }> = {
     icon: colors.muted,
   },
   brand: {
-    box: 'bg-brand-50 dark:bg-brand-500/15',
+    box: 'bg-brand-50 dark:bg-brand-400/15',
     text: 'text-brand-700 dark:text-brand-200',
     icon: colors.brand,
   },

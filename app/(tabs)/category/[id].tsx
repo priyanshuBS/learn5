@@ -215,7 +215,7 @@ function HeroStat({ value, label }: { value: string; label: string }) {
     <View
       accessible
       accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-xl bg-[#F1EDE2] px-3 py-3 dark:bg-ink-raised"
+      className="flex-1 rounded-xl bg-[#F0F0EC] px-3 py-3 dark:bg-ink-raised"
     >
       <Txt weight="display" className="text-xl">
         {value}

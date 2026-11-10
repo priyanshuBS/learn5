@@ -179,25 +179,25 @@ export default function ProgressScreen() {
               className={twMerge(
                 'flex-row items-center gap-3 px-4 py-3',
                 i > 0 && 'border-t border-line dark:border-ink-line',
-                current && 'bg-brand-50 dark:bg-brand-500/10',
+                current && 'bg-brand-50 dark:bg-brand-400/10',
               )}
             >
               <View
                 className={twMerge(
                   'h-5 w-5 items-center justify-center rounded-full',
-                  reached ? 'bg-brand-600' : 'border border-line dark:border-ink-line',
+                  reached ? 'bg-volt' : 'border border-line dark:border-ink-line',
                 )}
               >
                 {reached ? (
-                  <Icon name="check" size={11} color={colors.white} strokeWidth={3.5} />
+                  <Icon name="check" size={11} color={colors.black} strokeWidth={3.5} />
                 ) : null}
               </View>
               <Txt weight={current ? 'semibold' : 'regular'} className="flex-1 text-[15px]">
                 Level {l.level} · {l.name}
               </Txt>
               {current ? (
-                <View className="rounded-full bg-brand-600 px-2 py-0.5">
-                  <Txt weight="semibold" className="text-[11px] text-white dark:text-white">
+                <View className="rounded-full bg-volt px-2 py-0.5">
+                  <Txt weight="semibold" className="text-[11px] text-[#0A0A0A] dark:text-[#0A0A0A]">
                     You are here
                   </Txt>
                 </View>
@@ -232,8 +232,8 @@ export default function ProgressScreen() {
       <SectionTitle title="Account" />
       <Card className="gap-4 md:flex-row md:items-center">
         <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-full bg-brand-600">
-            <Txt weight="bold" className="text-base uppercase text-white dark:text-white">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-volt">
+            <Txt weight="bold" className="text-base uppercase text-[#0A0A0A] dark:text-[#0A0A0A]">
               {user?.email?.[0] ?? '?'}
             </Txt>
           </View>
@@ -331,7 +331,7 @@ function SyncLine() {
 function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
-      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#93A399]">{label}</Txt>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#A1A19E]">{label}</Txt>
     </Pressable>
   );
 }

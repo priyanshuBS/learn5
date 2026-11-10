@@ -52,7 +52,7 @@ export function MessageView({
           tone === 'warning' &&
             'border-amber-100 bg-amber-50 dark:border-amber-500/20 dark:bg-amber-500/10',
           tone === 'brand' &&
-            'border-brand-100 bg-brand-50 dark:border-brand-500/20 dark:bg-brand-500/10',
+            'border-brand-100 bg-brand-50 dark:border-brand-400/20 dark:bg-brand-400/10',
         )}
       >
         <Icon name={icon} size={24} color={toneColor} />

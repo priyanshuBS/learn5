@@ -1,5 +1,5 @@
 /**
- * Text components. Inter for text; Fraunces (weight="display") for headings and big numbers.
+ * Text components. Inter for text; Space Grotesk (weight="display") for headings and big numbers.
  *   Txt     — body text; weight picks the Inter weight
  *   Muted   — soft grey helper text
  *   Eyebrow — small grey label above a section or value
@@ -14,8 +14,7 @@ const WEIGHTS = {
   semibold: 'font-body-semibold',
   bold: 'font-body-bold tracking-tight',
   heavy: 'font-body-heavy tracking-tight',
-  display: 'font-display tracking-[-0.3px]',
-  'display-italic': 'font-display-italic tracking-[-0.3px]',
+  display: 'font-display tracking-tight',
 } as const;
 
 export type TxtWeight = keyof typeof WEIGHTS;
@@ -25,7 +24,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'text-base text-[#13231C] dark:text-[#E7EEE9]',
+        'text-base text-[#0A0A0A] dark:text-[#F5F5F4]',
         WEIGHTS[weight],
         className,
       )}
@@ -37,7 +36,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
 /** Small grey helper text. */
 export function Muted({ className, ...rest }: TxtProps) {
   return (
-    <Txt className={twMerge('text-sm text-[#5C6B62] dark:text-[#93A399]', className)} {...rest} />
+    <Txt className={twMerge('text-sm text-[#6B6B68] dark:text-[#A1A19E]', className)} {...rest} />
   );
 }
 
@@ -46,7 +45,7 @@ export function Eyebrow({ className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'font-body-medium text-[13px] text-[#5C6B62] dark:text-[#93A399]',
+        'font-body-medium text-[13px] text-[#6B6B68] dark:text-[#A1A19E]',
         className,
       )}
       {...rest}

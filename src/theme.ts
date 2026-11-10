@@ -7,33 +7,36 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  brand: '#1F5C45',
-  brandDark: '#194D3A',
-  brandSoft: '#EDF5F0',
-  brandOnDark: '#5FBF8F',
+  /** Electric lime: the one bright colour. Put black on it, never white. */
+  volt: '#C8F135',
+  /** Olive: lime-family colour readable on white (icons, links). */
+  brand: '#5A7409',
+  brandDark: '#465A07',
+  brandSoft: '#F5FBDF',
+  brandOnDark: '#C8F135',
+  black: '#0A0A0A',
   white: '#FFFFFF',
-  cream: '#F4F1E8',
-  text: '#13231C',
-  textDark: '#E7EEE9',
-  muted: '#5C6B62',
-  mutedDark: '#93A399',
-  line: '#E4DFD1',
-  inkLine: '#263530',
-  success: '#15803D',
-  danger: '#C2410C',
-  warning: '#B7791F',
-  streak: '#E0662B',
-  points: '#C99A2E',
-  canvas: '#F4F1E8',
-  ink: '#0E1512',
+  text: '#0A0A0A',
+  textDark: '#F5F5F4',
+  muted: '#6B6B68',
+  mutedDark: '#A1A19E',
+  line: '#E3E3DE',
+  inkLine: '#262626',
+  success: '#16A34A',
+  danger: '#DC2626',
+  warning: '#D97706',
+  streak: '#F97316',
+  points: '#E2A31A',
+  canvas: '#F2F2EE',
+  ink: '#0A0A0A',
   /** Empty part of progress rings. */
-  track: '#E8E3D5',
-  trackDark: '#263530',
+  track: '#E5E5E2',
+  trackDark: '#262626',
 } as const;
 
-/** The brand green that reads well on the current background. */
+/** The accent for progress and icons: black on light pages, lime on black ones. */
 export function brandTone(dark: boolean): string {
-  return dark ? colors.brandOnDark : colors.brand;
+  return dark ? colors.volt : colors.black;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */

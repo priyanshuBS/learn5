@@ -1,5 +1,5 @@
 /**
- * Logo — the Learn5 brand mark: a forest-green tile with "5", and the wordmark.
+ * Logo — the Learn5 brand mark: a black tile (lime in dark mode) with "5", and the wordmark.
  */
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
@@ -23,13 +23,13 @@ export function Logo({
     >
       <View
         className={twMerge(
-          'items-center justify-center bg-brand-600',
+          'items-center justify-center bg-[#0A0A0A] dark:bg-volt',
           lg ? 'h-10 w-10 rounded-xl' : 'h-7 w-7 rounded-lg',
         )}
       >
         <Txt
           weight="display"
-          className={twMerge('text-[#F4F1E8] dark:text-[#F4F1E8]', lg ? 'text-xl' : 'text-[16px]')}
+          className={twMerge('text-volt dark:text-[#0A0A0A]', lg ? 'text-xl' : 'text-[16px]')}
         >
           5
         </Txt>

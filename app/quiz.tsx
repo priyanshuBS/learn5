@@ -238,7 +238,7 @@ function QuizPlayer({
       </View>
 
       {practice ? (
-        <View className="mt-4 flex-row items-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 dark:bg-brand-500/10">
+        <View className="mt-4 flex-row items-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 dark:bg-brand-400/10">
           <Icon name="info" size={16} color={colors.brand} />
           <Txt className="flex-1 text-sm text-brand-800 dark:text-brand-200">
             Practice round — you already finished this drop, so no new points.

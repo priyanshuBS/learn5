@@ -72,7 +72,7 @@ export function WeekStreak({
                   'h-9 w-9 items-center justify-center rounded-full',
                   played && 'bg-orange-500',
                   !played && isToday && 'border border-dashed border-zinc-400 dark:border-zinc-500',
-                  !played && !isToday && 'bg-[#EDE9DC] dark:bg-ink-raised',
+                  !played && !isToday && 'bg-[#EDEDE9] dark:bg-ink-raised',
                 )}
               >
                 {played ? (

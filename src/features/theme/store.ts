@@ -54,7 +54,11 @@ function apply(preference: ThemePreference): void {
     if (isWeb) {
       if (typeof window === 'undefined') return; // website pre-render: nothing to switch yet
       // On the web, NativeWind's "system" would always pick light, so we decide ourselves.
-      colorScheme.set(preference === 'system' ? systemScheme() : preference);
+      const target = preference === 'system' ? systemScheme() : preference;
+      // app/+html.tsx usually set it already. Setting it again re-renders every
+      // screen while the app is still starting, which React warns about
+      // ("Can't perform a React state update on a component that hasn't mounted yet").
+      if (colorScheme.get() !== target) colorScheme.set(target);
     } else {
       colorScheme.set(preference); // "system" = follow the phone setting
     }
@@ -67,6 +71,22 @@ function apply(preference: ThemePreference): void {
 // is drawn, so a phone set to light mode never flashes a light screen first.
 // The saved choice replaces it as soon as it has been read from the device.
 if (!isWeb) apply('dark');
+
+// Website: tell NativeWind the saved choice before the first screen is drawn
+// (the same choice app/+html.tsx already used for the page colours). Otherwise
+// NativeWind starts from the computer's setting, and fixing it later re-renders
+// screens that are still starting ("Can't perform a React state update…").
+if (isWeb && typeof window !== 'undefined') {
+  let saved: ThemePreference = 'dark';
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(THEME_STORAGE_KEY) ?? 'null');
+    const pref = raw?.state?.preference;
+    if (pref === 'light' || pref === 'dark' || pref === 'system') saved = pref;
+  } catch {
+    // Storage blocked or unreadable: keep the default.
+  }
+  apply(saved);
+}
 
 /** True once the saved choice has been read (phones keep the splash screen up until then). */
 export function useThemeReady(): boolean {
@@ -81,7 +101,16 @@ export function useThemeReady(): boolean {
 /** Applies the saved choice and follows the device while on "System". Use once, in the root layout. */
 export function useThemeBootstrap(): void {
   const preference = useTheme((s) => s.preference);
+  const hydrated = useSyncExternalStore(
+    (onChange) => useTheme.persist.onFinishHydration(onChange),
+    () => useTheme.persist.hasHydrated(),
+    () => false,
+  );
   useEffect(() => {
+    // Website: wait for the saved choice. Until then app/+html.tsx has already
+    // shown the right colours, and applying the default (dark) first would flip
+    // the page to dark and back again.
+    if (isWeb && !hydrated) return;
     apply(preference);
     if (!isWeb || preference !== 'system' || typeof window === 'undefined') return;
     const query = window.matchMedia?.('(prefers-color-scheme: dark)');
@@ -89,5 +118,5 @@ export function useThemeBootstrap(): void {
     const onChange = () => apply('system');
     query.addEventListener?.('change', onChange);
     return () => query.removeEventListener?.('change', onChange);
-  }, [preference]);
+  }, [preference, hydrated]);
 }

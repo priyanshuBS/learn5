@@ -38,13 +38,13 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
             <Icon
               name={BADGE_ICONS[badge.id] ?? 'medal'}
               size={20}
-              color={badge.earned ? colors.points : scheme === 'dark' ? '#3E4A43' : '#CBC8BA'}
+              color={badge.earned ? colors.points : scheme === 'dark' ? '#404040' : '#D4D4D0'}
             />
           </View>
           {badge.earned ? (
             <Icon name="badge-check" size={18} color={colors.success} />
           ) : (
-            <Icon name="lock" size={14} color={scheme === 'dark' ? '#3E4A43' : '#CBC8BA'} />
+            <Icon name="lock" size={14} color={scheme === 'dark' ? '#404040' : '#D4D4D0'} />
           )}
         </View>
         <Txt weight="semibold" className="mt-3.5 text-[15px]">

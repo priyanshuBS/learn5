@@ -47,7 +47,7 @@ export function AppNav({
   };
 
   const iconColor = (active: boolean) =>
-    active ? (dark ? colors.brandOnDark : colors.brand) : dark ? colors.mutedDark : colors.muted;
+    active ? (dark ? colors.volt : colors.black) : dark ? colors.mutedDark : colors.muted;
 
   const badgeFor = (name: string) =>
     name === 'review' && ready && mistakes.length > 0 ? mistakes.length : 0;
@@ -77,7 +77,7 @@ export function AppNav({
                 className={twMerge(
                   'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
                   active
-                    ? 'bg-[#EDE9DC] dark:bg-ink-raised'
+                    ? 'bg-[#EDEDE9] dark:bg-ink-raised'
                     : 'active:bg-black/5 web:hover:bg-black/[0.03] dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
                 )}
               >
@@ -92,8 +92,8 @@ export function AppNav({
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-[#13231C] dark:text-[#E7EEE9]'
-                      : 'text-zinc-600 dark:text-[#93A399]',
+                      ? 'text-[#0A0A0A] dark:text-[#F5F5F4]'
+                      : 'text-zinc-600 dark:text-[#A1A19E]',
                   )}
                 >
                   {item.label}
@@ -151,8 +151,11 @@ export function AppNav({
             onPress={() => go('badges')}
             className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600">
-              <Txt weight="semibold" className="text-xs uppercase text-white">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-volt">
+              <Txt
+                weight="semibold"
+                className="text-xs uppercase text-[#0A0A0A] dark:text-[#0A0A0A]"
+              >
                 {email[0]}
               </Txt>
             </View>
@@ -203,7 +206,7 @@ export function AppNav({
               weight={active ? 'semibold' : 'medium'}
               className={twMerge(
                 'text-[11px]',
-                active ? 'text-brand-600 dark:text-brand-300' : 'text-zinc-500 dark:text-zinc-400',
+                active ? 'text-[#0A0A0A] dark:text-volt' : 'text-zinc-500 dark:text-zinc-400',
               )}
               numberOfLines={1}
             >

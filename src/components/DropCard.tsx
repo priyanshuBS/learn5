@@ -108,7 +108,7 @@ export function SlotTile({
           ? 'hourglass'
           : null;
   const iconColor = available
-    ? colors.white
+    ? colors.black
     : done
       ? colors.success
       : status === 'missing'
@@ -126,8 +126,7 @@ export function SlotTile({
       onPress={onPress}
       className={twMerge(
         'min-h-16 flex-1 justify-between rounded-xl border px-3 py-2.5 web:transition-colors',
-        available &&
-          'border-brand-600 bg-brand-600 active:bg-brand-700 web:hover:bg-brand-700 dark:border-brand-500 dark:bg-brand-600',
+        available && 'border-volt bg-volt active:bg-volt-dim web:hover:bg-volt-dim',
         done &&
           'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
         waiting && 'border-dashed border-line dark:border-ink-line',
@@ -139,12 +138,14 @@ export function SlotTile({
         <Icon
           name={SLOT_ICONS[drop - 1] ?? 'clock'}
           size={13}
-          color={available ? 'rgba(255,255,255,0.8)' : dark ? colors.mutedDark : colors.muted}
+          color={available ? 'rgba(10,10,10,0.7)' : dark ? colors.mutedDark : colors.muted}
         />
         <Txt
           className={twMerge(
             'text-xs',
-            available ? 'text-white/80 dark:text-white/80' : 'text-zinc-500 dark:text-zinc-400',
+            available
+              ? 'text-[#0A0A0A]/70 dark:text-[#0A0A0A]/70'
+              : 'text-zinc-500 dark:text-zinc-400',
           )}
           numberOfLines={1}
         >
@@ -160,7 +161,7 @@ export function SlotTile({
           numberOfLines={1}
           className={twMerge(
             'text-[13px]',
-            available && 'text-white dark:text-white',
+            available && 'text-[#0A0A0A] dark:text-[#0A0A0A]',
             done && 'text-emerald-700 dark:text-emerald-300',
             waiting && 'text-zinc-500 dark:text-zinc-400',
             status === 'missing' && 'text-amber-700 dark:text-amber-300',
@@ -259,9 +260,10 @@ export function TimelineDrop({
   const available = status === 'available';
   const waiting = status === 'upcoming' || status === 'locked';
   const nodeIcon: IconName = done ? 'check' : (SLOT_ICONS[drop - 1] ?? 'clock');
-  const nodeColor =
-    done || available
-      ? colors.white
+  const nodeColor = done
+    ? colors.white
+    : available
+      ? colors.black
       : status === 'missing'
         ? colors.warning
         : dark
@@ -275,7 +277,7 @@ export function TimelineDrop({
           className={twMerge(
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
-            available && 'bg-brand-500',
+            available && 'bg-volt',
             status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}
@@ -296,7 +298,7 @@ export function TimelineDrop({
           CARD_CLASSES,
           onPress && CARD_PRESSABLE_CLASSES,
           'mb-4 flex-1 flex-row items-center gap-3 px-4 py-4',
-          available && 'border-brand-200 dark:border-brand-500/30',
+          available && 'border-brand-200 dark:border-brand-400/30',
         )}
       >
         <View className="flex-1">

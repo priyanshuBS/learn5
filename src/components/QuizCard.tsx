@@ -172,7 +172,7 @@ function OptionButton({
         className={twMerge(
           'min-h-[60px] flex-row items-center gap-3.5 rounded-2xl border bg-white px-4 py-3 web:transition-all web:duration-200 dark:bg-ink-card',
           state === 'idle' &&
-            'border-line active:border-brand-400 active:bg-brand-50 web:hover:border-brand-300 web:hover:bg-brand-50/50 dark:border-ink-line dark:active:bg-brand-500/10 dark:web:hover:border-brand-400/60 dark:web:hover:bg-brand-500/10',
+            'border-line active:border-brand-400 active:bg-brand-50 web:hover:border-brand-300 web:hover:bg-brand-50/50 dark:border-ink-line dark:active:bg-brand-400/10 dark:web:hover:border-brand-400/60 dark:web:hover:bg-brand-400/10',
           good &&
             'border-emerald-500 bg-emerald-50 web:shadow-[0_0_30px_-8px_rgba(52,211,153,0.7)] dark:border-emerald-400/70 dark:bg-emerald-500/10',
           state === 'wrong' &&

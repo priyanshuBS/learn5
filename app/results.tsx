@@ -145,7 +145,7 @@ export default function ResultsScreen() {
             >
               <Txt weight="display" className="text-5xl">
                 {attempt.correctCount}
-                <Txt weight="medium" className="text-xl text-[#5C6B62] dark:text-[#93A399]">
+                <Txt weight="medium" className="text-xl text-[#6B6B68] dark:text-[#A1A19E]">
                   /{total}
                 </Txt>
               </Txt>
@@ -268,7 +268,7 @@ export default function ResultsScreen() {
                 className={twMerge(
                   'mt-0.5 h-6 w-6 items-center justify-center rounded-full',
                   isFact
-                    ? 'bg-brand-50 dark:bg-brand-500/15'
+                    ? 'bg-brand-50 dark:bg-brand-400/15'
                     : r.correct
                       ? 'bg-emerald-500'
                       : 'bg-rose-500',
