@@ -29,6 +29,7 @@ import { useAppData } from '@/hooks/useAppData';
 import { categoryHref, parseDropParams, quizHref, goHome } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { formatDuration } from '@/lib/time';
+import { displayTitle } from '@/lib/title';
 import { BADGE_ICONS, colors, type IconName } from '@/theme';
 
 function verdict(correct: number, total: number) {
@@ -155,7 +156,7 @@ export default function ResultsScreen() {
             {title}
           </Txt>
           <Muted className="mt-1 text-center text-[15px]">
-            {category.name} · {attempt.title} · {accuracy}% accuracy
+            {category.name} · {displayTitle(attempt.title)} · {accuracy}% accuracy
           </Muted>
         </View>
       </View>

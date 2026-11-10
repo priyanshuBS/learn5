@@ -34,6 +34,7 @@ import { haptics } from '@/lib/haptics';
 import { goBack, parseDropParams, resultsHref, goHome } from '@/lib/routes';
 import type { Category, Drop } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
+import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
 export default function QuizScreen() {
@@ -281,7 +282,7 @@ function QuizPlayer({
         />
       ) : null}
 
-      <Muted className="mt-8 text-center text-xs">{drop.title}</Muted>
+      <Muted className="mt-8 text-center text-xs">{displayTitle(drop.title)}</Muted>
     </Screen>
   );
 }

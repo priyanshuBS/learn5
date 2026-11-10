@@ -5,11 +5,13 @@
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. this week: streak days and level progress
  */
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
+import { Button } from '@/components/Button';
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
 import { Icon } from '@/components/Icon';
@@ -24,7 +26,9 @@ import { WeekStreak } from '@/components/WeekStreak';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
 import { useColorScheme } from '@/hooks/useScheme';
+import { quizHref } from '@/lib/routes';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
+import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
 export default function HomeScreen() {
@@ -49,6 +53,13 @@ export default function HomeScreen() {
     0,
   );
   const { streak, level, points } = stats;
+  // The first drop open right now, for the "Up next" button.
+  const upNext = rows
+    .map((r) => ({
+      category: r.category,
+      slot: r.slots.find((s) => s.status === 'available' && s.entry),
+    }))
+    .find((r) => r.slot?.entry);
   const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
   const summary =
@@ -67,7 +78,7 @@ export default function HomeScreen() {
           <ThemeIconButton />
         </View>
 
-        {/* Green header: greeting, today's summary and the key numbers */}
+        {/* Header (black; lime in dark mode): greeting, summary, the next drop and key numbers */}
         <View className="overflow-hidden rounded-3xl bg-[#0A0A0A] dark:bg-volt">
           <View className="px-6 pb-6 pt-6 md:px-8 md:pt-8">
             <Txt className="text-[14px] text-white/60 dark:text-[#0A0A0A]/60">
@@ -83,6 +94,23 @@ export default function HomeScreen() {
             <Txt className="mt-2 max-w-xl text-[15px] leading-6 text-white/75 dark:text-[#0A0A0A]/75">
               {summary}
             </Txt>
+            {upNext?.slot?.entry ? (
+              <View className="mt-5 flex-row flex-wrap items-center gap-x-4 gap-y-3">
+                <Button
+                  label={`Play ${upNext.category.name}`}
+                  icon="play"
+                  variant="inverse"
+                  onPress={() => upNext.slot?.entry && router.push(quizHref(upNext.slot.entry))}
+                  accessibilityHint={`Starts ${displayTitle(upNext.slot.entry.title)}`}
+                />
+                <Txt
+                  className="flex-shrink text-[13px] text-white/60 dark:text-[#0A0A0A]/60"
+                  numberOfLines={1}
+                >
+                  Up next · {displayTitle(upNext.slot.entry.title)}
+                </Txt>
+              </View>
+            ) : null}
           </View>
           <View className="flex-row border-t border-white/10 dark:border-black/10">
             <StatCell

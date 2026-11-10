@@ -27,6 +27,7 @@ import { useAppData } from '@/hooks/useAppData';
 import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
+import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
@@ -139,7 +140,7 @@ export default function CategoryScreen() {
             name={name}
             time={time}
             status={slot.status}
-            title={showTitle ? entry.title : waitingTitle}
+            title={showTitle ? displayTitle(entry.title) : waitingTitle}
             scoreLabel={result ? `${result.correctCount}/${result.items.length}` : undefined}
             onPress={showTitle ? () => openDrop(entry) : undefined}
             last={i === slots.length - 1}
@@ -156,7 +157,7 @@ export default function CategoryScreen() {
             </Txt>
           </View>
           <Txt className="mt-1 text-sm text-amber-900 dark:text-amber-200">
-            While you wait, try the latest one: {catchUp.title}
+            While you wait, try the latest one: {displayTitle(catchUp.title)}
           </Txt>
           <Button
             label="Play latest drop"
@@ -186,7 +187,7 @@ export default function CategoryScreen() {
                     key={entry.path}
                     drop={entry.drop}
                     status={result ? 'done' : 'available'}
-                    title={entry.title}
+                    title={displayTitle(entry.title)}
                     meta={SLOT_NAMES[entry.drop - 1] ?? `Drop ${entry.drop}`}
                     timeLabel=""
                     scoreLabel={

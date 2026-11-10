@@ -177,8 +177,8 @@ export default function WelcomeScreen() {
         <View className="-mx-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
             <View key={f.title} className="w-full flex-row gap-3.5 px-2 py-3 sm:w-1/2 lg:w-1/3">
-              <View className="h-9 w-9 items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-400/15">
-                <Icon name={f.icon} size={17} color={iconColor} />
+              <View className="pt-0.5">
+                <Icon name={f.icon} size={20} color={iconColor} strokeWidth={2} />
               </View>
               <View className="flex-1">
                 <Txt weight="semibold" className="text-[15px]">
