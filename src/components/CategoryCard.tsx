@@ -174,10 +174,10 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop open now`}
-          className="h-7 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-leaf px-2 dark:bg-leaf-light"
+          className="h-7 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-pop px-2 dark:bg-pop-light"
         >
-          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#0B1F12]" />
-          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#0B1F12]">
+          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#3A0B1E]" />
+          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#3A0B1E]">
             Open
           </Txt>
         </View>

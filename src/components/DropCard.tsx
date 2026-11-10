@@ -127,7 +127,7 @@ export function SlotTile({
       className={twMerge(
         'min-h-16 flex-1 justify-between rounded-xl border px-3 py-2.5 web:transition-colors',
         available &&
-          'border-brand-600 bg-brand-600 active:opacity-90 web:hover:bg-brand-700 dark:border-brand-500 dark:bg-brand-500 dark:web:hover:bg-brand-400',
+          'border-brand-600 bg-brand-600 active:opacity-90 web:hover:bg-brand-700 dark:border-brand-600 dark:bg-brand-600 dark:web:hover:bg-brand-700',
         done &&
           'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
         waiting && 'border-dashed border-line dark:border-ink-line',
@@ -276,7 +276,7 @@ export function TimelineDrop({
           className={twMerge(
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
-            available && 'bg-brand-600 dark:bg-brand-500',
+            available && 'bg-brand-600 dark:bg-brand-600',
             status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}

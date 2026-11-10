@@ -1,7 +1,7 @@
 /**
  * Logo — the Learn5 mark and wordmark.
- * The mark is a "5-minute timer": a pink tile with a white ring that is almost
- * closed, a small green dot where the ring ends, and a white "5" in the middle.
+ * The mark is a "5-minute timer": a green tile with a white ring that is almost
+ * closed, a small pink dot where the ring ends, and a white "5" in the middle.
  * The app icon, splash screen and browser tab icon use the same drawing.
  */
 import { View } from 'react-native';
@@ -16,7 +16,7 @@ import { Txt } from './Txt';
 const R = 30;
 const CIRCUMFERENCE = 2 * Math.PI * R;
 const ARC = (CIRCUMFERENCE * 300) / 360;
-// Where the ring ends (210° clockwise from the right = upper left), for the green dot.
+// Where the ring ends (210° clockwise from the right = upper left), for the pink dot.
 const END_X = 50 + R * Math.cos((210 * Math.PI) / 180);
 const END_Y = 50 + R * Math.sin((210 * Math.PI) / 180);
 
@@ -38,7 +38,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
           strokeDasharray={`${ARC} ${CIRCUMFERENCE}`}
           transform="rotate(-90 50 50)"
         />
-        <Circle cx={END_X} cy={END_Y} r={8} fill={colors.leaf} />
+        <Circle cx={END_X} cy={END_Y} r={8} fill={colors.pop} />
       </Svg>
       <Txt
         weight="display"

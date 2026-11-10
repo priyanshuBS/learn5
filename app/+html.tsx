@@ -16,7 +16,7 @@ const DESCRIPTION =
 // later (same value Tailwind writes for darkMode: 'class').
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
-body { background-color: #FFF8FA; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { background-color: #F6FBF8; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 html.dark body { background-color: #0F1A15; }
 `;
 
@@ -62,8 +62,8 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;
             change both when the icon changes. Source: assets/images/favicon.png. */}
-        <link rel="icon" type="image/png" href="/learn5-icon.png?v=4" />
-        <link rel="apple-touch-icon" href="/learn5-icon.png?v=4" />
+        <link rel="icon" type="image/png" href="/learn5-icon.png?v=5" />
+        <link rel="apple-touch-icon" href="/learn5-icon.png?v=5" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Learn5" />

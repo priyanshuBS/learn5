@@ -100,7 +100,7 @@ export default function WelcomeScreen() {
               Learn something new in{' '}
               <Txt
                 weight="display"
-                className="text-[38px] leading-[44px] text-brand-600 dark:text-brand-400 md:text-[52px] md:leading-[58px]"
+                className="text-[38px] leading-[44px] text-pop dark:text-pop-light md:text-[52px] md:leading-[58px]"
               >
                 five minutes
               </Txt>{' '}
@@ -160,7 +160,7 @@ export default function WelcomeScreen() {
             <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
               <Txt
                 weight="display"
-                className="text-[34px] leading-[40px] text-brand-600 dark:text-brand-400"
+                className="text-[34px] leading-[40px] text-pop dark:text-pop-light"
               >
                 {i + 1}
               </Txt>
@@ -309,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F8EEF2] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#EEF5F1] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Watermelon".
-//   brand  = hot pink: buttons, links, the active tab
-//   leaf   = green: progress, "open now", the logo's dot
-//   canvas / line = blush-white page background and borders
+// Learn5 design system for Tailwind (NativeWind).
+//   brand  = green, the main colour: buttons, links, the active tab, progress
+//   pop    = pink, the complementary colour: "open now", highlights, the logo's dot
+//   canvas / line = mint-white page background and borders
 //   ink-*  = dark mode (deep forest-night green): page, cards, raised surfaces, borders
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
@@ -15,45 +15,51 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Watermelon: pink for actions, green for progress and "open now".
-        // Pink scale. 50-200: light tints, 300-500: pink on dark, 600-900: pink on light.
+        // Main colour: green. Buttons, links, the active tab, progress.
+        // 50-200: light tints, 300-400: green on dark, 500-900: green on light.
         brand: {
-          50: '#FFF0F5',
-          100: '#FFE1EC',
-          200: '#FFC2D8',
-          300: '#FF9DBF',
-          400: '#FF6FA3',
-          500: '#FF4D8D',
-          600: '#FF3D7F',
-          700: '#E0246A',
-          800: '#B81A55',
-          900: '#8F1543',
-          950: '#4D0A24',
+          50: '#ECFDF3',
+          100: '#D1FADF',
+          200: '#A6F4C5',
+          300: '#6CE9A6',
+          400: '#4ADE80',
+          500: '#22C55E',
+          600: '#16A34A',
+          700: '#15803D',
+          800: '#166534',
+          900: '#14532D',
+          950: '#052E16',
         },
-        // Green: progress, "open now" chips, the logo's dot.
-        leaf: {
-          DEFAULT: '#22C55E',
-          light: '#4ADE80',
-          dark: '#16A34A',
+        // Complementary colour: pink. "Open now" chips, highlights, the logo's dot.
+        pop: {
+          DEFAULT: '#FF3D7F',
+          light: '#FF6FA3',
+          dark: '#E0246A',
+          soft: '#FFE1EC',
         },
         // Kept as aliases (older class names).
+        leaf: {
+          DEFAULT: '#16A34A',
+          light: '#4ADE80',
+          dark: '#15803D',
+        },
         accent: {
-          300: '#FF9DBF',
-          400: '#FF6FA3',
-          500: '#FF4D8D',
+          300: '#6CE9A6',
+          400: '#4ADE80',
+          500: '#22C55E',
         },
         volt: {
-          DEFAULT: '#22C55E',
-          dim: '#16A34A',
+          DEFAULT: '#FF3D7F',
+          dim: '#E0246A',
         },
         gold: {
           DEFAULT: '#E2A31A',
           soft: '#FBF0D2',
           light: '#F2C14E',
         },
-        // Light mode: white with a blush of pink.
-        canvas: '#FFF8FA',
-        line: '#F3E3EA',
+        // Light mode: white with a hint of mint.
+        canvas: '#F6FBF8',
+        line: '#E2EEE6',
         // Dark mode: deep forest-night green (not black).
         ink: {
           DEFAULT: '#0F1A15',
@@ -62,15 +68,15 @@ module.exports = {
           raised: '#1C2E25',
           line: '#24392E',
         },
-        // Greys: a touch of pink at the light end, a touch of green at the dark end.
+        // Greys with a hint of green.
         zinc: {
-          50: '#FBF7F9',
-          100: '#F4EEF1',
-          200: '#E9E0E5',
-          300: '#D6CBD1',
-          400: '#A39AA0',
-          500: '#7A7277',
-          600: '#5C5559',
+          50: '#F7FAF8',
+          100: '#EEF4F0',
+          200: '#E0EAE4',
+          300: '#CAD8D0',
+          400: '#9AAAA1',
+          500: '#6E7F75',
+          600: '#55635B',
           700: '#3F4A44',
           800: '#24392E',
           900: '#16241D',
