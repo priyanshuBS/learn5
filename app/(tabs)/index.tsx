@@ -1,17 +1,15 @@
 /**
  * Home — the daily dashboard. All subjects are equal, so none is pushed first.
- *   1. a bold black header: date, greeting, a one-line summary of today,
- *      and a strip with today's progress, streak, points and level
+ *   1. date, greeting and a one-line summary of today
+ *   2. a card with today's progress, streak, points and level
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. this week: streak days and level progress
  */
-import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
-import { Button } from '@/components/Button';
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
 import { Icon } from '@/components/Icon';
@@ -25,12 +23,12 @@ import { Muted, Txt } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { quizHref } from '@/lib/routes';
+import { useColorScheme } from '@/hooks/useScheme';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
-import { displayTitle } from '@/lib/title';
 import { colors } from '@/theme';
 
 export default function HomeScreen() {
+  const dark = useColorScheme() === 'dark';
   const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
 
   if (!ready || !index) return <HomeSkeleton />;
@@ -51,13 +49,6 @@ export default function HomeScreen() {
     0,
   );
   const { streak, level, points } = stats;
-  // The first drop open right now, for the "Up next" button.
-  const upNext = rows
-    .map((r) => ({
-      category: r.category,
-      slot: r.slots.find((s) => s.status === 'available' && s.entry),
-    }))
-    .find((r) => r.slot?.entry);
   const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
   const summary =
@@ -76,73 +67,50 @@ export default function HomeScreen() {
           <ThemeIconButton />
         </View>
 
-        {/* Header (black; a dark card in dark mode): greeting, summary, the next drop and key numbers */}
-        <View className="overflow-hidden rounded-2xl bg-[#0A0A0A] dark:border dark:border-ink-line dark:bg-ink-card">
-          <View className="px-6 pb-6 pt-6 md:px-8 md:pt-8">
-            <Txt className="text-[14px] text-white/60 dark:text-white/60">
-              {longDate(zonedNow.date)}
-            </Txt>
-            <Txt
-              weight="display"
-              accessibilityRole="header"
-              className="mt-1 text-[32px] leading-[40px] text-white dark:text-white md:text-[40px] md:leading-[48px]"
-            >
-              {greeting(now)}
-            </Txt>
-            <Txt className="mt-2 max-w-xl text-[15px] leading-6 text-white/75 dark:text-white/75">
-              {summary}
-            </Txt>
-            {upNext?.slot?.entry ? (
-              <View className="mt-5 flex-row flex-wrap items-center gap-x-4 gap-y-3">
-                <Button
-                  label={`Play ${upNext.category.name}`}
-                  icon="play"
-                  variant="inverse"
-                  onPress={() => upNext.slot?.entry && router.push(quizHref(upNext.slot.entry))}
-                  accessibilityHint={`Starts ${displayTitle(upNext.slot.entry.title)}`}
-                />
-                <Txt
-                  className="flex-shrink text-[13px] text-white/60 dark:text-white/60"
-                  numberOfLines={1}
-                >
-                  Up next · {displayTitle(upNext.slot.entry.title)}
-                </Txt>
-              </View>
-            ) : null}
-          </View>
-          <View className="flex-row border-t border-white/10 dark:border-ink-line">
-            <StatCell
-              label="Today"
-              value={`${doneToday}/${totalToday}`}
-              icon={<Icon name="check-circle" size={14} color={colors.white} />}
-            >
-              <ProgressBar
-                value={totalToday ? doneToday / totalToday : 0}
-                color={colors.white}
-                className="mt-2 h-1 bg-white/15 dark:bg-white/10"
-                label={`${doneToday} of ${totalToday} drops done today`}
-              />
-            </StatCell>
-            <Divider />
-            <StatCell
-              label="Streak"
-              value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
-              icon={<Icon name="flame" size={14} color={colors.streak} filled />}
+        {/* Greeting */}
+        <Muted className="text-[14px]">{longDate(zonedNow.date)}</Muted>
+        <Txt
+          weight="display"
+          accessibilityRole="header"
+          className="mt-1 text-[30px] leading-[38px] md:text-[36px] md:leading-[44px]"
+        >
+          {greeting(now)}
+        </Txt>
+        <Muted className="mt-1.5 text-[15px] leading-6">{summary}</Muted>
+
+        {/* Today at a glance: a normal card, like everything else */}
+        <View className={twMerge(CARD_CLASSES, 'mt-6 flex-row')}>
+          <StatCell
+            label="Today"
+            value={`${doneToday}/${totalToday}`}
+            icon={<Icon name="check-circle" size={14} color={colors.success} />}
+          >
+            <ProgressBar
+              value={totalToday ? doneToday / totalToday : 0}
+              color={colors.success}
+              className="mt-2 h-1"
+              label={`${doneToday} of ${totalToday} drops done today`}
             />
-            <Divider />
+          </StatCell>
+          <Divider />
+          <StatCell
+            label="Streak"
+            value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
+            icon={<Icon name="flame" size={14} color={colors.streak} filled />}
+          />
+          <Divider />
+          <StatCell
+            label="Points"
+            value={points.toLocaleString('en-IN')}
+            icon={<Icon name="star" size={14} color={colors.points} filled />}
+          />
+          <Divider className="hidden md:flex" />
+          <View className="hidden flex-1 md:flex">
             <StatCell
-              label="Points"
-              value={points.toLocaleString('en-IN')}
-              icon={<Icon name="star" size={14} color={colors.points} filled />}
+              label="Level"
+              value={`${level.level} · ${level.name}`}
+              icon={<Icon name="trophy" size={14} color={dark ? colors.mutedDark : colors.muted} />}
             />
-            <Divider className="hidden md:flex" />
-            <View className="hidden flex-1 md:flex">
-              <StatCell
-                label="Level"
-                value={`${level.level} · ${level.name}`}
-                icon={<Icon name="trophy" size={14} color={colors.white} />}
-              />
-            </View>
           </View>
         </View>
 
@@ -223,7 +191,7 @@ export default function HomeScreen() {
 }
 
 function Divider({ className }: { className?: string }) {
-  return <View className={twMerge('my-4 w-px bg-white/10 dark:bg-ink-line', className)} />;
+  return <View className={twMerge('my-4 w-px bg-line dark:bg-ink-line', className)} />;
 }
 
 function StatCell({
@@ -241,15 +209,11 @@ function StatCell({
     <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 px-4 py-4 md:px-5">
       <View className="flex-row items-center gap-1.5">
         {icon}
-        <Txt className="text-[13px] text-white/60 dark:text-white/60" numberOfLines={1}>
+        <Muted className="text-[13px]" numberOfLines={1}>
           {label}
-        </Txt>
+        </Muted>
       </View>
-      <Txt
-        weight="display"
-        className="mt-1 text-[20px] leading-7 text-white dark:text-white"
-        numberOfLines={1}
-      >
+      <Txt weight="display" className="mt-1 text-[20px] leading-7" numberOfLines={1}>
         {value}
       </Txt>
       {children}
@@ -264,7 +228,9 @@ function HomeSkeleton() {
       <View className="mb-6 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-56 rounded-2xl" />
+      <SkeletonBlock className="h-3 w-40" />
+      <SkeletonBlock className="mt-3 h-8 w-56" />
+      <SkeletonBlock className="mt-6 h-20 rounded-2xl" />
       <View className="-m-1.5 mt-10 flex-row flex-wrap">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <View key={i} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
