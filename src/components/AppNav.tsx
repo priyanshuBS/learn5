@@ -77,7 +77,7 @@ export function AppNav({
                 className={twMerge(
                   'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
                   active
-                    ? 'bg-[#F1F0EC] dark:bg-ink-raised'
+                    ? 'bg-[#EDE9DC] dark:bg-ink-raised'
                     : 'active:bg-black/5 web:hover:bg-black/[0.03] dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
                 )}
               >
@@ -92,8 +92,8 @@ export function AppNav({
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-[#18181B] dark:text-[#ECECEE]'
-                      : 'text-zinc-600 dark:text-[#9D9DA5]',
+                      ? 'text-[#13231C] dark:text-[#E7EEE9]'
+                      : 'text-zinc-600 dark:text-[#93A399]',
                   )}
                 >
                   {item.label}

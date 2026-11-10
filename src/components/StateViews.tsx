@@ -58,7 +58,7 @@ export function MessageView({
         <Icon name={icon} size={24} color={toneColor} />
       </View>
       <Txt
-        weight="bold"
+        weight="display"
         accessibilityRole="header"
         className="mt-5 text-center text-xl tracking-tight"
       >

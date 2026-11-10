@@ -100,7 +100,7 @@ export default function CategoryScreen() {
         <View className="mt-5 flex-row items-center gap-4">
           <CategoryIcon category={category} size="lg" />
           <View className="flex-1">
-            <Txt weight="bold" accessibilityRole="header" className="text-[28px] leading-[34px]">
+            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
               {category.name}
             </Txt>
             <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
@@ -215,9 +215,9 @@ function HeroStat({ value, label }: { value: string; label: string }) {
     <View
       accessible
       accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-xl bg-[#F4F4F1] px-3 py-3 dark:bg-ink-raised"
+      className="flex-1 rounded-xl bg-[#F1EDE2] px-3 py-3 dark:bg-ink-raised"
     >
-      <Txt weight="bold" className="text-xl">
+      <Txt weight="display" className="text-xl">
         {value}
       </Txt>
       <Muted className="text-xs">{label}</Muted>

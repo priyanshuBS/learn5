@@ -149,7 +149,7 @@ export default function SignInScreen() {
               <View className="mb-7 items-center">
                 <Logo showWordmark={false} size="lg" />
                 <Txt
-                  weight="bold"
+                  weight="display"
                   accessibilityRole="header"
                   className="mt-5 text-center text-[26px] leading-[32px]"
                 >

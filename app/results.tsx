@@ -123,7 +123,7 @@ export default function ResultsScreen() {
   return (
     <Screen width="narrow">
       <View className="flex-row items-center justify-between">
-        <Txt weight="bold" accessibilityRole="header" className="text-2xl tracking-tight">
+        <Txt weight="display" accessibilityRole="header" className="text-2xl tracking-tight">
           Results
         </Txt>
         <IconButton icon="x" label="Close results" onPress={goHome} variant="ghost" />
@@ -143,15 +143,15 @@ export default function ResultsScreen() {
               color={ring}
               label={`You got ${attempt.correctCount} out of ${total} correct`}
             >
-              <Txt weight="bold" className="text-5xl">
+              <Txt weight="display" className="text-5xl">
                 {attempt.correctCount}
-                <Txt weight="medium" className="text-xl text-[#6B6B72] dark:text-[#9D9DA5]">
+                <Txt weight="medium" className="text-xl text-[#5C6B62] dark:text-[#93A399]">
                   /{total}
                 </Txt>
               </Txt>
             </ProgressRing>
           </Animated.View>
-          <Txt weight="bold" className="mt-6 text-[26px]">
+          <Txt weight="display" className="mt-6 text-[26px]">
             {title}
           </Txt>
           <Muted className="mt-1 text-center text-[15px]">

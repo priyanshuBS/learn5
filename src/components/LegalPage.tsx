@@ -43,7 +43,7 @@ export function LegalPage({
 
       <Eyebrow className="mt-12">{eyebrow}</Eyebrow>
       <Txt
-        weight="bold"
+        weight="display"
         accessibilityRole="header"
         className="mt-3 text-[38px] leading-[42px] md:text-[52px] md:leading-[56px]"
       >
@@ -56,7 +56,7 @@ export function LegalPage({
         {sections.map((section, i) => (
           <View key={section.title}>
             <Eyebrow>{String(i + 1).padStart(2, '0')}</Eyebrow>
-            <Txt weight="bold" accessibilityRole="header" className="mt-2 text-[20px] leading-7">
+            <Txt weight="display" accessibilityRole="header" className="mt-2 text-[20px] leading-7">
               {section.title}
             </Txt>
             <View className="mt-3 gap-2.5">

@@ -3,49 +3,49 @@
     "id": "english",
     "name": "English",
     "emoji": "📖",
-    "color": "#E5484D",
+    "color": "#C8453B",
     "tagline": "Words, grammar and idioms"
   },
   {
     "id": "math",
     "name": "Math",
     "emoji": "🧮",
-    "color": "#3E63DD",
+    "color": "#3B5BA9",
     "tagline": "Quick tricks and everyday math"
   },
   {
     "id": "reasoning",
     "name": "Reasoning",
     "emoji": "🧩",
-    "color": "#C2850C",
+    "color": "#B7791F",
     "tagline": "Puzzles, patterns and logic"
   },
   {
     "id": "computer-science",
     "name": "Computer Science",
     "emoji": "💻",
-    "color": "#E8641C",
+    "color": "#2E7FA6",
     "tagline": "Computers, coding and the internet"
   },
   {
     "id": "physics",
     "name": "Physics",
     "emoji": "⚡",
-    "color": "#0F9B8E",
+    "color": "#D9662B",
     "tagline": "How the world moves and works"
   },
   {
     "id": "chemistry",
     "name": "Chemistry",
     "emoji": "🧪",
-    "color": "#D6409F",
+    "color": "#B5487F",
     "tagline": "What everything is made of"
   },
   {
     "id": "biology",
     "name": "Biology",
     "emoji": "🌱",
-    "color": "#2F9E5F",
+    "color": "#5E8C31",
     "tagline": "Life, the body and nature"
   }
 ]

@@ -62,7 +62,7 @@ export function CategoryCard({
         <View className="flex-row items-center gap-3.5">
           <CategoryIcon category={category} size="md" />
           <View className="flex-1">
-            <Txt weight="semibold" className="text-[17px] leading-6" numberOfLines={1}>
+            <Txt weight="display" className="text-[19px] leading-6" numberOfLines={1}>
               {category.name}
             </Txt>
             <Muted className="text-[13px]" numberOfLines={1}>
@@ -82,7 +82,7 @@ export function CategoryCard({
                 <View
                   className={twMerge(
                     'h-1.5 rounded-full',
-                    !done && !isOpen && 'bg-[#ECEBE7] dark:bg-ink-line',
+                    !done && !isOpen && 'bg-[#E8E3D5] dark:bg-ink-line',
                   )}
                   style={
                     done

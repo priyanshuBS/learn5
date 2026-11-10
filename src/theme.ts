@@ -7,30 +7,31 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  brand: '#2E5BDA',
-  brandDark: '#2448B5',
-  brandSoft: '#EEF3FF',
-  brandOnDark: '#8AA8F8',
+  brand: '#1F5C45',
+  brandDark: '#194D3A',
+  brandSoft: '#EDF5F0',
+  brandOnDark: '#5FBF8F',
   white: '#FFFFFF',
-  text: '#18181B',
-  textDark: '#ECECEE',
-  muted: '#6B6B72',
-  mutedDark: '#9D9DA5',
-  line: '#E6E5E1',
-  inkLine: '#2A2A2F',
-  success: '#16A34A',
-  danger: '#DC2626',
-  warning: '#D97706',
-  streak: '#EA580C',
-  points: '#D97706',
-  canvas: '#F7F7F5',
-  ink: '#111113',
+  cream: '#F4F1E8',
+  text: '#13231C',
+  textDark: '#E7EEE9',
+  muted: '#5C6B62',
+  mutedDark: '#93A399',
+  line: '#E4DFD1',
+  inkLine: '#263530',
+  success: '#15803D',
+  danger: '#C2410C',
+  warning: '#B7791F',
+  streak: '#E0662B',
+  points: '#C99A2E',
+  canvas: '#F4F1E8',
+  ink: '#0E1512',
   /** Empty part of progress rings. */
-  track: '#ECEBE7',
-  trackDark: '#2A2A2F',
+  track: '#E8E3D5',
+  trackDark: '#263530',
 } as const;
 
-/** The brand blue that reads well on the current background. */
+/** The brand green that reads well on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.brandOnDark : colors.brand;
 }

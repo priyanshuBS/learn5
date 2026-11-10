@@ -87,13 +87,13 @@ export default function ProgressScreen() {
                 strokeWidth={8}
                 label={`Level progress ${Math.round(level.progress * 100)} percent`}
               >
-                <Txt weight="bold" className="text-2xl">
+                <Txt weight="display" className="text-2xl">
                   {level.level}
                 </Txt>
               </ProgressRing>
               <View className="flex-1">
                 <Muted className="text-[13px]">Current level</Muted>
-                <Txt weight="bold" className="mt-0.5 text-[24px] leading-8">
+                <Txt weight="display" className="mt-0.5 text-[24px] leading-8">
                   {level.name}
                 </Txt>
                 <View className="mt-1 flex-row items-center gap-1.5">
@@ -331,7 +331,7 @@ function SyncLine() {
 function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
-      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#9D9DA5]">{label}</Txt>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#93A399]">{label}</Txt>
     </Pressable>
   );
 }

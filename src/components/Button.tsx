@@ -1,12 +1,12 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid dark button (light in dark mode): the main action
- *   accent    = solid brand blue: the one action you want people to take
+ *   primary   = solid forest green (mint in dark mode): the main action
+ *   accent    = the same as primary (older name)
  *   secondary = outlined
- *   soft      = light blue tint
+ *   soft      = light green tint
  *   success   = green, danger = red (quiz feedback)
- *   inverse   = white, for coloured backgrounds
+ *   inverse   = cream, for green backgrounds
  *   ghost     = text only
  */
 import { ActivityIndicator, Pressable, View } from 'react-native';
@@ -32,11 +32,10 @@ type Size = 'sm' | 'md' | 'lg';
 function styles(variant: ButtonVariant, dark: boolean): { box: string; text: string } {
   switch (variant) {
     case 'primary':
-      return dark
-        ? { box: 'bg-[#ECECEE] web:hover:bg-white', text: '#111113' }
-        : { box: 'bg-[#18181B] web:hover:bg-[#27272A]', text: '#FFFFFF' };
     case 'accent':
-      return { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
+      return dark
+        ? { box: 'bg-brand-400 web:hover:bg-brand-300', text: '#0A2019' }
+        : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
     case 'secondary':
       return dark
         ? {
@@ -52,15 +51,15 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
         ? { box: 'bg-brand-500/15 web:hover:bg-brand-500/25', text: colors.brandOnDark }
         : { box: 'bg-brand-50 web:hover:bg-brand-100', text: colors.brandDark };
     case 'success':
-      return { box: 'bg-green-600 web:hover:bg-green-700', text: '#FFFFFF' };
+      return { box: 'bg-green-700 web:hover:bg-green-800', text: '#FFFFFF' };
     case 'danger':
-      return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
+      return { box: 'bg-orange-700 web:hover:bg-orange-800', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-zinc-100', text: '#18181B' };
+      return { box: 'bg-[#F4F1E8] web:hover:bg-white', text: '#13231C' };
     case 'ghost':
       return dark
-        ? { box: 'web:hover:bg-white/5', text: '#D4D4D8' }
-        : { box: 'web:hover:bg-black/5', text: '#3F3F46' };
+        ? { box: 'web:hover:bg-white/5', text: '#C9D3CD' }
+        : { box: 'web:hover:bg-black/5', text: '#3E4A43' };
   }
 }
 

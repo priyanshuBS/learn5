@@ -93,11 +93,18 @@ export default function WelcomeScreen() {
         <View className="mt-12 gap-12 md:mt-20 lg:flex-row lg:items-center">
           <View className="lg:flex-1">
             <Txt
-              weight="bold"
+              weight="display"
               accessibilityRole="header"
               className="text-[38px] leading-[44px] md:text-[52px] md:leading-[58px]"
             >
-              Learn something new in five minutes a day.
+              Learn something new in{' '}
+              <Txt
+                weight="display-italic"
+                className="text-[38px] leading-[44px] text-brand-600 dark:text-brand-400 md:text-[52px] md:leading-[58px]"
+              >
+                five minutes
+              </Txt>{' '}
+              a day.
             </Txt>
             <Muted className="mt-5 max-w-lg text-[17px] leading-7">
               Short daily quizzes in {categories.length} school subjects, with a clear explanation
@@ -114,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="lg:flex-1">
+          <View className="rounded-3xl bg-brand-600 p-4 dark:bg-brand-800 md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -151,11 +158,12 @@ export default function WelcomeScreen() {
         <View className="gap-3 md:flex-row">
           {STEPS.map((step, i) => (
             <View key={step.title} className={twMerge(CARD_CLASSES, 'p-5 md:flex-1')}>
-              <View className="h-7 w-7 items-center justify-center rounded-full bg-[#F1F0EC] dark:bg-ink-raised">
-                <Txt weight="semibold" className="text-[13px]">
-                  {i + 1}
-                </Txt>
-              </View>
+              <Txt
+                weight="display-italic"
+                className="text-[34px] leading-[40px] text-brand-600 dark:text-brand-400"
+              >
+                {i + 1}
+              </Txt>
               <Txt weight="semibold" className="mt-4 text-[16px]">
                 {step.title}
               </Txt>
@@ -183,21 +191,19 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View
-          className={twMerge(
-            CARD_CLASSES,
-            'mt-16 items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-8',
-          )}
-        >
+        <View className="mt-16 items-start gap-5 rounded-3xl bg-brand-600 p-6 dark:bg-brand-800 md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
-            <Txt weight="bold" className="text-[22px] leading-8">
+            <Txt
+              weight="display"
+              className="text-[26px] leading-9 text-[#F4F1E8] dark:text-[#F4F1E8] md:text-[30px]"
+            >
               Start your first drop today
             </Txt>
-            <Muted className="mt-1 text-[15px] leading-6">
+            <Txt className="mt-1 text-[15px] leading-6 text-[#F4F1E8]/75 dark:text-[#F4F1E8]/75">
               Create a free account with just your email.
-            </Muted>
+            </Txt>
           </View>
-          <Button label="Create free account" variant="accent" onPress={goSignUp} />
+          <Button label="Create free account" variant="inverse" onPress={goSignUp} />
         </View>
 
         {/* Footer */}
@@ -238,7 +244,7 @@ function Section({ title, text }: { title: string; text?: string }) {
   return (
     <View className="mb-5 mt-16 md:mt-20">
       <Txt
-        weight="bold"
+        weight="display"
         accessibilityRole="header"
         className="text-[24px] leading-8 md:text-[28px]"
       >
@@ -303,7 +309,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F4F4F1] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#F1EDE2] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

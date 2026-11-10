@@ -32,7 +32,7 @@ export function PageHeader({
         {right}
       </View>
       <Txt
-        weight="bold"
+        weight="display"
         accessibilityRole="header"
         className="mt-2 text-[28px] leading-[34px] md:text-[34px] md:leading-[40px]"
         numberOfLines={2}
@@ -61,7 +61,7 @@ export function SectionTitle({
     <View className="mb-4 mt-10 flex-row items-end justify-between gap-4">
       <View className="flex-1">
         {eyebrow ? <Eyebrow className="mb-1">{eyebrow}</Eyebrow> : null}
-        <Txt weight="semibold" accessibilityRole="header" className="text-[18px] leading-6">
+        <Txt weight="display" accessibilityRole="header" className="text-[21px] leading-7">
           {title}
         </Txt>
         {subtitle ? <Muted className="mt-1">{subtitle}</Muted> : null}

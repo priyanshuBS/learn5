@@ -47,7 +47,7 @@ export function WeekStreak({
             <Icon name="flame" size={20} color={colors.streak} filled />
           </View>
           <View>
-            <Txt weight="bold" className="text-lg">
+            <Txt weight="display" className="text-lg">
               {current} day{current === 1 ? '' : 's'}
             </Txt>
             <Muted className="text-xs">Current streak</Muted>
@@ -72,7 +72,7 @@ export function WeekStreak({
                   'h-9 w-9 items-center justify-center rounded-full',
                   played && 'bg-orange-500',
                   !played && isToday && 'border border-dashed border-zinc-400 dark:border-zinc-500',
-                  !played && !isToday && 'bg-[#F1F0EC] dark:bg-ink-raised',
+                  !played && !isToday && 'bg-[#EDE9DC] dark:bg-ink-raised',
                 )}
               >
                 {played ? (

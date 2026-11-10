@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the Inter font
+ *   - loads Tailwind styles and the fonts (Inter for text, Fraunces for headings)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -8,6 +8,7 @@
  */
 import '../global.css';
 
+import { Fraunces_600SemiBold, Fraunces_600SemiBold_Italic } from '@expo-google-fonts/fraunces';
 import {
   Inter_400Regular,
   Inter_500Medium,
@@ -40,6 +41,8 @@ export default function RootLayout() {
     Inter_500Medium,
     Inter_600SemiBold,
     Inter_700Bold,
+    Fraunces_600SemiBold,
+    Fraunces_600SemiBold_Italic,
   });
   useContentBootstrap();
   useAuthBootstrap();

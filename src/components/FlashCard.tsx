@@ -1,6 +1,6 @@
 /**
  * FlashCard — a fact card that flips.
- *   Front (indigo gradient): "Did you know?" + the fact.
+ *   Front: "Did you know?" + the fact.
  *   Back (white):            "Why it's true" + the explanation and fun fact.
  *
  * The flip: the card turns to its edge (90°), swaps sides while invisible,

@@ -45,7 +45,7 @@ export function StatCard({
           {label}
         </Muted>
       </View>
-      <Txt weight="bold" className="mt-3 text-2xl tracking-tight" numberOfLines={1}>
+      <Txt weight="display" className="mt-3 text-2xl tracking-tight" numberOfLines={1}>
         {value}
       </Txt>
       {children}
@@ -79,7 +79,7 @@ export function StatStrip({ stats, className }: { stats: StripStat[]; className?
                 {s.label}
               </Muted>
             </View>
-            <Txt weight="bold" className="mt-1.5 text-xl tracking-tight" numberOfLines={1}>
+            <Txt weight="display" className="mt-1.5 text-xl tracking-tight" numberOfLines={1}>
               {s.value}
             </Txt>
             {s.extra}
