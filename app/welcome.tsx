@@ -6,14 +6,8 @@
  * only after signing in.
  */
 import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
-
-import { Float3D } from '@/components/Float3D';
-import { Orbit3D } from '@/components/Orbit3D';
-import { Tilt } from '@/components/Tilt';
 
 import categoriesFile from '../content/categories.json';
 import { Button } from '@/components/Button';
@@ -21,55 +15,65 @@ import { CARD_CLASSES } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { DifficultyBadge, Tag } from '@/components/DifficultyBadge';
 import { Icon, type IconName } from '@/components/Icon';
+import { Icon3D } from '@/components/Icon3D';
 import { Logo } from '@/components/Logo';
 import { QuizProgress } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { ThemeIconButton } from '@/components/ThemeToggle';
 import { Muted, Txt } from '@/components/Txt';
-import { useColorScheme } from '@/hooks/useScheme';
 import { signInHref } from '@/lib/routes';
 import { CategoriesFileSchema, DROPS_PER_DAY } from '@/lib/schema';
-import { brandTone, colors } from '@/theme';
+import { colors } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
 
-const FEATURES: { icon: IconName; title: string; text: string }[] = [
-  {
-    icon: 'lightbulb',
-    title: 'Clear explanations',
-    text: 'Every answer explains the “why” in plain English.',
-  },
-  {
-    icon: 'calendar',
-    title: 'Two drops a day',
-    text: 'Five new questions at 4 AM and 4 PM, from easy to hard.',
-  },
-  {
-    icon: 'articles',
-    title: 'A daily read',
-    text: 'A fresh, easy-to-read article for every subject each morning.',
-  },
-  {
-    icon: 'review',
-    title: 'Review mistakes',
-    text: 'Replay the questions you got wrong until they stick.',
-  },
-  {
-    icon: 'flashcards',
-    title: 'Flashcards',
-    text: 'Keep the facts you liked and flip through them any time.',
-  },
-  {
-    icon: 'flame',
-    title: 'Streaks and levels',
-    text: 'Points, levels and badges that reward showing up.',
-  },
-  {
-    icon: 'smartphone',
-    title: 'Phone and web',
-    text: 'Use it on Android, iPhone or in your browser.',
-  },
-];
+const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string; text: string }[] =
+  [
+    {
+      icon: 'lightbulb',
+      color: '#F5B70A',
+      filled: true,
+      title: 'Clear explanations',
+      text: 'Every answer explains the “why” in plain English.',
+    },
+    {
+      icon: 'calendar',
+      color: '#06B6D4',
+      title: 'Two drops a day',
+      text: 'Five new questions at 4 AM and 4 PM, from easy to hard.',
+    },
+    {
+      icon: 'articles',
+      color: '#8B5CF6',
+      title: 'A daily read',
+      text: 'A fresh, easy-to-read article for every subject each morning.',
+    },
+    {
+      icon: 'review',
+      color: '#EC4899',
+      title: 'Review mistakes',
+      text: 'Replay the questions you got wrong until they stick.',
+    },
+    {
+      icon: 'flashcards',
+      color: '#10B981',
+      title: 'Flashcards',
+      text: 'Keep the facts you liked and flip through them any time.',
+    },
+    {
+      icon: 'flame',
+      color: '#FF6A1A',
+      filled: true,
+      title: 'Streaks and levels',
+      text: 'Points, levels and badges that reward showing up.',
+    },
+    {
+      icon: 'smartphone',
+      color: '#64748B',
+      title: 'Phone and web',
+      text: 'Use it on Android, iPhone or in your browser.',
+    },
+  ];
 
 const STEPS = [
   { title: 'Sign up with your email', text: 'No password. We email you a 6-digit code.' },
@@ -81,15 +85,9 @@ const goSignUp = () => router.push(signInHref('signup'));
 const goLogIn = () => router.push(signInHref('login'));
 
 export default function WelcomeScreen() {
-  const dark = useColorScheme() === 'dark';
-  const iconColor = brandTone(dark);
-  // The 3D rings around the preview never get wider than the screen.
-  const { width } = useWindowDimensions();
-  const orbitSize = Math.min(440, width - 24);
-
   return (
     <Screen contentClassName="pt-4 md:pt-6">
-      <Animated.View entering={FadeIn.duration(250)}>
+      <View>
         {/* Top bar */}
         <View className="flex-row items-center justify-between">
           <Logo />
@@ -134,27 +132,9 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          {/* The product, floating in 3D inside orbiting rings */}
-          <View className="items-center justify-center overflow-hidden py-10 lg:flex-1">
-            <View pointerEvents="none" className="absolute inset-0 items-center justify-center">
-              <Orbit3D
-                size={orbitSize}
-                rings={categories.slice(0, 3).map((c, i) => ({
-                  color: c.color,
-                  tilt: 72,
-                  turn: i * 55 - 55,
-                  seconds: 14 + i * 5,
-                  scale: 0.95 - i * 0.08,
-                }))}
-              />
-            </View>
-            <View className="w-full max-w-[440px]">
-              <Float3D>
-                <Tilt max={8}>
-                  <ProductPreview />
-                </Tilt>
-              </Float3D>
-            </View>
+          {/* The product: a clean framed preview */}
+          <View className="rounded-3xl border border-line bg-zinc-100/70 p-4 dark:border-ink-line dark:bg-ink-soft md:p-8 lg:flex-1">
+            <ProductPreview />
           </View>
         </View>
 
@@ -209,9 +189,7 @@ export default function WelcomeScreen() {
         <View className="-mx-2 flex-row flex-wrap">
           {FEATURES.map((f) => (
             <View key={f.title} className="w-full flex-row gap-3.5 px-2 py-3 sm:w-1/2 lg:w-1/3">
-              <View className="pt-0.5">
-                <Icon name={f.icon} size={20} color={iconColor} strokeWidth={2} />
-              </View>
+              <Icon3D icon={f.icon} color={f.color} size={40} filled={f.filled} />
               <View className="flex-1">
                 <Txt weight="semibold" className="text-[15px]">
                   {f.title}
@@ -223,14 +201,7 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 overflow-hidden rounded-[28px] bg-[#120C1F] p-6 web:shadow-[0_30px_80px_-30px_rgba(255,106,26,0.6)] md:flex-row md:items-center md:justify-between md:p-10">
-          <LinearGradient
-            pointerEvents="none"
-            colors={['rgba(255,90,31,0.55)', 'rgba(124,92,255,0.35)', 'rgba(6,182,212,0.25)']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={StyleSheet.absoluteFill}
-          />
+        <View className="mt-16 items-start gap-5 overflow-hidden rounded-3xl bg-zinc-900 p-6 dark:border dark:border-ink-line dark:bg-ink-card md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
             <Txt
               weight="display"
@@ -265,7 +236,7 @@ export default function WelcomeScreen() {
             </Txt>
           </View>
         </View>
-      </Animated.View>
+      </View>
     </Screen>
   );
 }

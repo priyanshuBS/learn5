@@ -4,7 +4,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
@@ -15,7 +14,6 @@ import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Screen } from '@/components/Screen';
-import { Tilt } from '@/components/Tilt';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import {
@@ -26,12 +24,11 @@ import {
   SLOT_NAMES,
 } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { useColorScheme } from '@/hooks/useScheme';
 import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { colors, withAlpha } from '@/theme';
+import { colors } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -43,7 +40,6 @@ const DAYS_PER_PAGE = 7;
 export default function CategoryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { ready, index, zonedNow, results, isDone, mistakes } = useAppData();
-  const dark = useColorScheme() === 'dark';
   const [daysShown, setDaysShown] = useState(DAYS_PER_PAGE);
 
   // Opening a category downloads only its LATEST open drop (5 questions with answers
@@ -97,39 +93,32 @@ export default function CategoryScreen() {
 
   return (
     <Screen width="narrow">
-      {/* Subject header: a 3D card that leans toward you */}
-      <Animated.View entering={FadeInDown.duration(450)}>
-        <Tilt max={4}>
-          <Card className="overflow-hidden p-6">
-            <View
-              pointerEvents="none"
-              className="absolute -right-16 -top-20 h-56 w-56 rounded-full"
-              style={{ backgroundColor: withAlpha(category.color, dark ? 0.2 : 0.12) }}
-            />
-            <View className="flex-row items-center justify-between">
-              <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
-            </View>
-            <View className="mt-5 flex-row items-center gap-4">
-              <CategoryIcon category={category} size="lg" />
-              <View className="flex-1">
-                <Txt
-                  weight="display"
-                  accessibilityRole="header"
-                  className="text-[28px] leading-[34px]"
-                >
-                  {category.name}
-                </Txt>
-                <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
-              </View>
-            </View>
-            <View className="mt-6 flex-row gap-2">
-              <HeroStat value={`${categoryResults.length}`} label="Drops done" />
-              <HeroStat value={accuracy} label="Accuracy" />
-              <HeroStat value={`${categoryMistakes}`} label="To review" />
-            </View>
-          </Card>
-        </Tilt>
-      </Animated.View>
+      {/* Subject header */}
+      <Card className="overflow-hidden p-6">
+        {/* A thin bar in the subject's colour along the top */}
+        <View
+          pointerEvents="none"
+          className="absolute left-0 right-0 top-0 h-1"
+          style={{ backgroundColor: category.color }}
+        />
+        <View className="flex-row items-center justify-between">
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+        </View>
+        <View className="mt-5 flex-row items-center gap-4">
+          <CategoryIcon category={category} size="lg" />
+          <View className="flex-1">
+            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
+              {category.name}
+            </Txt>
+            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
+          </View>
+        </View>
+        <View className="mt-6 flex-row gap-2">
+          <HeroStat value={`${categoryResults.length}`} label="Drops done" />
+          <HeroStat value={accuracy} label="Accuracy" />
+          <HeroStat value={`${categoryMistakes}`} label="To review" />
+        </View>
+      </Card>
 
       {categoryMistakes > 0 ? (
         <Button

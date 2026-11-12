@@ -1,15 +1,17 @@
 /**
- * BadgeCard — one badge: coloured when earned, grey with a progress bar when not.
+ * BadgeCard — one badge: a coloured 3D icon when earned; grey, faded and with a
+ * progress bar when not.
  */
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 import type { BadgeStatus } from '@/features/badges/badges';
 import { useColorScheme } from '@/hooks/useScheme';
-import { BADGE_ICONS, colors } from '@/theme';
+import { BADGE_COLORS, BADGE_ICONS, colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
 import { Icon } from './Icon';
+import { Icon3D } from './Icon3D';
 import { ProgressBar } from './ProgressBar';
 import { Muted, Txt } from './Txt';
 
@@ -27,18 +29,12 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
     >
       <View>
         <View className="flex-row items-start justify-between">
-          <View
-            className={twMerge(
-              'h-12 w-12 items-center justify-center rounded-2xl border',
-              badge.earned
-                ? 'border-amber-200 bg-amber-50 dark:border-amber-500/25 dark:bg-amber-500/10'
-                : 'border-line bg-zinc-50 dark:border-ink-line dark:bg-ink-card',
-            )}
-          >
-            <Icon
-              name={BADGE_ICONS[badge.id] ?? 'medal'}
-              size={20}
-              color={badge.earned ? colors.points : scheme === 'dark' ? '#3A3C48' : '#CFD0D9'}
+          <View style={{ opacity: badge.earned ? 1 : 0.45 }}>
+            <Icon3D
+              icon={BADGE_ICONS[badge.id] ?? 'medal'}
+              color={badge.earned ? (BADGE_COLORS[badge.id] ?? colors.points) : '#8A8D9A'}
+              size={48}
+              filled={badge.id.startsWith('streak-7')}
             />
           </View>
           {badge.earned ? (

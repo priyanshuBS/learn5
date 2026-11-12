@@ -1,18 +1,19 @@
 /**
- * CategoryIcon — a gradient tile in the subject's colour with a white line icon.
+ * CategoryIcon — the subject's 3D icon (see Icon3D) in the subject's colour.
+ * Falls back to the subject's emoji if it has no line icon.
  */
-import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
 
 import type { Category } from '@/lib/schema';
-import { CATEGORY_ICONS, categoryGradient } from '@/theme';
+import { CATEGORY_ICONS } from '@/theme';
 
-import { Icon } from './Icon';
+import { Icon3D } from './Icon3D';
 import { Txt } from './Txt';
 
 const SIZES = {
-  sm: { box: 32, radius: 10, icon: 16, emoji: 'text-sm' },
-  md: { box: 46, radius: 15, icon: 22, emoji: 'text-lg' },
-  lg: { box: 60, radius: 20, icon: 28, emoji: 'text-2xl' },
+  sm: { box: 34, emoji: 'text-base' },
+  md: { box: 48, emoji: 'text-xl' },
+  lg: { box: 64, emoji: 'text-3xl' },
 } as const;
 
 export function CategoryIcon({
@@ -24,24 +25,10 @@ export function CategoryIcon({
 }) {
   const s = SIZES[size];
   const icon = CATEGORY_ICONS[category.id];
+  if (icon) return <Icon3D icon={icon} color={category.color} size={s.box} />;
   return (
-    <LinearGradient
-      colors={categoryGradient(category.color)}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={{
-        width: s.box,
-        height: s.box,
-        borderRadius: s.radius,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {icon ? (
-        <Icon name={icon} size={s.icon} color="#FFFFFF" strokeWidth={2.25} />
-      ) : (
-        <Txt className={s.emoji}>{category.emoji}</Txt>
-      )}
-    </LinearGradient>
+    <View style={{ width: s.box, height: s.box }} className="items-center justify-center">
+      <Txt className={s.emoji}>{category.emoji}</Txt>
+    </View>
   );
 }

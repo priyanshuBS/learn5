@@ -149,7 +149,7 @@ QUESTIONS
 - fact_card: one surprising but true fact in 1–2 sentences ("fact" field, no question); the explanation adds the "why".
 - explanation: 2–4 simple sentences (20–600 characters). Say why the right answer is right; when useful, why the tempting wrong answer is wrong.
 - funFact (optional): one fun line, max 200 characters.
-- source: a real, well-known reference for THIS subject that covers the fact: e.g. "NCERT Class 8 Mathematics" for math, "NCERT Class 9 Science" for science, "Oxford Learner's Dictionary" only for English words.
+- source: a real, well-known reference for THIS subject that covers the fact: e.g. "Oxford Learner's Dictionary" or "NCERT Class 8 English" for English, "NCERT Class 11 Computer Science" for computer science, "RS Aggarwal Verbal & Non-Verbal Reasoning" for reasoning. For Puzzles, use "Classic puzzle" (a well-known riddle or brain teaser) or "Original puzzle" (one you made up) — never a dictionary or textbook.
 - topic: short name, max 60 characters. All 5 topics in a drop must be different.
 - title: short and catchy, max 60 characters, about the TOPICS in this drop (e.g. "Bits, Bytes and Binary"). Never use the time of day, the date, the subject name or the words "quiz"/"drop" in the title.
 
@@ -226,6 +226,6 @@ For each item check:
 4. For fill_blank: exactly one answer fits the blank, and it is the given answer. acceptedAnswers are just other spellings of that SAME answer (e.g. "12" and "twelve") — that is fine, not a second answer.
 5. The explanation agrees with the answer and its facts and numbers are right.
 6. The fact is well-established, school-level, not controversial, not time-sensitive.
-7. The source is a real reference that fits the subject (e.g. not a dictionary for a math fact).
+7. The source is a real reference that fits the subject (e.g. not a dictionary for a math fact). For puzzles, "Classic puzzle" or "Original puzzle" is fine.
 Be strict: if you have real doubt, mark it not ok.
 Reply with JSON only: {"items":[{"position":1,"ok":true,"problem":""}, …]} — one entry per item, "problem" explains what is wrong when ok is false.`;

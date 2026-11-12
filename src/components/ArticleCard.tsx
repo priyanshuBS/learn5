@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import { useColorScheme } from '@/hooks/useScheme';
 import { articleHref } from '@/lib/routes';
 import type { ArticleSummary, Category } from '@/lib/schema';
-import { categoryTone, colors, withAlpha } from '@/theme';
+import { categoryTone, colors } from '@/theme';
 
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
 import { CategoryIcon } from './CategoryIcon';
@@ -70,11 +70,6 @@ export function ArticleCard({
       onPress={open}
       className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full overflow-hidden p-5')}
     >
-      <View
-        pointerEvents="none"
-        className="absolute -right-12 -top-14 h-40 w-40 rounded-full"
-        style={{ backgroundColor: withAlpha(category.color, dark ? 0.16 : 0.1) }}
-      />
       <View className="flex-row items-center gap-2.5">
         <CategoryIcon category={category} size="sm" />
         <Txt weight="semibold" className="flex-1 text-[13px]" style={{ color: tone }}>

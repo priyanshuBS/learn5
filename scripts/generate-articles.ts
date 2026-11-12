@@ -56,6 +56,20 @@ const normalize = (text: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
+/**
+ * The AI often writes one sentence per paragraph. Short paragraphs are joined
+ * (up to 4 per section) instead of rejecting the whole article.
+ */
+function mergeParagraphs(section: unknown): unknown {
+  const s = section as { heading?: unknown; paragraphs?: unknown };
+  if (!Array.isArray(s?.paragraphs) || s.paragraphs.length <= 4) return section;
+  const parts = s.paragraphs.map(String).filter((p) => p.trim());
+  const per = Math.ceil(parts.length / 4);
+  const merged: string[] = [];
+  for (let i = 0; i < parts.length; i += per) merged.push(parts.slice(i, i + per).join(' '));
+  return { ...s, paragraphs: merged };
+}
+
 /** Turns the AI's reply into an Article we can check: we set category, date and reading time. */
 function toArticle(reply: string, category: string, date: string): unknown {
   const parsed = JSON.parse(reply) as Record<string, unknown>;
@@ -65,7 +79,9 @@ function toArticle(reply: string, category: string, date: string): unknown {
     title: parsed.title,
     topic: parsed.topic,
     summary: parsed.summary,
-    sections: parsed.sections,
+    sections: Array.isArray(parsed.sections)
+      ? parsed.sections.map(mergeParagraphs)
+      : parsed.sections,
     keyPoints: parsed.keyPoints,
     glossary: Array.isArray(parsed.glossary) ? parsed.glossary : [],
     source: parsed.source,

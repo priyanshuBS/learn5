@@ -7,16 +7,8 @@
  * Tap the top part to open the subject page.
  */
 import { router } from 'expo-router';
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useReducedMotion,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { SLOT_NAMES, type DropSlot } from '@/features/drops/status';
@@ -26,7 +18,7 @@ import { categoryHref, quizHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { categoryTone, colors, withAlpha } from '@/theme';
+import { categoryTone, colors } from '@/theme';
 
 import { Button } from './Button';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
@@ -69,12 +61,6 @@ export function CategoryCard({
         onPress={() => router.push(categoryHref(category.id))}
         className="p-5"
       >
-        {/* A soft glow in the subject's colour */}
-        <View
-          pointerEvents="none"
-          className="absolute -right-12 -top-14 h-40 w-40 rounded-full"
-          style={{ backgroundColor: withAlpha(category.color, dark ? 0.16 : 0.1) }}
-        />
         <View className="flex-row items-center gap-3.5">
           <CategoryIcon category={category} size="md" />
           <View className="flex-1">
@@ -194,7 +180,7 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
           accessibilityLabel={`${name} drop open now`}
           className="h-8 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-pop px-2 dark:bg-pop-light"
         >
-          <PulseDot />
+          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#2A0E02]" />
           <Txt weight="semibold" className="text-[12px] text-white dark:text-[#2A0E02]">
             Open
           </Txt>
@@ -223,31 +209,6 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         </View>
       );
   }
-}
-
-/** A small dot that pulses with a glow ring: "open now". */
-function PulseDot() {
-  const reduce = useReducedMotion();
-  const t = useSharedValue(0);
-  useEffect(() => {
-    if (reduce) return;
-    t.set(withRepeat(withTiming(1, { duration: 1400, easing: Easing.out(Easing.quad) }), -1));
-  }, [reduce, t]);
-  const ring = useAnimatedStyle(() => ({
-    opacity: 0.7 * (1 - t.get()),
-    transform: [{ scale: 1 + t.get() * 2.2 }],
-  }));
-  return (
-    <View className="h-1.5 w-1.5 items-center justify-center">
-      <Animated.View
-        style={[
-          { position: 'absolute', width: 6, height: 6, borderRadius: 3, backgroundColor: '#fff' },
-          ring,
-        ]}
-      />
-      <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#2A0E02]" />
-    </View>
-  );
 }
 
 function Footer({ children }: { children: ReactNode }) {

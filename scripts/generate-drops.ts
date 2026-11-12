@@ -45,7 +45,7 @@ import { notifyCrash, notifyRunProblems } from './lib/alerts';
 import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
 import { SYSTEM_PROMPT, topicAreas, userPrompt, VERIFY_SYSTEM_PROMPT } from './lib/prompt';
 
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 4;
 const TOPIC_WINDOW_DAYS = 30;
 const QUESTION_WINDOW_DAYS = 60;
 const DIFFICULTY_ORDER = { easy: 0, medium: 1, hard: 2 } as const;

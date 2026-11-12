@@ -28,24 +28,24 @@ export const colors = {
   textDark: '#F3F4F8',
   muted: '#6B6D7B',
   mutedDark: '#9A9CAA',
-  line: '#E4E4EB',
-  inkLine: 'rgba(255,255,255,0.09)',
+  line: '#E6E6EB',
+  inkLine: '#26272F',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#FF6A1A',
   points: '#F5B70A',
-  canvas: '#F4F4F7',
-  ink: '#06070D',
+  canvas: '#F7F7F9',
+  ink: '#0E0F13',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#10121B',
+  inkSolid: '#16171C',
   /** Empty part of progress rings. */
   track: '#E8E8EE',
-  trackDark: 'rgba(255,255,255,0.10)',
+  trackDark: '#26272F',
 } as const;
 
-/** The glowing background blobs: orange, violet and cyan. */
-export const AURORA = { orange: '#FF6A1A', violet: '#7C5CFF', cyan: '#06B6D4' } as const;
+/** Colours of the 3D stat icons. */
+export const ICON3D = { flame: '#FF6A1A', star: '#F5B70A', trophy: '#8B5CF6' } as const;
 
 /** The signature gradient: hot orange into amber (hero card, logo, primary highlights). */
 export const BRAND_GRADIENT = ['#FF4D1C', '#FF7A1A', '#FFB020'] as const;
@@ -75,6 +75,15 @@ export const BADGE_ICONS: Record<string, IconName> = {
   'streak-30': 'crown',
   'correct-100': 'medal',
   'all-categories': 'palette',
+};
+
+/** Colour of each badge's 3D icon (when earned). */
+export const BADGE_COLORS: Record<string, string> = {
+  'first-drop': '#06B6D4',
+  'streak-7': '#FF6A1A',
+  'streak-30': '#F5B70A',
+  'correct-100': '#8B5CF6',
+  'all-categories': '#EC4899',
 };
 
 /** Icon for each drop slot: morning, afternoon, evening. */

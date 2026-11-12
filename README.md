@@ -2,192 +2,209 @@
 
 **5 questions. 5 minutes. Get smarter every day.**
 
-A gamified micro-learning app for English, Reasoning, Puzzles and Computer Science.
-One Expo codebase ships as an Android app, an iOS app and a website.
+Learn5 is a daily micro-learning app for **English, Reasoning, Puzzles and Computer Science**.
+Twice a day every subject gets a fresh 5-question drop that climbs from easy to hard, and every
+morning a short, easy-to-read article. One Expo codebase ships as an **Android app**, an
+**iOS app** and a **website**.
 
-> Status: feature-complete for launch — see the **Launch checklist** below for the remaining setup steps.
+---
 
-## Quick start
+## Contents
 
-You need Node.js LTS (v24 works) and npm.
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Content pipeline](#content-pipeline)
+- [Architecture](#architecture)
+- [Scripts](#scripts)
+- [Deployment](#deployment)
+- [Quality](#quality)
+- [Launch checklist](#launch-checklist)
+
+---
+
+## Features
+
+| Area             | What it does                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Daily drops**  | 2 drops per subject per day (04:00 and 16:00 IST), 5 questions each, from easy to hard, each from a different area |
+| **Daily reads**  | One short article per subject every morning at 04:00, in simple English, with key points and "words to know"       |
+| **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                         |
+| **Review**       | Wrong answers can be replayed until they are answered correctly                                                    |
+| **Progress**     | Points, levels, streaks and badges, synced to the user's account across devices                                    |
+| **Accounts**     | Passwordless sign-in with a 6-digit email code; account deletion; privacy and terms pages                          |
+| **Offline**      | The app opens instantly from a local copy and keeps working offline                                                |
+| **Reminders**    | Optional daily local notification (phones)                                                                         |
+| **Design**       | Light and dark themes, 3D subject and badge icons, and motion only in response to taps                             |
+
+## Tech stack
+
+- **App:** Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand
+- **Server:** Expo Router API routes, hosted on EAS Hosting
+- **Database:** Neon (serverless Postgres)
+- **Content generation:** Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions
+- **Email:** Resend (sign-in codes and owner alerts)
+- **Validation:** Zod schemas shared by the app, the server and the scripts
+- **Tests:** Jest (`jest-expo`)
+
+## Getting started
+
+**Requirements:** Node.js 24 LTS and npm.
 
 ```bash
-npm install            # once, downloads all packages
-npm run web            # opens the app in your browser
-npm start              # shows a QR code: scan it with the Expo Go app on your phone
+npm install                 # install dependencies
+cp .env.example .env.local  # then fill in the values (see Configuration)
+npm run db:migrate          # create or update the database tables
+npm start                   # dev server: press w for the website, scan the QR code with Expo Go
 ```
 
-## Sign-in (email + one-time code)
+Without `RESEND_API_KEY` in development, sign-in codes are printed in the terminal instead of
+being emailed.
 
-People sign in with their email: we email a 6-digit code (valid 10 minutes, 5 tries),
-and after verifying it they stay signed in for **7 days** on that device.
+## Configuration
 
-User journey: **Welcome page** (`/welcome`, public) → **Sign up / Log in** (`/sign-in`) →
-the app (Home, quizzes, progress…). Signed-out visitors to any app page land on Welcome;
-signed-in visitors to Welcome or Sign in land on Home. Sign out returns to Welcome.
+All settings live in `.env.local` (git-ignored; template: `.env.example`).
 
-- Server code: `app/api/auth/*+api.ts` (Expo Router API routes) → `src/server/` (Neon Postgres).
-- App code: `src/features/auth/` (store, API client, rules), `app/welcome.tsx`, `app/sign-in.tsx`.
-- The root layout (`app/_layout.tsx`) uses `Stack.Protected` to choose public vs app screens.
-- Only hashes of codes and session tokens are stored in the database.
+| Variable                   | Used by         | Purpose                                                         |
+| -------------------------- | --------------- | --------------------------------------------------------------- |
+| `DATABASE_URL`             | server, scripts | Neon Postgres connection string                                 |
+| `AUTH_SECRET`              | server          | Random secret used to hash sign-in codes and session tokens     |
+| `RESEND_API_KEY`           | server, scripts | Sends sign-in codes and alert emails                            |
+| `EMAIL_FROM`               | server, scripts | Sender address on a verified Resend domain                      |
+| `GROQ_API_KEY`             | scripts         | Groq key for the content generators                             |
+| `GROQ_API_KEY_2`           | scripts         | _Optional._ Fallback key; must be from a different Groq account |
+| `GROQ_MODEL`               | scripts         | _Optional._ Model name (default `openai/gpt-oss-120b`)          |
+| `ALERT_EMAIL`              | scripts         | Where problem alerts are sent                                   |
+| `EXPO_PUBLIC_APP_URL`      | app             | Live website; production phone builds call its API              |
+| `EXPO_PUBLIC_REPORT_EMAIL` | app             | Where "Report wrong answer" emails go                           |
 
-## Daily questions (cron job + Groq)
+> `EXPO_PUBLIC_*` values are bundled into the app, so they must never contain secrets.
 
-Questions live in the database (table `drops`), not on your laptop.
+## Content pipeline
 
-- `.github/workflows/generate-drops.yml` runs **twice a day in GitHub's cloud**
-  (04:00 and 16:00 IST). Each run calls `npm run generate-drops`, which fills any missing
-  drops for **today and tomorrow** and skips existing ones. A failed run is finished by
-  the next one.
-- For each drop the AI (Groq, `openai/gpt-oss-120b`) writes 5 items. The code then checks
-  them with `src/lib/schema.ts` (5 items, type and difficulty mix, ids, no topic repeated
-  within 30 days, no question repeated within 60 days). A second AI pass fact-checks every
-  answer. Bad drops are retried with feedback and never saved.
-- The app reads `GET /api/content` (the list) and `GET /api/content/drop?path=…` (one
-  drop). A drop is only returned after its opening time. Responses are cached because drops
-  never change.
-- Setup: push the repo to GitHub and add the secrets `DATABASE_URL` and `GROQ_API_KEY`
-  (Settings → Secrets and variables → Actions). Run it by hand from the Actions tab.
-- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=english --dry-run`).
-- **2 drops a day per subject**, opening at **04:00 and 16:00 IST**. Everyone gets the same
-  drop: 5 questions that climb from easy to hard (1 easy, 2 medium, 2 hard), each from a
-  different area of the subject. The areas rotate every drop (`CATEGORY_AREAS` in
-  `scripts/lib/prompt.ts`), so each subject covers its whole range over time.
-- **Daily AI budget:** 8 drops (40 questions) + 4 articles. Each one is written once and
-  fact-checked once, so a normal day is about 24 Groq requests.
-- **Groq key:** `GROQ_API_KEY`. An optional second key, `GROQ_API_KEY_2`, is used as a fallback
-  if set. It only helps if it comes from a **different Groq account** (limits are per account).
-- **Email alerts** go to `ALERT_EMAIL` (via Resend) when anything goes wrong: the key's limit is
-  reached or the key is refused, some drops/articles could not be written, or a generator
-  crashed. The same alert is sent at most once per run (`scripts/lib/alerts.ts`).
-- `npm run seed-drops` copies the hand-written files in `content/` into the database.
-  The newest files are also packed into the app for offline use (`npm run bundle-content`).
-- The AI instructions are in `scripts/lib/prompt.ts`, a short version of `CONTENT_GUIDE.md`.
+All learning content lives in the database and reaches the app through the API, so new
+content appears without an app update.
 
-## Daily articles (04:00 cron job + Groq)
+### Daily drops
 
-- `.github/workflows/generate-articles.yml` runs **every day at 04:00 IST** (with a 05:00
-  back-up run). For each subject the AI picks one topic itself and writes a short article
-  (350–750 words) in simple English: sections, key points and "words to know".
-- The code checks it with `ArticleSchema` (`src/lib/schema.ts`) and for simple English
-  (`src/features/articles/readability.ts`: no sentence over 25 words, average under 15).
-  A second AI pass fact-checks it. Topics are not repeated within 90 days.
-- Saved in the `articles` table. The app reads `GET /api/articles` (the list) and
-  `GET /api/articles/article?category=…&date=…` (one article), shown in the **Read** tab and on Home.
-  An article is only returned after 04:00 on its day.
-- Locally: `npm run generate-articles` (options: `--date=YYYY-MM-DD --category=english --dry-run`).
-- The AI instructions are in `scripts/lib/article-prompt.ts`.
+- **Schedule:** `.github/workflows/generate-drops.yml` runs at **04:00 and 16:00 IST** and
+  fills any missing drops for today and tomorrow. Existing drops are skipped, so every run is
+  safe to repeat and a failed run is finished by the next one.
+- **Shape:** 5 items per drop (3 multiple choice, 1 true/false, 1 fill-in-the-blank or fact
+  card) on a difficulty ladder: 1 easy, 2 medium, 2 hard.
+- **Coverage:** each question comes from a different area of its subject, and the areas
+  rotate with every drop (`CATEGORY_AREAS` in `scripts/lib/prompt.ts`).
+- **Checks:** every drop is validated against `src/lib/schema.ts`, checked for repeated topics
+  (30 days) and questions (60 days), then fact-checked by a second AI pass. Drops that fail are
+  retried with feedback and never saved.
+- **Serving:** `GET /api/content` (list) and `GET /api/content/drop?path=…` (one drop). A drop
+  is only served after its opening time.
 
-## Progress is saved to your account
+### Daily articles
 
-Results, fixed mistakes and "wrong answer" reports are stored per user in Neon
+- **Schedule:** `.github/workflows/generate-articles.yml` runs at **04:00 IST** (a 05:00 run
+  retries anything that failed).
+- **Writing:** for each subject the AI chooses a topic not covered in the last 90 days and
+  writes a 300–800 word article.
+- **Checks:** `ArticleSchema`, a simple-English check (no sentence over 25 words, average
+  under 15; `src/features/articles/readability.ts`) and an AI fact-check.
+- **Serving:** `GET /api/articles` and `GET /api/articles/article?category=…&date=…`.
+
+### Budget and alerts
+
+- A normal day is **8 drops (40 questions) + 4 articles**, about 24 Groq requests.
+- If `GROQ_API_KEY` reaches its limit, the generators switch to `GROQ_API_KEY_2` when one is set.
+- **Alerts** are emailed to `ALERT_EMAIL` when a key's limit is reached or a key is refused,
+  when drops or articles could not be written, or when a generator crashes. Each alert is sent
+  at most once per run (`scripts/lib/alerts.ts`).
+
+Writing rules for people and for the AI are in [`CONTENT_GUIDE.md`](CONTENT_GUIDE.md).
+
+## Architecture
+
+```
+app/                    Screens and API routes (Expo Router: every file is a route)
+  (tabs)/               Home, Read, Review, Flashcards, Progress, subject pages
+  api/                  auth, content, articles, progress, account
+src/
+  components/           UI building blocks (Card, Button, Icon3D, CategoryCard, …)
+  features/             App logic: auth, content, articles, progress sync, badges, streaks
+  lib/                  Shared helpers; schema.ts is the single source of truth for content
+  server/               Server-only code: database, auth, drops, articles, email
+scripts/                Generators, validators, migrations (sql/) and their AI prompts (lib/)
+content/                Seed content bundled for offline use, categories.json, index.json
+schedule.config.json    Drop and article times
+```
+
+**Progress sync.** Results, fixed mistakes and answer reports are stored per user
 (`drop_results`, `fixed_mistakes`, `answer_reports`) through `POST /api/progress/sync`.
+The device keeps a local copy and sends pending changes on the next sync; only changes since
+the last sync are downloaded. The first play of a drop wins, and points are recalculated on
+the server.
 
-- The phone keeps a local copy, so the app opens instantly and works offline. New
-  changes wait as "pending" and are sent on the next sync (sign-in, app open, after
-  each drop, before sign-out).
-- A new phone downloads the user's progress on first sign-in. Only changes since the
-  last sync are downloaded after that.
-- The first play of a drop wins, even across devices, and points are recalculated on the server.
-- Signing out removes progress from the device once it is saved. Another person
-  signing in on the same phone starts clean.
-- Code: `src/features/progress/` (store, sync, merge, schema) and `src/server/progress.ts`.
+**Security.** Only hashes of sign-in codes and session tokens are stored. Sign-in codes are
+rate-limited (1 per minute and 5 per hour per email, 20 per hour per network). Deleting an
+account removes all of the user's data.
 
-## Accounts, privacy and safety
+## Scripts
 
-- **Delete account** (Progress → Account): `POST /api/account/delete` removes the user and
-  all their data (progress, reports, sessions, sign-in codes). Required by the App Store
-  and Google Play.
-- **Legal pages**: `/privacy` and `/terms` (open to everyone, linked from Welcome, Sign in
-  and Progress). Written from what the app really does; have them reviewed before launch.
-- **Rate limits** on sign-in codes: 1 per minute and 5 per hour per email, plus 20 per hour
-  per network (IP address).
-- **Clean-up**: `npm run cleanup` deletes old sign-in codes and ended sessions. The cron job
-  runs it after generating drops.
+| Command                     | Description                                          |
+| --------------------------- | ---------------------------------------------------- |
+| `npm start`                 | Start the dev server (app and website)               |
+| `npm run web`               | Start the dev server and open the website            |
+| `npm run db:migrate`        | Create or update the database tables                 |
+| `npm run generate-drops`    | Write missing drops for today and tomorrow           |
+| `npm run generate-articles` | Write today's articles                               |
+| `npm run validate-content`  | Validate the files in `content/`                     |
+| `npm run build-index`       | Rebuild `content/index.json`                         |
+| `npm run bundle-content`    | Pack the newest content into the app for offline use |
+| `npm run seed-drops`        | Copy the files in `content/` into the database       |
+| `npm run cleanup`           | Delete expired sign-in codes and sessions            |
+| `npm test`                  | Run the test suite                                   |
+| `npm run typecheck`         | Type-check the project                               |
+| `npm run lint`              | Lint the project                                     |
+| `npm run format`            | Format the project with Prettier                     |
 
-## Daily reminders
+Generator options: `--date=YYYY-MM-DD`, `--category=<id>`, `--dry-run`.
 
-Phones only (`expo-notifications`, local notifications — works in Expo Go). Off until the
-user turns it on in Progress → Reminders, or from the prompt after their first drop. The
-reminder repeats daily at the chosen time and is re-created on app start if the phone lost it.
+## Deployment
 
-## Launch checklist (things only you can do)
-
-1. **Rotate the Groq key** (it was shared in chat) and add GitHub secrets `DATABASE_URL`
-   and `GROQ_API_KEY` (Settings → Secrets and variables → Actions → New repository secret).
-2. **Deploy the website + API** (e.g. `npx eas-cli@latest deploy`) and set the server
-   secrets there: `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`.
-3. Point `learn5.priyanshusingh.co.in` at it, then check `EXPO_PUBLIC_APP_URL` in
-   `.env.local` and `eas.json`.
-4. Make sure `support@priyanshusingh.co.in` receives email (reports and privacy requests).
-5. **App icon and splash**: replace the images in `assets/images/` with your Learn5 artwork.
-6. Phone builds: `npx eas-cli@latest build --profile preview` to test, then
-   `--profile production` and `npx eas-cli@latest submit`. App IDs: `in.priyanshusingh.learn5`.
-   iOS needs an Apple Developer account; Android needs a Google Play Console account.
-7. Store listings: screenshots, description, the privacy policy URL
-   (`https://learn5.expo.app/privacy`) and the data-safety form (email +
-   learning progress, no ads, no tracking).
-
-## Deploy
-
-Website + API (EAS Hosting) — `app.json` uses `"web": { "output": "server" }` so API routes deploy:
+**Website and API** (EAS Hosting; `app.json` uses `"web": { "output": "server" }`):
 
 ```bash
-npx eas-cli@latest login
-npx expo export --platform web            # builds dist/ (EXPO_PUBLIC_* are baked in here)
-npx eas-cli@latest deploy                 # preview URL
-npx eas-cli@latest deploy --prod --environment production   # production URL + server secrets
+npx expo export --platform web       # build dist/ (EXPO_PUBLIC_* values are baked in)
+npx eas-cli@latest deploy --prod     # publish to production
 ```
 
-Server secrets (`DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`) live in the EAS
-`production` environment (`eas env:set … --environment production`). Phone apps:
-`npx eas-cli@latest build --platform android --profile preview` (test APK), then
-`--profile production` and `npx eas-cli@latest submit`.
+Server secrets (`DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`) are stored in the
+EAS `production` environment (`npx eas-cli@latest env:create`).
 
-## Environment variables
+**Phone apps** (EAS Build):
 
-All settings live in `.env.local` (gitignored; template: `.env.example`). None may be empty.
+```bash
+npx eas-cli@latest build -p android --profile preview      # installable test APK
+npx eas-cli@latest build --profile production              # store builds
+npx eas-cli@latest submit                                  # upload to the stores
+```
 
-| Name                       | Where used  | What it is                                                  |
-| -------------------------- | ----------- | ----------------------------------------------------------- |
-| `DATABASE_URL`             | server only | Neon Postgres connection string                             |
-| `AUTH_SECRET`              | server only | Long random string used to hash sign-in codes               |
-| `RESEND_API_KEY`           | server only | Resend key for sending the code emails                      |
-| `EMAIL_FROM`               | server only | Sender, on the verified domain `email.priyanshusingh.co.in` |
-| `GROQ_API_KEY`             | cron only   | Groq key used by the daily question generator               |
-| `EXPO_PUBLIC_APP_URL`      | app         | Live website; phone production builds call its `/api`       |
-| `EXPO_PUBLIC_REPORT_EMAIL` | app         | Where "Report wrong answer" emails go                       |
+**Scheduled jobs** need these GitHub Actions secrets: `DATABASE_URL`, `GROQ_API_KEY`,
+`RESEND_API_KEY`, `EMAIL_FROM` and `ALERT_EMAIL`.
 
-`EXPO_PUBLIC_*` values are copied into the app, so they must never be secrets.
-The `EXPO_PUBLIC_*` values are placeholders until deployment.
+## Quality
 
-Setup: fill in `.env.local`, then run `npm run db:migrate` (creates the sign-in and
-progress tables; safe to run again after updates). For production, deploy the API (e.g. EAS Hosting,
-`npx eas-cli@latest deploy`) and set the same variables in the hosting/build environment.
+Run before every commit:
 
-## Useful commands
+```bash
+npm run typecheck && npm run lint && npm test
+```
 
-| Command                     | What it does                                        |
-| --------------------------- | --------------------------------------------------- |
-| `npm run validate-content`  | Checks every drop file against the rules            |
-| `npm run build-index`       | Re-creates `content/index.json` (list of all drops) |
-| `npm run db:migrate`        | Creates/updates the database tables (Neon)          |
-| `npm run generate-drops`    | Writes missing drops (all 3 tiers) with the AI      |
-| `npm run generate-articles` | Writes today's articles with the AI                 |
-| `npm test`                  | Runs the automatic tests                            |
-| `npm run typecheck`         | Checks TypeScript types                             |
-| `npm run lint`              | Finds likely bugs                                   |
-| `npm run format`            | Tidies code formatting                              |
+## Launch checklist
 
-## Where things live
-
-| Path                   | What it is                                                          |
-| ---------------------- | ------------------------------------------------------------------- |
-| `app/`                 | Screens (Expo Router: each file is a screen)                        |
-| `src/lib/schema.ts`    | **The rulebook** for content (Zod). Single source of truth          |
-| `src/lib/dates.ts`     | Date helpers shared by app and scripts                              |
-| `content/`             | All learning content (`<category>/<YYYY-MM-DD>/drop-<n>.json`)      |
-| `content/index.json`   | Auto-generated list of drops. Never edit by hand                    |
-| `schedule.config.json` | All drop/task times in one place                                    |
-| `CONTENT_GUIDE.md`     | Writing rules for people, scheduled tasks and the future API script |
-| `scripts/`             | `validate-content.ts`, `build-index.ts`                             |
+- [ ] GitHub Actions secrets set (see [Deployment](#deployment))
+- [ ] Latest website and API deployed with `eas deploy --prod`
+- [ ] Custom domain pointed at the deployment; `EXPO_PUBLIC_APP_URL` updated in `.env.local` and `eas.json`
+- [ ] Support inbox (`EXPO_PUBLIC_REPORT_EMAIL`) receives email
+- [ ] Final app icon and splash artwork in `assets/images/`
+- [ ] Legal pages (`/privacy`, `/terms`) reviewed
+- [ ] Store listings: screenshots, description, privacy policy URL and data-safety form

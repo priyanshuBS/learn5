@@ -5,7 +5,6 @@
  * Used as the custom tab bar of app/(tabs)/_layout.tsx.
  */
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -59,7 +58,7 @@ export function AppNav({
   if (variant === 'sidebar') {
     return (
       <View
-        className="w-64 border-r border-line bg-white/70 px-3 pb-4 web:backdrop-blur-xl dark:border-ink-line dark:bg-ink-soft"
+        className="w-64 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink-soft"
         style={{ paddingTop: insets.top + 20 }}
       >
         <View className="px-3">
@@ -117,7 +116,7 @@ export function AppNav({
         <View className="flex-1" />
 
         {ready ? (
-          <View className="mx-1 rounded-2xl border border-line bg-white/80 p-4 dark:border-ink-line dark:bg-ink-card">
+          <View className="mx-1 rounded-2xl border border-line bg-zinc-50 p-4 dark:border-ink-line dark:bg-ink-card">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-1.5">
                 <Icon name="flame" size={15} color={colors.streak} filled />
@@ -169,7 +168,7 @@ export function AppNav({
     );
   }
 
-  // Phones: a floating glass bar. A gradient pill slides to the active tab.
+  // Phones: a bottom tab bar. A soft pill slides to the tab you tap.
   return (
     <BottomBar
       activeIndex={Math.max(
@@ -222,7 +221,7 @@ export function AppNav({
   );
 }
 
-/** The floating bar and its sliding pill. */
+/** The bar and its sliding pill (the only motion: it moves when you switch tabs). */
 function BottomBar({
   activeIndex,
   bottomInset,
@@ -242,41 +241,23 @@ function BottomBar({
 
   return (
     <View
-      className="bg-canvas px-3 pt-1.5 dark:bg-ink"
-      style={{ paddingBottom: Math.max(bottomInset, 10) }}
+      className="border-t border-line bg-white px-2 pt-1.5 dark:border-ink-line dark:bg-ink-soft"
+      style={{ paddingBottom: Math.max(bottomInset, 8) }}
     >
       <View
         accessibilityRole="tablist"
-        onLayout={(e) => setWidth(e.nativeEvent.layout.width - 12)}
-        className="flex-row overflow-hidden rounded-[26px] border border-line bg-white/90 p-1.5 web:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.35)] web:backdrop-blur-xl dark:border-ink-line dark:bg-ink-soft"
+        onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
+        className="flex-row"
       >
         {width > 0 ? (
           <Animated.View
             pointerEvents="none"
             style={[
-              {
-                position: 'absolute',
-                top: 6,
-                bottom: 6,
-                left: 6,
-                width: itemWidth,
-                borderRadius: 20,
-                overflow: 'hidden',
-              },
+              { position: 'absolute', top: 4, bottom: 4, left: 0, width: itemWidth, padding: 0 },
               pill,
             ]}
           >
-            <LinearGradient
-              colors={['rgba(255,106,26,0.28)', 'rgba(255,179,71,0.12)']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                flex: 1,
-                borderRadius: 20,
-                borderWidth: 1,
-                borderColor: 'rgba(255,138,61,0.35)',
-              }}
-            />
+            <View className="mx-2 flex-1 rounded-xl bg-brand-50 dark:bg-brand-400/[0.12]" />
           </Animated.View>
         ) : null}
         {children}
