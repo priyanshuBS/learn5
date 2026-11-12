@@ -19,8 +19,21 @@ import { z } from 'zod';
 export const ITEMS_PER_DROP = 5;
 /** Each category gets this many drops per day (morning, afternoon, evening). */
 export const DROPS_PER_DAY = 3;
-/** Required difficulty mix inside one drop. */
-export const DIFFICULTY_MIX = { easy: 2, medium: 2, hard: 1 } as const;
+/**
+ * Question tiers: every drop is written at 3 tiers, from Basic to Advanced.
+ * Each player has their own tier per category and moves up as they answer well
+ * (src/features/tiers/tiers.ts). Tier 1 is the original content.
+ */
+export const TIERS = [1, 2, 3] as const;
+export const MAX_TIER = 3;
+/** Required difficulty mix inside one drop, per tier (harder tiers have more hard items). */
+export const TIER_DIFFICULTY_MIX = {
+  1: { easy: 2, medium: 2, hard: 1 },
+  2: { easy: 1, medium: 2, hard: 2 },
+  3: { easy: 0, medium: 2, hard: 3 },
+} as const satisfies Record<number, Record<'easy' | 'medium' | 'hard', number>>;
+/** Difficulty mix of tier 1 (kept under its older name). */
+export const DIFFICULTY_MIX = TIER_DIFFICULTY_MIX[1];
 /** Required item-type mix inside one drop. */
 export const TYPE_MIX = { mcq: 3, true_false: 1, fillOrFact: 1 } as const;
 /** Fill-in-the-blank questions must show the gap with this marker. */
@@ -63,8 +76,8 @@ const nonEmpty = (label: string) => z.string().trim().min(1, `${label} must not 
 
 /** Fields every item has, whatever its type. */
 const baseItemFields = {
-  id: z.string().regex(/^[a-z][a-z0-9-]*-\d{4}-\d{2}-\d{2}-d[1-3]-0[1-5]$/, {
-    message: 'id must look like "physics-2026-11-08-d1-01"',
+  id: z.string().regex(/^[a-z][a-z0-9-]*-\d{4}-\d{2}-\d{2}-d[1-3](-t[2-3])?-0[1-5]$/, {
+    message: 'id must look like "english-2026-11-08-d1-01" (or "…-d1-t2-01" for tier 2)',
   }),
   difficulty: DifficultySchema,
   topic: nonEmpty('topic').max(60, 'topic should be short (max 60 characters)'),
@@ -136,9 +149,19 @@ export const ItemSchema = z.discriminatedUnion('type', [
 // A drop (one file = 5 items)
 // ─────────────────────────────────────────────────────────────
 
-/** Builds the expected id of an item, e.g. "physics-2026-11-08-d1-01". */
-export function makeItemId(category: string, date: string, drop: number, position: number) {
-  return `${category}-${date}-d${drop}-${String(position).padStart(2, '0')}`;
+/**
+ * Builds the expected id of an item, e.g. "english-2026-11-08-d1-01".
+ * Higher tiers add the tier: "english-2026-11-08-d1-t2-01".
+ */
+export function makeItemId(
+  category: string,
+  date: string,
+  drop: number,
+  position: number,
+  tier = 1,
+) {
+  const t = tier > 1 ? `-t${tier}` : '';
+  return `${category}-${date}-d${drop}${t}-${String(position).padStart(2, '0')}`;
 }
 
 export const DropSchema = z
@@ -146,6 +169,8 @@ export const DropSchema = z
     date: DateStringSchema,
     category: SlugSchema,
     drop: z.number().int().min(1).max(DROPS_PER_DAY),
+    /** Question tier, 1 (Basic) to 3 (Advanced). Missing = 1. */
+    tier: z.number().int().min(1).max(MAX_TIER).default(1),
     title: nonEmpty('title').max(60, 'title should be short and catchy (max 60 characters)'),
     items: z
       .array(ItemSchema)
@@ -154,7 +179,7 @@ export const DropSchema = z
   .superRefine((drop, ctx) => {
     // 1. Item ids must match the drop and be in order 01..05.
     drop.items.forEach((item, i) => {
-      const expected = makeItemId(drop.category, drop.date, drop.drop, i + 1);
+      const expected = makeItemId(drop.category, drop.date, drop.drop, i + 1, drop.tier);
       if (item.id !== expected) {
         ctx.addIssue({
           code: 'custom',
@@ -177,13 +202,14 @@ export const DropSchema = z
       });
     }
 
-    // 3. Difficulty mix: 2 easy, 2 medium, 1 hard.
+    // 3. Difficulty mix for this tier (tier 1: 2 easy, 2 medium, 1 hard).
+    const mix = TIER_DIFFICULTY_MIX[drop.tier as keyof typeof TIER_DIFFICULTY_MIX];
     for (const level of DifficultySchema.options) {
       const found = drop.items.filter((it) => it.difficulty === level).length;
-      if (found !== DIFFICULTY_MIX[level]) {
+      if (found !== mix[level]) {
         ctx.addIssue({
           code: 'custom',
-          message: `needs ${DIFFICULTY_MIX[level]} "${level}" items but found ${found} (mix must be 2 easy, 2 medium, 1 hard)`,
+          message: `tier ${drop.tier} needs ${mix[level]} "${level}" items but found ${found} (mix must be ${mix.easy} easy, ${mix.medium} medium, ${mix.hard} hard)`,
           path: ['items'],
         });
       }
@@ -223,6 +249,8 @@ export const CategoriesFileSchema = z
 export const ScheduleConfigSchema = z.object({
   $comment: z.string().optional(),
   timezone: nonEmpty('timezone'),
+  /** When each day's articles are written and shown (HH:MM, content time zone). */
+  articles: TimeStringSchema.default('04:00'),
   drops: z.record(
     SlugSchema,
     z.array(TimeStringSchema).length(DROPS_PER_DAY, `each category needs ${DROPS_PER_DAY} times`),
@@ -251,6 +279,58 @@ export const ContentIndexSchema = z.strictObject({
 });
 
 // ─────────────────────────────────────────────────────────────
+// Articles (one short read per category per day)
+// ─────────────────────────────────────────────────────────────
+
+/** Article length limits (words in the sections), so a read takes about 3–5 minutes. */
+export const ARTICLE_WORDS = { min: 350, max: 750 } as const;
+
+export const ArticleSectionSchema = z.strictObject({
+  heading: nonEmpty('heading').max(70, 'heading should be short (max 70 characters)'),
+  paragraphs: z
+    .array(nonEmpty('paragraph').max(700, 'paragraph is too long — split it'))
+    .min(1)
+    .max(4),
+});
+
+/** A hard word from the article with a simple meaning. */
+export const GlossaryEntrySchema = z.strictObject({
+  word: nonEmpty('word').max(40),
+  meaning: nonEmpty('meaning').max(160),
+});
+
+export const ArticleSchema = z.strictObject({
+  category: SlugSchema,
+  date: DateStringSchema,
+  title: nonEmpty('title').max(70, 'title should be short (max 70 characters)'),
+  topic: nonEmpty('topic').max(60, 'topic should be short (max 60 characters)'),
+  /** One or two sentences shown in the list. */
+  summary: nonEmpty('summary').max(220, 'summary should be one or two short sentences'),
+  sections: z.array(ArticleSectionSchema).min(3).max(6),
+  /** The main things to remember. */
+  keyPoints: z.array(nonEmpty('key point').max(160)).min(3).max(5),
+  /** Hard words explained simply. */
+  glossary: z.array(GlossaryEntrySchema).max(6),
+  source: nonEmpty('source').min(3),
+  readingMinutes: z.number().int().min(1).max(15),
+});
+
+/** What the article list shows (no body). */
+export const ArticleSummarySchema = ArticleSchema.pick({
+  category: true,
+  date: true,
+  title: true,
+  topic: true,
+  summary: true,
+  readingMinutes: true,
+});
+
+/** GET /api/articles */
+export const ArticleIndexSchema = z.object({
+  articles: z.array(ArticleSummarySchema),
+});
+
+// ─────────────────────────────────────────────────────────────
 // TypeScript types (generated from the schemas above)
 // ─────────────────────────────────────────────────────────────
 
@@ -266,3 +346,6 @@ export type Category = z.infer<typeof CategorySchema>;
 export type ScheduleConfig = z.infer<typeof ScheduleConfigSchema>;
 export type IndexEntry = z.infer<typeof IndexEntrySchema>;
 export type ContentIndex = z.infer<typeof ContentIndexSchema>;
+export type Article = z.infer<typeof ArticleSchema>;
+export type ArticleSummary = z.infer<typeof ArticleSummarySchema>;
+export type ArticleIndex = z.infer<typeof ArticleIndexSchema>;

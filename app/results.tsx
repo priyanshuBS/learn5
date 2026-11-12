@@ -20,6 +20,7 @@ import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import { newlyEarned } from '@/features/badges/badges';
 import { useDropFile } from '@/features/content/store';
+import { computeTier, DROPS_TO_MOVE, resultTier, tierName, tierPath } from '@/features/tiers/tiers';
 import { dropKey, findEntry, getTodaySlots, type DropRef } from '@/features/drops/status';
 import { PERFECT_BONUS } from '@/features/points/points';
 import { useSession } from '@/features/progress/store';
@@ -29,7 +30,6 @@ import { useAppData } from '@/hooks/useAppData';
 import { categoryHref, parseDropParams, quizHref, goHome } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { formatDuration } from '@/lib/time';
-import { displayTitle } from '@/lib/title';
 import { BADGE_ICONS, colors, type IconName } from '@/theme';
 
 function verdict(correct: number, total: number) {
@@ -44,10 +44,17 @@ export default function ResultsScreen() {
   const params = useLocalSearchParams<{ category?: string; date?: string; drop?: string }>();
   const ref = parseDropParams(params);
   const lastAttempt = useSession((s) => s.lastAttempt);
-  const { ready, index, results, zonedNow, isDone, stats, today } = useAppData();
+  const { ready, index, results, zonedNow, isDone, stats, today, tiers } = useAppData();
 
   const entry = index && ref ? findEntry(index, ref) : null;
-  const dropFile = useDropFile(ready && entry ? entry.path : null);
+  // The questions live in the file of the tier that was played.
+  const playedTier =
+    ref && lastAttempt && dropKey(lastAttempt) === dropKey(ref)
+      ? resultTier(lastAttempt)
+      : ref && results[dropKey(ref)]
+        ? resultTier(results[dropKey(ref)])
+        : 1;
+  const dropFile = useDropFile(ready && entry ? tierPath(entry.path, playedTier) : null);
 
   if (!ready || !index) {
     return (
@@ -101,6 +108,19 @@ export default function ResultsScreen() {
     : null;
   const newBadges = before ? newlyEarned(before.badges, stats.badges) : [];
   const levelUp = before && stats.level.level > before.level.level ? stats.level : null;
+  // Did this drop move the category's question tier up or down?
+  const tierBefore = justScored
+    ? computeTier(
+        Object.entries(results)
+          .filter(([k, r]) => k !== key && r.category === category.id)
+          .map(([, r]) => r),
+      )
+    : null;
+  const tierNow = tiers[category.id];
+  const tierChange =
+    tierBefore && tierNow && tierNow.tier !== tierBefore.tier
+      ? { up: tierNow.tier > tierBefore.tier, name: tierNow.name }
+      : null;
 
   // Suggest the next drop: first playable one today in any category (this one first).
   const ordered = [category, ...index.categories.filter((c) => c.id !== category.id)];
@@ -156,7 +176,7 @@ export default function ResultsScreen() {
             {title}
           </Txt>
           <Muted className="mt-1 text-center text-[15px]">
-            {category.name} · {displayTitle(attempt.title)} · {accuracy}% accuracy
+            {category.name} · {tierName(resultTier(attempt))} · {accuracy}% accuracy
           </Muted>
         </View>
       </View>
@@ -196,7 +216,28 @@ export default function ResultsScreen() {
         ) : null}
       </Animated.View>
 
-      {/* Level up and new badges */}
+      {/* Question tier change, level up and new badges */}
+      {tierChange ? (
+        <Celebration
+          icon={tierChange.up ? 'chevrons-up' : 'trending-up'}
+          title={
+            tierChange.up
+              ? `${category.name} questions are now ${tierChange.name}`
+              : `${category.name} is back to ${tierChange.name}`
+          }
+          text={
+            tierChange.up
+              ? 'You answered so well that your next drops will be harder. Nice work.'
+              : 'Those were tough. Your next drops will be a little easier while you build up.'
+          }
+        />
+      ) : tierNow && justScored && tierNow.strongInARow > 0 && tierNow.nextName ? (
+        <Celebration
+          icon="trending-up"
+          title={`${tierNow.strongInARow} of ${DROPS_TO_MOVE} strong drops`}
+          text={`Get ${DROPS_TO_MOVE - tierNow.strongInARow} more strong ${DROPS_TO_MOVE - tierNow.strongInARow === 1 ? 'drop' : 'drops'} in a row (at most 1 wrong) to unlock ${tierNow.nextName} ${category.name} questions.`}
+        />
+      ) : null}
       {levelUp ? (
         <Celebration
           icon="trending-up"

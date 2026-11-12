@@ -49,7 +49,7 @@ The `date`, `category` and `drop` inside the file must match the path.
 | --------------- | -------------------------------------------------------------------------------- |
 | Number of items | exactly 5                                                                        |
 | Item types      | 3 `mcq` + 1 `true_false` + 1 `fill_blank` **or** `fact_card`                     |
-| Difficulty      | 2 `easy` + 2 `medium` + 1 `hard`                                                 |
+| Difficulty      | 2 `easy` + 2 `medium` + 1 `hard` (tier 1; see "Question tiers" below)            |
 | Item order      | from easiest to hardest: easy, easy, medium, medium, hard                        |
 | Item ids        | `<category>-<date>-d<drop>-0<position>`, e.g. `english-2026-11-08-d1-01` … `-05` |
 | Topics          | all 5 different inside a drop                                                    |
@@ -120,6 +120,20 @@ The `date`, `category` and `drop` inside the file must match the path.
 }
 ```
 
+### Question tiers **[checked]**
+
+Every drop is written at 3 tiers. Players move up a tier in a subject as they answer well.
+
+| Tier             | For                                   | Difficulty mix             | File / item ids                             |
+| ---------------- | ------------------------------------- | -------------------------- | ------------------------------------------- |
+| 1 — Basic        | everyone                              | 2 easy + 2 medium + 1 hard | `drop-1.json`, `…-d1-01`                    |
+| 2 — Intermediate | players who get most Basic ones right | 1 easy + 2 medium + 2 hard | `drop-1-t2.json`, `…-d1-t2-01`, `"tier": 2` |
+| 3 — Advanced     | strong players                        | 0 easy + 2 medium + 3 hard | `drop-1-t3.json`, `…-d1-t3-01`, `"tier": 3` |
+
+- Tiers 2 and 3 use the **same title and topics** as tier 1, with new, harder questions.
+- Labels are relative to the tier: a tier-3 "medium" is harder than a tier-1 "hard".
+- The idea gets harder, never the English. Keep the same simple wording rules.
+
 ## 4. Writing good questions
 
 - **One idea per question.** Keep the question short.
@@ -147,11 +161,11 @@ The `date`, `category` and `drop` inside the file must match the path.
 
 ## 5. Category rules
 
-| Category             | What to cover                                                                                                                                                                                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **English**          | Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (e.g. "its/it's", "advice/advise"), idioms and phrases, correct word usage. Show the word inside a short example sentence.                                                               |
-| **Reasoning**        | Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it **step by step** ("Step 1: … Step 2: …").                                                     |
-| **Computer Science** | How computers work (input, processing, output, storage), hardware and software, binary and storage units, the internet and the web, algorithms and flowcharts, simple coding logic in plain pseudocode, and online safety. No company or product names.       |
+| Category             | What to cover                                                                                                                                                                                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **English**          | Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (e.g. "its/it's", "advice/advise"), idioms and phrases, correct word usage. Show the word inside a short example sentence.                                                         |
+| **Reasoning**        | Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it **step by step** ("Step 1: … Step 2: …").                                               |
+| **Computer Science** | How computers work (input, processing, output, storage), hardware and software, binary and storage units, the internet and the web, algorithms and flowcharts, simple coding logic in plain pseudocode, and online safety. No company or product names. |
 
 ## 6. No repeats **[checked]**
 
@@ -174,7 +188,21 @@ Before saving a drop, check each item one by one:
 If you are **not fully sure** about any item, **replace it** with an item you are sure
 about. For math and reasoning, calculate every number twice.
 
-## 8. Final checklist
+## 8. Daily articles
+
+One article per subject per day, written at 04:00 by `scripts/generate-articles.ts`.
+
+- The AI picks **one specific, useful topic**, not used in the last 90 days.
+- 350–750 words in 3–6 sections. Each section has a short heading and 1–4 short paragraphs.
+- **Simple English is checked in code**: no sentence over 25 words, average under 15 words.
+  Explain every harder word straight away and list it under "Words to know".
+- End with 3–5 key points. Give a real source that fits the topic.
+- English: show many short example sentences and the common mistakes. Reasoning: teach the
+  method step by step with 1–2 worked examples. Computer Science: everyday comparisons, plain
+  pseudocode, no brand names.
+- The same "What is allowed" rules as questions apply.
+
+## 9. Final checklist
 
 - [ ] File is at `content/<category>/<YYYY-MM-DD>/drop-<n>.json`, and the file did not exist before.
 - [ ] 5 items: 3 mcq, 1 true_false, 1 fill_blank or fact_card.

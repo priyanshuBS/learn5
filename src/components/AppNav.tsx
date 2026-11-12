@@ -21,6 +21,7 @@ import { Muted, Txt } from './Txt';
 
 const NAV_ITEMS: { name: string; label: string; icon: IconName }[] = [
   { name: 'index', label: 'Home', icon: 'home' },
+  { name: 'articles', label: 'Read', icon: 'articles' },
   { name: 'review', label: 'Review', icon: 'review' },
   { name: 'flashcards', label: 'Flashcards', icon: 'flashcards' },
   { name: 'badges', label: 'Progress', icon: 'trophy' },

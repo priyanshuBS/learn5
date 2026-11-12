@@ -66,6 +66,7 @@
     "bundle-content": "tsx scripts/bundle-content.ts",
     "db:migrate": "tsx --env-file=.env.local scripts/db-migrate.ts",
     "generate-drops": "tsx --env-file-if-exists=.env.local scripts/generate-drops.ts",
+    "generate-articles": "tsx --env-file-if-exists=.env.local scripts/generate-articles.ts",
     "seed-drops": "tsx --env-file=.env.local scripts/seed-drops.ts",
     "cleanup": "tsx --env-file-if-exists=.env.local scripts/cleanup.ts"
   },

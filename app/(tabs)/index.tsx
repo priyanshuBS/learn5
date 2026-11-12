@@ -3,13 +3,16 @@
  *   1. date, greeting and a one-line summary of today
  *   2. an orange hero card with today's progress ring, streak, points and level
  *   3. every subject with today's drops and its one next step (the main content)
- *   4. this week: streak days and level progress
+ *   4. today's reads: the daily articles
+ *   5. this week: streak days and level progress
  */
 import { LinearGradient } from 'expo-linear-gradient';
-import { View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
+import { ArticleCard } from '@/components/ArticleCard';
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
 import { Icon, type IconName } from '@/components/Icon';
@@ -21,8 +24,10 @@ import { SkeletonBlock } from '@/components/StateViews';
 import { ThemeIconButton } from '@/components/ThemeToggle';
 import { Muted, Txt, type TxtProps } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
+import { useArticleReads, useArticles } from '@/features/articles/store';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
+import { articleKey } from '@/lib/articles';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
 import { colors } from '@/theme';
 
@@ -30,7 +35,9 @@ import { colors } from '@/theme';
 const HERO_GRADIENT = ['#E23D0B', '#F25A12', '#FF8A1F'] as const;
 
 export default function HomeScreen() {
-  const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
+  const { ready, index, zonedNow, now, today, stats, results, isDone, tiers } = useAppData();
+  const articles = useArticles((s) => s.articles);
+  const readMarks = useArticleReads((s) => s.read);
 
   if (!ready || !index) return <HomeSkeleton />;
 
@@ -50,6 +57,12 @@ export default function HomeScreen() {
     0,
   );
   const { streak, level, points } = stats;
+  // Today's articles (or the latest day's, before 4 AM), in subject order.
+  const latestDate = articles?.reduce((max, a) => (a.date > max ? a.date : max), '') ?? '';
+  const reads = index.categories.flatMap((category) => {
+    const article = articles?.find((a) => a.category === category.id && a.date === latestDate);
+    return article ? [{ article, category }] : [];
+  });
   const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
   const summary =
@@ -159,11 +172,43 @@ export default function HomeScreen() {
                 slots={row.slots}
                 offsetMinutes={zonedNow.offsetMinutes}
                 catchUp={row.catchUp}
+                tier={tiers[row.category.id]}
                 getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
               />
             </View>
           ))}
         </View>
+
+        {/* ── Today's reads ── */}
+        {reads.length > 0 ? (
+          <>
+            <SectionTitle
+              title="Today's reads"
+              right={
+                <Pressable
+                  accessibilityRole="link"
+                  onPress={() => router.push('/articles')}
+                  hitSlop={8}
+                >
+                  <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
+                    See all
+                  </Txt>
+                </Pressable>
+              }
+            />
+            <View className="-m-1.5 flex-row flex-wrap">
+              {reads.map(({ article, category }) => (
+                <View key={articleKey(article)} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+                  <ArticleCard
+                    article={article}
+                    category={category}
+                    read={!!readMarks[articleKey(article)]}
+                  />
+                </View>
+              ))}
+            </View>
+          </>
+        ) : null}
 
         {/* ── This week ── */}
         <SectionTitle title="This week" />

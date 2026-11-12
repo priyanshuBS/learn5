@@ -58,27 +58,50 @@ const PLANS: Record<number, string[]> = {
   2: ['true_false', 'mcq', 'mcq', 'fact_card', 'mcq'],
   3: ['mcq', 'mcq', 'true_false', 'fill_blank', 'mcq'],
 };
-const DIFFICULTY = ['easy', 'easy', 'medium', 'medium', 'hard'];
+/** Difficulty of each of the 5 positions, per tier (must match TIER_DIFFICULTY_MIX in schema.ts). */
+const DIFFICULTY: Record<number, string[]> = {
+  1: ['easy', 'easy', 'medium', 'medium', 'hard'],
+  2: ['easy', 'medium', 'medium', 'hard', 'hard'],
+  3: ['medium', 'medium', 'hard', 'hard', 'hard'],
+};
+
+/** Who each tier is for. The easy/medium/hard labels are relative to the tier. */
+const TIER_GUIDE: Record<number, string> = {
+  1: 'Tier 1 of 3 (Basic): for everyone. easy = most adults know it in 10 seconds; medium = needs a moment or a basic school concept; hard = a few steps of thinking or a less common (still school-level) fact.',
+  2: 'Tier 2 of 3 (Intermediate): for players who answer most Basic questions correctly. Go one step deeper than Basic: less obvious facts, two-step thinking, closer wrong options. easy = a solid learner gets it quickly; medium = needs real thought; hard = several steps or a fact that needs real understanding (up to Class 10 level).',
+  3: 'Tier 3 of 3 (Advanced): for strong players. Make it genuinely challenging but fair: multi-step reasoning, applying a rule to a new case, tricky but clearly wrong distractors, precise facts (up to Class 12 level). medium = challenging; hard = only a well-prepared player gets it. The wording must stay simple: the IDEA is hard, not the English.',
+};
 const SLOT = ['morning', 'afternoon', 'evening'];
 
 export function userPrompt(opts: {
   category: Category;
   date: string;
   drop: number;
+  /** 1 Basic, 2 Intermediate, 3 Advanced. */
+  tier: number;
+  /** For tiers 2-3: the tier-1 drop's topics, to cover again with harder questions. */
+  baseTopics: string[];
   avoidTopics: string[];
   feedback?: string[];
 }): string {
   const plan = PLANS[opts.drop] ?? PLANS[1];
+  const difficulty = DIFFICULTY[opts.tier] ?? DIFFICULTY[1];
   const lines = [
     `Write drop ${opts.drop} of 3 (${SLOT[opts.drop - 1]}) for the category "${opts.category.name}" (${opts.category.tagline}) for ${opts.date}.`,
     `What to cover in ${opts.category.name}: ${CATEGORY_RULES[opts.category.id] ?? opts.category.tagline}`,
     '',
     'Exactly 5 items, in this order:',
-    ...plan.map((type, i) => `  ${i + 1}. ${type}, ${DIFFICULTY[i]}`),
-    'Difficulty: easy = most adults know it in 10 seconds; medium = needs a moment or a basic school concept; hard = a few steps of thinking or a less common (still school-level) fact.',
+    ...plan.map((type, i) => `  ${i + 1}. ${type}, ${difficulty[i]}`),
+    `Difficulty: ${TIER_GUIDE[opts.tier] ?? TIER_GUIDE[1]}`,
     'The 3 mcq items must use at least 2 different answerIndex values.',
   ];
-  if (opts.avoidTopics.length > 0) {
+  if (opts.baseTopics.length > 0) {
+    lines.push(
+      '',
+      'Use these same topics (one item each, any order), but write NEW, harder questions about them. Never repeat the Basic questions:',
+      opts.baseTopics.map((t) => `- ${t}`).join('\n'),
+    );
+  } else if (opts.avoidTopics.length > 0) {
     lines.push(
       '',
       'Do NOT use these topics (or the same idea in other words) — they were used recently:',

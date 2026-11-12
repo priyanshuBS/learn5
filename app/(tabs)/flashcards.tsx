@@ -13,7 +13,8 @@ import { Screen } from '@/components/Screen';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted } from '@/components/Txt';
 import { useDropFiles } from '@/features/content/store';
-import { findEntry } from '@/features/drops/status';
+import { findEntry, type DropRef } from '@/features/drops/status';
+import { tierPath } from '@/features/tiers/tiers';
 import { getCollectedFactCards } from '@/features/review/mistakes';
 import { useAppData } from '@/hooks/useAppData';
 import { goHome } from '@/lib/routes';
@@ -33,9 +34,11 @@ export default function FlashcardsScreen() {
   const [order, setOrder] = useState<string[] | null>(null);
 
   const refs = getCollectedFactCards(results);
-  const paths = index
-    ? refs.map((r) => findEntry(index, r.drop)?.path).filter((p): p is string => !!p)
-    : [];
+  const pathFor = (ref: { drop: DropRef; tier: number }) => {
+    const entry = index ? findEntry(index, ref.drop) : null;
+    return entry ? tierPath(entry.path, ref.tier) : undefined;
+  };
+  const paths = index ? refs.map((r) => pathFor(r)).filter((p): p is string => !!p) : [];
   const loaded = useDropFiles(ready ? paths : []);
 
   if (!ready || !index || loaded.loading) {
@@ -48,7 +51,7 @@ export default function FlashcardsScreen() {
 
   const byId: Record<string, Card> = {};
   for (const r of refs) {
-    const path = findEntry(index, r.drop)?.path;
+    const path = pathFor(r);
     const item = path ? loaded.drops[path]?.items.find((it) => it.id === r.itemId) : undefined;
     const category = index.categories.find((c) => c.id === r.drop.category);
     if (item?.type === 'fact_card' && category) byId[item.id] = { item, category };

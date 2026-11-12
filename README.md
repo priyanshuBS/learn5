@@ -48,10 +48,31 @@ Questions live in the database (table `drops`), not on your laptop.
   never change.
 - Setup: push the repo to GitHub and add the secrets `DATABASE_URL` and `GROQ_API_KEY`
   (Settings → Secrets and variables → Actions). Run it by hand from the Actions tab.
-- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=math --dry-run`).
+- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=english --tier=2 --dry-run`).
+- **Question tiers.** Every drop is written at 3 tiers: Basic, Intermediate and Advanced.
+  Tiers 2 and 3 cover the same topics as tier 1, with harder questions. Each player has
+  their own tier **per subject** (`src/features/tiers/tiers.ts`, worked out from their
+  results). 3 strong drops in a row (at most 1 wrong) moves them up; 3 tough drops in a
+  row (3+ wrong) moves them down. The generator writes all tier-1 drops first, so if the
+  Groq limit runs out, the API serves a lower tier until the next run. Tier files use paths
+  like `english/2026-11-08/drop-1-t2.json`. This means about 3× more AI calls per day.
 - `npm run seed-drops` copies the hand-written files in `content/` into the database.
   The newest files are also packed into the app for offline use (`npm run bundle-content`).
 - The AI instructions are in `scripts/lib/prompt.ts`, a short version of `CONTENT_GUIDE.md`.
+
+## Daily articles (04:00 cron job + Groq)
+
+- `.github/workflows/generate-articles.yml` runs **every day at 04:00 IST** (with a 05:00
+  back-up run). For each subject the AI picks one topic itself and writes a short article
+  (350–750 words) in simple English: sections, key points and "words to know".
+- The code checks it with `ArticleSchema` (`src/lib/schema.ts`) and for simple English
+  (`src/features/articles/readability.ts`: no sentence over 25 words, average under 15).
+  A second AI pass fact-checks it. Topics are not repeated within 90 days.
+- Saved in the `articles` table. The app reads `GET /api/articles` (the list) and
+  `GET /api/articles/article?category=…&date=…` (one article), shown in the **Read** tab and on Home.
+  An article is only returned after 04:00 on its day.
+- Locally: `npm run generate-articles` (options: `--date=YYYY-MM-DD --category=english --dry-run`).
+- The AI instructions are in `scripts/lib/article-prompt.ts`.
 
 ## Progress is saved to your account
 
@@ -142,15 +163,17 @@ progress tables; safe to run again after updates). For production, deploy the AP
 
 ## Useful commands
 
-| Command                    | What it does                                        |
-| -------------------------- | --------------------------------------------------- |
-| `npm run validate-content` | Checks every drop file against the rules            |
-| `npm run build-index`      | Re-creates `content/index.json` (list of all drops) |
-| `npm run db:migrate`       | Creates/updates the database tables (Neon)          |
-| `npm test`                 | Runs the automatic tests                            |
-| `npm run typecheck`        | Checks TypeScript types                             |
-| `npm run lint`             | Finds likely bugs                                   |
-| `npm run format`           | Tidies code formatting                              |
+| Command                     | What it does                                        |
+| --------------------------- | --------------------------------------------------- |
+| `npm run validate-content`  | Checks every drop file against the rules            |
+| `npm run build-index`       | Re-creates `content/index.json` (list of all drops) |
+| `npm run db:migrate`        | Creates/updates the database tables (Neon)          |
+| `npm run generate-drops`    | Writes missing drops (all 3 tiers) with the AI      |
+| `npm run generate-articles` | Writes today's articles with the AI                 |
+| `npm test`                  | Runs the automatic tests                            |
+| `npm run typecheck`         | Checks TypeScript types                             |
+| `npm run lint`              | Finds likely bugs                                   |
+| `npm run format`            | Tidies code formatting                              |
 
 ## Where things live
 

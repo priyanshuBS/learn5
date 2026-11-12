@@ -21,6 +21,14 @@ export function resultsHref(ref: DropRef) {
   };
 }
 
+/** The reader for one daily article. */
+export function articleHref(ref: { category: string; date: string }) {
+  return {
+    pathname: '/article' as const,
+    params: { category: ref.category, date: ref.date },
+  };
+}
+
 /** Sign-in screen. "signup" and "login" use the same email-code steps, only the wording differs. */
 export function signInHref(mode: 'signup' | 'login' = 'login') {
   return { pathname: '/sign-in' as const, params: { mode } };

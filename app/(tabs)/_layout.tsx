@@ -39,13 +39,14 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen name="index" options={{ title: 'Home' }} />
+      <Tabs.Screen name="articles" options={{ title: 'Read' }} />
       <Tabs.Screen name="badges" options={{ title: 'Progress' }} />
       <Tabs.Screen name="review" options={{ title: 'Review' }} />
       <Tabs.Screen name="flashcards" options={{ title: 'Flashcards' }} />
       {/*
         Category pages belong to Home. They are NOT hidden with `href: null`,
         because hidden tabs redirect to Home in this Expo Router version.
-        AppNav only draws the 4 items above, so this never shows in the bar.
+        AppNav only draws the 5 items above, so this never shows in the bar.
       */}
       <Tabs.Screen name="category/[id]" options={{ title: 'Category' }} />
     </Tabs>

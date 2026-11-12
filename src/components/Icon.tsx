@@ -71,6 +71,9 @@ import ShieldCheck from 'lucide-react-native/icons/shield-check';
 import Bell from 'lucide-react-native/icons/bell';
 import BellOff from 'lucide-react-native/icons/bell-off';
 import Scale from 'lucide-react-native/icons/scale';
+import ChevronsUp from 'lucide-react-native/icons/chevrons-up';
+import Newspaper from 'lucide-react-native/icons/newspaper';
+import BookOpenText from 'lucide-react-native/icons/book-open-text';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { useColorScheme } from '@/hooks/useScheme';
@@ -82,6 +85,9 @@ const ICONS = {
   trophy: Trophy,
   review: RotateCcw,
   flashcards: GalleryVerticalEnd,
+  articles: Newspaper,
+  'book-open-text': BookOpenText,
+  'chevrons-up': ChevronsUp,
   // Categories
   english: BookOpen,
   reasoning: Puzzle,

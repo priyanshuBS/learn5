@@ -13,6 +13,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { SLOT_NAMES, type DropSlot } from '@/features/drops/status';
 import type { DropResult } from '@/features/progress/store';
+import { DROPS_TO_MOVE, type TierInfo } from '@/features/tiers/tiers';
 import { useColorScheme } from '@/hooks/useScheme';
 import { categoryHref, quizHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
@@ -33,6 +34,8 @@ interface CategoryCardProps {
   getResult: (slot: DropSlot) => DropResult | undefined;
   /** Latest available drop, shown when one of today's drops is missing. */
   catchUp: IndexEntry | null;
+  /** The player's question tier in this category. */
+  tier?: TierInfo;
 }
 
 export function CategoryCard({
@@ -41,6 +44,7 @@ export function CategoryCard({
   offsetMinutes,
   getResult,
   catchUp,
+  tier,
 }: CategoryCardProps) {
   const dark = useColorScheme() === 'dark';
   const doneCount = slots.filter((s) => s.status === 'done').length;
@@ -91,8 +95,11 @@ export function CategoryCard({
           </View>
         </View>
 
+        {/* Question tier */}
+        {tier ? <TierLine tier={tier} color={categoryTone(category.color, dark)} /> : null}
+
         {/* Today's 3 drops */}
-        <View className="mt-5 flex-row gap-1.5">
+        <View className="mt-4 flex-row gap-1.5">
           {slots.map((slot) => (
             <SlotChip
               key={slot.drop}
@@ -215,6 +222,44 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         </View>
       );
   }
+}
+
+/** "Intermediate · 2/3 to Advanced" with 3 small progress dots. */
+export function TierLine({ tier, color }: { tier: TierInfo; color: string }) {
+  return (
+    <View
+      accessible
+      accessibilityLabel={
+        tier.nextName
+          ? `${tier.name} questions. ${tier.strongInARow} of ${DROPS_TO_MOVE} strong drops towards ${tier.nextName}`
+          : `${tier.name} questions, the hardest tier`
+      }
+      className="mt-4 flex-row items-center gap-2"
+    >
+      <Icon name="chevrons-up" size={14} color={color} strokeWidth={2.5} />
+      <Txt weight="semibold" className="text-[12px]" style={{ color }}>
+        {tier.name}
+      </Txt>
+      {tier.nextName ? (
+        <>
+          <View className="flex-row gap-1">
+            {Array.from({ length: DROPS_TO_MOVE }, (_, i) => (
+              <View
+                key={i}
+                className="h-1.5 w-4 rounded-full bg-zinc-200 dark:bg-ink-line"
+                style={i < tier.strongInARow ? { backgroundColor: color } : undefined}
+              />
+            ))}
+          </View>
+          <Muted className="text-[12px]" numberOfLines={1}>
+            to {tier.nextName}
+          </Muted>
+        </>
+      ) : (
+        <Muted className="text-[12px]">· top tier</Muted>
+      )}
+    </View>
+  );
 }
 
 function Footer({ children }: { children: ReactNode }) {

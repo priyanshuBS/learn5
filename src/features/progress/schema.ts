@@ -4,7 +4,13 @@
  */
 import { z } from 'zod';
 
-import { DateStringSchema, DifficultySchema, ItemTypeSchema, SlugSchema } from '@/lib/schema';
+import {
+  DateStringSchema,
+  DifficultySchema,
+  ItemTypeSchema,
+  MAX_TIER,
+  SlugSchema,
+} from '@/lib/schema';
 
 /** Most items accepted in one sync (bigger backlogs are sent in several rounds). */
 export const SYNC_BATCH_LIMIT = 200;
@@ -23,6 +29,7 @@ export const DropResultSchema = z.object({
   category: SlugSchema,
   date: DateStringSchema,
   drop: z.number().int().min(1).max(3),
+  tier: z.number().int().min(1).max(MAX_TIER).optional(),
   title: z.string().min(1).max(120),
   items: z.array(ItemResultSchema).min(1).max(10),
   correctCount: z.number().int().min(0),

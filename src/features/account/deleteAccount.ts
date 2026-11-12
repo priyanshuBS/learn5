@@ -8,6 +8,7 @@
  */
 import { authApi } from '../auth/api';
 import { useAuth } from '../auth/store';
+import { useArticleReads } from '../articles/store';
 import { useProgress } from '../progress/store';
 
 export async function deleteMyAccount(): Promise<void> {
@@ -15,5 +16,6 @@ export async function deleteMyAccount(): Promise<void> {
   if (!token) return;
   await authApi.deleteAccount(token);
   useProgress.getState().clearAll();
+  useArticleReads.getState().clearReads();
   await useAuth.getState().forgetSession();
 }

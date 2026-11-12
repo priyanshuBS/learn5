@@ -22,7 +22,8 @@ import { Screen } from '@/components/Screen';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import { useDropFiles } from '@/features/content/store';
-import { findEntry } from '@/features/drops/status';
+import { findEntry, type DropRef } from '@/features/drops/status';
+import { tierPath } from '@/features/tiers/tiers';
 import { useProgress } from '@/features/progress/store';
 import { correctAnswerText, isFillBlankCorrect } from '@/features/quiz/check';
 import { reportWrongAnswer } from '@/features/quiz/report';
@@ -55,9 +56,11 @@ export default function ReviewScreen() {
     ? categoryParam
     : undefined;
   const mistakes = getMistakes(results, fixedMistakes, filterCategory);
-  const paths = index
-    ? mistakes.map((m) => findEntry(index, m.drop)?.path).filter((p): p is string => !!p)
-    : [];
+  const pathFor = (ref: { drop: DropRef; tier: number }) => {
+    const entry = index ? findEntry(index, ref.drop) : null;
+    return entry ? tierPath(entry.path, ref.tier) : undefined;
+  };
+  const paths = index ? mistakes.map((m) => pathFor(m)).filter((p): p is string => !!p) : [];
   const loaded = useDropFiles(ready && !round ? paths : []);
 
   if (round) {
@@ -77,7 +80,7 @@ export default function ReviewScreen() {
   // Turn mistake references into real questions.
   const cards: Record<string, ReviewCard> = {};
   for (const m of mistakes) {
-    const path = findEntry(index, m.drop)?.path;
+    const path = pathFor(m);
     const drop = path ? loaded.drops[path] : undefined;
     const item = drop?.items.find((it) => it.id === m.itemId);
     const category = index.categories.find((c) => c.id === m.drop.category);

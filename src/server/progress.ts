@@ -36,6 +36,7 @@ export async function syncProgress(userId: string, input: SyncRequest): Promise<
         category: r.category,
         drop_date: r.date,
         drop_no: r.drop,
+        tier: r.tier ?? 1,
         title: r.title,
         items: r.items,
         correct_count: score.correctCount,
@@ -48,13 +49,13 @@ export async function syncProgress(userId: string, input: SyncRequest): Promise<
     });
     // ON CONFLICT DO NOTHING: the first play of a drop is kept (replays are practice).
     await sql`
-      INSERT INTO drop_results (user_id, drop_key, category, drop_date, drop_no, title, items,
+      INSERT INTO drop_results (user_id, drop_key, category, drop_date, drop_no, tier, title, items,
                                 correct_count, points, perfect, duration_sec, completed_at, completed_on)
-      SELECT ${userId}::uuid, x.drop_key, x.category, x.drop_date::date, x.drop_no, x.title, x.items,
+      SELECT ${userId}::uuid, x.drop_key, x.category, x.drop_date::date, x.drop_no, x.tier, x.title, x.items,
              x.correct_count, x.points, x.perfect, x.duration_sec, x.completed_at::timestamptz,
              x.completed_on::date
       FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb) AS x(
-        drop_key text, category text, drop_date text, drop_no smallint, title text, items jsonb,
+        drop_key text, category text, drop_date text, drop_no smallint, tier smallint, title text, items jsonb,
         correct_count smallint, points integer, perfect boolean, duration_sec integer,
         completed_at text, completed_on text)
       ON CONFLICT (user_id, drop_key) DO NOTHING`;
@@ -91,7 +92,7 @@ export async function syncProgress(userId: string, input: SyncRequest): Promise<
   const [[clock], resultRows, fixedRows, reportRows] = await Promise.all([
     sql`SELECT now() AS now`,
     sql`
-      SELECT category, drop_date::text AS date, drop_no, title, items, correct_count, points,
+      SELECT category, drop_date::text AS date, drop_no, tier, title, items, correct_count, points,
              perfect, duration_sec, completed_at, completed_on::text AS completed_on
       FROM drop_results
       WHERE user_id = ${userId}
@@ -113,6 +114,7 @@ export async function syncProgress(userId: string, input: SyncRequest): Promise<
     category: row.category,
     date: row.date,
     drop: row.drop_no,
+    tier: row.tier,
     title: row.title,
     items: row.items,
     correctCount: row.correct_count,

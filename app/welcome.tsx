@@ -40,6 +40,16 @@ const FEATURES: { icon: IconName; title: string; text: string }[] = [
     text: 'New questions every morning, afternoon and evening.',
   },
   {
+    icon: 'chevrons-up',
+    title: 'Grows with you',
+    text: 'Answer well and each subject moves up from Basic to Advanced.',
+  },
+  {
+    icon: 'articles',
+    title: 'A daily read',
+    text: 'A fresh, easy-to-read article for every subject each morning.',
+  },
+  {
     icon: 'review',
     title: 'Review mistakes',
     text: 'Replay the questions you got wrong until they stick.',

@@ -91,6 +91,12 @@ export function newerIndex(a: ContentIndex, b: ContentIndex | null): ContentInde
 
 const memoryCache = new Map<string, Drop>();
 
+/** The tier in a drop path: "…/drop-1-t2.json" → 2, "…/drop-1.json" → 1. */
+function pathTier(path: string): number {
+  const m = /-t([2-9])\.json$/.exec(path);
+  return m ? Number(m[1]) : 1;
+}
+
 /**
  * Downloads several drops and saves them on the device, so they open instantly
  * (and offline) later. Drops that can't be loaded right now are skipped quietly.
@@ -101,7 +107,10 @@ export async function prefetchDrops(paths: string[]): Promise<number> {
   return settled.filter((s) => s.status === 'fulfilled').length;
 }
 
-/** Loads one drop file by its path inside content/, e.g. "math/2026-11-08/drop-1.json". */
+/**
+ * Loads one drop file by its path inside content/, e.g. "english/2026-11-08/drop-1.json"
+ * (or "…/drop-1-t2.json" for tier 2; see tierPath in features/tiers).
+ */
 export async function loadDrop(path: string): Promise<Drop> {
   const inMemory = memoryCache.get(path);
   if (inMemory) return inMemory;
@@ -127,6 +136,9 @@ export async function loadDrop(path: string): Promise<Drop> {
       await fetchJson(apiUrl(`/api/content/drop?path=${encodeURIComponent(path)}`)),
     );
     if (remote.success) {
+      // A lower tier served while the asked-for tier isn't written yet: use it now,
+      // but don't keep it, so the real tier is fetched next time.
+      if (remote.data.tier !== pathTier(path)) return remote.data;
       await storage.setItem(DROP_CACHE_PREFIX + path, JSON.stringify(remote.data));
       return remember(remote.data);
     }

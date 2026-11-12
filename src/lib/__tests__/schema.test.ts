@@ -12,6 +12,48 @@ import { DropSchema, isRealDate, makeItemId } from '../schema';
 /** A fresh, editable copy of the sample drop for each test. */
 const copy = (): any => JSON.parse(JSON.stringify(sampleDrop));
 
+/** Turns the tier-1 sample into a valid drop at another tier (ids + difficulty mix). */
+function atTier(tier: number, mix: string[]): any {
+  const drop = copy();
+  drop.tier = tier;
+  drop.items.forEach((it: any, i: number) => {
+    it.id = makeItemId(drop.category, drop.date, drop.drop, i + 1, tier);
+    it.difficulty = mix[i];
+  });
+  return drop;
+}
+
+describe('DropSchema tiers', () => {
+  it('treats a drop without a tier as tier 1', () => {
+    expect(DropSchema.parse(copy()).tier).toBe(1);
+  });
+
+  it('accepts tier 2 and 3 drops with their own mix and ids', () => {
+    expect(
+      DropSchema.safeParse(atTier(2, ['easy', 'medium', 'medium', 'hard', 'hard'])).success,
+    ).toBe(true);
+    expect(
+      DropSchema.safeParse(atTier(3, ['medium', 'medium', 'hard', 'hard', 'hard'])).success,
+    ).toBe(true);
+  });
+
+  it('rejects a tier 3 drop with the easy tier-1 mix', () => {
+    expect(
+      DropSchema.safeParse(atTier(3, ['easy', 'easy', 'medium', 'medium', 'hard'])).success,
+    ).toBe(false);
+  });
+
+  it('rejects tier-1 ids on a tier 2 drop', () => {
+    const drop = atTier(2, ['easy', 'medium', 'medium', 'hard', 'hard']);
+    drop.items[0].id = makeItemId(drop.category, drop.date, drop.drop, 1);
+    expect(DropSchema.safeParse(drop).success).toBe(false);
+  });
+
+  it('builds tier item ids', () => {
+    expect(makeItemId('english', '2026-11-08', 2, 3, 2)).toBe('english-2026-11-08-d2-t2-03');
+  });
+});
+
 describe('DropSchema', () => {
   it('accepts a valid sample drop', () => {
     expect(DropSchema.safeParse(copy()).success).toBe(true);

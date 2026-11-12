@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { create } from 'zustand';
 
+import { useArticleReads } from '../articles/store';
 import { ApiError, apiRequest } from '../auth/api';
 import { registerBeforeSignOut, useAuth } from '../auth/store';
 import { dropKey } from '../drops/status';
@@ -146,6 +147,7 @@ export function useProgressSync(): void {
     const unregister = registerBeforeSignOut(async () => {
       await syncProgress();
       if (!hasPending(useProgress.getState().pending)) useProgress.getState().clearAll();
+      useArticleReads.getState().clearReads();
     });
 
     kick();

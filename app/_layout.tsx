@@ -24,6 +24,7 @@ import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 
 import { Logo } from '@/components/Logo';
 import { useAuth, useAuthBootstrap } from '@/features/auth/store';
+import { useArticlesBootstrap } from '@/features/articles/store';
 import { useContentBootstrap } from '@/features/content/store';
 import { useProgressSync } from '@/features/progress/sync';
 import { useRemindersBootstrap } from '@/features/reminders/reminders';
@@ -44,6 +45,7 @@ export default function RootLayout() {
     SpaceGrotesk_700Bold,
   });
   useContentBootstrap();
+  useArticlesBootstrap();
   useAuthBootstrap();
   useProgressSync();
   useThemeBootstrap();
@@ -86,6 +88,7 @@ export default function RootLayout() {
             options={{ animation: 'slide_from_bottom', gestureEnabled: false }}
           />
           <Stack.Screen name="results" options={{ animation: 'fade' }} />
+          <Stack.Screen name="article" />
         </Stack.Protected>
         {/* Public pages: only when signed out (signing in moves you to Home). */}
         <Stack.Protected guard={!signedIn || authLoading} redirectTo="/">

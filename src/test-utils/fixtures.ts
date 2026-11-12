@@ -22,6 +22,7 @@ export function makeResult(
     completedAt?: string;
     correct?: boolean[];
     points?: number;
+    tier?: number;
   } = {},
 ): DropResult {
   const category = opts.category ?? 'math';
@@ -39,6 +40,7 @@ export function makeResult(
     category,
     date,
     drop,
+    ...(opts.tier ? { tier: opts.tier } : {}),
     title: 'Test drop',
     items,
     correctCount: correct.filter(Boolean).length,
