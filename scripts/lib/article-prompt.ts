@@ -10,6 +10,8 @@ import { MAX_SENTENCE_WORDS } from '../../src/features/articles/readability';
 const CATEGORY_IDEAS: Record<string, string> = {
   english:
     'Pick ONE useful English topic: a grammar rule (tenses, articles, prepositions, active and passive voice), a set of commonly confused words, a group of idioms or phrasal verbs, punctuation, how to write a clear message or email, or how to build vocabulary. Show many short example sentences, and point out common mistakes with the correct version.',
+  puzzles:
+    'Pick ONE kind of puzzle or a puzzle-solving trick: how to solve riddles, number puzzles and magic squares, logic grid puzzles, truth-teller and liar puzzles, word puzzles and anagrams, or lateral thinking. Explain the trick in simple steps, then walk through 1–2 example puzzles with their full solutions. Describe everything in words (no pictures).',
   reasoning:
     'Pick ONE reasoning skill: number or letter series, analogies, coding-decoding, blood relations, directions, syllogisms, seating arrangements, odd one out, clocks and calendars, or a general thinking habit (breaking a problem into steps, checking your answer). Teach the method step by step and solve 1–2 worked examples ("Step 1: … Step 2: …").',
   'computer-science':

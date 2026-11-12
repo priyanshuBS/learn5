@@ -14,10 +14,10 @@ name: Generate drops
 
 on:
   schedule:
-    # Cron times are UTC. 00:30 UTC = 06:00 IST (before the first drop at 07:00),
-    # 12:30 UTC = 18:00 IST (writes tomorrow's drops, with time to spare).
-    - cron: '30 0 * * *'
-    - cron: '30 12 * * *'
+    # Cron times are UTC. 22:30 UTC = 04:00 IST (fills today before the first drop at 07:00),
+    # 10:30 UTC = 16:00 IST (writes tomorrow's drops, and finishes anything that failed).
+    - cron: '30 22 * * *'
+    - cron: '30 10 * * *'
   workflow_dispatch:
     inputs:
       date:

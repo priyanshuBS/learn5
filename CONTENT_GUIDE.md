@@ -165,6 +165,7 @@ Every drop is written at 3 tiers. Players move up a tier in a subject as they an
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **English**          | Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (e.g. "its/it's", "advice/advise"), idioms and phrases, correct word usage. Show the word inside a short example sentence.                                                         |
 | **Reasoning**        | Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it **step by step** ("Step 1: … Step 2: …").                                               |
+| **Puzzles**          | Riddles, number puzzles, word puzzles, logic-grid and truth-teller puzzles, fair lateral-thinking puzzles — all in words, each with ONE clear answer. Solve it **step by step** in the explanation. Not exam drills (those are Reasoning).              |
 | **Computer Science** | How computers work (input, processing, output, storage), hardware and software, binary and storage units, the internet and the web, algorithms and flowcharts, simple coding logic in plain pseudocode, and online safety. No company or product names. |
 
 ## 6. No repeats **[checked]**

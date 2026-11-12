@@ -1,5 +1,5 @@
 {
-  "version": "b6d718c0eec0",
+  "version": "d2dc0a2bf130",
   "latestDate": "2026-11-08",
   "timezone": "Asia/Kolkata",
   "schedule": {
@@ -13,6 +13,11 @@
       "14:00",
       "20:00"
     ],
+    "puzzles": [
+      "09:00",
+      "15:00",
+      "21:00"
+    ],
     "computer-science": [
       "10:00",
       "16:00",
@@ -24,21 +29,28 @@
       "id": "english",
       "name": "English",
       "emoji": "📖",
-      "color": "#F0524D",
+      "color": "#8B5CF6",
       "tagline": "Words, grammar and idioms"
     },
     {
       "id": "reasoning",
       "name": "Reasoning",
       "emoji": "🧩",
-      "color": "#F5A524",
+      "color": "#EC4899",
       "tagline": "Puzzles, patterns and logic"
+    },
+    {
+      "id": "puzzles",
+      "name": "Puzzles",
+      "emoji": "🧠",
+      "color": "#10B981",
+      "tagline": "Riddles, brain teasers and number puzzles"
     },
     {
       "id": "computer-science",
       "name": "Computer Science",
       "emoji": "💻",
-      "color": "#14B8A6",
+      "color": "#06B6D4",
       "tagline": "Computers, coding and the internet"
     }
   ],

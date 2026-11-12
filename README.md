@@ -2,7 +2,7 @@
 
 **5 questions. 5 minutes. Get smarter every day.**
 
-A gamified micro-learning app for English, Reasoning and Computer Science.
+A gamified micro-learning app for English, Reasoning, Puzzles and Computer Science.
 One Expo codebase ships as an Android app, an iOS app and a website.
 
 > Status: feature-complete for launch — see the **Launch checklist** below for the remaining setup steps.
@@ -36,7 +36,7 @@ signed-in visitors to Welcome or Sign in land on Home. Sign out returns to Welco
 Questions live in the database (table `drops`), not on your laptop.
 
 - `.github/workflows/generate-drops.yml` runs **twice a day in GitHub's cloud**
-  (06:00 and 18:00 IST). Each run calls `npm run generate-drops`, which fills any missing
+  (04:00 and 16:00 IST). Each run calls `npm run generate-drops`, which fills any missing
   drops for **today and tomorrow** and skips existing ones. A failed run is finished by
   the next one.
 - For each drop the AI (Groq, `openai/gpt-oss-120b`) writes 5 items. The code then checks

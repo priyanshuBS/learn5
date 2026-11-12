@@ -166,7 +166,7 @@ export default function HomeScreen() {
         />
         <View className="-m-1.5 flex-row flex-wrap">
           {rows.map((row) => (
-            <View key={row.category.id} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+            <View key={row.category.id} className="w-full p-1.5 md:w-1/2">
               <CategoryCard
                 category={row.category}
                 slots={row.slots}
@@ -198,7 +198,7 @@ export default function HomeScreen() {
             />
             <View className="-m-1.5 flex-row flex-wrap">
               {reads.map(({ article, category }) => (
-                <View key={articleKey(article)} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+                <View key={articleKey(article)} className="w-full p-1.5 md:w-1/2">
                   <ArticleCard
                     article={article}
                     category={category}
@@ -289,8 +289,8 @@ function HomeSkeleton() {
       </View>
       <SkeletonBlock className="h-56 rounded-[28px]" />
       <View className="-m-1.5 mt-10 flex-row flex-wrap">
-        {[0, 1, 2].map((i) => (
-          <View key={i} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+        {[0, 1, 2, 3].map((i) => (
+          <View key={i} className="w-full p-1.5 md:w-1/2">
             <SkeletonBlock className="h-44 rounded-3xl" />
           </View>
         ))}

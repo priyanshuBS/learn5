@@ -14,6 +14,13 @@
     "tagline": "Puzzles, patterns and logic"
   },
   {
+    "id": "puzzles",
+    "name": "Puzzles",
+    "emoji": "🧠",
+    "color": "#10B981",
+    "tagline": "Riddles, brain teasers and number puzzles"
+  },
+  {
     "id": "computer-science",
     "name": "Computer Science",
     "emoji": "💻",

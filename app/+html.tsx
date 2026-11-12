@@ -8,7 +8,7 @@ import type { PropsWithChildren } from 'react';
 const TITLE = 'Learn5 — 5 questions. 5 minutes. Get smarter every day.';
 
 const DESCRIPTION =
-  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Reasoning and Computer Science.';
+  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Reasoning, Puzzles and Computer Science.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
 // --css-interop-darkMode: tells NativeWind "dark mode = the dark class" before its

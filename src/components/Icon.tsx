@@ -90,7 +90,8 @@ const ICONS = {
   'chevrons-up': ChevronsUp,
   // Categories
   english: BookOpen,
-  reasoning: Puzzle,
+  reasoning: Brain,
+  puzzles: Puzzle,
   'computer-science': CodeXml,
   // Arrows
   'arrow-left': ArrowLeft,

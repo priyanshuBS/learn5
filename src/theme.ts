@@ -59,6 +59,7 @@ export function brandTone(dark: boolean): string {
 export const CATEGORY_ICONS: Record<string, IconName> = {
   english: 'english',
   reasoning: 'reasoning',
+  puzzles: 'puzzles',
   'computer-science': 'computer-science',
 };
 

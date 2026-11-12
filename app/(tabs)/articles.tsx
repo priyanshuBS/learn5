@@ -88,7 +88,7 @@ export default function ArticlesScreen() {
               {today.map((a) => {
                 const category = categoryOf(a);
                 return category ? (
-                  <View key={articleKey(a)} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
+                  <View key={articleKey(a)} className="w-full p-1.5 md:w-1/2">
                     <ArticleCard article={a} category={category} read={!!read[articleKey(a)]} />
                   </View>
                 ) : null;

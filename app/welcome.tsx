@@ -117,7 +117,7 @@ export default function WelcomeScreen() {
               a day.
             </Txt>
             <Muted className="mt-5 max-w-lg text-[17px] leading-7">
-              Short daily quizzes in English, Reasoning and Computer Science, with a clear
+              Short daily quizzes in English, Reasoning, Puzzles and Computer Science, with a clear
               explanation after every answer. Free, and no password needed.
             </Muted>
             <View className="mt-8 gap-3 sm:flex-row">
@@ -139,7 +139,7 @@ export default function WelcomeScreen() {
         {/* Subjects */}
         <Section
           title="Subjects"
-          text="Three core skills, explained simply: language, logic and how computers work."
+          text="Four core skills, explained simply: language, logic, puzzles and how computers work."
         />
         <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
           {/* -1px: the card's edge hides the last row's divider line. */}
@@ -147,7 +147,7 @@ export default function WelcomeScreen() {
             {categories.map((category) => (
               <View
                 key={category.id}
-                className="w-full flex-row items-center gap-3.5 border-b border-line p-4 dark:border-ink-line sm:w-1/3"
+                className="w-full flex-row items-center gap-3.5 border-b border-line p-4 dark:border-ink-line sm:w-1/2 lg:w-1/4"
               >
                 <CategoryIcon category={category} size="md" />
                 <View className="flex-1">
