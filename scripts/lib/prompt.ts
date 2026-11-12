@@ -14,7 +14,7 @@ const CATEGORY_RULES: Record<string, string> = {
   english:
     'Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (its/it’s, advice/advise), idioms and phrases, correct word usage. Show the word inside a short example sentence.',
   puzzles:
-    'Fun brain teasers that have ONE clear answer: classic riddles, number puzzles (missing numbers, magic squares, simple age and counting puzzles), matchstick-style and word puzzles (anagrams, hidden words, letter patterns), logic grid and truth-teller puzzles, and lateral-thinking puzzles with a fair, well-known answer. Describe everything in words (no pictures). Not exam-style reasoning drills (series, analogies, blood relations) — those belong in Reasoning. The explanation MUST show how to solve it step by step.',
+    'Fun brain teasers that have ONE clear answer: classic riddles, number puzzles (missing numbers, magic squares, simple age and counting puzzles), word puzzles (anagrams, hidden words, letter patterns), logic grid and truth-teller puzzles, and lateral-thinking puzzles with a fair, well-known answer. Describe everything in words. Never use puzzles that need a picture to solve (no matchsticks, shapes, mirror images or grids drawn as art). Not exam-style reasoning drills (series, analogies, blood relations) — those belong in Reasoning. The explanation MUST show how to solve it step by step.',
   reasoning:
     'Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it step by step ("Step 1: … Step 2: …").',
   'computer-science':
@@ -64,7 +64,6 @@ export const CATEGORY_AREAS: Record<string, string[]> = {
     'calendars',
     'statement and conclusion',
     'cause and effect',
-    'mirror and water images (described in words)',
     'counting and grouping',
     'input–output patterns',
     'data sufficiency',
@@ -75,7 +74,6 @@ export const CATEGORY_AREAS: Record<string, string[]> = {
     'magic squares',
     'age puzzles',
     'counting puzzles',
-    'matchstick puzzles (described in words)',
     'anagrams',
     'hidden words',
     'word ladders',
