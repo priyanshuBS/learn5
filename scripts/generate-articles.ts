@@ -33,6 +33,7 @@ import {
   articleUserPrompt,
 } from './lib/article-prompt';
 import { formatZodError } from './lib/content-files';
+import { notifyCrash, notifyRunProblems } from './lib/alerts';
 import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
 
 const MAX_ATTEMPTS = 4;
@@ -184,22 +185,25 @@ async function main(): Promise<void> {
     } catch (err) {
       if (err instanceof RateLimitExhaustedError) {
         console.error(`  ✖ ${err.message}. Stopping; the next run will continue.`);
-        failed.push(`${category.id} (rate limit)`);
+        failed.push(`${category.id}: ${err.message}`);
         break;
       }
       console.error(`  ✖ ${(err as Error).message}`);
-      failed.push(category.id);
+      failed.push(`${category.id}: ${(err as Error).message}`);
     }
   }
 
   console.log(`\nDone: ${made} new, ${skipped} already there, ${failed.length} failed.`);
   if (failed.length > 0) {
     console.error(`Failed: ${failed.join(', ')}`);
+    await notifyRunProblems('articles', failed, made); // email the owner
     process.exit(1);
   }
 }
 
-main().catch((err: unknown) => {
-  console.error('✖ Article generator crashed:', err instanceof Error ? err.message : err);
+main().catch(async (err: unknown) => {
+  const message = err instanceof Error ? err.message : String(err);
+  console.error('✖ Article generator crashed:', message);
+  await notifyCrash('articles', message);
   process.exit(1);
 });

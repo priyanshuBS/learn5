@@ -41,6 +41,7 @@ import { getZonedNow } from '../src/lib/time';
 import { getSql } from '../src/server/db';
 import { categories, saveDrop, schedule } from '../src/server/drops';
 import { formatZodError } from './lib/content-files';
+import { notifyCrash, notifyRunProblems } from './lib/alerts';
 import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
 import { SYSTEM_PROMPT, topicAreas, userPrompt, VERIFY_SYSTEM_PROMPT } from './lib/prompt';
 
@@ -297,11 +298,11 @@ async function main(): Promise<void> {
         } catch (err) {
           if (err instanceof RateLimitExhaustedError) {
             console.error(`  ✖ ${err.message}. Stopping; the next run will continue.`);
-            failed.push(`${key} (rate limit)`);
+            failed.push(`${key}: ${err.message}`);
             break outer;
           }
           console.error(`  ✖ ${(err as Error).message}`);
-          failed.push(key);
+          failed.push(`${key}: ${(err as Error).message}`);
         }
       }
     }
@@ -311,11 +312,14 @@ async function main(): Promise<void> {
 Done: ${made} new, ${skipped} already there, ${failed.length} failed.`);
   if (failed.length > 0) {
     console.error(`Failed: ${failed.join(', ')}`);
+    await notifyRunProblems('drops', failed, made); // email the owner
     process.exit(1); // the cron job shows a red ✖ so you notice
   }
 }
 
-main().catch((err: unknown) => {
-  console.error('✖ Generator crashed:', err instanceof Error ? err.message : err);
+main().catch(async (err: unknown) => {
+  const message = err instanceof Error ? err.message : String(err);
+  console.error('✖ Generator crashed:', message);
+  await notifyCrash('drops', message);
   process.exit(1);
 });

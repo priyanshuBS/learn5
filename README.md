@@ -55,9 +55,11 @@ Questions live in the database (table `drops`), not on your laptop.
   `scripts/lib/prompt.ts`), so each subject covers its whole range over time.
 - **Daily AI budget:** 8 drops (40 questions) + 4 articles. Each one is written once and
   fact-checked once, so a normal day is about 24 Groq requests.
-- **Two Groq keys.** `GROQ_API_KEY` ("groq-1") is used first; when its limit is reached the
-  generators switch to `GROQ_API_KEY_2` ("groq-2") and email `ALERT_EMAIL` (via Resend), at
-  most once per key per day (`scripts/lib/groq.ts`, `scripts/lib/alerts.ts`).
+- **Groq key:** `GROQ_API_KEY`. An optional second key, `GROQ_API_KEY_2`, is used as a fallback
+  if set. It only helps if it comes from a **different Groq account** (limits are per account).
+- **Email alerts** go to `ALERT_EMAIL` (via Resend) when anything goes wrong: the key's limit is
+  reached or the key is refused, some drops/articles could not be written, or a generator
+  crashed. The same alert is sent at most once per run (`scripts/lib/alerts.ts`).
 - `npm run seed-drops` copies the hand-written files in `content/` into the database.
   The newest files are also packed into the app for offline use (`npm run bundle-content`).
 - The AI instructions are in `scripts/lib/prompt.ts`, a short version of `CONTENT_GUIDE.md`.

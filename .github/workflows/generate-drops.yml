@@ -8,8 +8,7 @@
 # One-time setup (GitHub → your repo → Settings → Secrets and variables → Actions):
 #   DATABASE_URL   your Neon connection string
 #   GROQ_API_KEY     your Groq API key ("groq-1")
-#   GROQ_API_KEY_2   the fallback key ("groq-2"), used when groq-1's limit is reached
-#   RESEND_API_KEY, EMAIL_FROM, ALERT_EMAIL   to email you when a key's limit is reached
+#   RESEND_API_KEY, EMAIL_FROM, ALERT_EMAIL   to email you when anything goes wrong
 # Optional variable: GROQ_MODEL (default: openai/gpt-oss-120b)
 #
 # Run it by hand any time: Actions tab → "Generate drops" → "Run workflow".
@@ -53,9 +52,8 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          GROQ_API_KEY_2: ${{ secrets.GROQ_API_KEY_2 }}
           GROQ_MODEL: ${{ vars.GROQ_MODEL }}
-          # Limit alerts ("groq-1 API key limit has been reached")
+          # Problem alerts by email (key limit reached, drops/articles not written, crash)
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
