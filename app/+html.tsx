@@ -17,7 +17,7 @@ const DESCRIPTION =
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
 body { background-color: #F4F4F7; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #0C0D12; }
+html.dark body { background-color: #06070D; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -57,7 +57,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#0C0D12" />
+        <meta name="theme-color" content="#06070D" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;

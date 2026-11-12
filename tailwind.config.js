@@ -3,7 +3,7 @@
 //   brand  = electric orange, the main colour: buttons, links, the active tab
 //   pop    = the same orange family, for progress, "open now" and highlights
 //   canvas / line = cool off-white page background and borders
-//   ink-*  = dark mode (deep midnight, not pure black): page, cards, raised surfaces, borders
+//   ink-*  = dark mode (deep space + glass): page, cards, raised surfaces, borders
 // Each subject brings its own vivid colour (content/categories.json).
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
@@ -61,13 +61,15 @@ module.exports = {
         // Light mode: cool off-white.
         canvas: '#F4F4F7',
         line: '#E4E4EB',
-        // Dark mode: deep midnight (not black).
+        // Dark mode: deep space (not pure black). Cards, raised parts and lines are
+        // see-through "glass", so the glowing background shows through.
         ink: {
-          DEFAULT: '#0C0D12',
-          soft: '#111218',
-          card: '#16171F',
-          raised: '#1E2029',
-          line: '#272A35',
+          DEFAULT: '#06070D',
+          soft: 'rgba(12,13,22,0.72)',
+          card: 'rgba(255,255,255,0.045)',
+          raised: 'rgba(255,255,255,0.075)',
+          line: 'rgba(255,255,255,0.09)',
+          solid: '#10121B',
         },
         // Cool neutral greys.
         zinc: {

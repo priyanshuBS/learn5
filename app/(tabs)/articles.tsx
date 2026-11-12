@@ -4,11 +4,13 @@
  */
 import { useState } from 'react';
 import { View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { ArticleCard } from '@/components/ArticleCard';
 import { Button } from '@/components/Button';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
 import { Screen } from '@/components/Screen';
+import { Tilt } from '@/components/Tilt';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted } from '@/components/Txt';
 import { useArticleReads, useArticles } from '@/features/articles/store';
@@ -85,11 +87,15 @@ export default function ArticlesScreen() {
             </Muted>
           ) : (
             <View className="-m-1.5 flex-row flex-wrap">
-              {today.map((a) => {
+              {today.map((a, i) => {
                 const category = categoryOf(a);
                 return category ? (
                   <View key={articleKey(a)} className="w-full p-1.5 md:w-1/2">
-                    <ArticleCard article={a} category={category} read={!!read[articleKey(a)]} />
+                    <Animated.View entering={FadeInDown.delay(80 + i * 80).duration(450)}>
+                      <Tilt>
+                        <ArticleCard article={a} category={category} read={!!read[articleKey(a)]} />
+                      </Tilt>
+                    </Animated.View>
                   </View>
                 ) : null;
               })}

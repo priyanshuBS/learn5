@@ -5,7 +5,10 @@
  * Used as the custom tab bar of app/(tabs)/_layout.tsx.
  */
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { useAuth } from '@/features/auth/store';
@@ -56,7 +59,7 @@ export function AppNav({
   if (variant === 'sidebar') {
     return (
       <View
-        className="w-64 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink-soft"
+        className="w-64 border-r border-line bg-white/70 px-3 pb-4 web:backdrop-blur-xl dark:border-ink-line dark:bg-ink-soft"
         style={{ paddingTop: insets.top + 20 }}
       >
         <View className="px-3">
@@ -114,7 +117,7 @@ export function AppNav({
         <View className="flex-1" />
 
         {ready ? (
-          <View className="mx-1 rounded-2xl border border-line bg-white p-4 dark:border-ink-line dark:bg-ink-card">
+          <View className="mx-1 rounded-2xl border border-line bg-white/80 p-4 dark:border-ink-line dark:bg-ink-card">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-1.5">
                 <Icon name="flame" size={15} color={colors.streak} filled />
@@ -166,12 +169,14 @@ export function AppNav({
     );
   }
 
-  // Phones: a standard bottom tab bar — an icon and a label for every tab.
+  // Phones: a floating glass bar. A gradient pill slides to the active tab.
   return (
-    <View
-      accessibilityRole="tablist"
-      className="flex-row border-t border-line bg-white dark:border-ink-line dark:bg-ink-soft"
-      style={{ paddingBottom: Math.max(insets.bottom, 6) }}
+    <BottomBar
+      activeIndex={Math.max(
+        0,
+        NAV_ITEMS.findIndex((i) => i.name === activeName),
+      )}
+      bottomInset={insets.bottom}
     >
       {NAV_ITEMS.map((item) => {
         const active = item.name === activeName;
@@ -183,22 +188,17 @@ export function AppNav({
             accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
             accessibilityState={{ selected: active }}
             onPress={() => go(item.name)}
-            className="flex-1 items-center gap-1 pb-1 pt-2 active:opacity-70"
+            className="flex-1 items-center gap-0.5 py-2 active:opacity-70"
           >
-            <View
-              className={twMerge(
-                'h-8 w-14 items-center justify-center rounded-full',
-                active && 'bg-brand-50 dark:bg-brand-400/15',
-              )}
-            >
+            <View className="h-7 items-center justify-center">
               <Icon
                 name={item.icon}
-                size={22}
+                size={21}
                 color={iconColor(active)}
-                strokeWidth={active ? 2.25 : 1.75}
+                strokeWidth={active ? 2.4 : 1.75}
               />
               {badge ? (
-                <View className="absolute -top-0.5 right-2 h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1">
+                <View className="absolute -right-2.5 -top-1 h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1">
                   <Txt weight="bold" className="text-[9px] leading-3 text-white dark:text-white">
                     {badge > 9 ? '9+' : badge}
                   </Txt>
@@ -208,7 +208,7 @@ export function AppNav({
             <Txt
               weight={active ? 'semibold' : 'medium'}
               className={twMerge(
-                'text-[11px]',
+                'text-[10.5px]',
                 active ? 'text-brand-700 dark:text-brand-300' : 'text-zinc-500 dark:text-zinc-400',
               )}
               numberOfLines={1}
@@ -218,6 +218,69 @@ export function AppNav({
           </Pressable>
         );
       })}
+    </BottomBar>
+  );
+}
+
+/** The floating bar and its sliding pill. */
+function BottomBar({
+  activeIndex,
+  bottomInset,
+  children,
+}: {
+  activeIndex: number;
+  bottomInset: number;
+  children: ReactNode;
+}) {
+  const [width, setWidth] = useState(0);
+  const x = useSharedValue(0);
+  const itemWidth = width / NAV_ITEMS.length;
+  useEffect(() => {
+    if (width > 0) x.set(withSpring(activeIndex * itemWidth, { damping: 18, stiffness: 220 }));
+  }, [activeIndex, itemWidth, width, x]);
+  const pill = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
+
+  return (
+    <View
+      className="bg-canvas px-3 pt-1.5 dark:bg-ink"
+      style={{ paddingBottom: Math.max(bottomInset, 10) }}
+    >
+      <View
+        accessibilityRole="tablist"
+        onLayout={(e) => setWidth(e.nativeEvent.layout.width - 12)}
+        className="flex-row overflow-hidden rounded-[26px] border border-line bg-white/90 p-1.5 web:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.35)] web:backdrop-blur-xl dark:border-ink-line dark:bg-ink-soft"
+      >
+        {width > 0 ? (
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              {
+                position: 'absolute',
+                top: 6,
+                bottom: 6,
+                left: 6,
+                width: itemWidth,
+                borderRadius: 20,
+                overflow: 'hidden',
+              },
+              pill,
+            ]}
+          >
+            <LinearGradient
+              colors={['rgba(255,106,26,0.28)', 'rgba(255,179,71,0.12)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                flex: 1,
+                borderRadius: 20,
+                borderWidth: 1,
+                borderColor: 'rgba(255,138,61,0.35)',
+              }}
+            />
+          </Animated.View>
+        ) : null}
+        {children}
+      </View>
     </View>
   );
 }

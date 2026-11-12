@@ -4,6 +4,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
@@ -15,6 +16,7 @@ import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Screen } from '@/components/Screen';
+import { Tilt } from '@/components/Tilt';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import {
@@ -31,7 +33,7 @@ import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { categoryTone, colors } from '@/theme';
+import { categoryTone, colors, withAlpha } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -98,36 +100,49 @@ export default function CategoryScreen() {
 
   return (
     <Screen width="narrow">
-      {/* Subject header */}
-      <Card className="p-6">
-        <View className="flex-row items-center justify-between">
-          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
-        </View>
-        <View className="mt-5 flex-row items-center gap-4">
-          <CategoryIcon category={category} size="lg" />
-          <View className="flex-1">
-            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
-              {category.name}
-            </Txt>
-            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
-          </View>
-        </View>
-        <View className="mt-6 flex-row gap-2">
-          <HeroStat value={`${categoryResults.length}`} label="Drops done" />
-          <HeroStat value={accuracy} label="Accuracy" />
-          <HeroStat value={`${categoryMistakes}`} label="To review" />
-        </View>
-        {tierNow ? (
-          <View className="mt-4 rounded-2xl border border-line p-4 dark:border-ink-line">
-            <TierLine tier={tierNow} color={categoryTone(category.color, dark)} />
-            <Muted className="mt-2 text-[13px] leading-5">
-              {tierNow.nextName
-                ? `Your questions get harder as you improve. Get ${DROPS_TO_MOVE} strong drops in a row (at most 1 wrong answer each) to move up to ${tierNow.nextName}.`
-                : 'You are on the hardest questions. Keep it up!'}
-            </Muted>
-          </View>
-        ) : null}
-      </Card>
+      {/* Subject header: a 3D card that leans toward you */}
+      <Animated.View entering={FadeInDown.duration(450)}>
+        <Tilt max={4}>
+          <Card className="overflow-hidden p-6">
+            <View
+              pointerEvents="none"
+              className="absolute -right-16 -top-20 h-56 w-56 rounded-full"
+              style={{ backgroundColor: withAlpha(category.color, dark ? 0.2 : 0.12) }}
+            />
+            <View className="flex-row items-center justify-between">
+              <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+            </View>
+            <View className="mt-5 flex-row items-center gap-4">
+              <CategoryIcon category={category} size="lg" />
+              <View className="flex-1">
+                <Txt
+                  weight="display"
+                  accessibilityRole="header"
+                  className="text-[28px] leading-[34px]"
+                >
+                  {category.name}
+                </Txt>
+                <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
+              </View>
+            </View>
+            <View className="mt-6 flex-row gap-2">
+              <HeroStat value={`${categoryResults.length}`} label="Drops done" />
+              <HeroStat value={accuracy} label="Accuracy" />
+              <HeroStat value={`${categoryMistakes}`} label="To review" />
+            </View>
+            {tierNow ? (
+              <View className="mt-4 rounded-2xl border border-line p-4 dark:border-ink-line">
+                <TierLine tier={tierNow} color={categoryTone(category.color, dark)} />
+                <Muted className="mt-2 text-[13px] leading-5">
+                  {tierNow.nextName
+                    ? `Your questions get harder as you improve. Get ${DROPS_TO_MOVE} strong drops in a row (at most 1 wrong answer each) to move up to ${tierNow.nextName}.`
+                    : 'You are on the hardest questions. Keep it up!'}
+                </Muted>
+              </View>
+            ) : null}
+          </Card>
+        </Tilt>
+      </Animated.View>
 
       {categoryMistakes > 0 ? (
         <Button

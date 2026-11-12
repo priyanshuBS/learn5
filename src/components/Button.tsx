@@ -1,7 +1,7 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid electric orange (bright orange with dark text in dark mode): the main action
+ *   primary   = glowing orange gradient with dark text: the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
  *   soft      = light grey tint
@@ -9,7 +9,8 @@
  *   inverse   = white, for coloured panels
  *   ghost     = text only
  */
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -29,13 +30,21 @@ export type ButtonVariant =
   'primary' | 'accent' | 'secondary' | 'soft' | 'success' | 'danger' | 'inverse' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
 
-function styles(variant: ButtonVariant, dark: boolean): { box: string; text: string } {
+/** The primary button's fill: bright orange into amber (dark text stays readable on it). */
+const PRIMARY_GRADIENT = ['#FF5A1F', '#FF8A3D', '#FFB347'] as const;
+
+function styles(
+  variant: ButtonVariant,
+  dark: boolean,
+): { box: string; text: string; gradient?: boolean } {
   switch (variant) {
     case 'primary':
     case 'accent':
-      return dark
-        ? { box: 'bg-brand-300 web:hover:bg-brand-200', text: '#1F0A01' }
-        : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
+      return {
+        box: 'web:shadow-[0_10px_30px_-10px_rgba(255,106,26,0.75)] web:hover:shadow-[0_14px_40px_-10px_rgba(255,106,26,0.95)] web:transition-shadow',
+        text: '#1A0800',
+        gradient: true,
+      };
     case 'secondary':
       return dark
         ? {
@@ -141,6 +150,14 @@ export function Button({
           )}
           style={{ minHeight: s.height }}
         >
+          {v.gradient ? (
+            <LinearGradient
+              colors={PRIMARY_GRADIENT}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={StyleSheet.absoluteFill}
+            />
+          ) : null}
           {loading ? (
             <ActivityIndicator color={v.text} />
           ) : (
@@ -200,7 +217,7 @@ export function IconButton({
               ? 'border border-white/25 bg-white/10 web:hover:bg-white/20'
               : variant === 'ghost'
                 ? 'web:hover:bg-black/5 dark:web:hover:bg-white/5'
-                : 'border border-line bg-white web:hover:border-zinc-300 dark:border-ink-line dark:bg-ink-card dark:web:hover:border-zinc-600',
+                : 'border border-line bg-white/80 web:hover:border-zinc-300 dark:border-ink-line dark:bg-ink-card dark:web:hover:border-white/25',
           )}
         >
           <Icon name={icon} size={18} color={color} strokeWidth={2} />

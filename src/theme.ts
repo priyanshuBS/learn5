@@ -29,18 +29,23 @@ export const colors = {
   muted: '#6B6D7B',
   mutedDark: '#9A9CAA',
   line: '#E4E4EB',
-  inkLine: '#272A35',
+  inkLine: 'rgba(255,255,255,0.09)',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#FF6A1A',
   points: '#F5B70A',
   canvas: '#F4F4F7',
-  ink: '#0C0D12',
+  ink: '#06070D',
+  /** A solid dark surface (for things that must not be see-through). */
+  inkSolid: '#10121B',
   /** Empty part of progress rings. */
   track: '#E8E8EE',
-  trackDark: '#272A35',
+  trackDark: 'rgba(255,255,255,0.10)',
 } as const;
+
+/** The glowing background blobs: orange, violet and cyan. */
+export const AURORA = { orange: '#FF6A1A', violet: '#7C5CFF', cyan: '#06B6D4' } as const;
 
 /** The signature gradient: hot orange into amber (hero card, logo, primary highlights). */
 export const BRAND_GRADIENT = ['#FF4D1C', '#FF7A1A', '#FFB020'] as const;

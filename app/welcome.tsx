@@ -6,9 +6,14 @@
  * only after signing in.
  */
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
+
+import { Float3D } from '@/components/Float3D';
+import { Orbit3D } from '@/components/Orbit3D';
+import { Tilt } from '@/components/Tilt';
 
 import categoriesFile from '../content/categories.json';
 import { Button } from '@/components/Button';
@@ -83,6 +88,9 @@ const goLogIn = () => router.push(signInHref('login'));
 export default function WelcomeScreen() {
   const dark = useColorScheme() === 'dark';
   const iconColor = brandTone(dark);
+  // The 3D rings around the preview never get wider than the screen.
+  const { width } = useWindowDimensions();
+  const orbitSize = Math.min(440, width - 24);
 
   return (
     <Screen contentClassName="pt-4 md:pt-6">
@@ -131,8 +139,27 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-[32px] bg-brand-100 p-4 dark:bg-brand-400/10 md:p-8 lg:flex-1">
-            <ProductPreview />
+          {/* The product, floating in 3D inside orbiting rings */}
+          <View className="items-center justify-center overflow-hidden py-10 lg:flex-1">
+            <View pointerEvents="none" className="absolute inset-0 items-center justify-center">
+              <Orbit3D
+                size={orbitSize}
+                rings={categories.slice(0, 3).map((c, i) => ({
+                  color: c.color,
+                  tilt: 72,
+                  turn: i * 55 - 55,
+                  seconds: 14 + i * 5,
+                  scale: 0.95 - i * 0.08,
+                }))}
+              />
+            </View>
+            <View className="w-full max-w-[440px]">
+              <Float3D>
+                <Tilt max={8}>
+                  <ProductPreview />
+                </Tilt>
+              </Float3D>
+            </View>
           </View>
         </View>
 
@@ -201,7 +228,14 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 rounded-[28px] bg-brand-600 p-6 md:flex-row md:items-center md:justify-between md:p-10">
+        <View className="mt-16 items-start gap-5 overflow-hidden rounded-[28px] bg-[#120C1F] p-6 web:shadow-[0_30px_80px_-30px_rgba(255,106,26,0.6)] md:flex-row md:items-center md:justify-between md:p-10">
+          <LinearGradient
+            pointerEvents="none"
+            colors={['rgba(255,90,31,0.55)', 'rgba(124,92,255,0.35)', 'rgba(6,182,212,0.25)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
           <View className="md:flex-1">
             <Txt
               weight="display"

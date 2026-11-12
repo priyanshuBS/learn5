@@ -12,6 +12,7 @@ import { CARD_CLASSES } from '@/components/Card';
 import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Confetti } from '@/components/Confetti';
+import { CountUp } from '@/components/CountUp';
 import { ReminderPrompt } from '@/components/RemindersCard';
 import { ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
@@ -164,12 +165,12 @@ export default function ResultsScreen() {
               color={ring}
               label={`You got ${attempt.correctCount} out of ${total} correct`}
             >
-              <Txt weight="display" className="text-5xl">
-                {attempt.correctCount}
+              <View className="flex-row items-baseline">
+                <CountUp weight="display" className="text-5xl" value={attempt.correctCount} />
                 <Txt weight="medium" className="text-xl text-[#6B6D7B] dark:text-[#9A9CAA]">
                   /{total}
                 </Txt>
-              </Txt>
+              </View>
             </ProgressRing>
           </Animated.View>
           <Txt weight="display" className="mt-6 text-[26px]">
