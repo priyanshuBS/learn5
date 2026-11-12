@@ -7,55 +7,47 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** Main colour: electric orange (light mode). */
-  brand: '#EA580C',
-  brandDark: '#C2410C',
-  brandSoft: '#FFF4ED',
-  /** Main colour on dark backgrounds (active tab, links): bright orange. */
-  brandOnDark: '#FF8F52',
-  /** Accent (progress, "open now", highlights, the logo's dot). */
-  pop: '#F97316',
-  popLight: '#FF8F52',
-  popDark: '#EA580C',
+  /** The one accent: indigo (light mode). */
+  brand: '#4F5BFF',
+  brandDark: '#3B45E0',
+  brandSoft: '#F1F2FF',
+  /** Indigo on dark backgrounds (active tab, links). */
+  brandOnDark: '#9AA2FF',
+  /** Indigo for progress, "open now" and highlights. */
+  pop: '#4F5BFF',
+  popLight: '#7C85FF',
+  popDark: '#3B45E0',
   /** Older names. */
-  leaf: '#F97316',
-  leafLight: '#FF8F52',
-  volt: '#F97316',
+  leaf: '#4F5BFF',
+  leafLight: '#7C85FF',
+  volt: '#4F5BFF',
   /** Darkest text colour, used where code needs "black". */
-  black: '#0E0F14',
+  black: '#0D0D10',
   white: '#FFFFFF',
-  text: '#0E0F14',
-  textDark: '#F3F4F8',
-  muted: '#6B6D7B',
-  mutedDark: '#9A9CAA',
-  line: '#E6E6EB',
-  inkLine: '#24262F',
+  text: '#0D0D10',
+  textDark: '#F1F1F3',
+  muted: '#6B6B75',
+  mutedDark: '#8C8C96',
+  line: '#ECECF0',
+  inkLine: '#222228',
   success: '#16A34A',
-  danger: '#DC2626',
+  danger: '#E5484D',
   warning: '#D97706',
-  streak: '#FF6A1A',
+  streak: '#FF7A2E',
   points: '#F5B70A',
-  canvas: '#F7F7F9',
-  ink: '#0A0A0E',
+  canvas: '#FAFAFB',
+  ink: '#0B0B0D',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#14151B',
+  inkSolid: '#131316',
   /** Empty part of progress rings. */
-  track: '#E8E8EE',
-  trackDark: '#24262F',
+  track: '#ECECF0',
+  trackDark: '#222228',
 } as const;
 
 /** Colours of the 3D stat icons. */
-export const ICON3D = { flame: '#FF6A1A', star: '#F5B70A', trophy: '#8B5CF6' } as const;
+export const ICON3D = { flame: '#FF7A2E', star: '#F5B70A', trophy: '#6E78FF' } as const;
 
-/** The signature gradient: hot orange into amber (hero card, logo, primary highlights). */
-export const BRAND_GRADIENT = ['#FF4D1C', '#FF7A1A', '#FFB020'] as const;
-
-/** A two-stop gradient from a subject colour, for icon tiles and accents. */
-export function categoryGradient(hex: string): readonly [string, string] {
-  return [lighten(hex, 0.18), darken(hex, 0.18)] as const;
-}
-
-/** Orange for progress bars, rings and accent icons, readable on the current background. */
+/** Indigo for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.popLight : colors.pop;
 }
@@ -79,23 +71,15 @@ export const BADGE_ICONS: Record<string, IconName> = {
 
 /** Colour of each badge's 3D icon (when earned). */
 export const BADGE_COLORS: Record<string, string> = {
-  'first-drop': '#06B6D4',
-  'streak-7': '#FF6A1A',
+  'first-drop': '#38BDF8',
+  'streak-7': '#FF7A2E',
   'streak-30': '#F5B70A',
-  'correct-100': '#8B5CF6',
-  'all-categories': '#EC4899',
+  'correct-100': '#6E78FF',
+  'all-categories': '#10B981',
 };
 
 /** Icon for each drop slot: morning, afternoon, evening. */
 export const SLOT_ICONS: IconName[] = ['sunrise', 'sun', 'moon'];
-
-/**
- * The fill of a bold subject card: the subject colour, deepened, as a diagonal
- * gradient. Deep enough that white text reads clearly on every subject colour.
- */
-export function subjectFill(hex: string): readonly [string, string, string] {
-  return [darken(hex, 0.3), darken(hex, 0.45), darken(hex, 0.6)] as const;
-}
 
 /** Mixes a hex colour with white: lighten('#2563EB', 0.3) is 30% lighter. */
 export function lighten(hex: string, amount: number): string {

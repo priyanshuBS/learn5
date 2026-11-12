@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the font (Plus Jakarta Sans, five weights)
+ *   - loads Tailwind styles and the fonts (Geist for text, Geist Mono for numbers and labels)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -9,12 +9,12 @@
 import '../global.css';
 
 import {
-  PlusJakartaSans_400Regular,
-  PlusJakartaSans_500Medium,
-  PlusJakartaSans_600SemiBold,
-  PlusJakartaSans_700Bold,
-  PlusJakartaSans_800ExtraBold,
-} from '@expo-google-fonts/plus-jakarta-sans';
+  Geist_400Regular,
+  Geist_500Medium,
+  Geist_600SemiBold,
+  Geist_700Bold,
+} from '@expo-google-fonts/geist';
+import { GeistMono_500Medium, GeistMono_600SemiBold } from '@expo-google-fonts/geist-mono';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -38,11 +38,12 @@ void SplashScreen.preventAutoHideAsync().catch(() => {});
 export default function RootLayout() {
   const scheme = useColorScheme();
   const [fontsLoaded, fontError] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
-    PlusJakartaSans_800ExtraBold,
+    Geist_400Regular,
+    Geist_500Medium,
+    Geist_600SemiBold,
+    Geist_700Bold,
+    GeistMono_500Medium,
+    GeistMono_600SemiBold,
   });
   useContentBootstrap();
   useArticlesBootstrap();

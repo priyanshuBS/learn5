@@ -1,7 +1,7 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid orange: the main action
+ *   primary   = solid indigo with white text: the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
  *   soft      = light grey tint
@@ -35,10 +35,13 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'accent':
       return dark
         ? {
-            box: 'bg-brand-400 web:shadow-[0_8px_28px_-10px_rgba(255,122,53,0.7)] web:hover:bg-brand-300',
-            text: '#1A0800',
+            box: 'bg-brand-600 web:shadow-[0_8px_28px_-12px_rgba(110,120,255,0.75)] web:hover:bg-brand-500',
+            text: '#FFFFFF',
           }
-        : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
+        : {
+            box: 'bg-brand-600 web:shadow-[0_8px_24px_-14px_rgba(79,91,255,0.6)] web:hover:bg-brand-700',
+            text: '#FFFFFF',
+          };
     case 'secondary':
       return dark
         ? {

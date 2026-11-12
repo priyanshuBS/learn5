@@ -36,7 +36,7 @@ STRUCTURE
 - title: clear and inviting, max 70 characters (e.g. "Why Computers Count in 0s and 1s"). No dates.
 - topic: the topic in a few words, max 60 characters.
 - summary: 1–2 short sentences, max 220 characters, saying what the reader will learn.
-- sections: 4–6 sections. Each has a short heading (max 70 characters) and 2–5 paragraphs (never more than 8).
+- sections: 4–6 sections (never more than 8). Each has a short heading (max 70 characters) and 2–5 paragraphs (never more than 8).
   Start with why the topic matters, then teach it step by step with examples, then end with a short wrap-up.
 - The sections together must be ${ARTICLE_WORDS.min}–${ARTICLE_WORDS.max} words. Aim for about 500 words: count them before you answer.
 - keyPoints: 3–5 short lines (max 160 characters each) to remember.

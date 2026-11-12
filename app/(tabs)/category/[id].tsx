@@ -3,11 +3,12 @@
  */
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { twMerge } from 'tailwind-merge';
 
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
+import { CARD_CLASSES } from '@/components/Card';
 import { DropCard, TimelineDrop } from '@/components/DropCard';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { usePrefetchDrops } from '@/features/content/store';
@@ -28,7 +29,7 @@ import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { colors, subjectFill } from '@/theme';
+import { colors } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -94,32 +95,17 @@ export default function CategoryScreen() {
   return (
     <Screen width="narrow">
       {/* Subject header */}
-      <View
-        className="overflow-hidden rounded-3xl p-6 web:shadow-[0_18px_40px_-20px_rgba(0,0,0,0.55)]"
-        style={{ backgroundColor: subjectFill(category.color)[1] }}
-      >
-        <LinearGradient
-          colors={subjectFill(category.color)}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={StyleSheet.absoluteFill}
-        />
+      <View className={twMerge(CARD_CLASSES, 'overflow-hidden p-6')}>
         <View className="flex-row items-center justify-between">
-          <IconButton icon="arrow-left" label="Go back" onPress={goBack} onDark />
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
         </View>
         <View className="mt-5 flex-row items-center gap-4">
           <CategoryIcon category={category} size="lg" />
           <View className="flex-1">
-            <Txt
-              weight="display"
-              accessibilityRole="header"
-              className="text-[28px] leading-[34px] text-white dark:text-white"
-            >
+            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
               {category.name}
             </Txt>
-            <Txt className="mt-0.5 text-[15px] text-white/75 dark:text-white/75">
-              {category.tagline}
-            </Txt>
+            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
           </View>
         </View>
         <View className="mt-6 flex-row gap-2">
@@ -231,12 +217,12 @@ function HeroStat({ value, label }: { value: string; label: string }) {
     <View
       accessible
       accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-2xl bg-white/15 px-3 py-3"
+      className="flex-1 rounded-xl bg-zinc-100 px-3 py-3 dark:bg-ink-raised"
     >
-      <Txt weight="display" className="text-xl text-white dark:text-white">
+      <Txt weight="display" className="text-xl">
         {value}
       </Txt>
-      <Txt className="text-xs text-white/75 dark:text-white/75">{label}</Txt>
+      <Muted className="text-xs">{label}</Muted>
     </View>
   );
 }

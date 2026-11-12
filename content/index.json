@@ -1,5 +1,5 @@
 {
-  "version": "87061f982edb",
+  "version": "604d769fff64",
   "latestDate": "2026-11-08",
   "timezone": "Asia/Kolkata",
   "schedule": {
@@ -25,14 +25,14 @@
       "id": "english",
       "name": "English",
       "emoji": "📖",
-      "color": "#8B5CF6",
+      "color": "#6E78FF",
       "tagline": "Words, grammar and idioms"
     },
     {
       "id": "reasoning",
       "name": "Reasoning",
       "emoji": "🧩",
-      "color": "#EC4899",
+      "color": "#F59E0B",
       "tagline": "Puzzles, patterns and logic"
     },
     {
@@ -46,7 +46,7 @@
       "id": "computer-science",
       "name": "Computer Science",
       "emoji": "💻",
-      "color": "#06B6D4",
+      "color": "#38BDF8",
       "tagline": "Computers, coding and the internet"
     }
   ],

@@ -288,7 +288,7 @@ export const ArticleSchema = z.strictObject({
   topic: nonEmpty('topic').max(60, 'topic should be short (max 60 characters)'),
   /** One or two sentences shown in the list. */
   summary: nonEmpty('summary').max(220, 'summary should be one or two short sentences'),
-  sections: z.array(ArticleSectionSchema).min(3).max(6),
+  sections: z.array(ArticleSectionSchema).min(3).max(8),
   /** The main things to remember. */
   keyPoints: z.array(nonEmpty('key point').max(160)).min(3).max(5),
   /** Hard words explained simply. */

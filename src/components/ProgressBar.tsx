@@ -3,8 +3,14 @@
  * ProgressRing — a circular progress ring with content in the middle.
  * QuizProgress — one segment per question that turns green/red as you answer.
  */
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
 
@@ -25,6 +31,12 @@ export function ProgressBar({
 }) {
   const dark = useColorScheme() === 'dark';
   const percent = Math.round(Math.min(1, Math.max(0, value)) * 100);
+  // The fill glides to its new width (a small touch of motion).
+  const width = useSharedValue(0);
+  useEffect(() => {
+    width.set(withTiming(percent, { duration: 600, easing: Easing.out(Easing.cubic) }));
+  }, [percent, width]);
+  const fill = useAnimatedStyle(() => ({ width: `${width.get()}%` }));
   return (
     <View
       accessible
@@ -32,13 +44,15 @@ export function ProgressBar({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
       className={twMerge(
-        'h-2 overflow-hidden rounded-full bg-[#E8E8EE] dark:bg-ink-line',
+        'h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-ink-raised',
         className,
       )}
     >
-      <View
-        className="h-full rounded-full"
-        style={{ width: `${percent}%`, backgroundColor: color ?? brandTone(dark) }}
+      <Animated.View
+        style={[
+          { height: '100%', borderRadius: 999, backgroundColor: color ?? brandTone(dark) },
+          fill,
+        ]}
       />
     </View>
   );
@@ -125,7 +139,7 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
           key={i}
           className={twMerge(
             'h-1.5 flex-1 overflow-hidden rounded-full',
-            state === 'todo' && 'bg-[#E8E8EE] dark:bg-ink-line',
+            state === 'todo' && 'bg-zinc-200 dark:bg-ink-raised',
             state === 'current' && 'bg-pop dark:bg-pop-light',
             state === 'correct' && 'bg-green-600',
             state === 'wrong' && 'bg-red-500',

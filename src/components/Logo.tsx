@@ -1,7 +1,7 @@
 /**
  * Logo — the Learn5 mark and wordmark.
- * The mark is a "5-minute timer": a dark rounded tile with an orange-to-amber ring
- * that is almost closed, a small amber dot where the ring ends, and a white "5".
+ * The mark is a "5-minute timer": a studio-black rounded tile with an indigo ring
+ * that is almost closed, a light indigo dot where the ring ends, and a white "5".
  * The app icon, splash screen and browser tab icon use the same drawing.
  */
 import { View } from 'react-native';
@@ -26,12 +26,12 @@ export function LogoMark({ size = 28 }: { size?: number }) {
       <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute' }}>
         <Defs>
           <LinearGradient id="learn5tile" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#1E2029" />
-            <Stop offset="1" stopColor="#0E0F14" />
+            <Stop offset="0" stopColor="#1F1F26" />
+            <Stop offset="1" stopColor="#0B0B0D" />
           </LinearGradient>
           <LinearGradient id="learn5ring" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0" stopColor="#FFB547" />
-            <Stop offset="1" stopColor="#FF5A1F" />
+            <Stop offset="0" stopColor="#B8BEFF" />
+            <Stop offset="1" stopColor="#5B66FF" />
           </LinearGradient>
         </Defs>
         {/* The tile, with a hairline edge so it also reads on dark backgrounds */}
@@ -59,7 +59,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
           strokeDasharray={`${ARC} ${CIRCUMFERENCE}`}
           transform="rotate(-90 50 50)"
         />
-        <Circle cx={END_X} cy={END_Y} r={7} fill="#FFB547" />
+        <Circle cx={END_X} cy={END_Y} r={7} fill="#B8BEFF" />
       </Svg>
       <View
         style={{
