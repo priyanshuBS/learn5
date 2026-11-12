@@ -12,45 +12,32 @@ import { DropSchema, isRealDate, makeItemId } from '../schema';
 /** A fresh, editable copy of the sample drop for each test. */
 const copy = (): any => JSON.parse(JSON.stringify(sampleDrop));
 
-/** Turns the tier-1 sample into a valid drop at another tier (ids + difficulty mix). */
-function atTier(tier: number, mix: string[]): any {
+/** The sample drop with a different difficulty for each of the 5 items. */
+function withDifficulties(levels: string[]): any {
   const drop = copy();
-  drop.tier = tier;
   drop.items.forEach((it: any, i: number) => {
-    it.id = makeItemId(drop.category, drop.date, drop.drop, i + 1, tier);
-    it.difficulty = mix[i];
+    it.difficulty = levels[i];
   });
   return drop;
 }
 
-describe('DropSchema tiers', () => {
-  it('treats a drop without a tier as tier 1', () => {
-    expect(DropSchema.parse(copy()).tier).toBe(1);
-  });
-
-  it('accepts tier 2 and 3 drops with their own mix and ids', () => {
+describe('DropSchema difficulty ladder', () => {
+  it('accepts the ladder: 1 easy, 2 medium, 2 hard', () => {
     expect(
-      DropSchema.safeParse(atTier(2, ['easy', 'medium', 'medium', 'hard', 'hard'])).success,
-    ).toBe(true);
-    expect(
-      DropSchema.safeParse(atTier(3, ['medium', 'medium', 'hard', 'hard', 'hard'])).success,
+      DropSchema.safeParse(withDifficulties(['easy', 'medium', 'medium', 'hard', 'hard'])).success,
     ).toBe(true);
   });
 
-  it('rejects a tier 3 drop with the easy tier-1 mix', () => {
+  it('still accepts older drops (2 easy, 2 medium, 1 hard)', () => {
     expect(
-      DropSchema.safeParse(atTier(3, ['easy', 'easy', 'medium', 'medium', 'hard'])).success,
+      DropSchema.safeParse(withDifficulties(['easy', 'easy', 'medium', 'medium', 'hard'])).success,
+    ).toBe(true);
+  });
+
+  it('rejects a drop that is all easy', () => {
+    expect(
+      DropSchema.safeParse(withDifficulties(['easy', 'easy', 'easy', 'easy', 'easy'])).success,
     ).toBe(false);
-  });
-
-  it('rejects tier-1 ids on a tier 2 drop', () => {
-    const drop = atTier(2, ['easy', 'medium', 'medium', 'hard', 'hard']);
-    drop.items[0].id = makeItemId(drop.category, drop.date, drop.drop, 1);
-    expect(DropSchema.safeParse(drop).success).toBe(false);
-  });
-
-  it('builds tier item ids', () => {
-    expect(makeItemId('english', '2026-11-08', 2, 3, 2)).toBe('english-2026-11-08-d2-t2-03');
   });
 });
 
@@ -74,7 +61,7 @@ describe('DropSchema', () => {
 
   it('rejects the wrong difficulty mix', () => {
     const drop = copy();
-    drop.items[0].difficulty = 'hard';
+    drop.items[0].difficulty = 'medium'; // 1 easy, 3 medium, 1 hard: neither mix
     expect(DropSchema.safeParse(drop).success).toBe(false);
   });
 

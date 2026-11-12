@@ -7,7 +7,8 @@
  * checked in code (src/lib/schema.ts + generate-drops.ts), so a bad drop is
  * never saved even if the AI ignores the instructions.
  */
-import type { Category } from '../../src/lib/schema';
+import { daysBetween } from '../../src/lib/dates';
+import { DIFFICULTY_LADDER, DROPS_PER_DAY, type Category } from '../../src/lib/schema';
 
 const CATEGORY_RULES: Record<string, string> = {
   english:
@@ -19,6 +20,114 @@ const CATEGORY_RULES: Record<string, string> = {
   'computer-science':
     'How computers work (input, processing, output, storage, memory), hardware and software, binary numbers and bits/bytes, storage units (KB, MB, GB), the internet and the web (IP address, browser, URL, email), algorithms and flowcharts, simple coding logic in plain pseudocode (loops, if/else, variables), data and files, and online safety (strong passwords, phishing). No company, product or app brand names. For code, use short plain pseudocode, not a real programming language.',
 };
+
+/**
+ * The areas of each subject. Every drop takes 5 DIFFERENT areas (one per question),
+ * and the window moves on with every drop, so day by day a category covers its
+ * whole domain instead of circling the same few ideas.
+ */
+export const CATEGORY_AREAS: Record<string, string[]> = {
+  english: [
+    'word meanings (vocabulary)',
+    'synonyms',
+    'antonyms (opposites)',
+    'tenses',
+    'articles (a, an, the)',
+    'prepositions',
+    'subject–verb agreement',
+    'commonly confused words',
+    'idioms',
+    'phrasal verbs',
+    'spelling',
+    'punctuation',
+    'one-word substitutes',
+    'active and passive voice',
+    'direct and indirect speech',
+    'sentence correction (error spotting)',
+    'parts of speech',
+    'collocations (words that go together)',
+    'prefixes and suffixes',
+    'formal vs informal English',
+  ],
+  reasoning: [
+    'number series',
+    'letter series',
+    'analogies',
+    'odd one out',
+    'coding-decoding',
+    'blood relations',
+    'directions and distance',
+    'syllogisms',
+    'ranking and order',
+    'seating arrangement',
+    'clocks',
+    'calendars',
+    'statement and conclusion',
+    'cause and effect',
+    'mirror and water images (described in words)',
+    'counting and grouping',
+    'input–output patterns',
+    'data sufficiency',
+  ],
+  puzzles: [
+    'classic riddles',
+    'number puzzles (missing number)',
+    'magic squares',
+    'age puzzles',
+    'counting puzzles',
+    'matchstick puzzles (described in words)',
+    'anagrams',
+    'hidden words',
+    'word ladders',
+    'logic grid puzzles',
+    'truth-tellers and liars',
+    'lateral thinking',
+    'river-crossing puzzles',
+    'weighing and balance puzzles',
+    'calendar and clock puzzles',
+    'cryptarithms (letters for digits)',
+    'sequence of moves (e.g. pouring water)',
+    'probability brain teasers',
+  ],
+  'computer-science': [
+    'hardware parts (CPU, RAM, storage)',
+    'input and output devices',
+    'software and operating systems',
+    'binary numbers',
+    'bits, bytes and storage units',
+    'memory vs storage',
+    'how the internet works',
+    'the web, browsers and URLs',
+    'IP addresses and networks',
+    'email and protocols',
+    'algorithms',
+    'flowcharts',
+    'variables and data types',
+    'loops',
+    'if/else decisions',
+    'functions',
+    'searching and sorting',
+    'files and folders',
+    'databases',
+    'online safety and passwords',
+    'phishing and scams',
+    'how apps and websites are built',
+    'artificial intelligence basics',
+    'logic gates (AND, OR, NOT)',
+  ],
+};
+
+/** The 5 areas for one drop (5 different areas, rotating through the whole list over time). */
+export function topicAreas(category: string, date: string, drop: number): string[] {
+  const list = CATEGORY_AREAS[category] ?? [];
+  if (list.length === 0) return [];
+  const slot = daysBetween('2026-01-01', date) * DROPS_PER_DAY + (drop - 1);
+  const start = (((slot * 5) % list.length) + list.length) % list.length;
+  return Array.from(
+    { length: Math.min(5, list.length) },
+    (_, i) => list[(start + i) % list.length],
+  );
+}
 
 export const SYSTEM_PROMPT = `You write quiz content for Learn5, a daily micro-learning app.
 Readers are ordinary people, many weak in English. Write so a 12-year-old understands on the first read.
@@ -60,50 +169,39 @@ const PLANS: Record<number, string[]> = {
   2: ['true_false', 'mcq', 'mcq', 'fact_card', 'mcq'],
   3: ['mcq', 'mcq', 'true_false', 'fill_blank', 'mcq'],
 };
-/** Difficulty of each of the 5 positions, per tier (must match TIER_DIFFICULTY_MIX in schema.ts). */
-const DIFFICULTY: Record<number, string[]> = {
-  1: ['easy', 'easy', 'medium', 'medium', 'hard'],
-  2: ['easy', 'medium', 'medium', 'hard', 'hard'],
-  3: ['medium', 'medium', 'hard', 'hard', 'hard'],
-};
-
-/** Who each tier is for. The easy/medium/hard labels are relative to the tier. */
-const TIER_GUIDE: Record<number, string> = {
-  1: 'Tier 1 of 3 (Basic): for everyone. easy = most adults know it in 10 seconds; medium = needs a moment or a basic school concept; hard = a few steps of thinking or a less common (still school-level) fact.',
-  2: 'Tier 2 of 3 (Intermediate): for players who answer most Basic questions correctly. Go one step deeper than Basic: less obvious facts, two-step thinking, closer wrong options. easy = a solid learner gets it quickly; medium = needs real thought; hard = several steps or a fact that needs real understanding (up to Class 10 level).',
-  3: 'Tier 3 of 3 (Advanced): for strong players. Make it genuinely challenging but fair: multi-step reasoning, applying a rule to a new case, tricky but clearly wrong distractors, precise facts (up to Class 12 level). medium = challenging; hard = only a well-prepared player gets it. The wording must stay simple: the IDEA is hard, not the English.',
-};
-const SLOT = ['morning', 'afternoon', 'evening'];
+/** What each step of the difficulty ladder means (every question harder than the last). */
+const LADDER_GUIDE = [
+  'warm-up: most adults get it in 10 seconds',
+  'needs a moment of thought or a basic school concept',
+  'clearly harder than question 2: two steps of thinking or a less obvious fact',
+  'challenging: several steps, or a fact that needs real understanding',
+  'the hardest: only a well-prepared player gets it (still fair, still school-level, up to Class 10–12)',
+];
+const SLOT = ['morning (opens 4 AM)', 'afternoon (opens 4 PM)'];
 
 export function userPrompt(opts: {
   category: Category;
   date: string;
   drop: number;
-  /** 1 Basic, 2 Intermediate, 3 Advanced. */
-  tier: number;
-  /** For tiers 2-3: the tier-1 drop's topics, to cover again with harder questions. */
-  baseTopics: string[];
+  /** The 5 areas of the subject to use, one per question, in order. */
+  areas: string[];
   avoidTopics: string[];
   feedback?: string[];
 }): string {
   const plan = PLANS[opts.drop] ?? PLANS[1];
-  const difficulty = DIFFICULTY[opts.tier] ?? DIFFICULTY[1];
   const lines = [
-    `Write drop ${opts.drop} of 3 (${SLOT[opts.drop - 1]}) for the category "${opts.category.name}" (${opts.category.tagline}) for ${opts.date}.`,
+    `Write drop ${opts.drop} of ${DROPS_PER_DAY} (${SLOT[opts.drop - 1] ?? 'extra'}) for the category "${opts.category.name}" (${opts.category.tagline}) for ${opts.date}.`,
     `What to cover in ${opts.category.name}: ${CATEGORY_RULES[opts.category.id] ?? opts.category.tagline}`,
     '',
-    'Exactly 5 items, in this order:',
-    ...plan.map((type, i) => `  ${i + 1}. ${type}, ${difficulty[i]}`),
-    `Difficulty: ${TIER_GUIDE[opts.tier] ?? TIER_GUIDE[1]}`,
+    'Exactly 5 items, in this order. They form a DIFFICULTY LADDER: every item must be harder than the one before it. Never make them all easy.',
+    ...plan.map((type, i) => {
+      const area = opts.areas[i] ? `, area: ${opts.areas[i]}` : '';
+      return `  ${i + 1}. ${type}, difficulty "${DIFFICULTY_LADDER[i]}" — ${LADDER_GUIDE[i]}${area}`;
+    }),
+    'Each item comes from its OWN area of the subject (as listed), so the drop covers a wide range. The wording stays simple: the IDEA gets harder, not the English.',
     'The 3 mcq items must use at least 2 different answerIndex values.',
   ];
-  if (opts.baseTopics.length > 0) {
-    lines.push(
-      '',
-      'Use these same topics (one item each, any order), but write NEW, harder questions about them. Never repeat the Basic questions:',
-      opts.baseTopics.map((t) => `- ${t}`).join('\n'),
-    );
-  } else if (opts.avoidTopics.length > 0) {
+  if (opts.avoidTopics.length > 0) {
     lines.push(
       '',
       'Do NOT use these topics (or the same idea in other words) — they were used recently:',

@@ -48,14 +48,16 @@ Questions live in the database (table `drops`), not on your laptop.
   never change.
 - Setup: push the repo to GitHub and add the secrets `DATABASE_URL` and `GROQ_API_KEY`
   (Settings → Secrets and variables → Actions). Run it by hand from the Actions tab.
-- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=english --tier=2 --dry-run`).
-- **Question tiers.** Every drop is written at 3 tiers: Basic, Intermediate and Advanced.
-  Tiers 2 and 3 cover the same topics as tier 1, with harder questions. Each player has
-  their own tier **per subject** (`src/features/tiers/tiers.ts`, worked out from their
-  results). 3 strong drops in a row (at most 1 wrong) moves them up; 3 tough drops in a
-  row (3+ wrong) moves them down. The generator writes all tier-1 drops first, so if the
-  Groq limit runs out, the API serves a lower tier until the next run. Tier files use paths
-  like `english/2026-11-08/drop-1-t2.json`. This means about 3× more AI calls per day.
+- Locally: `npm run generate-drops` (options: `--date=YYYY-MM-DD --category=english --dry-run`).
+- **2 drops a day per subject**, opening at **04:00 and 16:00 IST**. Everyone gets the same
+  drop: 5 questions that climb from easy to hard (1 easy, 2 medium, 2 hard), each from a
+  different area of the subject. The areas rotate every drop (`CATEGORY_AREAS` in
+  `scripts/lib/prompt.ts`), so each subject covers its whole range over time.
+- **Daily AI budget:** 8 drops (40 questions) + 4 articles. Each one is written once and
+  fact-checked once, so a normal day is about 24 Groq requests.
+- **Two Groq keys.** `GROQ_API_KEY` ("groq-1") is used first; when its limit is reached the
+  generators switch to `GROQ_API_KEY_2` ("groq-2") and email `ALERT_EMAIL` (via Resend), at
+  most once per key per day (`scripts/lib/groq.ts`, `scripts/lib/alerts.ts`).
 - `npm run seed-drops` copies the hand-written files in `content/` into the database.
   The newest files are also packed into the app for offline use (`npm run bundle-content`).
 - The AI instructions are in `scripts/lib/prompt.ts`, a short version of `CONTENT_GUIDE.md`.

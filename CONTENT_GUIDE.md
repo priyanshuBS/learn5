@@ -42,15 +42,15 @@ on the first read.
 
 A drop is one JSON file with exactly **5 items**, and takes about 5 minutes.
 
-File path: `content/<category>/<YYYY-MM-DD>/drop-<n>.json` (n = 1, 2 or 3).
+File path: `content/<category>/<YYYY-MM-DD>/drop-<n>.json` (n = 1 or 2; older days had 3).
 The `date`, `category` and `drop` inside the file must match the path.
 
 | Rule            | Value                                                                            |
 | --------------- | -------------------------------------------------------------------------------- |
 | Number of items | exactly 5                                                                        |
 | Item types      | 3 `mcq` + 1 `true_false` + 1 `fill_blank` **or** `fact_card`                     |
-| Difficulty      | 2 `easy` + 2 `medium` + 1 `hard` (tier 1; see "Question tiers" below)            |
-| Item order      | from easiest to hardest: easy, easy, medium, medium, hard                        |
+| Difficulty      | 1 `easy` + 2 `medium` + 2 `hard` (see "Difficulty ladder" below)                 |
+| Item order      | from easiest to hardest: easy, medium, medium, hard, hard                        |
 | Item ids        | `<category>-<date>-d<drop>-0<position>`, e.g. `english-2026-11-08-d1-01` … `-05` |
 | Topics          | all 5 different inside a drop                                                    |
 | Title           | short and catchy, max 60 characters, e.g. "Forces All Around You"                |
@@ -120,19 +120,23 @@ The `date`, `category` and `drop` inside the file must match the path.
 }
 ```
 
-### Question tiers **[checked]**
+### Difficulty ladder **[checked]**
 
-Every drop is written at 3 tiers. Players move up a tier in a subject as they answer well.
+Every drop is a ladder: each question is harder than the one before.
 
-| Tier             | For                                   | Difficulty mix             | File / item ids                             |
-| ---------------- | ------------------------------------- | -------------------------- | ------------------------------------------- |
-| 1 — Basic        | everyone                              | 2 easy + 2 medium + 1 hard | `drop-1.json`, `…-d1-01`                    |
-| 2 — Intermediate | players who get most Basic ones right | 1 easy + 2 medium + 2 hard | `drop-1-t2.json`, `…-d1-t2-01`, `"tier": 2` |
-| 3 — Advanced     | strong players                        | 0 easy + 2 medium + 3 hard | `drop-1-t3.json`, `…-d1-t3-01`, `"tier": 3` |
+| Position | Difficulty | Meaning                                                       |
+| -------- | ---------- | ------------------------------------------------------------- |
+| 1        | easy       | warm-up: most adults get it in 10 seconds                     |
+| 2        | medium     | needs a moment or a basic school concept                      |
+| 3        | medium     | clearly harder than 2: two steps or a less obvious fact       |
+| 4        | hard       | several steps, or real understanding                          |
+| 5        | hard       | the hardest: only a well-prepared player gets it (still fair) |
 
-- Tiers 2 and 3 use the **same title and topics** as tier 1, with new, harder questions.
-- Labels are relative to the tier: a tier-3 "medium" is harder than a tier-1 "hard".
-- The idea gets harder, never the English. Keep the same simple wording rules.
+- **Never all easy.** The idea gets harder, never the English.
+- **Wide range:** the 5 questions come from 5 different areas of the subject, and the areas
+  rotate every drop (see `CATEGORY_AREAS` in `scripts/lib/prompt.ts`).
+- 2 drops a day per subject, opening at 04:00 and 16:00. Older drops (2 easy, 2 medium,
+  1 hard; up to 3 a day) are still valid.
 
 ## 4. Writing good questions
 

@@ -6,13 +6,10 @@
  */
 import type { DropRef } from '../drops/status';
 import type { DropResult } from '../progress/store';
-import { resultTier } from '../tiers/tiers';
 
 export interface MistakeRef {
   itemId: string;
   drop: DropRef;
-  /** The tier the drop was played at (its questions live in that tier's file). */
-  tier: number;
   /** What the user answered the first time. */
   given: string | null;
   completedAt: string;
@@ -33,7 +30,6 @@ export function getMistakes(
         .map((i) => ({
           itemId: i.itemId,
           drop: { category: r.category, date: r.date, drop: r.drop },
-          tier: resultTier(r),
           given: i.given,
           completedAt: r.completedAt,
         })),
@@ -43,7 +39,7 @@ export function getMistakes(
 /** Fact cards from drops the user has finished (no spoilers), newest first. */
 export function getCollectedFactCards(
   results: Record<string, DropResult>,
-): { itemId: string; drop: DropRef; tier: number }[] {
+): { itemId: string; drop: DropRef }[] {
   return Object.values(results)
     .sort((a, b) => b.completedAt.localeCompare(a.completedAt))
     .flatMap((r) =>
@@ -52,7 +48,6 @@ export function getCollectedFactCards(
         .map((i) => ({
           itemId: i.itemId,
           drop: { category: r.category, date: r.date, drop: r.drop },
-          tier: resultTier(r),
         })),
     );
 }

@@ -44,7 +44,7 @@ function main(): void {
   const { categories, schedule, drops, problems } = loadContent();
   const extra: ContentProblem[] = [];
 
-  // ── Schedule must cover exactly our categories, with unique times ──
+  // ── Schedule must cover exactly our categories, each with its own times ──
   if (schedule) {
     const scheduleFile = rel(SCHEDULE_FILE);
     const categoryIds = categories.map((c) => c.id);
@@ -56,15 +56,10 @@ function main(): void {
       if (!categoryIds.includes(id))
         extra.push({ file: scheduleFile, message: `"${id}" is not in content/categories.json` });
     }
-    const seenTimes = new Map<string, string>();
+    // Different categories may share a time (every category opens at 04:00 and 16:00).
     for (const [id, times] of Object.entries(schedule.drops)) {
-      times.forEach((time, i) => {
-        const label = `${id} drop ${i + 1}`;
-        const clash = seenTimes.get(time);
-        if (clash)
-          extra.push({ file: scheduleFile, message: `${label} and ${clash} both run at ${time}` });
-        seenTimes.set(time, label);
-      });
+      if (new Set(times).size !== times.length)
+        extra.push({ file: scheduleFile, message: `"${id}" has two drops at the same time` });
       const sorted = [...times].sort();
       if (sorted.join() !== times.join())
         extra.push({

@@ -42,7 +42,7 @@ const HERO_EDGE = [
 ] as const;
 
 export default function HomeScreen() {
-  const { ready, index, zonedNow, now, today, stats, results, isDone, tiers } = useAppData();
+  const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
   const articles = useArticles((s) => s.articles);
   const readMarks = useArticleReads((s) => s.read);
 
@@ -199,7 +199,6 @@ export default function HomeScreen() {
                     slots={row.slots}
                     offsetMinutes={zonedNow.offsetMinutes}
                     catchUp={row.catchUp}
-                    tier={tiers[row.category.id]}
                     getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
                   />
                 </Tilt>

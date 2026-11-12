@@ -28,7 +28,7 @@ import { ThemeIconButton } from '@/components/ThemeToggle';
 import { Muted, Txt } from '@/components/Txt';
 import { useColorScheme } from '@/hooks/useScheme';
 import { signInHref } from '@/lib/routes';
-import { CategoriesFileSchema } from '@/lib/schema';
+import { CategoriesFileSchema, DROPS_PER_DAY } from '@/lib/schema';
 import { brandTone, colors } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
@@ -41,13 +41,8 @@ const FEATURES: { icon: IconName; title: string; text: string }[] = [
   },
   {
     icon: 'calendar',
-    title: 'Three drops a day',
-    text: 'New questions every morning, afternoon and evening.',
-  },
-  {
-    icon: 'chevrons-up',
-    title: 'Grows with you',
-    text: 'Answer well and each subject moves up from Basic to Advanced.',
+    title: 'Two drops a day',
+    text: 'Five new questions at 4 AM and 4 PM, from easy to hard.',
   },
   {
     icon: 'articles',
@@ -134,7 +129,7 @@ export default function WelcomeScreen() {
             </View>
             <View className="mt-8 flex-row flex-wrap gap-x-6 gap-y-2">
               <Fact text={`${categories.length} subjects`} />
-              <Fact text={`${categories.length * 3} new drops a day`} />
+              <Fact text={`${categories.length * DROPS_PER_DAY} new drops a day`} />
               <Fact text="5 questions each" />
             </View>
           </View>

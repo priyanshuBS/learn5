@@ -8,7 +8,7 @@ import {
   DateStringSchema,
   DifficultySchema,
   ItemTypeSchema,
-  MAX_TIER,
+  MAX_DROP_NO,
   SlugSchema,
 } from '@/lib/schema';
 
@@ -28,8 +28,7 @@ export const ItemResultSchema = z.object({
 export const DropResultSchema = z.object({
   category: SlugSchema,
   date: DateStringSchema,
-  drop: z.number().int().min(1).max(3),
-  tier: z.number().int().min(1).max(MAX_TIER).optional(),
+  drop: z.number().int().min(1).max(MAX_DROP_NO),
   title: z.string().min(1).max(120),
   items: z.array(ItemResultSchema).min(1).max(10),
   correctCount: z.number().int().min(0),

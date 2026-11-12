@@ -10,7 +10,6 @@ import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
 import { DropCard, TimelineDrop } from '@/components/DropCard';
 import { Card } from '@/components/Card';
-import { TierLine } from '@/components/CategoryCard';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
@@ -26,14 +25,13 @@ import {
   getTodaySlots,
   SLOT_NAMES,
 } from '@/features/drops/status';
-import { DROPS_TO_MOVE, tierPath } from '@/features/tiers/tiers';
 import { useAppData } from '@/hooks/useAppData';
 import { useColorScheme } from '@/hooks/useScheme';
 import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { categoryTone, colors, withAlpha } from '@/theme';
+import { colors, withAlpha } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -44,15 +42,14 @@ const DAYS_PER_PAGE = 7;
 
 export default function CategoryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { ready, index, zonedNow, results, isDone, mistakes, tiers } = useAppData();
+  const { ready, index, zonedNow, results, isDone, mistakes } = useAppData();
   const dark = useColorScheme() === 'dark';
   const [daysShown, setDaysShown] = useState(DAYS_PER_PAGE);
 
   // Opening a category downloads only its LATEST open drop (5 questions with answers
   // and explanations) and saves it on the device. Locked drops stay on the server.
   const latestOpen = ready && index && id ? getOpenEntries(index, id, zonedNow)[0] : undefined;
-  const tierNow = id ? tiers[id] : undefined;
-  usePrefetchDrops(latestOpen ? [tierPath(latestOpen.path, tierNow?.tier ?? 1)] : []);
+  usePrefetchDrops(latestOpen ? [latestOpen.path] : []);
 
   if (!ready || !index) {
     return (
@@ -130,16 +127,6 @@ export default function CategoryScreen() {
               <HeroStat value={accuracy} label="Accuracy" />
               <HeroStat value={`${categoryMistakes}`} label="To review" />
             </View>
-            {tierNow ? (
-              <View className="mt-4 rounded-2xl border border-line p-4 dark:border-ink-line">
-                <TierLine tier={tierNow} color={categoryTone(category.color, dark)} />
-                <Muted className="mt-2 text-[13px] leading-5">
-                  {tierNow.nextName
-                    ? `Your questions get harder as you improve. Get ${DROPS_TO_MOVE} strong drops in a row (at most 1 wrong answer each) to move up to ${tierNow.nextName}.`
-                    : 'You are on the hardest questions. Keep it up!'}
-                </Muted>
-              </View>
-            ) : null}
           </Card>
         </Tilt>
       </Animated.View>
@@ -155,7 +142,7 @@ export default function CategoryScreen() {
       ) : null}
 
       {/* Today, as a timeline */}
-      <SectionTitle title="Today" subtitle="A new drop every morning, afternoon and evening." />
+      <SectionTitle title="Today" subtitle="Two new drops every day: at 4 AM and 4 PM." />
       {slots.map((slot, i) => {
         const name = SLOT_NAMES[slot.drop - 1] ?? `Drop ${slot.drop}`;
         const time = localClockLabel(slot.time, zonedNow.offsetMinutes);

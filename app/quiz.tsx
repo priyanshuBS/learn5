@@ -22,11 +22,10 @@ import { Screen } from '@/components/Screen';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import { useDropFile } from '@/features/content/store';
-import { dropKey, findEntry, isOpen } from '@/features/drops/status';
+import { findEntry, isOpen } from '@/features/drops/status';
 import { scoreDrop } from '@/features/points/points';
 import { useProgress, useSession, type DropResult } from '@/features/progress/store';
 import { correctAnswerText, isFillBlankCorrect } from '@/features/quiz/check';
-import { resultTier, tierName, tierPath } from '@/features/tiers/tiers';
 import { reportWrongAnswer } from '@/features/quiz/report';
 import type { ItemAnswer } from '@/features/quiz/types';
 import { useAppData } from '@/hooks/useAppData';
@@ -41,14 +40,11 @@ import { colors } from '@/theme';
 export default function QuizScreen() {
   const params = useLocalSearchParams<{ category?: string; date?: string; drop?: string }>();
   const ref = parseDropParams(params);
-  const { ready, index, zonedNow, isDone, results, tiers } = useAppData();
+  const { ready, index, zonedNow, isDone } = useAppData();
 
   const entry = index && ref ? findEntry(index, ref) : null;
   const open = !!(index && entry && isOpen(index, entry, zonedNow));
-  // First play: the player's current tier for this category. Replay: the tier played before.
-  const saved = entry ? results[dropKey(entry)] : undefined;
-  const tier = saved ? resultTier(saved) : (entry && tiers[entry.category]?.tier) || 1;
-  const load = useDropFile(ready && entry && open ? tierPath(entry.path, tier) : null);
+  const load = useDropFile(ready && entry && open ? entry.path : null);
 
   if (!ready || !index) {
     return (
@@ -118,12 +114,7 @@ export default function QuizScreen() {
 
   // `key` makes a fresh player (with fresh answers) for every different drop.
   return (
-    <QuizPlayer
-      key={`${entry.path}#${load.drop.tier}`}
-      drop={load.drop}
-      category={category}
-      practice={isDone(entry)}
-    />
+    <QuizPlayer key={entry.path} drop={load.drop} category={category} practice={isDone(entry)} />
   );
 }
 
@@ -184,7 +175,6 @@ function QuizPlayer({
       category: drop.category,
       date: drop.date,
       drop: drop.drop,
-      tier: drop.tier,
       title: drop.title,
       items: itemResults,
       correctCount: score.correctCount,
@@ -260,7 +250,6 @@ function QuizPlayer({
       {/* Labels */}
       <View className="mt-8 flex-row flex-wrap items-center gap-2">
         <Tag label={category.name} color={category.color} />
-        <Tag label={tierName(drop.tier)} />
         <DifficultyBadge difficulty={item.difficulty} />
         <Muted numberOfLines={1}>{item.topic}</Muted>
       </View>

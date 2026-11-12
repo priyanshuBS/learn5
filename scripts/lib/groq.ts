@@ -1,14 +1,22 @@
 /// <reference types="node" />
 /**
  * groq.ts — a tiny client for the Groq chat API (OpenAI-compatible).
- * Waits and retries on rate limits / server hiccups. Always asks for JSON back.
+ * Waits and retries on short rate limits / server hiccups. Always asks for JSON back.
+ *
+ * Two API keys:
+ *   GROQ_API_KEY    "groq-1", used first
+ *   GROQ_API_KEY_2  "groq-2", the fallback
+ * When a key's limit is used up (or the key is refused), we email an alert
+ * (scripts/lib/alerts.ts, once per key per day) and carry on with the next key.
+ * Only when every key is used up does the run stop (the next cron run continues).
  */
+import { notifyKeyLimit } from './alerts';
 
 const ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
 export const GROQ_MODEL = process.env.GROQ_MODEL?.trim() || 'openai/gpt-oss-120b';
 
 const MAX_TRIES = 5;
-/** Longer waits than this mean the daily limit is used up: stop, the next run continues. */
+/** Longer waits than this mean the key's limit is used up: switch keys (or stop). */
 const MAX_WAIT_SEC = 120;
 const TIMEOUT_MS = 120_000;
 
@@ -17,15 +25,48 @@ export interface ChatMessage {
   content: string;
 }
 
-/** The Groq limit for today is used up — no point trying more drops in this run. */
+/** Every Groq key's limit is used up — no point trying more items in this run. */
 export class RateLimitExhaustedError extends Error {}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function apiKey(): string {
-  const key = process.env.GROQ_API_KEY?.trim();
-  if (!key) throw new Error('GROQ_API_KEY is not set (add it to .env.local or the cron secrets).');
+interface GroqKey {
+  label: string;
+  value: string;
+}
+
+/** The keys in order of use, e.g. [groq-1, groq-2]. */
+export function groqKeys(env: Record<string, string | undefined> = process.env): GroqKey[] {
+  return [env.GROQ_API_KEY, env.GROQ_API_KEY_2]
+    .map((v, i) => ({ label: `groq-${i + 1}`, value: v?.trim() ?? '' }))
+    .filter((k) => k.value.length > 0);
+}
+
+let keys: GroqKey[] | null = null;
+/** Which key this run is using now (moves forward when one runs out). */
+let current = 0;
+
+function activeKey(): GroqKey {
+  keys ??= groqKeys();
+  if (keys.length === 0) {
+    throw new Error(
+      'GROQ_API_KEY is not set (add it to .env.local or the cron secrets; GROQ_API_KEY_2 is the fallback).',
+    );
+  }
+  const key = keys[current];
+  if (!key) throw new RateLimitExhaustedError('Every Groq API key has reached its limit');
   return key;
+}
+
+/** The current key ran out: alert, then move to the next one. Throws when none are left. */
+async function switchKey(reason: string): Promise<void> {
+  const used = activeKey();
+  const next = keys?.[current + 1];
+  console.log(`    … ${used.label} ${reason}${next ? `; switching to ${next.label}` : ''}`);
+  await notifyKeyLimit(used.label, reason, next?.label ?? null);
+  current++;
+  if (!next)
+    throw new RateLimitExhaustedError(`Every Groq API key has reached its limit (${reason})`);
 }
 
 /** Sends a chat and returns the model's reply (a JSON string). */
@@ -34,6 +75,7 @@ export async function chatJson(
   opts: { temperature?: number; maxTokens?: number } = {},
 ): Promise<string> {
   for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
+    const key = activeKey();
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
     let response: Response;
@@ -41,7 +83,7 @@ export async function chatJson(
       response = await fetch(ENDPOINT, {
         method: 'POST',
         signal: controller.signal,
-        headers: { Authorization: `Bearer ${apiKey()}`, 'Content-Type': 'application/json' },
+        headers: { Authorization: `Bearer ${key.value}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: GROQ_MODEL,
           messages,
@@ -59,13 +101,22 @@ export async function chatJson(
       clearTimeout(timer);
     }
 
+    // The key is wrong or blocked: treat it like a used-up key.
+    if (response.status === 401 || response.status === 403) {
+      await switchKey(`was refused (error ${response.status})`);
+      attempt--; // the new key gets a full set of tries
+      continue;
+    }
+
     if (response.status === 429 || response.status >= 500) {
       const retryAfter = Number(response.headers.get('retry-after')) || 2 ** attempt;
       if (response.status === 429 && retryAfter > MAX_WAIT_SEC) {
-        throw new RateLimitExhaustedError(`Groq rate limit: retry after ${retryAfter}s`);
+        await switchKey(`limit has been reached (retry after ${retryAfter}s)`);
+        attempt--;
+        continue;
       }
       if (attempt === MAX_TRIES) throw new Error(`Groq error ${response.status} after retries`);
-      console.log(`    … Groq ${response.status}, waiting ${retryAfter}s`);
+      console.log(`    … Groq ${response.status} on ${key.label}, waiting ${retryAfter}s`);
       await sleep(retryAfter * 1000);
       continue;
     }

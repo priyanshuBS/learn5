@@ -62,3 +62,32 @@ export async function sendOtpEmail(to: string, code: string): Promise<void> {
     throw new EmailSendError(`Resend error ${response.status}: ${detail.slice(0, 300)}`);
   }
 }
+
+/**
+ * A plain-text alert for the app's owner (e.g. "groq-1 API key limit has been reached").
+ * Needs RESEND_API_KEY; throws EmailNotConfiguredError without it.
+ */
+export async function sendAlertEmail(to: string, subject: string, text: string): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.EMAIL_FROM?.trim() || 'Learn5 <onboarding@resend.dev>';
+  if (!apiKey) throw new EmailNotConfiguredError('RESEND_API_KEY is not set');
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), SEND_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject, text }),
+    });
+  } catch (err) {
+    throw new EmailSendError(`Could not reach Resend: ${(err as Error).message}`);
+  } finally {
+    clearTimeout(timer);
+  }
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    throw new EmailSendError(`Resend error ${response.status}: ${detail.slice(0, 300)}`);
+  }
+}

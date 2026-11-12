@@ -40,8 +40,6 @@ export interface ItemResult {
 }
 
 export interface DropResult extends DropRef {
-  /** Question tier played, 1–3 (missing on older results = 1). */
-  tier?: number;
   title: string;
   items: ItemResult[];
   correctCount: number;

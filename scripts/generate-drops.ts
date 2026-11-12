@@ -3,17 +3,16 @@
  * generate-drops.ts — run with:  npm run generate-drops
  *
  * Writes missing drops with the Groq AI and saves them in the database.
- * Run by the cron job (.github/workflows/generate-drops.yml) twice a day.
+ * Run by the cron job (.github/workflows/generate-drops.yml) at 04:00 and 16:00 IST.
  *
  * By default it fills TODAY and TOMORROW (content time zone, Asia/Kolkata):
  * drops that already exist are skipped, so running it again is always safe,
  * and a failed run is simply finished by the next one.
  *
- * Every drop is written at 3 question tiers (Basic -> Intermediate -> Advanced), so
- * players get harder questions as they improve (src/features/tiers/tiers.ts).
- * All tier-1 drops are written first, then tier 2, then tier 3: if the AI limit runs
- * out, everyone still has questions (the API serves a lower tier until the next run).
- * Tiers 2 and 3 reuse the tier-1 drop's title and topics with harder questions.
+ * Each category gets 2 drops a day (they open at 04:00 and 16:00). Everyone gets the
+ * same drop: 5 questions that climb from easy to hard, each from a DIFFERENT area of
+ * the subject. The areas rotate day by day (scripts/lib/prompt.ts), so over time a
+ * category covers its whole domain.
  *
  * For each drop:
  *   1. ask the AI for 5 items (rules: scripts/lib/prompt.ts + CONTENT_GUIDE.md)
@@ -25,26 +24,25 @@
  * Options:
  *   --date=2026-11-10     only this date
  *   --category=english    only this category
- *   --tier=2              only this tier
  *   --dry-run             print instead of saving
  *
- * Needs: DATABASE_URL and GROQ_API_KEY (optional GROQ_MODEL).
+ * Needs: DATABASE_URL and GROQ_API_KEY (GROQ_API_KEY_2 = fallback; optional GROQ_MODEL).
  */
 import { addDays, daysBetween } from '../src/lib/dates';
 import {
   DropSchema,
+  DROPS_PER_DAY,
   isRealDate,
   makeItemId,
-  TIERS,
   type Category,
   type Drop,
 } from '../src/lib/schema';
 import { getZonedNow } from '../src/lib/time';
 import { getSql } from '../src/server/db';
-import { categories, getBaseDrop, saveDrop, schedule } from '../src/server/drops';
+import { categories, saveDrop, schedule } from '../src/server/drops';
 import { formatZodError } from './lib/content-files';
 import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
-import { SYSTEM_PROMPT, userPrompt, VERIFY_SYSTEM_PROMPT } from './lib/prompt';
+import { SYSTEM_PROMPT, topicAreas, userPrompt, VERIFY_SYSTEM_PROMPT } from './lib/prompt';
 
 const MAX_ATTEMPTS = 3;
 const TOPIC_WINDOW_DAYS = 30;
@@ -61,7 +59,6 @@ const args = new Map(
 const DRY_RUN = args.get('dry-run') === 'true';
 const ONLY_CATEGORY = args.get('category');
 const ONLY_DATE = args.get('date');
-const ONLY_TIER = args.get('tier') ? Number(args.get('tier')) : null;
 
 /** Lower-case letters/numbers only, so tiny wording changes still count as the same. */
 const normalize = (text: string) =>
@@ -72,15 +69,11 @@ const normalize = (text: string) =>
 
 type RawItem = Record<string, unknown>;
 
-/**
- * What already exists near this date (to avoid repeats). The same slot's other
- * tiers share its topics on purpose, so their topics are not "used" -- but their
- * questions are, so every tier asks something new.
- */
-async function loadHistory(category: string, date: string, drop: number) {
+/** What already exists near this date (to avoid repeats). */
+async function loadHistory(category: string, date: string) {
   const sql = getSql();
   const rows = await sql`
-    SELECT category, drop_date::text AS date, drop_no, items FROM drops
+    SELECT category, drop_date::text AS date, items FROM drops
     WHERE drop_date BETWEEN ${addDays(date, -QUESTION_WINDOW_DAYS)}::date
                         AND ${addDays(date, QUESTION_WINDOW_DAYS)}::date`;
   const topics = new Set<string>();
@@ -90,12 +83,7 @@ async function loadHistory(category: string, date: string, drop: number) {
     for (const item of row.items as RawItem[]) {
       const text = String(item.type === 'fact_card' ? item.fact : item.question);
       questions.add(normalize(text));
-      const sameSlot = row.category === category && row.date === date && row.drop_no === drop;
-      if (
-        !sameSlot &&
-        row.category === category &&
-        Math.abs(daysBetween(row.date, date)) <= TOPIC_WINDOW_DAYS
-      ) {
+      if (row.category === category && Math.abs(daysBetween(row.date, date)) <= TOPIC_WINDOW_DAYS) {
         const t = normalize(String(item.topic));
         if (!topics.has(t)) topicNames.push(String(item.topic));
         topics.add(t);
@@ -106,14 +94,7 @@ async function loadHistory(category: string, date: string, drop: number) {
 }
 
 /** Turns the AI's reply into a Drop we can check: we set ids/date/category ourselves. */
-function toDrop(
-  reply: string,
-  category: string,
-  date: string,
-  drop: number,
-  tier: number,
-  baseTitle: string | null,
-): unknown {
+function toDrop(reply: string, category: string, date: string, drop: number): unknown {
   const parsed = JSON.parse(reply) as { title?: unknown; items?: RawItem[] };
   const items = (Array.isArray(parsed.items) ? parsed.items : [])
     .map((it, i) => ({ it, i }))
@@ -125,7 +106,7 @@ function toDrop(
     )
     .map(({ it }, i) => {
       const { id: _ignored, ...rest } = it;
-      const item: RawItem = { ...rest, id: makeItemId(category, date, drop, i + 1, tier) };
+      const item: RawItem = { ...rest, id: makeItemId(category, date, drop, i + 1) };
       if (item.type === 'true_false') item.options = ['True', 'False'];
       if (typeof item.answerIndex === 'string') item.answerIndex = Number(item.answerIndex);
       if (item.funFact === '' || item.funFact === null) delete item.funFact;
@@ -145,8 +126,7 @@ function toDrop(
       return item;
     });
   spreadMcqAnswers(items);
-  // Every tier of a slot shares the tier-1 title (it names the same topics).
-  return { date, category, drop, tier, title: baseTitle ?? parsed.title, items };
+  return { date, category, drop, title: parsed.title, items };
 }
 
 /**
@@ -211,14 +191,9 @@ async function factCheck(drop: Drop): Promise<string[]> {
     .map((c) => `Item ${c.position ?? '?'}: ${c.problem || 'failed the fact-check'}`);
 }
 
-async function generateOne(
-  category: Category,
-  date: string,
-  drop: number,
-  tier: number,
-  base: Drop | null,
-): Promise<Drop> {
-  const history = await loadHistory(category.id, date, drop);
+async function generateOne(category: Category, date: string, drop: number): Promise<Drop> {
+  const history = await loadHistory(category.id, date);
+  const areas = topicAreas(category.id, date, drop);
   let feedback: string[] = [];
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     let reply: string;
@@ -231,8 +206,7 @@ async function generateOne(
             category,
             date,
             drop,
-            tier,
-            baseTopics: base?.items.map((i) => i.topic) ?? [],
+            areas,
             avoidTopics: history.topicNames,
             feedback,
           }),
@@ -248,7 +222,7 @@ async function generateOne(
 
     let candidate: unknown;
     try {
-      candidate = toDrop(reply, category.id, date, drop, tier, base?.title ?? null);
+      candidate = toDrop(reply, category.id, date, drop);
     } catch {
       feedback = ['Your reply was not valid JSON. Reply with the JSON object only.'];
       console.log(`    attempt ${attempt}: invalid JSON`);
@@ -291,13 +265,9 @@ async function main(): Promise<void> {
 
   const sql = getSql();
   const existingRows = await sql`
-    SELECT category, drop_date::text AS date, drop_no, tier FROM drops
-    WHERE drop_date = ANY(${dates}::date[])`;
-  const existing = new Set(
-    existingRows.map((r) => `${r.category}/${r.date}/${r.drop_no}/t${r.tier}`),
-  );
-  const tiers = TIERS.filter((t) => ONLY_TIER === null || t === ONLY_TIER);
-  if (tiers.length === 0) throw new Error(`--tier must be one of ${TIERS.join(', ')}`);
+    SELECT category, drop_date::text AS date, drop_no FROM drops
+    WHERE drop_date = ANY(${dates}::date[]) AND tier = 1`;
+  const existing = new Set(existingRows.map((r) => `${r.category}/${r.date}/${r.drop_no}`));
 
   console.log(
     `Learn5 generator · model ${GROQ_MODEL} · dates ${dates.join(', ')}${DRY_RUN ? ' · DRY RUN' : ''}`,
@@ -307,45 +277,38 @@ async function main(): Promise<void> {
   const failed: string[] = [];
 
   outer: for (const date of dates) {
-    for (const tier of tiers) {
-      for (const category of targets) {
-        for (let drop = 1; drop <= 3; drop++) {
-          const key = `${category.id}/${date}/${drop}/t${tier}`;
-          if (existing.has(key)) {
-            skipped++;
-            continue;
+    for (const category of targets) {
+      for (let drop = 1; drop <= DROPS_PER_DAY; drop++) {
+        const key = `${category.id}/${date}/${drop}`;
+        if (existing.has(key)) {
+          skipped++;
+          continue;
+        }
+        console.log(`• ${key}`);
+        try {
+          const result = await generateOne(category, date, drop);
+          if (DRY_RUN) {
+            console.log(JSON.stringify(result, null, 2));
+          } else {
+            await saveDrop(result, `groq:${GROQ_MODEL}`);
           }
-          // Higher tiers build on the tier-1 drop (same title and topics).
-          const base = tier > 1 ? await getBaseDrop(category.id, date, drop) : null;
-          if (tier > 1 && !base) {
-            console.log(`• ${key}: waiting for tier 1 first`);
-            continue;
+          console.log(`  ✔ "${result.title}"`);
+          made++;
+        } catch (err) {
+          if (err instanceof RateLimitExhaustedError) {
+            console.error(`  ✖ ${err.message}. Stopping; the next run will continue.`);
+            failed.push(`${key} (rate limit)`);
+            break outer;
           }
-          console.log(`• ${key}`);
-          try {
-            const result = await generateOne(category, date, drop, tier, base);
-            if (DRY_RUN) {
-              console.log(JSON.stringify(result, null, 2));
-            } else {
-              await saveDrop(result, `groq:${GROQ_MODEL}`);
-            }
-            console.log(`  ✔ "${result.title}"`);
-            made++;
-          } catch (err) {
-            if (err instanceof RateLimitExhaustedError) {
-              console.error(`  ✖ ${err.message}. Stopping; the next run will continue.`);
-              failed.push(`${key} (rate limit)`);
-              break outer;
-            }
-            console.error(`  ✖ ${(err as Error).message}`);
-            failed.push(key);
-          }
+          console.error(`  ✖ ${(err as Error).message}`);
+          failed.push(key);
         }
       }
     }
   }
 
-  console.log(`\nDone: ${made} new, ${skipped} already there, ${failed.length} failed.`);
+  console.log(`
+Done: ${made} new, ${skipped} already there, ${failed.length} failed.`);
   if (failed.length > 0) {
     console.error(`Failed: ${failed.join(', ')}`);
     process.exit(1); // the cron job shows a red ✖ so you notice

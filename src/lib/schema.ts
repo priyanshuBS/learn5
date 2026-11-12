@@ -17,23 +17,18 @@ import { z } from 'zod';
 
 /** Every drop has exactly this many items. */
 export const ITEMS_PER_DROP = 5;
-/** Each category gets this many drops per day (morning, afternoon, evening). */
-export const DROPS_PER_DAY = 3;
+/** Each category gets this many drops per day (times in schedule.config.json: 04:00 and 16:00). */
+export const DROPS_PER_DAY = 2;
+/** Older days had up to 3 drops; their files and results stay valid. */
+export const MAX_DROP_NO = 3;
 /**
- * Question tiers: every drop is written at 3 tiers, from Basic to Advanced.
- * Each player has their own tier per category and moves up as they answer well
- * (src/features/tiers/tiers.ts). Tier 1 is the original content.
+ * Difficulty of the 5 items, in order: a ladder where every question is harder
+ * than the one before (1 easy → 2 medium → 2 hard). Everyone gets the same drop.
  */
-export const TIERS = [1, 2, 3] as const;
-export const MAX_TIER = 3;
-/** Required difficulty mix inside one drop, per tier (harder tiers have more hard items). */
-export const TIER_DIFFICULTY_MIX = {
-  1: { easy: 2, medium: 2, hard: 1 },
-  2: { easy: 1, medium: 2, hard: 2 },
-  3: { easy: 0, medium: 2, hard: 3 },
-} as const satisfies Record<number, Record<'easy' | 'medium' | 'hard', number>>;
-/** Difficulty mix of tier 1 (kept under its older name). */
-export const DIFFICULTY_MIX = TIER_DIFFICULTY_MIX[1];
+export const DIFFICULTY_LADDER = ['easy', 'medium', 'medium', 'hard', 'hard'] as const;
+export const DIFFICULTY_MIX = { easy: 1, medium: 2, hard: 2 } as const;
+/** The mix drops had before the ladder (still accepted for older drops). */
+export const LEGACY_DIFFICULTY_MIX = { easy: 2, medium: 2, hard: 1 } as const;
 /** Required item-type mix inside one drop. */
 export const TYPE_MIX = { mcq: 3, true_false: 1, fillOrFact: 1 } as const;
 /** Fill-in-the-blank questions must show the gap with this marker. */
@@ -76,8 +71,8 @@ const nonEmpty = (label: string) => z.string().trim().min(1, `${label} must not 
 
 /** Fields every item has, whatever its type. */
 const baseItemFields = {
-  id: z.string().regex(/^[a-z][a-z0-9-]*-\d{4}-\d{2}-\d{2}-d[1-3](-t[2-3])?-0[1-5]$/, {
-    message: 'id must look like "english-2026-11-08-d1-01" (or "…-d1-t2-01" for tier 2)',
+  id: z.string().regex(/^[a-z][a-z0-9-]*-\d{4}-\d{2}-\d{2}-d[1-3]-0[1-5]$/, {
+    message: 'id must look like "english-2026-11-08-d1-01"',
   }),
   difficulty: DifficultySchema,
   topic: nonEmpty('topic').max(60, 'topic should be short (max 60 characters)'),
@@ -149,28 +144,16 @@ export const ItemSchema = z.discriminatedUnion('type', [
 // A drop (one file = 5 items)
 // ─────────────────────────────────────────────────────────────
 
-/**
- * Builds the expected id of an item, e.g. "english-2026-11-08-d1-01".
- * Higher tiers add the tier: "english-2026-11-08-d1-t2-01".
- */
-export function makeItemId(
-  category: string,
-  date: string,
-  drop: number,
-  position: number,
-  tier = 1,
-) {
-  const t = tier > 1 ? `-t${tier}` : '';
-  return `${category}-${date}-d${drop}${t}-${String(position).padStart(2, '0')}`;
+/** Builds the expected id of an item, e.g. "english-2026-11-08-d1-01". */
+export function makeItemId(category: string, date: string, drop: number, position: number) {
+  return `${category}-${date}-d${drop}-${String(position).padStart(2, '0')}`;
 }
 
 export const DropSchema = z
   .strictObject({
     date: DateStringSchema,
     category: SlugSchema,
-    drop: z.number().int().min(1).max(DROPS_PER_DAY),
-    /** Question tier, 1 (Basic) to 3 (Advanced). Missing = 1. */
-    tier: z.number().int().min(1).max(MAX_TIER).default(1),
+    drop: z.number().int().min(1).max(MAX_DROP_NO),
     title: nonEmpty('title').max(60, 'title should be short and catchy (max 60 characters)'),
     items: z
       .array(ItemSchema)
@@ -179,7 +162,7 @@ export const DropSchema = z
   .superRefine((drop, ctx) => {
     // 1. Item ids must match the drop and be in order 01..05.
     drop.items.forEach((item, i) => {
-      const expected = makeItemId(drop.category, drop.date, drop.drop, i + 1, drop.tier);
+      const expected = makeItemId(drop.category, drop.date, drop.drop, i + 1);
       if (item.id !== expected) {
         ctx.addIssue({
           code: 'custom',
@@ -202,17 +185,16 @@ export const DropSchema = z
       });
     }
 
-    // 3. Difficulty mix for this tier (tier 1: 2 easy, 2 medium, 1 hard).
-    const mix = TIER_DIFFICULTY_MIX[drop.tier as keyof typeof TIER_DIFFICULTY_MIX];
-    for (const level of DifficultySchema.options) {
-      const found = drop.items.filter((it) => it.difficulty === level).length;
-      if (found !== mix[level]) {
-        ctx.addIssue({
-          code: 'custom',
-          message: `tier ${drop.tier} needs ${mix[level]} "${level}" items but found ${found} (mix must be ${mix.easy} easy, ${mix.medium} medium, ${mix.hard} hard)`,
-          path: ['items'],
-        });
-      }
+    // 3. Difficulty mix: 1 easy, 2 medium, 2 hard (older drops: 2 easy, 2 medium, 1 hard).
+    const found = (level: string) => drop.items.filter((it) => it.difficulty === level).length;
+    const matches = (mix: Record<string, number>) =>
+      DifficultySchema.options.every((level) => found(level) === mix[level]);
+    if (!matches(DIFFICULTY_MIX) && !matches(LEGACY_DIFFICULTY_MIX)) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `difficulty mix must be 1 easy, 2 medium, 2 hard (found ${found('easy')} easy, ${found('medium')} medium, ${found('hard')} hard)`,
+        path: ['items'],
+      });
     }
 
     // 4. No two items in the same drop may share a topic.
@@ -261,7 +243,7 @@ export const ScheduleConfigSchema = z.object({
 export const IndexEntrySchema = z.strictObject({
   category: SlugSchema,
   date: DateStringSchema,
-  drop: z.number().int().min(1).max(DROPS_PER_DAY),
+  drop: z.number().int().min(1).max(MAX_DROP_NO),
   title: nonEmpty('title'),
   /** Path relative to the content folder, e.g. "physics/2026-11-08/drop-1.json". */
   path: z.string(),

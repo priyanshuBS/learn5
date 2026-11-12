@@ -23,7 +23,6 @@ import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import { useDropFiles } from '@/features/content/store';
 import { findEntry, type DropRef } from '@/features/drops/status';
-import { tierPath } from '@/features/tiers/tiers';
 import { useProgress } from '@/features/progress/store';
 import { correctAnswerText, isFillBlankCorrect } from '@/features/quiz/check';
 import { reportWrongAnswer } from '@/features/quiz/report';
@@ -56,10 +55,8 @@ export default function ReviewScreen() {
     ? categoryParam
     : undefined;
   const mistakes = getMistakes(results, fixedMistakes, filterCategory);
-  const pathFor = (ref: { drop: DropRef; tier: number }) => {
-    const entry = index ? findEntry(index, ref.drop) : null;
-    return entry ? tierPath(entry.path, ref.tier) : undefined;
-  };
+  const pathFor = (ref: { drop: DropRef }) =>
+    index ? findEntry(index, ref.drop)?.path : undefined;
   const paths = index ? mistakes.map((m) => pathFor(m)).filter((p): p is string => !!p) : [];
   const loaded = useDropFiles(ready && !round ? paths : []);
 

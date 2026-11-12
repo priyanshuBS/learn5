@@ -11,7 +11,6 @@ import { useProgress, useProgressHydrated } from '@/features/progress/store';
 import { useSyncStatus } from '@/features/progress/sync';
 import { getMistakes } from '@/features/review/mistakes';
 import { computeStats } from '@/features/stats';
-import { computeTiers } from '@/features/tiers/tiers';
 import { todayLocal } from '@/lib/dates';
 import { getZonedNow } from '@/lib/time';
 
@@ -45,13 +44,6 @@ export function useAppData() {
 
   const mistakes = useMemo(() => getMistakes(results, fixedMistakes), [results, fixedMistakes]);
 
-  // Each category's question tier (Basic / Intermediate / Advanced).
-  const categoryIds = index?.categories.map((c) => c.id).join(',') ?? '';
-  const tiers = useMemo(
-    () => computeTiers(results, categoryIds ? categoryIds.split(',') : []),
-    [results, categoryIds],
-  );
-
   const isDone = (ref: DropRef) => Boolean(results[dropKey(ref)]);
 
   return {
@@ -65,7 +57,6 @@ export function useAppData() {
     now,
     today,
     stats,
-    tiers,
     isDone,
   };
 }

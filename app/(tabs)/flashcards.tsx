@@ -14,7 +14,6 @@ import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted } from '@/components/Txt';
 import { useDropFiles } from '@/features/content/store';
 import { findEntry, type DropRef } from '@/features/drops/status';
-import { tierPath } from '@/features/tiers/tiers';
 import { getCollectedFactCards } from '@/features/review/mistakes';
 import { useAppData } from '@/hooks/useAppData';
 import { goHome } from '@/lib/routes';
@@ -34,10 +33,8 @@ export default function FlashcardsScreen() {
   const [order, setOrder] = useState<string[] | null>(null);
 
   const refs = getCollectedFactCards(results);
-  const pathFor = (ref: { drop: DropRef; tier: number }) => {
-    const entry = index ? findEntry(index, ref.drop) : null;
-    return entry ? tierPath(entry.path, ref.tier) : undefined;
-  };
+  const pathFor = (ref: { drop: DropRef }) =>
+    index ? findEntry(index, ref.drop)?.path : undefined;
   const paths = index ? refs.map((r) => pathFor(r)).filter((p): p is string => !!p) : [];
   const loaded = useDropFiles(ready ? paths : []);
 
