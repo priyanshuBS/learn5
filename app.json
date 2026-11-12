@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#FF6A1A",
+        "backgroundColor": "#0E0F14",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -31,7 +31,7 @@
       "favicon": "./assets/images/favicon.png",
       "name": "Learn5",
       "shortName": "Learn5",
-      "description": "Sharpen your mind in 5 minutes a day.",
+      "description": "Daily learning, five minutes at a time.",
       "themeColor": "#0A0A0E",
       "backgroundColor": "#0A0A0E"
     },
@@ -62,7 +62,7 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
-    "description": "Sharpen your mind in 5 minutes a day: daily 5-question drops and short reads in English, Reasoning, Puzzles and Computer Science.",
+    "description": "Daily learning, five minutes at a time: 5-question drops and short reads in English, Reasoning, Puzzles and Computer Science.",
     "extra": {
       "router": {
         "apiRoutes": true,

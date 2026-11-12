@@ -57,11 +57,7 @@ export function MessageView({
       >
         <Icon name={icon} size={24} color={toneColor} />
       </View>
-      <Txt
-        weight="display"
-        accessibilityRole="header"
-        className="mt-5 text-center text-xl tracking-tight"
-      >
+      <Txt weight="display" accessibilityRole="header" className="mt-5 text-center text-xl">
         {title}
       </Txt>
       <Muted className="mt-2 max-w-sm text-center text-[15px] leading-6">{message}</Muted>

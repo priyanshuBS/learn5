@@ -1,14 +1,15 @@
 /**
  * Home — the daily dashboard. All subjects are equal, so none is pushed first.
  *   1. date, greeting and a one-line summary of today
- *   2. an overview card: today's progress, plus streak, points and level as 3D icons
+ *   2. a bold orange overview card: today's progress, streak, points and level
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. today's reads: the daily articles
  *   5. this week: streak days and level progress
  * No motion on load: the screen is calm until you interact with it.
  */
 import { router } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 import { ArticleCard } from '@/components/ArticleCard';
@@ -22,7 +23,7 @@ import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { SkeletonBlock } from '@/components/StateViews';
 import { ThemeIconButton } from '@/components/ThemeToggle';
-import { Muted, Txt } from '@/components/Txt';
+import { Muted, Txt, type TxtProps } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
 import { useArticleReads, useArticles } from '@/features/articles/store';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
@@ -93,56 +94,50 @@ export default function HomeScreen() {
       </Txt>
       <Muted className="mt-1.5 text-[15px] leading-6">{summary}</Muted>
 
-      {/* Overview: today's progress and the three numbers that matter */}
-      <View className={twMerge(CARD_CLASSES, 'mt-6 overflow-hidden md:flex-row')}>
-        <View className="flex-row items-center gap-4 p-5 md:w-[38%] md:border-r md:border-line md:dark:border-ink-line">
+      {/* Overview: a bold orange card with today's progress and the three numbers that matter */}
+      <View
+        className="mt-6 overflow-hidden rounded-3xl web:shadow-[0_20px_50px_-24px_rgba(255,90,31,0.7)] md:flex-row"
+        style={{ backgroundColor: '#FF6A1A' }}
+      >
+        <LinearGradient
+          colors={['#FFA24D', '#FF6A1A', '#F04E0F']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <View className="flex-row items-center gap-4 p-5 md:w-[38%] md:border-r md:border-black/10">
           <ProgressRing
             value={totalToday ? doneToday / totalToday : 0}
             size={68}
             strokeWidth={7}
+            color={ON_ORANGE}
+            trackColor="rgba(26,8,0,0.15)"
             label={`${doneToday} of ${totalToday} drops done today`}
           >
-            <Txt weight="display" className="text-[17px] leading-6">
+            <OnOrange weight="display" className="text-[17px] leading-6">
               {totalToday ? Math.round((doneToday / totalToday) * 100) : 0}%
-            </Txt>
+            </OnOrange>
           </ProgressRing>
           <View className="flex-1">
-            <Muted className="text-[13px]">Today</Muted>
-            <Txt weight="display" className="mt-0.5 text-[22px] leading-7">
+            <OnOrange weight="semibold" className="text-[13px] opacity-70">
+              Today
+            </OnOrange>
+            <OnOrange weight="display" className="mt-0.5 text-[24px] leading-8">
               {doneToday}
-              <Txt weight="display" className="text-[16px] text-zinc-400 dark:text-zinc-500">
+              <OnOrange weight="display" className="text-[16px] opacity-60">
                 {' '}
                 / {totalToday} drops
-              </Txt>
-            </Txt>
-            <Muted className="mt-0.5 text-[12px]">
+              </OnOrange>
+            </OnOrange>
+            <OnOrange weight="medium" className="mt-0.5 text-[12px] opacity-70">
               {openNow > 0 ? `${openNow} open now` : `Next at ${nextTime}`}
-            </Muted>
+            </OnOrange>
           </View>
         </View>
-        <View className="flex-row border-t border-line dark:border-ink-line md:flex-1 md:border-t-0">
-          <Stat
-            icon="flame"
-            color={ICON3D.flame}
-            filled
-            label="Day streak"
-            value={`${streak.current}`}
-          />
-          <Stat
-            icon="star"
-            color={ICON3D.star}
-            filled
-            label="Points"
-            value={points.toLocaleString('en-IN')}
-            divider
-          />
-          <Stat
-            icon="trophy"
-            color={ICON3D.trophy}
-            label={level.name}
-            value={`Lv ${level.level}`}
-            divider
-          />
+        <View className="flex-row border-t border-black/10 md:flex-1 md:border-t-0">
+          <Stat icon="flame" label="Day streak" value={`${streak.current}`} />
+          <Stat icon="star" label="Points" value={points.toLocaleString('en-IN')} divider />
+          <Stat icon="trophy" label={level.name} value={`Lv ${level.level}`} divider />
         </View>
       </View>
 
@@ -155,7 +150,7 @@ export default function HomeScreen() {
         </View>
       ) : null}
 
-      {/* ── All subjects (the main content) ── */}
+      {/* ── All subjects (the main content): bold colour cards ── */}
       <SectionTitle
         title="Subjects"
         right={
@@ -182,7 +177,7 @@ export default function HomeScreen() {
       {reads.length > 0 ? (
         <>
           <SectionTitle
-            title="Today's reads"
+            title={latestDate === zonedNow.date ? "Today's reads" : 'Latest reads'}
             right={
               <Pressable
                 accessibilityRole="link"
@@ -253,18 +248,20 @@ export default function HomeScreen() {
   );
 }
 
-/** One number in the overview card, with its 3D icon. */
+/** Text on the bright orange card: near-black, for strong contrast in both themes. */
+const ON_ORANGE = '#1A0800';
+function OnOrange({ className, ...rest }: TxtProps) {
+  return <Txt className={twMerge('text-[#1A0800] dark:text-[#1A0800]', className)} {...rest} />;
+}
+
+/** One number in the overview card. */
 function Stat({
   icon,
-  color,
-  filled,
   label,
   value,
   divider,
 }: {
   icon: IconName;
-  color: string;
-  filled?: boolean;
   label: string;
   value: string;
   divider?: boolean;
@@ -275,17 +272,19 @@ function Stat({
       accessibilityLabel={`${label}: ${value}`}
       className={twMerge(
         'flex-1 items-center px-2 py-4 md:flex-row md:gap-3 md:px-5',
-        divider && 'border-l border-line dark:border-ink-line',
+        divider && 'border-l border-black/10',
       )}
     >
-      <Icon3D icon={icon} color={color} size={36} filled={filled} />
+      <View className="h-10 w-10 items-center justify-center rounded-full bg-black/10">
+        <Icon name={icon} size={18} color={ON_ORANGE} strokeWidth={2.4} />
+      </View>
       <View className="mt-2 items-center md:mt-0 md:items-start">
-        <Txt weight="display" className="text-[18px] leading-6" numberOfLines={1}>
+        <OnOrange weight="display" className="text-[18px] leading-6" numberOfLines={1}>
           {value}
-        </Txt>
-        <Muted className="text-[12px]" numberOfLines={1}>
+        </OnOrange>
+        <OnOrange weight="medium" className="text-[12px] opacity-70" numberOfLines={1}>
           {label}
-        </Muted>
+        </OnOrange>
       </View>
     </View>
   );

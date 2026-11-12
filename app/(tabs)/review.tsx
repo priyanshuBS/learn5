@@ -114,7 +114,7 @@ export default function ReviewScreen() {
         <>
           <Card className="flex-row flex-wrap items-center justify-between gap-4">
             <View className="min-w-48 flex-1">
-              <Txt weight="display" className="text-3xl tracking-tight">
+              <Txt weight="display" className="text-3xl">
                 {available.length}
               </Txt>
               <Muted className="text-[15px]">

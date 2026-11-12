@@ -5,10 +5,10 @@
 import { ScrollViewStyleReset, useServerDocumentContext } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 
-const TITLE = 'Learn5 — Sharpen your mind in 5 minutes a day';
+const TITLE = 'Learn5 — Daily learning, five minutes at a time';
 
 const DESCRIPTION =
-  'Sharpen your mind in 5 minutes a day: two 5-question drops in English, Reasoning, Puzzles and Computer Science, from easy to hard, plus a short article every morning.';
+  'Daily learning, five minutes at a time. Fresh 5-question drops in English, Reasoning, Puzzles and Computer Science, from easy to hard, plus a short article every morning.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
 // --css-interop-darkMode: tells NativeWind "dark mode = the dark class" before its
@@ -62,8 +62,8 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;
             change both when the icon changes. Source: assets/images/favicon.png. */}
-        <link rel="icon" type="image/png" href="/learn5-icon.png?v=7" />
-        <link rel="apple-touch-icon" href="/learn5-icon.png?v=7" />
+        <link rel="icon" type="image/png" href="/learn5-icon.png?v=8" />
+        <link rel="apple-touch-icon" href="/learn5-icon.png?v=8" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Learn5" />

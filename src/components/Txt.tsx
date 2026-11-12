@@ -1,5 +1,5 @@
 /**
- * Text components. Inter for text; Space Grotesk (weight="display") for headings and big numbers.
+ * Text components, all in Plus Jakarta Sans; weight="display" (ExtraBold) for headings and big numbers.
  *   Txt     — body text; weight picks the Inter weight
  *   Muted   — soft grey helper text
  *   Eyebrow — small grey label above a section or value
@@ -12,9 +12,9 @@ const WEIGHTS = {
   regular: 'font-body',
   medium: 'font-body-medium',
   semibold: 'font-body-semibold',
-  bold: 'font-body-bold tracking-tight',
-  heavy: 'font-body-heavy tracking-tight',
-  display: 'font-display tracking-tight',
+  bold: 'font-body-bold',
+  heavy: 'font-body-heavy',
+  display: 'font-display',
 } as const;
 
 export type TxtWeight = keyof typeof WEIGHTS;

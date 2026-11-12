@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the fonts (Inter for text, Space Grotesk for headings)
+ *   - loads Tailwind styles and the font (Plus Jakarta Sans, five weights)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -9,12 +9,12 @@
 import '../global.css';
 
 import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-} from '@expo-google-fonts/inter';
-import { SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -38,11 +38,11 @@ void SplashScreen.preventAutoHideAsync().catch(() => {});
 export default function RootLayout() {
   const scheme = useColorScheme();
   const [fontsLoaded, fontError] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    SpaceGrotesk_700Bold,
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_800ExtraBold,
   });
   useContentBootstrap();
   useArticlesBootstrap();

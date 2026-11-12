@@ -124,7 +124,7 @@ export default function ResultsScreen() {
   return (
     <Screen width="narrow">
       <View className="flex-row items-center justify-between">
-        <Txt weight="display" accessibilityRole="header" className="text-2xl tracking-tight">
+        <Txt weight="display" accessibilityRole="header" className="text-2xl">
           Results
         </Txt>
         <IconButton icon="x" label="Close results" onPress={goHome} variant="ghost" />

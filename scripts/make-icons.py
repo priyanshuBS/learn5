@@ -3,9 +3,10 @@ make-icons.py — draws the Learn5 app icons and saves them as PNG files.
 
     python scripts/make-icons.py
 
-The logo is a glossy 3D orange tile with a white "5-minute timer" ring and a "5"
-(the same drawing as src/components/Logo.tsx). Each image is an SVG drawn in a
-small HTML page and saved as a PNG by headless Chrome (transparent background).
+The logo is a "5-minute timer": a dark rounded tile with an orange-to-amber ring
+that is almost closed, an amber dot where the ring ends, and a white "5" in
+Plus Jakarta Sans ExtraBold (the same drawing as src/components/Logo.tsx).
+Each image is an SVG in a small HTML page, saved as a PNG by headless Chrome.
 
 Writes:
   assets/images/icon.png                     1024  app icon (iOS + store), full square
@@ -16,6 +17,7 @@ Writes:
   assets/images/favicon.png                    96  website favicon (app.json)
   public/learn5-icon.png                      256  browser tab + home-screen icon
 """
+import math
 import os
 import pathlib
 import subprocess
@@ -23,7 +25,8 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FONT = (ROOT / 'node_modules/@expo-google-fonts/space-grotesk/700Bold/SpaceGrotesk_700Bold.ttf').as_uri()
+FONT = (ROOT / 'node_modules/@expo-google-fonts/plus-jakarta-sans/800ExtraBold/'
+        'PlusJakartaSans_800ExtraBold.ttf').as_uri()
 CHROME_PATHS = [
     r'C:\Program Files\Google\Chrome\Application\chrome.exe',
     r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
@@ -34,59 +37,58 @@ CHROME_PATHS = [
 
 DEFS = '''
 <defs>
-  <linearGradient id="face" x1="0" y1="0" x2="0.5" y2="1">
-    <stop offset="0" stop-color="#FFA15C"/>
-    <stop offset="0.55" stop-color="#FF6A1A"/>
-    <stop offset="1" stop-color="#E2480C"/>
+  <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1E2029"/>
+    <stop offset="1" stop-color="#0E0F14"/>
   </linearGradient>
-  <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#fff" stop-opacity="0.5"/>
-    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFB547"/>
+    <stop offset="1" stop-color="#FF5A1F"/>
   </linearGradient>
-  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#5A1A00" flood-opacity="0.45"/>
+  <radialGradient id="glow" cx="50%" cy="0%" r="75%">
+    <stop offset="0" stop-color="#FF6A1A" stop-opacity="0.35"/>
+    <stop offset="1" stop-color="#FF6A1A" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#FF6A1A" flood-opacity="0.45"/>
   </filter>
 </defs>'''
 
 
-def mark(cx, cy, scale, color='#fff', dot='#2A0E02', shadow=True):
-    """The timer ring + dot + "5", centred at (cx, cy). scale 1 = 100px logo."""
-    import math
+def mark(cx, cy, scale, ring='url(#ring)', text='#FFFFFF', dot='#FFB547', glow=True):
+    """The timer ring + dot + "5", centred at (cx, cy). scale 1 = a 100px logo."""
     r = 30 * scale
     circ = 2 * math.pi * r
     arc = circ * 300 / 360
     ex = cx + r * math.cos(math.radians(210))
     ey = cy + r * math.sin(math.radians(210))
-    f = ' filter="url(#shadow)"' if shadow else ''
+    f = ' filter="url(#soft)"' if glow else ''
     return f'''<g{f}>
-  <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" stroke-width="{8 * scale}"
+  <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{ring}" stroke-width="{8 * scale}"
     stroke-linecap="round" stroke-dasharray="{arc} {circ}" transform="rotate(-90 {cx} {cy})"/>
-  <circle cx="{ex}" cy="{ey}" r="{8 * scale}" fill="{dot}"/>
-  <text x="{cx}" y="{cy + 12.5 * scale}" text-anchor="middle" font-family="SG" font-weight="700"
-    font-size="{36 * scale}" fill="{color}">5</text>
-</g>'''
+  <circle cx="{ex}" cy="{ey}" r="{7 * scale}" fill="{dot}"/>
+</g>
+<text x="{cx}" y="{cy + 12.6 * scale}" text-anchor="middle" font-family="PJS" font-weight="800"
+  font-size="{36 * scale}" fill="{text}">5</text>'''
 
 
 def tile(size, pad):
-    """The 3D tile (depth + face + rim + gloss) inside a size x size canvas."""
+    """The rounded dark tile with a hairline edge, and the mark."""
     s = size - 2 * pad
-    depth = s * 0.06
-    face = s - depth
-    rx = s * 0.28
+    rx = s * 0.26
     return f'''
-<rect x="{pad}" y="{pad + depth}" width="{s}" height="{face}" rx="{rx}" fill="#8A2A06"/>
-<rect x="{pad}" y="{pad}" width="{s}" height="{face}" rx="{rx}" fill="url(#face)"/>
-<rect x="{pad + s * 0.01}" y="{pad + s * 0.01}" width="{s * 0.98}" height="{face - s * 0.02}" rx="{rx * 0.96}"
-  fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="{s * 0.02}"/>
-<ellipse cx="{size / 2}" cy="{pad + face * 0.2}" rx="{s * 0.36}" ry="{face * 0.15}" fill="url(#gloss)"/>
-{mark(size / 2, pad + face / 2, s / 100)}'''
+<rect x="{pad}" y="{pad}" width="{s}" height="{s}" rx="{rx}" fill="url(#tile)"/>
+<rect x="{pad}" y="{pad}" width="{s}" height="{s}" rx="{rx}" fill="url(#glow)"/>
+<rect x="{pad + s * 0.01}" y="{pad + s * 0.01}" width="{s * 0.98}" height="{s * 0.98}" rx="{rx * 0.97}"
+  fill="none" stroke="#fff" stroke-opacity="0.12" stroke-width="{max(1, s * 0.02)}"/>
+{mark(size / 2, size / 2, s / 100)}'''
 
 
 def full_square(size, with_mark=True):
-    """Edge-to-edge gradient (the OS rounds the corners) with gloss and the mark."""
+    """Edge-to-edge (the phone rounds the corners)."""
     body = f'''
-<rect width="{size}" height="{size}" fill="url(#face)"/>
-<ellipse cx="{size / 2}" cy="{-size * 0.08}" rx="{size * 0.75}" ry="{size * 0.38}" fill="url(#gloss)" opacity="0.55"/>'''
+<rect width="{size}" height="{size}" fill="url(#tile)"/>
+<rect width="{size}" height="{size}" fill="url(#glow)"/>'''
     if with_mark:
         body += mark(size / 2, size / 2, size / 100 * 0.62)
     return body
@@ -95,12 +97,13 @@ def full_square(size, with_mark=True):
 IMAGES = [
     ('assets/images/icon.png', 1024, full_square(1024)),
     ('assets/images/android-icon-background.png', 1024, full_square(1024, with_mark=False)),
-    # Android keeps only the middle ~66% visible, so the mark stays small.
+    # Android keeps only the middle ~66% visible, so the mark stays inside it.
     ('assets/images/android-icon-foreground.png', 1024, mark(512, 512, 4.6)),
-    ('assets/images/android-icon-monochrome.png', 1024, mark(512, 512, 4.6, color='#fff', dot='#fff', shadow=False)),
+    ('assets/images/android-icon-monochrome.png', 1024,
+     mark(512, 512, 4.6, ring='#FFFFFF', text='#FFFFFF', dot='#FFFFFF', glow=False)),
     ('assets/images/splash-icon.png', 1024, tile(1024, 112)),
-    ('assets/images/favicon.png', 96, tile(96, 4)),
-    ('public/learn5-icon.png', 256, tile(256, 10)),
+    ('assets/images/favicon.png', 96, tile(96, 2)),
+    ('public/learn5-icon.png', 256, tile(256, 6)),
 ]
 
 
@@ -119,19 +122,18 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         for out, size, body in IMAGES:
             html = f'''<!doctype html><html><head><style>
-@font-face {{ font-family: SG; src: url("{FONT}"); }}
+@font-face {{ font-family: PJS; src: url("{FONT}"); font-weight: 800; }}
 html, body {{ margin: 0; background: transparent; }}
 </style></head><body>
 <svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 {size} {size}">{DEFS}{body}</svg>
 </body></html>'''
             page = pathlib.Path(tmp) / 'icon.html'
             page.write_text(html, encoding='utf-8')
-            target = ROOT / out
             subprocess.run(
                 [chrome, '--headless=new', '--disable-gpu', '--hide-scrollbars',
                  '--default-background-color=00000000', f'--window-size={size},{size}',
                  '--force-device-scale-factor=1', '--virtual-time-budget=2000',
-                 f'--screenshot={target}', page.as_uri()],
+                 f'--screenshot={ROOT / out}', page.as_uri()],
                 check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
             )
             print(f'ok  {out} ({size}px)')

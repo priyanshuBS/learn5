@@ -1,15 +1,12 @@
 /**
  * Logo — the Learn5 mark and wordmark.
- * The mark is a "5-minute timer": a glossy 3D orange tile (the same style as the
- * app's 3D icons) with a white ring that is almost closed, a dark dot where the
- * ring ends, and a white "5" in the middle.
+ * The mark is a "5-minute timer": a dark rounded tile with an orange-to-amber ring
+ * that is almost closed, a small amber dot where the ring ends, and a white "5".
  * The app icon, splash screen and browser tab icon use the same drawing.
  */
 import { View } from 'react-native';
-import Svg, { Circle, Defs, Ellipse, LinearGradient, Rect, Stop } from 'react-native-svg';
+import Svg, { Circle, Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
-
-import { colors } from '@/theme';
 
 import { Txt } from './Txt';
 
@@ -22,51 +19,47 @@ const END_X = 50 + R * Math.cos((210 * Math.PI) / 180);
 const END_Y = 50 + R * Math.sin((210 * Math.PI) / 180);
 
 export function LogoMark({ size = 28 }: { size?: number }) {
-  // A fixed id (every logo uses the same gradients), so the website's pre-built
+  // Fixed ids (every logo uses the same gradients), so the website's pre-built
   // HTML and the live page match.
-  const id = 'learn5logo';
   return (
     <View style={{ width: size, height: size }}>
       <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute' }}>
         <Defs>
-          <LinearGradient id={`lf${id}`} x1="0" y1="0" x2="0.5" y2="1">
-            <Stop offset="0" stopColor="#FFA15C" />
-            <Stop offset="0.55" stopColor="#FF6A1A" />
-            <Stop offset="1" stopColor="#E2480C" />
+          <LinearGradient id="learn5tile" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor="#1E2029" />
+            <Stop offset="1" stopColor="#0E0F14" />
           </LinearGradient>
-          <LinearGradient id={`lg${id}`} x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0.5} />
-            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
+          <LinearGradient id="learn5ring" x1="0" y1="0" x2="1" y2="1">
+            <Stop offset="0" stopColor="#FFB547" />
+            <Stop offset="1" stopColor="#FF5A1F" />
           </LinearGradient>
         </Defs>
-        {/* Depth, face, rim light and gloss: the same 3D style as the app's icons */}
-        <Rect x={0} y={6} width={100} height={94} rx={28} fill="#8A2A06" />
-        <Rect x={0} y={0} width={100} height={94} rx={28} fill={`url(#lf${id})`} />
+        {/* The tile, with a hairline edge so it also reads on dark backgrounds */}
+        <Rect x={1} y={1} width={98} height={98} rx={26} fill="url(#learn5tile)" />
         <Rect
           x={1}
           y={1}
           width={98}
-          height={92}
-          rx={27}
+          height={98}
+          rx={26}
           fill="none"
           stroke="#FFFFFF"
-          strokeOpacity={0.35}
+          strokeOpacity={0.12}
           strokeWidth={2}
         />
-        <Ellipse cx={50} cy={20} rx={36} ry={14} fill={`url(#lg${id})`} />
         {/* The "5-minute timer" ring and its end dot */}
         <Circle
           cx={50}
-          cy={47}
+          cy={50}
           r={R}
-          stroke={colors.white}
+          stroke="url(#learn5ring)"
           strokeWidth={8}
           strokeLinecap="round"
           fill="none"
           strokeDasharray={`${ARC} ${CIRCUMFERENCE}`}
-          transform="rotate(-90 50 47)"
+          transform="rotate(-90 50 50)"
         />
-        <Circle cx={END_X} cy={END_Y - 3} r={8} fill="#2A0E02" />
+        <Circle cx={END_X} cy={END_Y} r={7} fill="#FFB547" />
       </Svg>
       <View
         style={{
@@ -74,7 +67,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
           top: 0,
           left: 0,
           width: size,
-          height: size * 0.94,
+          height: size,
           alignItems: 'center',
           justifyContent: 'center',
         }}

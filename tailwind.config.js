@@ -85,17 +85,17 @@ module.exports = {
           950: '#0C0D12',
         },
       },
-      // Space Grotesk for headings and big numbers; Inter for everything else.
+      // Plus Jakarta Sans everywhere: ExtraBold for headings and big numbers.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['SpaceGrotesk_700Bold'],
-        body: ['Inter_400Regular'],
-        'body-medium': ['Inter_500Medium'],
-        'body-semibold': ['Inter_600SemiBold'],
-        'body-bold': ['Inter_700Bold'],
-        'body-heavy': ['Inter_700Bold'],
-        mono: ['Inter_500Medium'],
+        display: ['PlusJakartaSans_800ExtraBold'],
+        body: ['PlusJakartaSans_400Regular'],
+        'body-medium': ['PlusJakartaSans_500Medium'],
+        'body-semibold': ['PlusJakartaSans_600SemiBold'],
+        'body-bold': ['PlusJakartaSans_700Bold'],
+        'body-heavy': ['PlusJakartaSans_800ExtraBold'],
+        mono: ['PlusJakartaSans_500Medium'],
       },
     },
   },

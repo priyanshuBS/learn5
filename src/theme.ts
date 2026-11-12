@@ -89,6 +89,14 @@ export const BADGE_COLORS: Record<string, string> = {
 /** Icon for each drop slot: morning, afternoon, evening. */
 export const SLOT_ICONS: IconName[] = ['sunrise', 'sun', 'moon'];
 
+/**
+ * The fill of a bold subject card: the subject colour, deepened, as a diagonal
+ * gradient. Deep enough that white text reads clearly on every subject colour.
+ */
+export function subjectFill(hex: string): readonly [string, string, string] {
+  return [darken(hex, 0.3), darken(hex, 0.45), darken(hex, 0.6)] as const;
+}
+
 /** Mixes a hex colour with white: lighten('#2563EB', 0.3) is 30% lighter. */
 export function lighten(hex: string, amount: number): string {
   const n = parseInt(hex.slice(1), 16);

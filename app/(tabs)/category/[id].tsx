@@ -3,12 +3,12 @@
  */
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View } from 'react-native';
 
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
 import { DropCard, TimelineDrop } from '@/components/DropCard';
-import { Card } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { usePrefetchDrops } from '@/features/content/store';
 import { Icon } from '@/components/Icon';
@@ -28,7 +28,7 @@ import { goBack, goHome, quizHref, resultsHref } from '@/lib/routes';
 import type { IndexEntry } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { colors } from '@/theme';
+import { colors, subjectFill } from '@/theme';
 
 /** Website build: create one page per category (/category/english, /category/math, …). */
 export async function generateStaticParams(): Promise<Record<string, string>[]> {
@@ -94,23 +94,32 @@ export default function CategoryScreen() {
   return (
     <Screen width="narrow">
       {/* Subject header */}
-      <Card className="overflow-hidden p-6">
-        {/* A thin bar in the subject's colour along the top */}
-        <View
-          pointerEvents="none"
-          className="absolute left-0 right-0 top-0 h-1"
-          style={{ backgroundColor: category.color }}
+      <View
+        className="overflow-hidden rounded-3xl p-6 web:shadow-[0_18px_40px_-20px_rgba(0,0,0,0.55)]"
+        style={{ backgroundColor: subjectFill(category.color)[1] }}
+      >
+        <LinearGradient
+          colors={subjectFill(category.color)}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFill}
         />
         <View className="flex-row items-center justify-between">
-          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} onDark />
         </View>
         <View className="mt-5 flex-row items-center gap-4">
           <CategoryIcon category={category} size="lg" />
           <View className="flex-1">
-            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
+            <Txt
+              weight="display"
+              accessibilityRole="header"
+              className="text-[28px] leading-[34px] text-white dark:text-white"
+            >
               {category.name}
             </Txt>
-            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
+            <Txt className="mt-0.5 text-[15px] text-white/75 dark:text-white/75">
+              {category.tagline}
+            </Txt>
           </View>
         </View>
         <View className="mt-6 flex-row gap-2">
@@ -118,7 +127,7 @@ export default function CategoryScreen() {
           <HeroStat value={accuracy} label="Accuracy" />
           <HeroStat value={`${categoryMistakes}`} label="To review" />
         </View>
-      </Card>
+      </View>
 
       {categoryMistakes > 0 ? (
         <Button
@@ -222,12 +231,12 @@ function HeroStat({ value, label }: { value: string; label: string }) {
     <View
       accessible
       accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-xl bg-[#EFEFF3] px-3 py-3 dark:bg-ink-raised"
+      className="flex-1 rounded-2xl bg-white/15 px-3 py-3"
     >
-      <Txt weight="display" className="text-xl">
+      <Txt weight="display" className="text-xl text-white dark:text-white">
         {value}
       </Txt>
-      <Muted className="text-xs">{label}</Muted>
+      <Txt className="text-xs text-white/75 dark:text-white/75">{label}</Txt>
     </View>
   );
 }

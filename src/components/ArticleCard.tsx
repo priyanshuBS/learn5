@@ -15,6 +15,7 @@ import { categoryTone, colors } from '@/theme';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
 import { CategoryIcon } from './CategoryIcon';
 import { Icon } from './Icon';
+import { SubjectTint } from './SubjectTint';
 import { Muted, Txt } from './Txt';
 
 export function ArticleCard({
@@ -70,6 +71,7 @@ export function ArticleCard({
       onPress={open}
       className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-5')}
     >
+      <SubjectTint color={category.color} strength={0.8} />
       <View className="flex-row items-center gap-2.5">
         <CategoryIcon category={category} size="sm" />
         <Txt weight="semibold" className="flex-1 text-[13px]" style={{ color: tone }}>

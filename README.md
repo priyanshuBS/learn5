@@ -1,6 +1,6 @@
 # Learn5
 
-**Sharpen your mind in 5 minutes a day.**
+**Daily learning, five minutes at a time.**
 
 Learn5 is a daily micro-learning app for **English, Reasoning, Puzzles and Computer Science**.
 Twice a day every subject gets a fresh 5-question drop that climbs from easy to hard, and every
@@ -41,6 +41,7 @@ morning a short, easy-to-read article. One Expo codebase ships as an **Android a
 ## Tech stack
 
 - **App:** Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand
+- **Typography:** Plus Jakarta Sans
 - **Server:** Expo Router API routes, hosted on EAS Hosting
 - **Database:** Neon (serverless Postgres)
 - **Content generation:** Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions
