@@ -35,7 +35,7 @@ import {
 import { formatZodError } from './lib/content-files';
 import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
 
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 4;
 /** Don't repeat a topic from the last this-many days. */
 const TOPIC_WINDOW_DAYS = 90;
 
@@ -94,16 +94,25 @@ async function generateOne(category: Category, date: string): Promise<Article> {
   const recentKeys = new Set(recent.map((t) => normalize(t.replace(/\s*\(.*\)$/, ''))));
   let feedback: string[] = [];
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const reply = await chatJson(
-      [
-        { role: 'system', content: ARTICLE_SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: articleUserPrompt({ category, date, avoidTopics: recent, feedback }),
-        },
-      ],
-      { maxTokens: 10000 },
-    );
+    let reply: string;
+    try {
+      reply = await chatJson(
+        [
+          { role: 'system', content: ARTICLE_SYSTEM_PROMPT },
+          {
+            role: 'user',
+            content: articleUserPrompt({ category, date, avoidTopics: recent, feedback }),
+          },
+        ],
+        { maxTokens: 10000 },
+      );
+    } catch (err) {
+      // A bad reply from the AI (e.g. broken JSON) is worth another try; a used-up limit is not.
+      if (err instanceof RateLimitExhaustedError) throw err;
+      feedback = ['Your reply was not valid JSON. Reply with ONE valid JSON object only.'];
+      console.log(`    attempt ${attempt}: ${(err as Error).message}`);
+      continue;
+    }
 
     let candidate: unknown;
     try {

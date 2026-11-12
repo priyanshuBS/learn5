@@ -283,14 +283,14 @@ export const ContentIndexSchema = z.strictObject({
 // ─────────────────────────────────────────────────────────────
 
 /** Article length limits (words in the sections), so a read takes about 3–5 minutes. */
-export const ARTICLE_WORDS = { min: 350, max: 750 } as const;
+export const ARTICLE_WORDS = { min: 300, max: 800 } as const;
 
 export const ArticleSectionSchema = z.strictObject({
   heading: nonEmpty('heading').max(70, 'heading should be short (max 70 characters)'),
   paragraphs: z
     .array(nonEmpty('paragraph').max(700, 'paragraph is too long — split it'))
     .min(1)
-    .max(4),
+    .max(8, 'a section can have at most 8 paragraphs — merge some or add a section'),
 });
 
 /** A hard word from the article with a simple meaning. */

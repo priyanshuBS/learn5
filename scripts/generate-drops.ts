@@ -221,21 +221,30 @@ async function generateOne(
   const history = await loadHistory(category.id, date, drop);
   let feedback: string[] = [];
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const reply = await chatJson([
-      { role: 'system', content: SYSTEM_PROMPT },
-      {
-        role: 'user',
-        content: userPrompt({
-          category,
-          date,
-          drop,
-          tier,
-          baseTopics: base?.items.map((i) => i.topic) ?? [],
-          avoidTopics: history.topicNames,
-          feedback,
-        }),
-      },
-    ]);
+    let reply: string;
+    try {
+      reply = await chatJson([
+        { role: 'system', content: SYSTEM_PROMPT },
+        {
+          role: 'user',
+          content: userPrompt({
+            category,
+            date,
+            drop,
+            tier,
+            baseTopics: base?.items.map((i) => i.topic) ?? [],
+            avoidTopics: history.topicNames,
+            feedback,
+          }),
+        },
+      ]);
+    } catch (err) {
+      // A bad reply from the AI (e.g. broken JSON) is worth another try; a used-up limit is not.
+      if (err instanceof RateLimitExhaustedError) throw err;
+      feedback = ['Your reply was not valid JSON. Reply with ONE valid JSON object only.'];
+      console.log(`    attempt ${attempt}: ${(err as Error).message}`);
+      continue;
+    }
 
     let candidate: unknown;
     try {
