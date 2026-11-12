@@ -1,12 +1,12 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid graphite (light graphite with dark text in dark mode): the main action
+ *   primary   = solid electric orange (bright orange with dark text in dark mode): the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
  *   soft      = light grey tint
  *   success   = green, danger = red (quiz feedback)
- *   inverse   = white, for graphite panels
+ *   inverse   = white, for coloured panels
  *   ghost     = text only
  */
 import { ActivityIndicator, Pressable, View } from 'react-native';
@@ -34,8 +34,8 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-brand-300 web:hover:bg-white', text: '#16201E' }
-        : { box: 'bg-brand-600 web:hover:bg-brand-500', text: '#FFFFFF' };
+        ? { box: 'bg-brand-300 web:hover:bg-brand-200', text: '#1F0A01' }
+        : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
     case 'secondary':
       return dark
         ? {
@@ -55,18 +55,18 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-brand-50', text: '#16201E' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#0E0F14' };
     case 'ghost':
       return dark
-        ? { box: 'web:hover:bg-white/5', text: '#CDD3D2' }
-        : { box: 'web:hover:bg-black/5', text: '#3A4442' };
+        ? { box: 'web:hover:bg-white/5', text: '#CFD0D9' }
+        : { box: 'web:hover:bg-black/5', text: '#3A3C48' };
   }
 }
 
 const SIZE: Record<Size, { height: number; pad: string; text: string; icon: number }> = {
-  sm: { height: 36, pad: 'px-4', text: 'text-[13px]', icon: 15 },
-  md: { height: 44, pad: 'px-5', text: 'text-[14px]', icon: 16 },
-  lg: { height: 52, pad: 'px-6', text: 'text-[15px]', icon: 17 },
+  sm: { height: 38, pad: 'px-4', text: 'text-[13px]', icon: 15 },
+  md: { height: 46, pad: 'px-5', text: 'text-[14px]', icon: 16 },
+  lg: { height: 54, pad: 'px-6', text: 'text-[16px]', icon: 18 },
 };
 
 /** A gentle squish when pressed (shared by buttons and tappable cards). */
@@ -135,7 +135,7 @@ export function Button({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'flex-row items-center justify-center overflow-hidden rounded-xl web:transition-colors web:duration-150',
+            'flex-row items-center justify-center overflow-hidden rounded-2xl web:transition-colors web:duration-150',
             s.pad,
             v.box,
           )}
@@ -195,7 +195,7 @@ export function IconButton({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'h-10 w-10 items-center justify-center rounded-xl web:transition-colors',
+            'h-10 w-10 items-center justify-center rounded-2xl web:transition-colors',
             onDark
               ? 'border border-white/25 bg-white/10 web:hover:bg-white/20'
               : variant === 'ghost'

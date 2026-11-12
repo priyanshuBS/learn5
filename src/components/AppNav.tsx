@@ -77,7 +77,7 @@ export function AppNav({
                 className={twMerge(
                   'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
                   active
-                    ? 'bg-[#EAEEED] dark:bg-ink-raised'
+                    ? 'bg-brand-50 dark:bg-brand-400/10'
                     : 'active:bg-black/5 web:hover:bg-black/[0.03] dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
                 )}
               >
@@ -92,8 +92,8 @@ export function AppNav({
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-[#16201E] dark:text-[#EDF2F1]'
-                      : 'text-zinc-600 dark:text-[#99A6A3]',
+                      ? 'text-brand-700 dark:text-brand-300'
+                      : 'text-zinc-600 dark:text-[#9A9CAA]',
                   )}
                 >
                   {item.label}
@@ -151,7 +151,7 @@ export function AppNav({
             onPress={() => go('badges')}
             className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600 dark:bg-pop-dark">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600">
               <Txt weight="semibold" className="text-xs uppercase text-white dark:text-white">
                 {email[0]}
               </Txt>
@@ -182,9 +182,14 @@ export function AppNav({
             accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
             accessibilityState={{ selected: active }}
             onPress={() => go(item.name)}
-            className="flex-1 items-center gap-1 pb-1 pt-2.5 active:opacity-70"
+            className="flex-1 items-center gap-1 pb-1 pt-2 active:opacity-70"
           >
-            <View>
+            <View
+              className={twMerge(
+                'h-8 w-14 items-center justify-center rounded-full',
+                active && 'bg-brand-50 dark:bg-brand-400/15',
+              )}
+            >
               <Icon
                 name={item.icon}
                 size={22}
@@ -192,7 +197,7 @@ export function AppNav({
                 strokeWidth={active ? 2.25 : 1.75}
               />
               {badge ? (
-                <View className="absolute -right-2.5 -top-1 h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1">
+                <View className="absolute -top-0.5 right-2 h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1">
                   <Txt weight="bold" className="text-[9px] leading-3 text-white dark:text-white">
                     {badge > 9 ? '9+' : badge}
                   </Txt>
@@ -203,7 +208,7 @@ export function AppNav({
               weight={active ? 'semibold' : 'medium'}
               className={twMerge(
                 'text-[11px]',
-                active ? 'text-brand-600 dark:text-pop-light' : 'text-zinc-500 dark:text-zinc-400',
+                active ? 'text-brand-700 dark:text-brand-300' : 'text-zinc-500 dark:text-zinc-400',
               )}
               numberOfLines={1}
             >

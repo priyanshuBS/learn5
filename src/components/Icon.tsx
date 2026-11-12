@@ -11,13 +11,11 @@
 import ArrowLeft from 'lucide-react-native/icons/arrow-left';
 import ArrowRight from 'lucide-react-native/icons/arrow-right';
 import ArrowUpRight from 'lucide-react-native/icons/arrow-up-right';
-import Atom from 'lucide-react-native/icons/atom';
 import Award from 'lucide-react-native/icons/award';
 import BadgeCheck from 'lucide-react-native/icons/badge-check';
 import BookMarked from 'lucide-react-native/icons/book-marked';
 import BookOpen from 'lucide-react-native/icons/book-open';
 import Brain from 'lucide-react-native/icons/brain';
-import Calculator from 'lucide-react-native/icons/calculator';
 import CalendarDays from 'lucide-react-native/icons/calendar-days';
 import ChartNoAxesColumn from 'lucide-react-native/icons/chart-no-axes-column';
 import Check from 'lucide-react-native/icons/check';
@@ -34,14 +32,12 @@ import Crown from 'lucide-react-native/icons/crown';
 import FileText from 'lucide-react-native/icons/file-text';
 import Flag from 'lucide-react-native/icons/flag';
 import Flame from 'lucide-react-native/icons/flame';
-import FlaskConical from 'lucide-react-native/icons/flask-conical';
 import GalleryVerticalEnd from 'lucide-react-native/icons/gallery-vertical-end';
 import GraduationCap from 'lucide-react-native/icons/graduation-cap';
 import Hourglass from 'lucide-react-native/icons/hourglass';
 import House from 'lucide-react-native/icons/house';
 import Info from 'lucide-react-native/icons/info';
 import Layers from 'lucide-react-native/icons/layers';
-import Leaf from 'lucide-react-native/icons/leaf';
 import Library from 'lucide-react-native/icons/library';
 import Lightbulb from 'lucide-react-native/icons/lightbulb';
 import Lock from 'lucide-react-native/icons/lock';
@@ -88,11 +84,7 @@ const ICONS = {
   flashcards: GalleryVerticalEnd,
   // Categories
   english: BookOpen,
-  math: Calculator,
   reasoning: Puzzle,
-  physics: Atom,
-  chemistry: FlaskConical,
-  biology: Leaf,
   'computer-science': CodeXml,
   // Arrows
   'arrow-left': ArrowLeft,

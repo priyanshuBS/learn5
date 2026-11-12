@@ -12,17 +12,10 @@ import type { Category } from '../../src/lib/schema';
 const CATEGORY_RULES: Record<string, string> = {
   english:
     'Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (its/it’s, advice/advise), idioms and phrases, correct word usage. Show the word inside a short example sentence.',
-  math: 'Mental math tricks, everyday math (percentages, discounts, simple and compound interest, ratios, averages, time and speed, unit conversion), basic concepts (fractions, primes, area). Show ONE clear step-by-step working in the explanation (not two methods). Use ₹ for money.',
   reasoning:
     'Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it step by step ("Step 1: … Step 2: …").',
-  physics:
-    'Motion, force, energy, work, gravity, light, sound, heat, electricity, magnetism, simple machines — linked to daily life.',
-  chemistry:
-    'Matter, atoms and molecules, elements and the periodic table, acids, bases and salts, metals and non-metals, everyday reactions (rusting, cooking, cleaning). No instructions for dangerous experiments.',
   'computer-science':
     'How computers work (input, processing, output, storage, memory), hardware and software, binary numbers and bits/bytes, storage units (KB, MB, GB), the internet and the web (IP address, browser, URL, email), algorithms and flowcharts, simple coding logic in plain pseudocode (loops, if/else, variables), data and files, and online safety (strong passwords, phishing). No company, product or app brand names. For code, use short plain pseudocode, not a real programming language.',
-  biology:
-    'Cells, the human body, plants, animals, food and nutrition (as science, not diet advice), ecosystems, microorganisms. No medical advice.',
 };
 
 export const SYSTEM_PROMPT = `You write quiz content for Learn5, a daily micro-learning app.

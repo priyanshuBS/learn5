@@ -2,7 +2,7 @@
 
 **5 questions. 5 minutes. Get smarter every day.**
 
-A gamified micro-learning app for English, Math, Reasoning, Computer Science, Physics, Chemistry and Biology.
+A gamified micro-learning app for English, Reasoning and Computer Science.
 One Expo codebase ships as an Android app, an iOS app and a website.
 
 > Status: feature-complete for launch — see the **Launch checklist** below for the remaining setup steps.

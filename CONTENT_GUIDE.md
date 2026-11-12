@@ -51,7 +51,7 @@ The `date`, `category` and `drop` inside the file must match the path.
 | Item types      | 3 `mcq` + 1 `true_false` + 1 `fill_blank` **or** `fact_card`                     |
 | Difficulty      | 2 `easy` + 2 `medium` + 1 `hard`                                                 |
 | Item order      | from easiest to hardest: easy, easy, medium, medium, hard                        |
-| Item ids        | `<category>-<date>-d<drop>-0<position>`, e.g. `physics-2026-11-08-d1-01` … `-05` |
+| Item ids        | `<category>-<date>-d<drop>-0<position>`, e.g. `english-2026-11-08-d1-01` … `-05` |
 | Topics          | all 5 different inside a drop                                                    |
 | Title           | short and catchy, max 60 characters, e.g. "Forces All Around You"                |
 
@@ -78,7 +78,7 @@ The `date`, `category` and `drop` inside the file must match the path.
 
 ```json
 {
-  "id": "physics-2026-11-08-d1-01",
+  "id": "english-2026-11-08-d1-01",
   "type": "mcq",
   "difficulty": "easy",
   "topic": "Unit of force",
@@ -110,7 +110,7 @@ The `date`, `category` and `drop` inside the file must match the path.
 
 ```json
 {
-  "id": "biology-2026-11-08-d2-04",
+  "id": "reasoning-2026-11-08-d2-04",
   "type": "fact_card",
   "difficulty": "medium",
   "topic": "Red blood cells",
@@ -150,12 +150,8 @@ The `date`, `category` and `drop` inside the file must match the path.
 | Category             | What to cover                                                                                                                                                                                                                                                 |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **English**          | Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (e.g. "its/it's", "advice/advise"), idioms and phrases, correct word usage. Show the word inside a short example sentence.                                                               |
-| **Math**             | Mental math tricks, everyday math (percentages, discounts, simple and compound interest, ratios, averages, time and speed, unit conversion), and basic concepts (fractions, primes, area). Show the working step by step in the explanation. Use ₹ for money. |
 | **Reasoning**        | Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it **step by step** ("Step 1: … Step 2: …").                                                     |
 | **Computer Science** | How computers work (input, processing, output, storage), hardware and software, binary and storage units, the internet and the web, algorithms and flowcharts, simple coding logic in plain pseudocode, and online safety. No company or product names.       |
-| **Physics**          | Motion, force, energy, work, gravity, light, sound, heat, electricity, magnetism, simple machines — linked to daily life.                                                                                                                                     |
-| **Chemistry**        | Matter, atoms and molecules, elements and the periodic table, acids, bases and salts, metals and non-metals, everyday chemical reactions (rusting, cooking, cleaning). No instructions for dangerous experiments.                                             |
-| **Biology**          | Cells, the human body, plants, animals, food and nutrition (as science, not diet advice), ecosystems, microorganisms. No medical advice — describe how the body works, never what someone should take or do for an illness.                                   |
 
 ## 6. No repeats **[checked]**
 

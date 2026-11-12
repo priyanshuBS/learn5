@@ -1,34 +1,35 @@
 /**
  * Home — the daily dashboard. All subjects are equal, so none is pushed first.
  *   1. date, greeting and a one-line summary of today
- *   2. a card with today's progress, streak, points and level
+ *   2. an orange hero card with today's progress ring, streak, points and level
  *   3. every subject with today's drops and its one next step (the main content)
  *   4. this week: streak days and level progress
  */
-import type { ReactNode } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
-import { Icon } from '@/components/Icon';
+import { Icon, type IconName } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { SectionTitle } from '@/components/PageHeader';
-import { ProgressBar } from '@/components/ProgressBar';
+import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
 import { SkeletonBlock } from '@/components/StateViews';
 import { ThemeIconButton } from '@/components/ThemeToggle';
-import { Muted, Txt } from '@/components/Txt';
+import { Muted, Txt, type TxtProps } from '@/components/Txt';
 import { WeekStreak } from '@/components/WeekStreak';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
-import { useColorScheme } from '@/hooks/useScheme';
 import { greeting, localClockLabel, longDate } from '@/lib/time';
 import { colors } from '@/theme';
 
+/** Deeper than the logo gradient so white text stays readable. */
+const HERO_GRADIENT = ['#E23D0B', '#F25A12', '#FF8A1F'] as const;
+
 export default function HomeScreen() {
-  const dark = useColorScheme() === 'dark';
   const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
 
   if (!ready || !index) return <HomeSkeleton />;
@@ -67,56 +68,73 @@ export default function HomeScreen() {
           <ThemeIconButton />
         </View>
 
-        {/* Greeting */}
-        <Muted className="text-[14px]">{longDate(zonedNow.date)}</Muted>
-        <Txt
-          weight="display"
-          accessibilityRole="header"
-          className="mt-1 text-[30px] leading-[38px] md:text-[36px] md:leading-[44px]"
+        {/* Hero: greeting and today at a glance, on the signature gradient */}
+        <LinearGradient
+          colors={HERO_GRADIENT}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ borderRadius: 28, overflow: 'hidden' }}
         >
-          {greeting(now)}
-        </Txt>
-        <Muted className="mt-1.5 text-[15px] leading-6">{summary}</Muted>
+          {/* Soft light circles for depth */}
+          <View
+            pointerEvents="none"
+            className="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/10"
+          />
+          <View
+            pointerEvents="none"
+            className="absolute -bottom-24 right-24 h-44 w-44 rounded-full bg-white/[0.07]"
+          />
+          <View className="p-5 md:p-7">
+            <View className="flex-row items-start gap-4">
+              <View className="flex-1">
+                <OnColor
+                  weight="semibold"
+                  className="text-[13px] uppercase tracking-widest opacity-90"
+                >
+                  {longDate(zonedNow.date)}
+                </OnColor>
+                <OnColor
+                  weight="display"
+                  accessibilityRole="header"
+                  className="mt-1.5 text-[32px] leading-[38px] md:text-[40px] md:leading-[46px]"
+                >
+                  {greeting(now)}
+                </OnColor>
+                <OnColor weight="medium" className="mt-2 text-[15px] leading-6">
+                  {summary}
+                </OnColor>
+              </View>
+              <ProgressRing
+                value={totalToday ? doneToday / totalToday : 0}
+                size={76}
+                strokeWidth={7}
+                color={colors.white}
+                trackColor="rgba(255,255,255,0.25)"
+                label={`${doneToday} of ${totalToday} drops done today`}
+              >
+                <OnColor weight="display" className="text-[20px] leading-6">
+                  {doneToday}
+                  <OnColor weight="display" className="text-[13px] opacity-80">
+                    /{totalToday}
+                  </OnColor>
+                </OnColor>
+              </ProgressRing>
+            </View>
 
-        {/* Today at a glance: a normal card, like everything else */}
-        <View className={twMerge(CARD_CLASSES, 'mt-6 flex-row')}>
-          <StatCell
-            label="Today"
-            value={`${doneToday}/${totalToday}`}
-            icon={
-              <Icon name="check-circle" size={14} color={dark ? colors.popLight : colors.pop} />
-            }
-          >
-            <ProgressBar
-              value={totalToday ? doneToday / totalToday : 0}
-              className="mt-2 h-1"
-              label={`${doneToday} of ${totalToday} drops done today`}
-            />
-          </StatCell>
-          <Divider />
-          <StatCell
-            label="Streak"
-            value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
-            icon={<Icon name="flame" size={14} color={colors.streak} filled />}
-          />
-          <Divider />
-          <StatCell
-            label="Points"
-            value={points.toLocaleString('en-IN')}
-            icon={<Icon name="star" size={14} color={colors.points} filled />}
-          />
-          <Divider className="hidden md:flex" />
-          <View className="hidden flex-1 md:flex">
-            <StatCell
-              label="Level"
-              value={`${level.level} · ${level.name}`}
-              icon={<Icon name="trophy" size={14} color={dark ? colors.mutedDark : colors.muted} />}
-            />
+            <View className="mt-5 flex-row gap-2">
+              <HeroStat
+                icon="flame"
+                label="Streak"
+                value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
+              />
+              <HeroStat icon="star" label="Points" value={points.toLocaleString('en-IN')} />
+              <HeroStat icon="trophy" label={`Level ${level.level}`} value={level.name} />
+            </View>
           </View>
-        </View>
+        </LinearGradient>
 
         {streak.current > 0 && !streak.playedToday ? (
-          <View className="mt-3 flex-row items-center gap-2.5 rounded-xl bg-orange-50 px-4 py-3 dark:bg-orange-500/10">
+          <View className="mt-3 flex-row items-center gap-2.5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 dark:border-orange-500/20 dark:bg-orange-500/10">
             <Icon name="flame" size={15} color={colors.streak} />
             <Txt className="flex-1 text-[13px] text-orange-800 dark:text-orange-200">
               Play one drop today to keep your {streak.current}-day streak.
@@ -191,33 +209,28 @@ export default function HomeScreen() {
   );
 }
 
-function Divider({ className }: { className?: string }) {
-  return <View className={twMerge('my-4 w-px bg-line dark:bg-ink-line', className)} />;
+/** Text that sits on the orange hero (always white, in both themes). */
+function OnColor({ className, ...rest }: TxtProps) {
+  return <Txt className={twMerge('text-white dark:text-white', className)} {...rest} />;
 }
 
-function StatCell({
-  label,
-  value,
-  icon,
-  children,
-}: {
-  label: string;
-  value: string;
-  icon: ReactNode;
-  children?: ReactNode;
-}) {
+/** A frosted chip on the hero: icon, small label, value. */
+function HeroStat({ icon, label, value }: { icon: IconName; label: string; value: string }) {
   return (
-    <View accessible accessibilityLabel={`${label}: ${value}`} className="flex-1 px-4 py-4 md:px-5">
+    <View
+      accessible
+      accessibilityLabel={`${label}: ${value}`}
+      className="flex-1 rounded-2xl border border-white/20 bg-white/15 px-3 py-2.5"
+    >
       <View className="flex-row items-center gap-1.5">
-        {icon}
-        <Muted className="text-[13px]" numberOfLines={1}>
+        <Icon name={icon} size={13} color={colors.white} filled={icon !== 'trophy'} />
+        <OnColor weight="medium" className="text-[12px] opacity-90" numberOfLines={1}>
           {label}
-        </Muted>
+        </OnColor>
       </View>
-      <Txt weight="display" className="mt-1 text-[20px] leading-7" numberOfLines={1}>
+      <OnColor weight="display" className="mt-0.5 text-[17px] leading-6" numberOfLines={1}>
         {value}
-      </Txt>
-      {children}
+      </OnColor>
     </View>
   );
 }
@@ -229,13 +242,11 @@ function HomeSkeleton() {
       <View className="mb-6 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-3 w-40" />
-      <SkeletonBlock className="mt-3 h-8 w-56" />
-      <SkeletonBlock className="mt-6 h-20 rounded-2xl" />
+      <SkeletonBlock className="h-56 rounded-[28px]" />
       <View className="-m-1.5 mt-10 flex-row flex-wrap">
-        {[0, 1, 2, 3, 4, 5].map((i) => (
+        {[0, 1, 2].map((i) => (
           <View key={i} className="w-full p-1.5 md:w-1/2 xl:w-1/3">
-            <SkeletonBlock className="h-40 rounded-2xl" />
+            <SkeletonBlock className="h-44 rounded-3xl" />
           </View>
         ))}
       </View>

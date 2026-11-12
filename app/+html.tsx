@@ -8,7 +8,7 @@ import type { PropsWithChildren } from 'react';
 const TITLE = 'Learn5 — 5 questions. 5 minutes. Get smarter every day.';
 
 const DESCRIPTION =
-  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Math, Reasoning, Computer Science, Physics, Chemistry and Biology.';
+  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Reasoning and Computer Science.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
 // --css-interop-darkMode: tells NativeWind "dark mode = the dark class" before its
@@ -16,8 +16,8 @@ const DESCRIPTION =
 // later (same value Tailwind writes for darkMode: 'class').
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
-body { background-color: #F6F7F7; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #161B1A; }
+body { background-color: #F4F4F7; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #0C0D12; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -57,7 +57,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#161B1A" />
+        <meta name="theme-color" content="#0C0D12" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;

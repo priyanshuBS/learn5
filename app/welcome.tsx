@@ -107,8 +107,8 @@ export default function WelcomeScreen() {
               a day.
             </Txt>
             <Muted className="mt-5 max-w-lg text-[17px] leading-7">
-              Short daily quizzes in {categories.length} school subjects, with a clear explanation
-              after every answer. Free, and no password needed.
+              Short daily quizzes in English, Reasoning and Computer Science, with a clear
+              explanation after every answer. Free, and no password needed.
             </Muted>
             <View className="mt-8 gap-3 sm:flex-row">
               <Button label="Get started" variant="accent" onPress={goSignUp} />
@@ -121,7 +121,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View className="rounded-2xl bg-brand-100 p-4 dark:bg-ink-raised md:p-8 lg:flex-1">
+          <View className="rounded-[32px] bg-brand-100 p-4 dark:bg-brand-400/10 md:p-8 lg:flex-1">
             <ProductPreview />
           </View>
         </View>
@@ -129,7 +129,7 @@ export default function WelcomeScreen() {
         {/* Subjects */}
         <Section
           title="Subjects"
-          text="School-level topics from trusted textbooks, explained simply."
+          text="Three core skills, explained simply: language, logic and how computers work."
         />
         <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
           {/* -1px: the card's edge hides the last row's divider line. */}
@@ -137,7 +137,7 @@ export default function WelcomeScreen() {
             {categories.map((category) => (
               <View
                 key={category.id}
-                className="w-full flex-row items-center gap-3.5 border-b border-line p-4 dark:border-ink-line sm:w-1/2 lg:w-1/3"
+                className="w-full flex-row items-center gap-3.5 border-b border-line p-4 dark:border-ink-line sm:w-1/3"
               >
                 <CategoryIcon category={category} size="md" />
                 <View className="flex-1">
@@ -191,7 +191,7 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Final call to action */}
-        <View className="mt-16 items-start gap-5 rounded-2xl bg-brand-600 p-6 md:flex-row md:items-center md:justify-between md:p-10">
+        <View className="mt-16 items-start gap-5 rounded-[28px] bg-brand-600 p-6 md:flex-row md:items-center md:justify-between md:p-10">
           <View className="md:flex-1">
             <Txt
               weight="display"
@@ -257,8 +257,8 @@ function Section({ title, text }: { title: string; text?: string }) {
 
 /** A static picture of a quiz question, so visitors see what the app looks like. */
 function ProductPreview() {
-  const math = categories.find((c) => c.id === 'math') ?? categories[0];
-  const options = ['₹35', '₹45', '₹40', '₹54'];
+  const reasoning = categories.find((c) => c.id === 'reasoning') ?? categories[0];
+  const options = ['30', '32', '36', '40'];
   return (
     <View
       accessible
@@ -271,15 +271,15 @@ function ProductPreview() {
         <Muted className="text-[13px]">3/5</Muted>
       </View>
       <View className="mt-6 flex-row flex-wrap items-center gap-2">
-        <Tag label={math.name} color={math.color} />
+        <Tag label={reasoning.name} color={reasoning.color} />
         <DifficultyBadge difficulty="medium" />
       </View>
       <Txt weight="semibold" className="mt-3 text-[19px] leading-7">
-        A ₹450 shirt is 10% off. How much do you save?
+        What comes next: 2, 6, 12, 20, ?
       </Txt>
       <View className="mt-5 gap-2">
         {options.map((o, i) => {
-          const correct = i === 1;
+          const correct = i === 0;
           return (
             <View
               key={o}
@@ -309,12 +309,12 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#F0F2F2] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-[#EFEFF3] p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>
         <Muted className="mt-0.5 text-[13px] leading-5">
-          10% means moving the decimal point one place left: ₹450 becomes ₹45.
+          The gaps grow by 2 each time: +4, +6, +8, so the next gap is +10. 20 + 10 = 30.
         </Muted>
       </View>
     </View>

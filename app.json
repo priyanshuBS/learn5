@@ -32,8 +32,8 @@
       "name": "Learn5",
       "shortName": "Learn5",
       "description": "5 questions. 5 minutes. Get smarter every day.",
-      "themeColor": "#161B1A",
-      "backgroundColor": "#161B1A"
+      "themeColor": "#0C0D12",
+      "backgroundColor": "#0C0D12"
     },
     "plugins": [
       [
@@ -45,7 +45,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#161B1A",
+          "backgroundColor": "#0C0D12",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 120
         }
@@ -54,7 +54,7 @@
       [
         "expo-notifications",
         {
-          "color": "#10B981"
+          "color": "#F97316"
         }
       ]
     ],

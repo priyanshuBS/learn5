@@ -34,11 +34,11 @@ export async function sendOtpEmail(to: string, code: string): Promise<void> {
   ].join('\n');
 
   const html = `
-<div style="font-family:Arial,Helvetica,sans-serif;max-width:420px;margin:0 auto;padding:24px;color:#16201E">
-  <h2 style="margin:0 0 8px;color:#23302D">Learn5</h2>
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:420px;margin:0 auto;padding:24px;color:#0E0F14">
+  <h2 style="margin:0 0 8px;color:#EA580C">Learn5</h2>
   <p style="margin:0 0 16px">Your sign-in code is:</p>
   <p style="font-size:32px;font-weight:bold;letter-spacing:8px;margin:0 0 16px">${code}</p>
-  <p style="margin:0;color:#66716F;font-size:14px">It works for ${OTP_TTL_MINUTES} minutes.
+  <p style="margin:0;color:#6B6D7B;font-size:14px">It works for ${OTP_TTL_MINUTES} minutes.
   If you did not ask for it, you can ignore this email.</p>
 </div>`;
 

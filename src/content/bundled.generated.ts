@@ -5,39 +5,15 @@ import index from '../../content/index.json';
 import drop0 from '../../content/english/2026-11-07/drop-1.json';
 import drop1 from '../../content/english/2026-11-07/drop-2.json';
 import drop2 from '../../content/english/2026-11-07/drop-3.json';
-import drop3 from '../../content/math/2026-11-07/drop-1.json';
-import drop4 from '../../content/math/2026-11-07/drop-2.json';
-import drop5 from '../../content/math/2026-11-07/drop-3.json';
-import drop6 from '../../content/reasoning/2026-11-07/drop-1.json';
-import drop7 from '../../content/reasoning/2026-11-07/drop-2.json';
-import drop8 from '../../content/reasoning/2026-11-07/drop-3.json';
-import drop9 from '../../content/physics/2026-11-07/drop-1.json';
-import drop10 from '../../content/physics/2026-11-07/drop-2.json';
-import drop11 from '../../content/physics/2026-11-07/drop-3.json';
-import drop12 from '../../content/chemistry/2026-11-07/drop-1.json';
-import drop13 from '../../content/chemistry/2026-11-07/drop-2.json';
-import drop14 from '../../content/chemistry/2026-11-07/drop-3.json';
-import drop15 from '../../content/biology/2026-11-07/drop-1.json';
-import drop16 from '../../content/biology/2026-11-07/drop-2.json';
-import drop17 from '../../content/biology/2026-11-07/drop-3.json';
-import drop18 from '../../content/english/2026-11-08/drop-1.json';
-import drop19 from '../../content/english/2026-11-08/drop-2.json';
-import drop20 from '../../content/english/2026-11-08/drop-3.json';
-import drop21 from '../../content/math/2026-11-08/drop-1.json';
-import drop22 from '../../content/math/2026-11-08/drop-2.json';
-import drop23 from '../../content/math/2026-11-08/drop-3.json';
-import drop24 from '../../content/reasoning/2026-11-08/drop-1.json';
-import drop25 from '../../content/reasoning/2026-11-08/drop-2.json';
-import drop26 from '../../content/reasoning/2026-11-08/drop-3.json';
-import drop27 from '../../content/physics/2026-11-08/drop-1.json';
-import drop28 from '../../content/physics/2026-11-08/drop-2.json';
-import drop29 from '../../content/physics/2026-11-08/drop-3.json';
-import drop30 from '../../content/chemistry/2026-11-08/drop-1.json';
-import drop31 from '../../content/chemistry/2026-11-08/drop-2.json';
-import drop32 from '../../content/chemistry/2026-11-08/drop-3.json';
-import drop33 from '../../content/biology/2026-11-08/drop-1.json';
-import drop34 from '../../content/biology/2026-11-08/drop-2.json';
-import drop35 from '../../content/biology/2026-11-08/drop-3.json';
+import drop3 from '../../content/reasoning/2026-11-07/drop-1.json';
+import drop4 from '../../content/reasoning/2026-11-07/drop-2.json';
+import drop5 from '../../content/reasoning/2026-11-07/drop-3.json';
+import drop6 from '../../content/english/2026-11-08/drop-1.json';
+import drop7 from '../../content/english/2026-11-08/drop-2.json';
+import drop8 from '../../content/english/2026-11-08/drop-3.json';
+import drop9 from '../../content/reasoning/2026-11-08/drop-1.json';
+import drop10 from '../../content/reasoning/2026-11-08/drop-2.json';
+import drop11 from '../../content/reasoning/2026-11-08/drop-3.json';
 
 /** The content index at build time (checked with Zod when the app starts). */
 export const bundledIndex: unknown = index;
@@ -47,37 +23,13 @@ export const bundledDrops: Record<string, unknown> = {
   'english/2026-11-07/drop-1.json': drop0,
   'english/2026-11-07/drop-2.json': drop1,
   'english/2026-11-07/drop-3.json': drop2,
-  'math/2026-11-07/drop-1.json': drop3,
-  'math/2026-11-07/drop-2.json': drop4,
-  'math/2026-11-07/drop-3.json': drop5,
-  'reasoning/2026-11-07/drop-1.json': drop6,
-  'reasoning/2026-11-07/drop-2.json': drop7,
-  'reasoning/2026-11-07/drop-3.json': drop8,
-  'physics/2026-11-07/drop-1.json': drop9,
-  'physics/2026-11-07/drop-2.json': drop10,
-  'physics/2026-11-07/drop-3.json': drop11,
-  'chemistry/2026-11-07/drop-1.json': drop12,
-  'chemistry/2026-11-07/drop-2.json': drop13,
-  'chemistry/2026-11-07/drop-3.json': drop14,
-  'biology/2026-11-07/drop-1.json': drop15,
-  'biology/2026-11-07/drop-2.json': drop16,
-  'biology/2026-11-07/drop-3.json': drop17,
-  'english/2026-11-08/drop-1.json': drop18,
-  'english/2026-11-08/drop-2.json': drop19,
-  'english/2026-11-08/drop-3.json': drop20,
-  'math/2026-11-08/drop-1.json': drop21,
-  'math/2026-11-08/drop-2.json': drop22,
-  'math/2026-11-08/drop-3.json': drop23,
-  'reasoning/2026-11-08/drop-1.json': drop24,
-  'reasoning/2026-11-08/drop-2.json': drop25,
-  'reasoning/2026-11-08/drop-3.json': drop26,
-  'physics/2026-11-08/drop-1.json': drop27,
-  'physics/2026-11-08/drop-2.json': drop28,
-  'physics/2026-11-08/drop-3.json': drop29,
-  'chemistry/2026-11-08/drop-1.json': drop30,
-  'chemistry/2026-11-08/drop-2.json': drop31,
-  'chemistry/2026-11-08/drop-3.json': drop32,
-  'biology/2026-11-08/drop-1.json': drop33,
-  'biology/2026-11-08/drop-2.json': drop34,
-  'biology/2026-11-08/drop-3.json': drop35,
+  'reasoning/2026-11-07/drop-1.json': drop3,
+  'reasoning/2026-11-07/drop-2.json': drop4,
+  'reasoning/2026-11-07/drop-3.json': drop5,
+  'english/2026-11-08/drop-1.json': drop6,
+  'english/2026-11-08/drop-2.json': drop7,
+  'english/2026-11-08/drop-3.json': drop8,
+  'reasoning/2026-11-08/drop-1.json': drop9,
+  'reasoning/2026-11-08/drop-2.json': drop10,
+  'reasoning/2026-11-08/drop-3.json': drop11,
 };

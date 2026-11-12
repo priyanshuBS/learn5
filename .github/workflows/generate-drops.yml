@@ -24,7 +24,7 @@ on:
         description: 'Only this date (YYYY-MM-DD). Empty = today and tomorrow.'
         required: false
       category:
-        description: 'Only this category (e.g. math). Empty = all.'
+        description: 'Only this category (e.g. reasoning). Empty = all.'
         required: false
 
 # Never run two generators at the same time.

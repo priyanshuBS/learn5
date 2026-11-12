@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Graphite & Mint".
-//   brand  = slate graphite, the main colour: buttons, links, the active tab
-//   pop    = mint, the accent: progress, "open now", highlights, the logo's dot
-//   canvas / line = soft grey-white page background and borders
-//   ink-*  = dark mode (deep graphite, not black): page, cards, raised surfaces, borders
+// Learn5 design system for Tailwind (NativeWind) — "Midnight Ember".
+//   brand  = electric orange, the main colour: buttons, links, the active tab
+//   pop    = the same orange family, for progress, "open now" and highlights
+//   canvas / line = cool off-white page background and borders
+//   ink-*  = dark mode (deep midnight, not pure black): page, cards, raised surfaces, borders
+// Each subject brings its own vivid colour (content/categories.json).
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -15,72 +16,72 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Main colour: slate graphite. Buttons, links, the active tab (light mode).
-        // 50-200: light tints, 300-400: light graphite for dark mode, 500-900: graphite for light mode.
+        // Main colour: electric orange.
+        // 50-200: light tints, 300-400: bright orange for dark mode, 500-900: deeper orange for light mode.
         brand: {
-          50: '#F1F4F3',
-          100: '#E4E9E8',
-          200: '#CBD3D1',
-          300: '#E7EFED',
-          400: '#D5DFDC',
-          500: '#4A5A56',
-          600: '#23302D',
-          700: '#1A2422',
-          800: '#141C1A',
-          900: '#0F1513',
-          950: '#0A0F0E',
+          50: '#FFF4ED',
+          100: '#FFE4D3',
+          200: '#FFC6A3',
+          300: '#FF8F52',
+          400: '#FF7A35',
+          500: '#F76A1C',
+          600: '#EA580C',
+          700: '#C2410C',
+          800: '#9A3412',
+          900: '#7C2D12',
+          950: '#431407',
         },
-        // Accent: mint. Progress, "open now", highlights, the logo's dot.
+        // Accent: the bright end of the orange (progress, "open now", highlights).
         pop: {
-          DEFAULT: '#10B981',
-          light: '#34D399',
-          dark: '#059669',
-          soft: '#D1FAE5',
+          DEFAULT: '#F97316',
+          light: '#FF8F52',
+          dark: '#EA580C',
+          soft: '#FFEDD5',
         },
         // Kept as aliases (older class names).
         leaf: {
-          DEFAULT: '#10B981',
-          light: '#34D399',
-          dark: '#059669',
+          DEFAULT: '#F97316',
+          light: '#FF8F52',
+          dark: '#EA580C',
         },
         accent: {
-          300: '#E7EFED',
-          400: '#D5DFDC',
-          500: '#4A5A56',
+          300: '#FF8F52',
+          400: '#FF7A35',
+          500: '#F76A1C',
         },
         volt: {
-          DEFAULT: '#10B981',
-          dim: '#059669',
+          DEFAULT: '#F97316',
+          dim: '#EA580C',
         },
         gold: {
-          DEFAULT: '#E2A31A',
-          soft: '#FBF0D2',
-          light: '#F2C14E',
+          DEFAULT: '#F5B70A',
+          soft: '#FEF3C7',
+          light: '#FCD34D',
         },
-        // Light mode: soft grey-white.
-        canvas: '#F6F7F7',
-        line: '#E2E6E5',
-        // Dark mode: deep graphite (not black).
+        // Light mode: cool off-white.
+        canvas: '#F4F4F7',
+        line: '#E4E4EB',
+        // Dark mode: deep midnight (not black).
         ink: {
-          DEFAULT: '#161B1A',
-          soft: '#191F1E',
-          card: '#1E2524',
-          raised: '#252D2C',
-          line: '#2D3735',
+          DEFAULT: '#0C0D12',
+          soft: '#111218',
+          card: '#16171F',
+          raised: '#1E2029',
+          line: '#272A35',
         },
-        // Cool greys with a hint of green, matching the graphite.
+        // Cool neutral greys.
         zinc: {
-          50: '#F8F9F9',
-          100: '#F0F2F2',
-          200: '#E2E6E5',
-          300: '#CDD3D2',
-          400: '#9AA4A2',
-          500: '#6B7573',
-          600: '#535C5A',
-          700: '#3A4442',
-          800: '#2D3735',
-          900: '#1E2524',
-          950: '#161B1A',
+          50: '#F8F8FA',
+          100: '#EFEFF3',
+          200: '#E4E4EB',
+          300: '#CFD0D9',
+          400: '#9A9CAA',
+          500: '#6B6D7B',
+          600: '#525462',
+          700: '#3A3C48',
+          800: '#272A35',
+          900: '#16171F',
+          950: '#0C0D12',
         },
       },
       // Space Grotesk for headings and big numbers; Inter for everything else.

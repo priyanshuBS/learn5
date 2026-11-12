@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import sampleDrop from '../../../content/physics/2026-11-08/drop-1.json';
+import sampleDrop from '../../../content/english/2026-11-08/drop-1.json';
 import { addDays, daysBetween, toDateString } from '../dates';
 import { DropSchema, isRealDate, makeItemId } from '../schema';
 
@@ -45,7 +45,7 @@ describe('DropSchema', () => {
 
   it('rejects a wrong item id', () => {
     const drop = copy();
-    drop.items[0].id = 'physics-2026-11-08-d1-05';
+    drop.items[0].id = 'english-2026-11-08-d1-05';
     expect(DropSchema.safeParse(drop).success).toBe(false);
   });
 

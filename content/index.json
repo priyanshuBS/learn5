@@ -1,5 +1,5 @@
 {
-  "version": "61dff5cd6289",
+  "version": "b6d718c0eec0",
   "latestDate": "2026-11-08",
   "timezone": "Asia/Kolkata",
   "schedule": {
@@ -7,11 +7,6 @@
       "07:00",
       "13:00",
       "19:00"
-    ],
-    "math": [
-      "07:30",
-      "13:30",
-      "19:30"
     ],
     "reasoning": [
       "08:00",
@@ -22,21 +17,6 @@
       "10:00",
       "16:00",
       "22:00"
-    ],
-    "physics": [
-      "08:30",
-      "14:30",
-      "20:30"
-    ],
-    "chemistry": [
-      "09:00",
-      "15:00",
-      "21:00"
-    ],
-    "biology": [
-      "09:30",
-      "15:30",
-      "21:30"
     ]
   },
   "categories": [
@@ -46,13 +26,6 @@
       "emoji": "📖",
       "color": "#F0524D",
       "tagline": "Words, grammar and idioms"
-    },
-    {
-      "id": "math",
-      "name": "Math",
-      "emoji": "🧮",
-      "color": "#4C7BF3",
-      "tagline": "Quick tricks and everyday math"
     },
     {
       "id": "reasoning",
@@ -67,27 +40,6 @@
       "emoji": "💻",
       "color": "#14B8A6",
       "tagline": "Computers, coding and the internet"
-    },
-    {
-      "id": "physics",
-      "name": "Physics",
-      "emoji": "⚡",
-      "color": "#F97316",
-      "tagline": "How the world moves and works"
-    },
-    {
-      "id": "chemistry",
-      "name": "Chemistry",
-      "emoji": "🧪",
-      "color": "#E048A0",
-      "tagline": "What everything is made of"
-    },
-    {
-      "id": "biology",
-      "name": "Biology",
-      "emoji": "🌱",
-      "color": "#22A55B",
-      "tagline": "Life, the body and nature"
     }
   ],
   "drops": [
@@ -113,27 +65,6 @@
       "path": "english/2026-11-07/drop-3.json"
     },
     {
-      "category": "math",
-      "date": "2026-11-07",
-      "drop": 1,
-      "title": "Percent Power",
-      "path": "math/2026-11-07/drop-1.json"
-    },
-    {
-      "category": "math",
-      "date": "2026-11-07",
-      "drop": 2,
-      "title": "Mental Math Tricks",
-      "path": "math/2026-11-07/drop-2.json"
-    },
-    {
-      "category": "math",
-      "date": "2026-11-07",
-      "drop": 3,
-      "title": "Money Math",
-      "path": "math/2026-11-07/drop-3.json"
-    },
-    {
       "category": "reasoning",
       "date": "2026-11-07",
       "drop": 1,
@@ -153,69 +84,6 @@
       "drop": 3,
       "title": "Think It Through",
       "path": "reasoning/2026-11-07/drop-3.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-07",
-      "drop": 1,
-      "title": "Forces All Around You",
-      "path": "physics/2026-11-07/drop-1.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-07",
-      "drop": 2,
-      "title": "Light and Sound",
-      "path": "physics/2026-11-07/drop-2.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-07",
-      "drop": 3,
-      "title": "Energy in Daily Life",
-      "path": "physics/2026-11-07/drop-3.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-07",
-      "drop": 1,
-      "title": "Matter Matters",
-      "path": "chemistry/2026-11-07/drop-1.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-07",
-      "drop": 2,
-      "title": "Acids and Bases",
-      "path": "chemistry/2026-11-07/drop-2.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-07",
-      "drop": 3,
-      "title": "Elements and Atoms",
-      "path": "chemistry/2026-11-07/drop-3.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-07",
-      "drop": 1,
-      "title": "Your Amazing Body",
-      "path": "biology/2026-11-07/drop-1.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-07",
-      "drop": 2,
-      "title": "Plants Power Up",
-      "path": "biology/2026-11-07/drop-2.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-07",
-      "drop": 3,
-      "title": "Animal Kingdom",
-      "path": "biology/2026-11-07/drop-3.json"
     },
     {
       "category": "english",
@@ -239,27 +107,6 @@
       "path": "english/2026-11-08/drop-3.json"
     },
     {
-      "category": "math",
-      "date": "2026-11-08",
-      "drop": 1,
-      "title": "Fractions and Decimals",
-      "path": "math/2026-11-08/drop-1.json"
-    },
-    {
-      "category": "math",
-      "date": "2026-11-08",
-      "drop": 2,
-      "title": "Speed, Time and Distance",
-      "path": "math/2026-11-08/drop-2.json"
-    },
-    {
-      "category": "math",
-      "date": "2026-11-08",
-      "drop": 3,
-      "title": "Shapes and Numbers",
-      "path": "math/2026-11-08/drop-3.json"
-    },
-    {
       "category": "reasoning",
       "date": "2026-11-08",
       "drop": 1,
@@ -279,69 +126,6 @@
       "drop": 3,
       "title": "Logic Lab",
       "path": "reasoning/2026-11-08/drop-3.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-08",
-      "drop": 1,
-      "title": "Gravity and Motion",
-      "path": "physics/2026-11-08/drop-1.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-08",
-      "drop": 2,
-      "title": "Electricity Basics",
-      "path": "physics/2026-11-08/drop-2.json"
-    },
-    {
-      "category": "physics",
-      "date": "2026-11-08",
-      "drop": 3,
-      "title": "Heat and Magnets",
-      "path": "physics/2026-11-08/drop-3.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-08",
-      "drop": 1,
-      "title": "Chemistry in the Kitchen",
-      "path": "chemistry/2026-11-08/drop-1.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-08",
-      "drop": 2,
-      "title": "Metals and Non-Metals",
-      "path": "chemistry/2026-11-08/drop-2.json"
-    },
-    {
-      "category": "chemistry",
-      "date": "2026-11-08",
-      "drop": 3,
-      "title": "Gases Around Us",
-      "path": "chemistry/2026-11-08/drop-3.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-08",
-      "drop": 1,
-      "title": "Cells: Life's Building Blocks",
-      "path": "biology/2026-11-08/drop-1.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-08",
-      "drop": 2,
-      "title": "Food and Nutrition",
-      "path": "biology/2026-11-08/drop-2.json"
-    },
-    {
-      "category": "biology",
-      "date": "2026-11-08",
-      "drop": 3,
-      "title": "Nature's Balance",
-      "path": "biology/2026-11-08/drop-3.json"
     }
   ]
 }

@@ -18,7 +18,7 @@ import { categoryHref, quizHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { colors } from '@/theme';
+import { categoryTone, colors, withAlpha } from '@/theme';
 
 import { Button } from './Button';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
@@ -61,10 +61,16 @@ export function CategoryCard({
         onPress={() => router.push(categoryHref(category.id))}
         className="p-5"
       >
+        {/* A soft glow in the subject's colour */}
+        <View
+          pointerEvents="none"
+          className="absolute -right-12 -top-14 h-40 w-40 rounded-full"
+          style={{ backgroundColor: withAlpha(category.color, dark ? 0.16 : 0.1) }}
+        />
         <View className="flex-row items-center gap-3.5">
           <CategoryIcon category={category} size="md" />
           <View className="flex-1">
-            <Txt weight="display" className="text-[18px] leading-6" numberOfLines={1}>
+            <Txt weight="display" className="text-[19px] leading-6" numberOfLines={1}>
               {category.name}
             </Txt>
             <Muted className="mt-0.5 text-[13px]" numberOfLines={1}>
@@ -72,7 +78,11 @@ export function CategoryCard({
             </Muted>
           </View>
           <View className="items-end">
-            <Txt weight="display" className="text-[20px] leading-7">
+            <Txt
+              weight="display"
+              className="text-[24px] leading-8"
+              style={{ color: categoryTone(category.color, dark) }}
+            >
               {doneCount}
               <Txt weight="display" className="text-[15px] text-zinc-400 dark:text-zinc-500">
                 /{slots.length}
@@ -82,7 +92,7 @@ export function CategoryCard({
         </View>
 
         {/* Today's 3 drops */}
-        <View className="mt-4 flex-row gap-1.5">
+        <View className="mt-5 flex-row gap-1.5">
           {slots.map((slot) => (
             <SlotChip
               key={slot.drop}
@@ -161,7 +171,7 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop done`}
-          className="h-7 flex-1 flex-row items-center justify-center gap-1 rounded-full bg-emerald-50 px-2 dark:bg-emerald-500/15"
+          className="h-8 flex-1 flex-row items-center justify-center gap-1 rounded-full bg-emerald-50 px-2 dark:bg-emerald-500/15"
         >
           <Icon name="check" size={12} color={colors.success} strokeWidth={3} />
           <Txt weight="semibold" className="text-[12px] text-emerald-700 dark:text-emerald-300">
@@ -174,10 +184,10 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop open now`}
-          className="h-7 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-pop px-2 dark:bg-pop-light"
+          className="h-8 flex-1 flex-row items-center justify-center gap-1.5 rounded-full bg-pop px-2 dark:bg-pop-light"
         >
-          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#062418]" />
-          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#062418]">
+          <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-[#2A0E02]" />
+          <Txt weight="semibold" className="text-[12px] text-white dark:text-[#2A0E02]">
             Open
           </Txt>
         </View>
@@ -187,7 +197,7 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop is running late`}
-          className="h-7 flex-1 flex-row items-center justify-center rounded-full border border-dashed border-zinc-300 px-2 dark:border-zinc-700"
+          className="h-8 flex-1 flex-row items-center justify-center rounded-full border border-dashed border-zinc-300 px-2 dark:border-zinc-700"
         >
           <Txt className="text-[12px] text-zinc-500 dark:text-zinc-400">Late</Txt>
         </View>
@@ -197,7 +207,7 @@ function SlotChip({ slot, label }: { slot: DropSlot; label: string }) {
         <View
           accessible
           accessibilityLabel={`${name} drop opens at ${label}`}
-          className="h-7 flex-1 flex-row items-center justify-center rounded-full border border-line px-2 dark:border-ink-line"
+          className="h-8 flex-1 flex-row items-center justify-center rounded-full border border-line px-2 dark:border-ink-line"
         >
           <Txt className="text-[12px] text-zinc-500 dark:text-zinc-400" numberOfLines={1}>
             {label}
