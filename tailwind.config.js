@@ -63,12 +63,12 @@ module.exports = {
         line: '#E6E6EB',
         // Dark mode: a calm near-black charcoal with solid, layered surfaces.
         ink: {
-          DEFAULT: '#0E0F13',
-          soft: '#121318',
-          card: '#16171C',
-          raised: '#1D1E25',
-          line: '#26272F',
-          solid: '#16171C',
+          DEFAULT: '#0A0A0E',
+          soft: '#0F1015',
+          card: '#14151B',
+          raised: '#1B1C24',
+          line: '#24262F',
+          solid: '#14151B',
         },
         // Cool neutral greys.
         zinc: {

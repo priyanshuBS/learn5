@@ -68,7 +68,7 @@ export function ArticleCard({
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={open}
-      className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'h-full overflow-hidden p-5')}
+      className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'overflow-hidden p-5')}
     >
       <View className="flex-row items-center gap-2.5">
         <CategoryIcon category={category} size="sm" />
@@ -90,7 +90,6 @@ export function ArticleCard({
       <Muted className="mt-2 text-[14px] leading-6" numberOfLines={3}>
         {article.summary}
       </Muted>
-      <View className="flex-1" />
       <View className="mt-4 flex-row items-center gap-1.5">
         <Icon name="clock" size={14} color={dark ? colors.mutedDark : colors.muted} />
         <Muted className="text-[13px]">{article.readingMinutes} min read</Muted>

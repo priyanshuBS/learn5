@@ -34,7 +34,10 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-brand-400 web:hover:bg-brand-300', text: '#1A0800' }
+        ? {
+            box: 'bg-brand-400 web:shadow-[0_8px_28px_-10px_rgba(255,122,53,0.7)] web:hover:bg-brand-300',
+            text: '#1A0800',
+          }
         : { box: 'bg-brand-600 web:hover:bg-brand-700', text: '#FFFFFF' };
     case 'secondary':
       return dark

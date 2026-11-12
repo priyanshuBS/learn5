@@ -1,6 +1,6 @@
 # Learn5
 
-**5 questions. 5 minutes. Get smarter every day.**
+**Sharpen your mind in 5 minutes a day.**
 
 Learn5 is a daily micro-learning app for **English, Reasoning, Puzzles and Computer Science**.
 Twice a day every subject gets a fresh 5-question drop that climbs from easy to hard, and every

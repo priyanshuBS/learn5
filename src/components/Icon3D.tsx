@@ -6,7 +6,6 @@
  *
  *   <Icon3D icon="flame" color="#FF6A1A" size={44} />
  */
-import { useId } from 'react';
 import { View } from 'react-native';
 import Svg, { Defs, Ellipse, LinearGradient, Rect, Stop } from 'react-native-svg';
 
@@ -26,7 +25,9 @@ export function Icon3D({
   /** Fill the icon shape (good for flame, star, heart). */
   filled?: boolean;
 }) {
-  const id = useId().replace(/[^a-zA-Z0-9]/g, '');
+  // Same colour = same gradients, so the id comes from the colour (not useId):
+  // stable between the website's pre-built HTML and the live page.
+  const id = `i3d${color.replace(/[^a-zA-Z0-9]/g, '')}`;
   const depth = Math.max(2, Math.round(size * 0.07));
   const face = size - depth;
   const radius = size * 0.28;

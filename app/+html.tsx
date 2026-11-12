@@ -5,10 +5,10 @@
 import { ScrollViewStyleReset, useServerDocumentContext } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 
-const TITLE = 'Learn5 — 5 questions. 5 minutes. Get smarter every day.';
+const TITLE = 'Learn5 — Sharpen your mind in 5 minutes a day';
 
 const DESCRIPTION =
-  'Learn5: 5 questions, 5 minutes. Daily bite-size drops in English, Reasoning, Puzzles and Computer Science.';
+  'Sharpen your mind in 5 minutes a day: two 5-question drops in English, Reasoning, Puzzles and Computer Science, from easy to hard, plus a short article every morning.';
 
 // Page background before the app loads (avoids a white flash in dark mode).
 // --css-interop-darkMode: tells NativeWind "dark mode = the dark class" before its
@@ -17,7 +17,7 @@ const DESCRIPTION =
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
 body { background-color: #F7F7F9; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #0E0F13; }
+html.dark body { background-color: #0A0A0E; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -57,13 +57,13 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#0E0F13" />
+        <meta name="theme-color" content="#0A0A0E" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;
             change both when the icon changes. Source: assets/images/favicon.png. */}
-        <link rel="icon" type="image/png" href="/learn5-icon.png?v=6" />
-        <link rel="apple-touch-icon" href="/learn5-icon.png?v=6" />
+        <link rel="icon" type="image/png" href="/learn5-icon.png?v=7" />
+        <link rel="apple-touch-icon" href="/learn5-icon.png?v=7" />
         {/* Link previews (WhatsApp, X, LinkedIn, iMessage…) */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Learn5" />

@@ -29,19 +29,19 @@ export const colors = {
   muted: '#6B6D7B',
   mutedDark: '#9A9CAA',
   line: '#E6E6EB',
-  inkLine: '#26272F',
+  inkLine: '#24262F',
   success: '#16A34A',
   danger: '#DC2626',
   warning: '#D97706',
   streak: '#FF6A1A',
   points: '#F5B70A',
   canvas: '#F7F7F9',
-  ink: '#0E0F13',
+  ink: '#0A0A0E',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#16171C',
+  inkSolid: '#14151B',
   /** Empty part of progress rings. */
   track: '#E8E8EE',
-  trackDark: '#26272F',
+  trackDark: '#24262F',
 } as const;
 
 /** Colours of the 3D stat icons. */
