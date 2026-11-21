@@ -203,7 +203,7 @@ function FilterChip({
       className={twMerge(
         'h-8 flex-row items-center rounded-md border px-3 web:transition-colors',
         active
-          ? 'border-zinc-950 bg-zinc-950 dark:border-[#EDEDED] dark:bg-[#EDEDED]'
+          ? 'border-brand-600 bg-brand-600 dark:border-brand-400 dark:bg-brand-500'
           : 'border-line bg-white active:bg-zinc-50 web:hover:bg-zinc-50 dark:border-ink-line dark:bg-ink dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]',
       )}
     >
@@ -211,7 +211,7 @@ function FilterChip({
         weight="medium"
         className={twMerge(
           'text-[13px]',
-          active ? 'text-white dark:text-[#111111]' : 'text-zinc-600 dark:text-zinc-400',
+          active ? 'text-white dark:text-white' : 'text-zinc-600 dark:text-zinc-400',
         )}
       >
         {label}

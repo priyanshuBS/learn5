@@ -1,11 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Monochrome" (flat, Geist).
-//   Pure black and white, flat surfaces and hairlines. The accent is ink: black in light mode, white in dark mode.
-//   brand  = ink: buttons, links, the active tab, progress
-//   pop    = the same (older class names)
-//   canvas / line = light mode page and hairlines
-//   ink-*  = dark mode: page, soft (bars), card, raised, line
-// Subjects keep their own colour, used only on their 3D icons.
+// Learn5 design system for Tailwind (NativeWind) — "Scholar".
+//   A focused blue (brand) for actions and progress, warm amber (gold) for streaks
+//   and points, and a soft colour per subject. Cool-white light mode, navy dark mode.
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -17,64 +13,60 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // The "accent" is ink: near-black in light mode (600-900) and near-white
-        // in dark mode (300-400, used with the dark: prefix). 50-200 are soft greys.
+        // Scholar blue: the main colour (buttons, links, progress, the active tab).
+        // 50-200 soft tints, 300-400 bright blue for dark mode, 500-700 for light mode.
         brand: {
-          50: '#F4F4F5',
-          100: '#E9E9EB',
-          200: '#D4D4D8',
-          300: '#E4E4E7',
-          400: '#FAFAFA',
-          500: '#71717A',
-          600: '#0A0A0A',
-          700: '#000000',
-          800: '#171717',
-          900: '#0A0A0A',
-          950: '#000000',
+          50: '#EEF3FF',
+          100: '#DCE6FF',
+          200: '#BACBFF',
+          300: '#93AEFF',
+          400: '#6A8BFF',
+          500: '#4767F5',
+          600: '#2F51E0',
+          700: '#2541B8',
+          800: '#213792',
+          900: '#1F3173',
+          950: '#141E45',
         },
-        pop: {
-          DEFAULT: '#0A0A0A',
-          light: '#FAFAFA',
-          dark: '#262626',
-          soft: '#F4F4F5',
-        },
+        pop: { DEFAULT: '#2F51E0', light: '#6A8BFF', dark: '#2541B8', soft: '#EEF3FF' },
+        // Amber: progress, streaks and points (warm, motivating).
+        gold: { DEFAULT: '#F59E0B', soft: '#FEF3C7', light: '#FCD34D' },
         // Kept as aliases (older class names).
-        leaf: { DEFAULT: '#0A0A0A', light: '#FAFAFA', dark: '#262626' },
-        accent: { 300: '#E4E4E7', 400: '#FAFAFA', 500: '#71717A' },
-        volt: { DEFAULT: '#0A0A0A', dim: '#262626' },
-        gold: { DEFAULT: '#A3A3A3', soft: '#F5F5F5', light: '#D4D4D4' },
-        // Light mode: white page, flat white surfaces, hairlines.
-        canvas: '#FFFFFF',
-        line: '#EAEAEA',
-        // Dark mode: near-black page; surfaces are the page colour plus a hairline.
+        leaf: { DEFAULT: '#2F51E0', light: '#6A8BFF', dark: '#2541B8' },
+        accent: { 300: '#93AEFF', 400: '#6A8BFF', 500: '#4767F5' },
+        volt: { DEFAULT: '#2F51E0', dim: '#2541B8' },
+        // Light mode: a soft cool-white page with white cards.
+        canvas: '#F6F7FB',
+        line: '#E4E7EF',
+        // Dark mode: deep navy.
         ink: {
-          DEFAULT: '#0A0A0A',
-          soft: '#0A0A0A',
-          card: '#0A0A0A',
-          raised: '#171717',
-          line: '#242424',
-          solid: '#111111',
+          DEFAULT: '#0B1020',
+          soft: '#0D1326',
+          card: '#121A2E',
+          raised: '#19233B',
+          line: '#232E48',
+          solid: '#121A2E',
         },
-        // Pure neutral greys (no colour tint).
+        // Cool slate greys.
         zinc: {
-          50: '#FAFAFA',
-          100: '#F5F5F5',
-          200: '#E5E5E5',
-          300: '#D4D4D4',
-          400: '#A3A3A3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
-          950: '#0A0A0A',
+          50: '#F8FAFC',
+          100: '#F1F4F9',
+          200: '#E4E8F0',
+          300: '#CDD4E0',
+          400: '#98A2B6',
+          500: '#667085',
+          600: '#4B5565',
+          700: '#364152',
+          800: '#202939',
+          900: '#121926',
+          950: '#0B1020',
         },
       },
       // Geist for everything; Geist Mono for numbers, times and small labels.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['Geist_600SemiBold'],
+        display: ['Geist_700Bold'],
         body: ['Geist_400Regular'],
         'body-medium': ['Geist_500Medium'],
         'body-semibold': ['Geist_600SemiBold'],

@@ -1,30 +1,26 @@
 /**
- * Icon3D — kept under its old name, now a FLAT icon tile: a line icon in a square
- * with a hairline border (the app is black and white and flat).
- *
- *   <Icon3D icon="flame" size={40} />
- *
- * `color` is accepted for older callers but not shown. `filled` fills the shape.
- * `muted` draws it quieter (e.g. a badge not earned yet). `solid` inverts it:
- * a black tile (white in dark mode) with the icon knocked out.
+ * Icon3D — kept under its old name: a soft colour TILE with a line icon.
+ *   <Icon3D icon="flame" color="#F97316" />   → a light orange tile with an orange icon
+ * Without a colour it uses the main blue. `solid` fills the tile with the colour
+ * and draws the icon in white. `muted` draws a quiet grey tile (e.g. a badge not
+ * earned yet). `filled` fills the icon shape (flame, star).
  */
 import { View } from 'react-native';
-import { twMerge } from 'tailwind-merge';
 
 import { useColorScheme } from '@/hooks/useScheme';
-import { colors } from '@/theme';
+import { colors, darken, lighten, withAlpha } from '@/theme';
 
 import { Icon, type IconName } from './Icon';
 
 export function Icon3D({
   icon,
+  color = colors.brand,
   size = 40,
   filled = false,
   muted = false,
   solid = false,
 }: {
   icon: IconName;
-  /** Kept for older callers; the monochrome theme ignores it. */
   color?: string;
   size?: number;
   filled?: boolean;
@@ -32,35 +28,34 @@ export function Icon3D({
   solid?: boolean;
 }) {
   const dark = useColorScheme() === 'dark';
-  const glyph = Math.round(size * 0.45);
-  const iconColor = solid
-    ? dark
-      ? '#111111'
-      : '#FFFFFF'
-    : muted
-      ? dark
-        ? '#525252'
-        : '#A3A3A3'
-      : dark
-        ? colors.textDark
-        : '#171717';
+  const glyph = Math.round(size * 0.48);
+  const radius = Math.max(8, Math.round(size * 0.3));
+
+  let background: string;
+  let iconColor: string;
+  if (muted) {
+    background = dark ? '#19233B' : '#F1F4F9';
+    iconColor = dark ? '#4B5565' : '#98A2B6';
+  } else if (solid) {
+    background = dark ? lighten(color, 0.05) : color;
+    iconColor = '#FFFFFF';
+  } else {
+    background = withAlpha(color, dark ? 0.18 : 0.12);
+    iconColor = dark ? lighten(color, 0.35) : darken(color, 0.08);
+  }
+
   return (
     <View
-      style={{ width: size, height: size, borderRadius: Math.max(6, Math.round(size * 0.24)) }}
-      className={twMerge(
-        'items-center justify-center',
-        solid
-          ? 'bg-zinc-950 dark:bg-[#EDEDED]'
-          : 'border border-line bg-white dark:border-ink-line dark:bg-ink-raised',
-      )}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: radius,
+        backgroundColor: background,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      <Icon
-        name={icon}
-        size={glyph}
-        color={iconColor}
-        strokeWidth={1.75}
-        filled={filled && !muted}
-      />
+      <Icon name={icon} size={glyph} color={iconColor} strokeWidth={2} filled={filled && !muted} />
     </View>
   );
 }

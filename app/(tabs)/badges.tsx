@@ -12,7 +12,6 @@ import { Button } from '@/components/Button';
 import { Card, CARD_CLASSES } from '@/components/Card';
 import { Icon } from '@/components/Icon';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
-import { ProgressBar } from '@/components/ProgressBar';
 import { RemindersSettings } from '@/components/RemindersCard';
 import { Screen } from '@/components/Screen';
 import { StatStrip } from '@/components/StatCard';
@@ -77,31 +76,36 @@ export default function ProgressScreen() {
       <PageHeader title="Progress" subtitle="Level, streaks, badges and settings." />
 
       {/* Level */}
-      <View className={twMerge(CARD_CLASSES, 'p-5 md:p-6')}>
+      <View className="overflow-hidden rounded-3xl bg-brand-600 p-6 dark:bg-brand-700 md:p-7">
+        <View
+          pointerEvents="none"
+          className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/[0.06]"
+        />
         <View className="flex-row items-end justify-between gap-4">
           <View className="flex-1">
-            <Muted className="text-[13px]">Level {level.level}</Muted>
-            <Txt weight="display" className="mt-1 text-[28px] leading-9">
+            <Txt className="text-[13px] text-white/75 dark:text-white/75">Level {level.level}</Txt>
+            <Txt weight="display" className="mt-1 text-[30px] leading-9 text-white dark:text-white">
               {level.name}
             </Txt>
           </View>
           <View className="items-end">
-            <Muted className="text-[13px]">Points</Muted>
-            <Txt weight="display" className="mt-1 text-[28px] leading-9">
+            <Txt className="text-[13px] text-white/75 dark:text-white/75">Points</Txt>
+            <Txt weight="display" className="mt-1 text-[30px] leading-9 text-white dark:text-white">
               {points.toLocaleString('en-IN')}
             </Txt>
           </View>
         </View>
-        <ProgressBar
-          value={level.progress}
-          className="mt-6"
-          label={`Level progress ${Math.round(level.progress * 100)} percent`}
-        />
-        <Muted className="mt-2.5 text-[13px]">
+        <View className="mt-6 h-2 overflow-hidden rounded-full bg-white/20">
+          <View
+            className="h-full rounded-full bg-white"
+            style={{ width: `${Math.round(level.progress * 100)}%` }}
+          />
+        </View>
+        <Txt className="mt-3 text-[13px] text-white/80 dark:text-white/80">
           {level.nextAt === null || !nextLevel
             ? 'You reached the top level.'
             : `${(level.nextAt - points).toLocaleString('en-IN')} points to level ${nextLevel.level} · ${nextLevel.name}`}
-        </Muted>
+        </Txt>
       </View>
 
       {/* Stats */}
@@ -109,15 +113,30 @@ export default function ProgressScreen() {
         <StatStrip
           className="md:flex-1"
           stats={[
-            { label: 'Current streak', value: `${streak.current}d` },
-            { label: 'Best streak', value: `${streak.best}d` },
+            {
+              icon: 'flame',
+              color: '#F97316',
+              label: 'Current streak',
+              value: `${streak.current}d`,
+            },
+            {
+              icon: 'trending-up',
+              color: '#F59E0B',
+              label: 'Best streak',
+              value: `${streak.best}d`,
+            },
           ]}
         />
         <StatStrip
           className="md:flex-1"
           stats={[
-            { label: 'Correct answers', value: `${stats.correctAnswers}` },
-            { label: 'Drops done', value: `${stats.dropsDone}` },
+            {
+              icon: 'check-circle',
+              color: '#12A150',
+              label: 'Correct answers',
+              value: `${stats.correctAnswers}`,
+            },
+            { icon: 'layers', color: '#2F51E0', label: 'Drops done', value: `${stats.dropsDone}` },
           ]}
         />
       </View>
@@ -149,12 +168,12 @@ export default function ProgressScreen() {
               className={twMerge(
                 'flex-row items-center gap-3 px-4 py-3',
                 i > 0 && 'border-t border-line dark:border-ink-line',
-                current && 'bg-zinc-50 dark:bg-white/[0.03]',
+                current && 'bg-brand-50 dark:bg-brand-400/10',
               )}
             >
               <View className="w-5 items-center">
                 {reached ? (
-                  <Icon name="check" size={14} color={colors.brand} strokeWidth={2.5} />
+                  <Icon name="check-circle" size={15} color={colors.success} />
                 ) : (
                   <View className="h-1.5 w-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
                 )}
@@ -163,9 +182,11 @@ export default function ProgressScreen() {
                 Level {l.level} · {l.name}
               </Txt>
               {current ? (
-                <Txt weight="mono" className="text-[11px] uppercase tracking-[1px] text-zinc-500">
-                  Current
-                </Txt>
+                <View className="rounded-full bg-brand-600 px-2 py-0.5 dark:bg-brand-500">
+                  <Txt weight="semibold" className="text-[11px] text-white dark:text-white">
+                    You are here
+                  </Txt>
+                </View>
               ) : null}
               <Txt weight="mono" className="w-20 text-right text-[12.5px] text-zinc-500">
                 {l.minPoints.toLocaleString('en-IN')}
@@ -199,8 +220,8 @@ export default function ProgressScreen() {
       <SectionTitle title="Account" />
       <Card className="gap-4 md:flex-row md:items-center">
         <View className="flex-1 flex-row items-center gap-3">
-          <View className="h-10 w-10 items-center justify-center rounded-full bg-zinc-950 dark:bg-[#EDEDED]">
-            <Txt weight="semibold" className="text-[15px] uppercase text-white dark:text-[#111111]">
+          <View className="h-10 w-10 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-500">
+            <Txt weight="semibold" className="text-[15px] uppercase text-white dark:text-white">
               {user?.email?.[0] ?? '?'}
             </Txt>
           </View>

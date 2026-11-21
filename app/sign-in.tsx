@@ -19,7 +19,7 @@ import {
 import { twMerge } from 'tailwind-merge';
 
 import { Button, IconButton } from '@/components/Button';
-import { Card } from '@/components/Card';
+import { CARD_CLASSES } from '@/components/Card';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { Screen } from '@/components/Screen';
@@ -137,21 +137,24 @@ export default function SignInScreen() {
       className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Screen width="narrow" fill contentClassName="max-w-[500px] pt-4 md:pt-6">
+      <Screen fill contentClassName="max-w-5xl pt-4 md:pt-6">
         <View className="flex-row items-center justify-between">
           <IconButton icon="arrow-left" label="Back to home page" onPress={goBack} />
           <ThemeIconButton />
         </View>
 
         <View className="flex-1 justify-center py-6">
-          <View className="relative">
-            <Card className="p-6 md:p-8">
-              <View className="mb-7 items-center">
-                <Logo showWordmark={false} size="lg" />
+          <View className={twMerge(CARD_CLASSES, 'overflow-hidden lg:flex-row')}>
+            <BrandPanel />
+            <View className="mx-auto w-full max-w-[460px] p-6 md:p-10 lg:flex-1">
+              <View className="mb-7 items-center lg:items-start">
+                <View className="lg:hidden">
+                  <Logo showWordmark={false} size="lg" />
+                </View>
                 <Txt
                   weight="display"
                   accessibilityRole="header"
-                  className="mt-5 text-center text-[26px] leading-[32px]"
+                  className="mt-5 text-center text-[26px] leading-[32px] lg:mt-0 lg:text-left lg:text-[30px] lg:leading-9"
                 >
                   {step === 'code'
                     ? 'Check your email'
@@ -159,7 +162,7 @@ export default function SignInScreen() {
                       ? 'Create your account'
                       : 'Welcome back'}
                 </Txt>
-                <Muted className="mt-2 text-center text-[15px] leading-6">
+                <Muted className="mt-2 text-center text-[15px] leading-6 lg:text-left">
                   {step === 'email' ? (
                     mode === 'signup' ? (
                       'We’ll email you a code — no password needed.'
@@ -185,7 +188,7 @@ export default function SignInScreen() {
                     className={twMerge(
                       'flex-row items-center gap-2.5 rounded-lg border bg-white px-3.5 dark:bg-ink',
                       emailFocused
-                        ? 'border-zinc-950 web:ring-4 web:ring-black/5 dark:border-[#EDEDED] dark:web:ring-white/10'
+                        ? 'border-brand-600 web:ring-4 web:ring-brand-500/15 dark:border-brand-400 dark:web:ring-brand-400/20'
                         : 'border-line dark:border-ink-line',
                     )}
                   >
@@ -245,7 +248,7 @@ export default function SignInScreen() {
                             className={twMerge(
                               'h-14 flex-1 items-center justify-center rounded-lg border bg-white dark:bg-ink',
                               active
-                                ? 'border-zinc-950 web:ring-4 web:ring-black/5 dark:border-[#EDEDED] dark:web:ring-white/10'
+                                ? 'border-brand-600 web:ring-4 web:ring-brand-500/15 dark:border-brand-400 dark:web:ring-brand-400/20'
                                 : digit
                                   ? 'border-zinc-300 dark:border-zinc-600'
                                   : 'border-line dark:border-ink-line',
@@ -314,7 +317,7 @@ export default function SignInScreen() {
                           'text-sm',
                           resendIn > 0 || busy
                             ? 'text-zinc-400 dark:text-zinc-500'
-                            : 'text-zinc-950 underline dark:text-[#EDEDED]',
+                            : 'text-brand-700 dark:text-brand-300',
                         )}
                       >
                         {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
@@ -357,10 +360,7 @@ export default function SignInScreen() {
                       }}
                       hitSlop={8}
                     >
-                      <Txt
-                        weight="semibold"
-                        className="text-sm text-zinc-950 underline dark:text-[#EDEDED]"
-                      >
+                      <Txt weight="semibold" className="text-sm text-brand-700 dark:text-brand-300">
                         {mode === 'signup' ? 'Log in' : 'Create an account'}
                       </Txt>
                     </Pressable>
@@ -392,12 +392,69 @@ export default function SignInScreen() {
                   .
                 </Muted>
               </View>
-            </Card>
+            </View>
           </View>
         </View>
         {/* Same height as the top bar, so the card is centred on the whole screen. */}
         <View className="h-10" />
       </Screen>
     </KeyboardAvoidingView>
+  );
+}
+
+const PERKS = [
+  'One 5-question drop in each subject, every morning',
+  'A clear explanation after every answer',
+  'Streaks, points and badges to keep you going',
+];
+
+/** The blue side panel on wide screens: what Learn5 is, at a glance. */
+function BrandPanel() {
+  return (
+    <View className="hidden overflow-hidden bg-brand-600 p-10 dark:bg-brand-700 lg:flex lg:w-[44%] lg:justify-between">
+      <View
+        pointerEvents="none"
+        className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-white/[0.07]"
+      />
+      <View>
+        <View className="flex-row items-center gap-2.5">
+          <View className="h-8 w-8 items-center justify-center rounded-lg bg-white">
+            <Txt weight="display" className="text-[16px] text-brand-700 dark:text-brand-700">
+              5
+            </Txt>
+          </View>
+          <Txt weight="display" className="text-[18px] text-white dark:text-white">
+            Learn5
+          </Txt>
+        </View>
+        <Txt
+          weight="display"
+          className="mt-12 text-[32px] leading-[38px] tracking-[-0.8px] text-white dark:text-white"
+        >
+          Five minutes a day is all it takes.
+        </Txt>
+        <View className="mt-8 gap-4">
+          {PERKS.map((perk) => (
+            <View key={perk} className="flex-row items-start gap-3">
+              <View className="mt-0.5 h-5 w-5 items-center justify-center rounded-full bg-white/20">
+                <Icon name="check" size={12} color="#FFFFFF" strokeWidth={3} />
+              </View>
+              <Txt className="flex-1 text-[15px] leading-6 text-white/90 dark:text-white/90">
+                {perk}
+              </Txt>
+            </View>
+          ))}
+        </View>
+      </View>
+      <View className="mt-12 flex-row flex-wrap gap-2">
+        {['Math', 'Reasoning', 'English', 'Computer Science'].map((s) => (
+          <View key={s} className="rounded-full bg-white/15 px-3 py-1.5">
+            <Txt weight="semibold" className="text-[12.5px] text-white dark:text-white">
+              {s}
+            </Txt>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 }

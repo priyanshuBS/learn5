@@ -11,8 +11,9 @@ import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 import { Button, IconButton } from '@/components/Button';
-import { Card, CARD_CLASSES } from '@/components/Card';
+import { CARD_CLASSES } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
+import { Icon3D } from '@/components/Icon3D';
 import { Tag } from '@/components/DifficultyBadge';
 import { ExplanationPanel } from '@/components/ExplanationPanel';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
@@ -112,22 +113,24 @@ export default function ReviewScreen() {
         />
       ) : (
         <>
-          <Card className="flex-row flex-wrap items-center justify-between gap-4">
-            <View className="min-w-48 flex-1">
-              <Txt weight="display" className="text-3xl">
-                {available.length}
-              </Txt>
-              <Muted className="text-[15px]">
-                {available.length === 1 ? 'question' : 'questions'} to fix. Get one right and it
-                leaves the list.
-              </Muted>
+          <View className="flex-row flex-wrap items-center justify-between gap-5 rounded-3xl bg-rose-50 p-6 dark:bg-rose-500/10">
+            <View className="min-w-48 flex-1 flex-row items-center gap-4">
+              <Icon3D icon="review" color="#F43F5E" size={52} />
+              <View className="flex-1">
+                <Txt weight="display" className="text-[30px] leading-9">
+                  {available.length} to fix
+                </Txt>
+                <Muted className="text-[14px] leading-5">
+                  Get a question right and it leaves the list.
+                </Muted>
+              </View>
             </View>
             <Button
               label={`Start review (${Math.min(ROUND_SIZE, available.length)})`}
               icon="play"
               onPress={() => setRound(available.slice(0, ROUND_SIZE).map((id) => cards[id]))}
             />
-          </Card>
+          </View>
 
           {filterCategory ? (
             <Button
@@ -155,9 +158,12 @@ export default function ReviewScreen() {
                     <Txt weight="medium" className="text-[15px] leading-6">
                       {card.item.question}
                     </Txt>
-                    <Muted className="mt-0.5">
-                      {card.item.topic} · You answered “{card.firstAnswer ?? '—'}”
-                    </Muted>
+                    <View className="mt-1.5 flex-row flex-wrap items-center gap-2">
+                      <Tag label={card.category.name} color={card.category.color} />
+                      <Muted className="text-[13px]">
+                        You answered “{card.firstAnswer ?? '—'}”
+                      </Muted>
+                    </View>
                   </View>
                 </View>
               );
@@ -266,7 +272,7 @@ function ReviewPlayer({
         <Muted>{item.topic}</Muted>
       </View>
 
-      <Card className="mt-4 p-5 md:p-8">
+      <View className="mt-4 pt-2">
         <QuizCard
           item={item}
           answer={answer}
@@ -287,7 +293,7 @@ function ReviewPlayer({
             });
           }}
         />
-      </Card>
+      </View>
 
       {answer ? (
         <ExplanationPanel

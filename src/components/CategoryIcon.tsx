@@ -1,5 +1,5 @@
 /**
- * CategoryIcon — the subject's line icon in a flat bordered tile (see Icon3D).
+ * CategoryIcon — the subject's line icon on a soft tile in the subject's colour (see Icon3D).
  * Falls back to the subject's emoji if it has no line icon.
  */
 import { View } from 'react-native';

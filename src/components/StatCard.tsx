@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { CARD_CLASSES } from './Card';
 import type { IconName } from './Icon';
+import { Icon3D } from './Icon3D';
 import { Muted, Txt } from './Txt';
 
 export function StatCard({
@@ -61,12 +62,17 @@ export function StatStrip({ stats, className }: { stats: StripStat[]; className?
             accessibilityLabel={`${s.label}: ${s.value}`}
             className="flex-1 px-4 py-4 md:px-5"
           >
-            <Muted className="text-[12.5px]" numberOfLines={1}>
-              {s.label}
-            </Muted>
-            <Txt weight="display" className="mt-1 text-[22px] leading-7" numberOfLines={1}>
+            {s.icon ? (
+              <View className="mb-3">
+                <Icon3D icon={s.icon} color={s.color} size={28} filled={s.icon !== 'trophy'} />
+              </View>
+            ) : null}
+            <Txt weight="display" className="text-[22px] leading-7" numberOfLines={1}>
               {s.value}
             </Txt>
+            <Muted className="mt-0.5 text-[12.5px]" numberOfLines={1}>
+              {s.label}
+            </Muted>
             {s.extra}
           </View>
         </Fragment>

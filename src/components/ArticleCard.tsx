@@ -10,9 +10,10 @@ import { twMerge } from 'tailwind-merge';
 import { useColorScheme } from '@/hooks/useScheme';
 import { articleHref } from '@/lib/routes';
 import type { ArticleSummary, Category } from '@/lib/schema';
-import { colors } from '@/theme';
+import { categoryTone, colors } from '@/theme';
 
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
+import { CategoryIcon } from './CategoryIcon';
 import { Icon } from './Icon';
 import { Eyebrow, Muted, Txt } from './Txt';
 
@@ -33,7 +34,8 @@ export function ArticleCard({
   const dark = useColorScheme() === 'dark';
   const label = `${category.name} article: ${article.title}. ${article.readingMinutes} minute read${read ? '. Read' : ''}`;
   const open = () => router.push(articleHref(article));
-  const muted = dark ? '#737373' : '#A3A3A3';
+  const muted = dark ? '#667085' : '#98A2B6';
+  const tone = categoryTone(category.color, dark);
 
   if (variant === 'row') {
     return (
@@ -72,9 +74,15 @@ export function ArticleCard({
       className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'p-5 md:p-6')}
     >
       <View className="flex-row items-center justify-between">
-        <Eyebrow>
-          {category.name} · {article.readingMinutes} min read
-        </Eyebrow>
+        <View className="flex-row items-center gap-2.5">
+          <CategoryIcon category={category} size="sm" />
+          <View>
+            <Txt weight="semibold" className="text-[13px]" style={{ color: tone }}>
+              {category.name}
+            </Txt>
+            <Muted className="text-[12px]">{article.readingMinutes} min read</Muted>
+          </View>
+        </View>
         {read ? (
           <View className="flex-row items-center gap-1">
             <Icon name="check" size={12} color={colors.success} strokeWidth={2.5} />
@@ -84,7 +92,7 @@ export function ArticleCard({
       </View>
       <Txt
         weight="display"
-        className="mt-3 text-[22px] leading-[28px] md:text-[24px] md:leading-[30px]"
+        className="mt-4 text-[22px] leading-[28px] md:text-[24px] md:leading-[30px]"
         numberOfLines={3}
       >
         {article.title}
@@ -93,10 +101,10 @@ export function ArticleCard({
         {article.summary}
       </Muted>
       <View className="mt-5 flex-row items-center gap-1.5">
-        <Txt weight="medium" className="text-[14px]">
+        <Txt weight="semibold" className="text-[14px] text-brand-700 dark:text-brand-300">
           {read ? 'Read again' : 'Read article'}
         </Txt>
-        <Icon name="arrow-right" size={14} color={dark ? colors.textDark : colors.text} />
+        <Icon name="arrow-right" size={14} color={colors.brand} />
       </View>
     </Pressable>
   );

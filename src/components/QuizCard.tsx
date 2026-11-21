@@ -94,7 +94,7 @@ function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer
         className={twMerge(
           base,
           'underline',
-          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-[#EDEDED]',
+          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-[#E6EAF5]',
         )}
       >
         {answer ? item.answer : '      '}
@@ -172,7 +172,7 @@ function OptionButton({
         className={twMerge(
           'min-h-[54px] flex-row items-center gap-3 rounded-lg border bg-white px-3.5 py-3 web:transition-colors web:duration-150 dark:bg-ink',
           state === 'idle' &&
-            'border-line active:border-zinc-950 active:bg-zinc-50 web:hover:border-zinc-400 web:hover:bg-zinc-50 dark:border-ink-line dark:active:border-[#EDEDED] dark:active:bg-white/[0.03] dark:web:hover:border-zinc-600 dark:web:hover:bg-white/[0.03]',
+            'border-line active:border-brand-600 active:bg-zinc-50 web:hover:border-zinc-400 web:hover:bg-zinc-50 dark:border-ink-line dark:active:border-brand-400 dark:active:bg-white/[0.03] dark:web:hover:border-zinc-600 dark:web:hover:bg-white/[0.03]',
           good &&
             'border-emerald-600 bg-emerald-50/60 dark:border-emerald-500/70 dark:bg-emerald-500/[0.08]',
           state === 'wrong' &&
@@ -231,9 +231,9 @@ function FillBlankInput({
         autoCorrect={false}
         returnKeyType="done"
         className={twMerge(
-          'min-h-[54px] rounded-lg border bg-white px-4 font-body-medium text-lg text-zinc-950 web:outline-none dark:bg-ink dark:text-[#EDEDED]',
+          'min-h-[54px] rounded-lg border bg-white px-4 font-body-medium text-lg text-zinc-900 web:outline-none dark:bg-ink dark:text-[#E6EAF5]',
           !answer &&
-            'border-line focus:border-zinc-950 dark:border-ink-line dark:focus:border-[#EDEDED]',
+            'border-line focus:border-brand-600 dark:border-ink-line dark:focus:border-brand-400',
           answer?.correct && 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10',
           answer && !answer.correct && 'border-rose-500 bg-rose-50 dark:bg-rose-500/10',
         )}

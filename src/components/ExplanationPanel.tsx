@@ -52,7 +52,7 @@ export function ExplanationPanel({
               'h-5 w-5 items-center justify-center rounded-full',
               kind === 'correct' && 'bg-emerald-600',
               kind === 'wrong' && 'bg-rose-500',
-              kind === 'fact' && 'bg-zinc-950 dark:bg-[#EDEDED]',
+              kind === 'fact' && 'bg-brand-600 dark:bg-brand-500',
             )}
           >
             <Icon
@@ -87,7 +87,7 @@ export function ExplanationPanel({
         {funFact && kind !== 'fact' ? (
           <View className="mt-4 border-l-2 border-zinc-200 pl-3.5 dark:border-zinc-700">
             <Txt className="text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
-              <Txt weight="medium" className="text-[14px] text-zinc-950 dark:text-[#EDEDED]">
+              <Txt weight="medium" className="text-[14px] text-zinc-900 dark:text-[#E6EAF5]">
                 Did you know?{' '}
               </Txt>
               {funFact}

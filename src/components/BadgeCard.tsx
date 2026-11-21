@@ -1,5 +1,5 @@
 /**
- * BadgeCard — one badge: a solid icon tile when earned; a quiet outline and a
+ * BadgeCard — one badge: a coloured icon tile when earned; a quiet grey tile and a
  * progress bar when not.
  */
 import { View } from 'react-native';
@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { BadgeStatus } from '@/features/badges/badges';
 import { useColorScheme } from '@/hooks/useScheme';
-import { BADGE_ICONS, colors } from '@/theme';
+import { BADGE_COLORS, BADGE_ICONS, colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
 import { Icon } from './Icon';
@@ -32,9 +32,9 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
           <View>
             <Icon3D
               icon={BADGE_ICONS[badge.id] ?? 'medal'}
+              color={BADGE_COLORS[badge.id] ?? colors.brand}
               muted={!badge.earned}
-              solid={badge.earned}
-              size={36}
+              size={40}
               filled={badge.id.startsWith('streak-7')}
             />
           </View>
@@ -52,9 +52,12 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
         </Muted>
       </View>
       {badge.earned ? (
-        <Txt weight="mono" className="text-[11px] uppercase tracking-[1px] text-zinc-500">
-          Earned
-        </Txt>
+        <View className="flex-row items-center gap-1.5">
+          <Icon name="check-circle" size={14} color={colors.success} />
+          <Txt weight="semibold" className="text-[12px] text-emerald-700 dark:text-emerald-400">
+            Earned
+          </Txt>
+        </View>
       ) : (
         <View>
           <ProgressBar value={badge.progress} label={`${badge.name} progress`} />

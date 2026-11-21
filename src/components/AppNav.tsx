@@ -46,7 +46,7 @@ export function AppNav({
   };
 
   const iconColor = (active: boolean) =>
-    active ? (dark ? colors.textDark : colors.text) : dark ? '#737373' : '#8F8F8F';
+    active ? (dark ? colors.brandOnDark : colors.brand) : dark ? '#667085' : '#98A2B6';
 
   const badgeFor = (name: string) =>
     name === 'review' && ready && mistakes.length > 0 ? mistakes.length : 0;
@@ -54,7 +54,7 @@ export function AppNav({
   if (variant === 'sidebar') {
     return (
       <View
-        className="w-60 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink"
+        className="w-60 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink-soft"
         style={{ paddingTop: insets.top + 24 }}
       >
         <View className="px-2.5">
@@ -75,7 +75,7 @@ export function AppNav({
                 className={twMerge(
                   'h-9 flex-row items-center gap-2.5 rounded-md px-2.5 web:transition-colors',
                   active
-                    ? 'bg-zinc-100 dark:bg-white/[0.07]'
+                    ? 'bg-brand-50 dark:bg-brand-400/[0.12]'
                     : 'active:bg-zinc-50 web:hover:bg-zinc-50 dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]',
                 )}
               >
@@ -85,7 +85,7 @@ export function AppNav({
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-zinc-950 dark:text-[#EDEDED]'
+                      ? 'text-brand-700 dark:text-brand-300'
                       : 'text-zinc-500 dark:text-zinc-400',
                   )}
                 >
@@ -135,11 +135,8 @@ export function AppNav({
             onPress={() => go('badges')}
             className="mt-2 flex-row items-center gap-2.5 rounded-md px-2.5 py-2 active:bg-zinc-50 web:hover:bg-zinc-50 dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]"
           >
-            <View className="h-6 w-6 items-center justify-center rounded-full bg-zinc-950 dark:bg-[#EDEDED]">
-              <Txt
-                weight="semibold"
-                className="text-[11px] uppercase text-white dark:text-[#111111]"
-              >
+            <View className="h-6 w-6 items-center justify-center rounded-full bg-brand-600 dark:bg-brand-500">
+              <Txt weight="semibold" className="text-[11px] uppercase text-white dark:text-white">
                 {email[0]}
               </Txt>
             </View>
@@ -155,7 +152,7 @@ export function AppNav({
   // Phones: a flat bottom tab bar.
   return (
     <View
-      className="border-t border-line bg-white px-1 pt-1.5 dark:border-ink-line dark:bg-ink"
+      className="border-t border-line bg-white px-1 pt-1.5 dark:border-ink-line dark:bg-ink-soft"
       style={{ paddingBottom: Math.max(insets.bottom, 8) }}
     >
       <View accessibilityRole="tablist" className="flex-row">
@@ -179,14 +176,16 @@ export function AppNav({
                   strokeWidth={active ? 2 : 1.6}
                 />
                 {badge ? (
-                  <View className="absolute -right-2 -top-0.5 h-2 w-2 rounded-full bg-zinc-950 dark:bg-[#EDEDED]" />
+                  <View className="absolute -right-2 -top-0.5 h-2 w-2 rounded-full bg-brand-600 dark:bg-brand-500" />
                 ) : null}
               </View>
               <Txt
                 weight={active ? 'medium' : 'regular'}
                 className={twMerge(
                   'text-[10.5px]',
-                  active ? 'text-zinc-950 dark:text-[#EDEDED]' : 'text-zinc-500 dark:text-zinc-500',
+                  active
+                    ? 'text-brand-700 dark:text-brand-300'
+                    : 'text-zinc-500 dark:text-zinc-500',
                 )}
                 numberOfLines={1}
               >

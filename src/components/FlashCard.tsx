@@ -24,6 +24,7 @@ import { colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
 import { Icon } from './Icon';
+import { Icon3D } from './Icon3D';
 import { Txt } from './Txt';
 
 const HALF_FLIP_MS = 180;
@@ -82,16 +83,9 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
         {showBack ? (
           <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
-              <View className="flex-row items-center gap-2">
-                <Icon
-                  name="lightbulb"
-                  size={16}
-                  color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
-                />
-                <Txt
-                  weight="mono"
-                  className="text-[11px] uppercase tracking-[1px] text-zinc-500 dark:text-zinc-400"
-                >
+              <View className="flex-row items-center gap-2.5">
+                <Icon3D icon="lightbulb" color={colors.brand} size={30} />
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
                   Why it’s true
                 </Txt>
               </View>
@@ -111,17 +105,10 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
         ) : (
           <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
-              <View className="flex-row items-center gap-2">
-                <Icon
-                  name="sparkles"
-                  size={16}
-                  color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
-                />
-                <Txt
-                  weight="mono"
-                  className="text-[11px] uppercase tracking-[1px] text-zinc-500 dark:text-zinc-400"
-                >
-                  Did you know?
+              <View className="flex-row items-center gap-2.5">
+                <Icon3D icon="sparkles" color="#F59E0B" size={30} />
+                <Txt weight="semibold" className="text-[13px] text-amber-700 dark:text-amber-300">
+                  Did you know??
                 </Txt>
               </View>
               <Txt

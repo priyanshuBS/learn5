@@ -11,12 +11,12 @@ describe('colour helpers', () => {
     expect(lighten('#2563EB', 1)).toBe('#ffffff');
   });
 
-  it('shows every subject in ink (monochrome theme): light grey on dark, dark grey on light', () => {
-    expect(categoryTone('#2563EB', true)).toBe('#E5E5E5');
-    expect(categoryTone('#F59E0B', false)).toBe('#262626');
+  it('makes subject colours lighter in dark mode and a little darker in light mode', () => {
+    expect(categoryTone('#2563EB', true)).toBe(lighten('#2563EB', 0.25));
+    expect(categoryTone('#2563EB', false)).toBe(darken('#2563EB', 0.12));
   });
 
-  it('turns black ink white in dark mode and leaves other colours alone', () => {
+  it('turns the main blue lighter in dark mode and leaves other colours alone', () => {
     expect(inkOn(colors.brand, true)).toBe(colors.brandOnDark);
     expect(inkOn(colors.brand, false)).toBe(colors.brand);
     expect(inkOn(colors.success, true)).toBe(colors.success);

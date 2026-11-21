@@ -140,10 +140,13 @@ export default function ResultsScreen() {
           accessibilityLabel={`You got ${attempt.correctCount} out of ${total} correct`}
           className="flex-row items-baseline"
         >
-          <Txt weight="display" className="text-[72px] leading-[80px] tracking-[-2px]">
+          <Txt
+            weight="display"
+            className="text-[72px] leading-[80px] tracking-[-2px] text-brand-600 dark:text-brand-400"
+          >
             {attempt.correctCount}
           </Txt>
-          <Txt weight="display" className="text-[32px] text-zinc-300 dark:text-zinc-700">
+          <Txt weight="display" className="text-[32px] text-zinc-300 dark:text-zinc-600">
             /{total}
           </Txt>
         </View>
@@ -172,11 +175,18 @@ export default function ResultsScreen() {
         className="mt-8"
         stats={[
           {
+            icon: 'star',
+            color: '#F59E0B',
             label: attempt.practice ? 'Practice' : 'Points',
             value: attempt.practice ? '—' : `+${attempt.points}`,
           },
-          { label: 'Time', value: formatDuration(attempt.durationSec) },
-          { label: 'Accuracy', value: `${accuracy}%` },
+          {
+            icon: 'timer',
+            color: '#2F51E0',
+            label: 'Time',
+            value: formatDuration(attempt.durationSec),
+          },
+          { icon: 'target', color: '#12A150', label: 'Accuracy', value: `${accuracy}%` },
         ]}
       />
       {attempt.perfect && !attempt.practice ? (
@@ -291,9 +301,9 @@ function Celebration({ icon, title, text }: { icon: IconName; title: string; tex
       <View
         accessible
         accessibilityLabel={`${title}. ${text}`}
-        className="mt-3 flex-row items-center gap-3.5 rounded-xl border border-line p-4 dark:border-ink-line"
+        className="mt-3 flex-row items-center gap-3.5 rounded-2xl bg-amber-50 p-4 dark:bg-amber-500/10"
       >
-        <Icon3D icon={icon} size={36} solid />
+        <Icon3D icon={icon} color="#F59E0B" size={40} solid />
         <View className="flex-1">
           <Txt weight="semibold" className="text-[15px]">
             {title}

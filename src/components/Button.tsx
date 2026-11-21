@@ -34,12 +34,15 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-[#EDEDED] web:hover:bg-white', text: '#111111' }
-        : { box: 'bg-zinc-950 web:hover:bg-zinc-800', text: '#FFFFFF' };
+        ? { box: 'bg-brand-500 web:hover:bg-brand-400', text: '#FFFFFF' }
+        : {
+            box: 'bg-brand-600 web:shadow-[0_1px_2px_rgba(16,24,40,0.12),inset_0_1px_0_rgba(255,255,255,0.12)] web:hover:bg-brand-700',
+            text: '#FFFFFF',
+          };
     case 'secondary':
       return dark
         ? {
-            box: 'border border-ink-line bg-ink web:hover:bg-ink-raised',
+            box: 'border border-ink-line bg-ink-card web:hover:bg-ink-raised',
             text: colors.textDark,
           }
         : {
@@ -48,14 +51,14 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
           };
     case 'soft':
       return dark
-        ? { box: 'bg-white/[0.06] web:hover:bg-white/[0.1]', text: colors.textDark }
-        : { box: 'bg-zinc-100 web:hover:bg-zinc-200', text: colors.text };
+        ? { box: 'bg-brand-400/15 web:hover:bg-brand-400/25', text: colors.brandOnDark }
+        : { box: 'bg-brand-50 web:hover:bg-brand-100', text: colors.brandDark };
     case 'success':
       return { box: 'bg-green-600 web:hover:bg-green-700', text: '#FFFFFF' };
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-zinc-100', text: '#0A0A0A' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#2541B8' };
     case 'ghost':
       return dark
         ? { box: 'web:hover:bg-white/5', text: '#D4D4D4' }
@@ -135,7 +138,7 @@ export function Button({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'flex-row items-center justify-center overflow-hidden rounded-lg web:transition-colors web:duration-150',
+            'flex-row items-center justify-center overflow-hidden rounded-xl web:transition-colors web:duration-150',
             s.pad,
             v.box,
           )}
@@ -147,7 +150,7 @@ export function Button({
             <View className="flex-row items-center gap-2">
               {!iconRight && iconEl}
               <Txt
-                weight="medium"
+                weight="semibold"
                 className={twMerge(s.text, labelClassName)}
                 style={{ color: v.text }}
               >
@@ -195,12 +198,12 @@ export function IconButton({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'h-9 w-9 items-center justify-center rounded-lg web:transition-colors',
+            'h-9 w-9 items-center justify-center rounded-xl web:transition-colors',
             onDark
               ? 'border border-white/25 bg-white/10 web:hover:bg-white/20'
               : variant === 'ghost'
                 ? 'web:hover:bg-black/5 dark:web:hover:bg-white/5'
-                : 'border border-line bg-white web:hover:bg-zinc-50 dark:border-ink-line dark:bg-ink dark:web:hover:bg-ink-raised',
+                : 'border border-line bg-white web:hover:bg-zinc-50 dark:border-ink-line dark:bg-ink-card dark:web:hover:bg-ink-raised',
           )}
         >
           <Icon name={icon} size={16} color={color} strokeWidth={1.75} />

@@ -3,7 +3,7 @@ make-icons.py — draws the Learn5 app icons and saves them as PNG files.
 
     python scripts/make-icons.py
 
-The logo is a "5-minute timer": a black rounded tile with a white ring
+The logo is a "5-minute timer": a blue rounded tile with a white ring
 that is almost closed, a white dot where the ring ends, and a white "5" in
 Geist SemiBold (the same drawing as src/components/Logo.tsx).
 Each image is an SVG in a small HTML page, saved as a PNG by headless Chrome.
@@ -37,12 +37,12 @@ CHROME_PATHS = [
 DEFS = '''
 <defs>
   <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#2A2A2A"/>
-    <stop offset="1" stop-color="#000000"/>
+    <stop offset="0" stop-color="#4767F5"/>
+    <stop offset="1" stop-color="#2541B8"/>
   </linearGradient>
   <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="#FFFFFF"/>
-    <stop offset="1" stop-color="#BDBDBD"/>
+    <stop offset="1" stop-color="#DCE6FF"/>
   </linearGradient>
   <radialGradient id="glow" cx="50%" cy="0%" r="75%">
     <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>

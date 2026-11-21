@@ -58,8 +58,8 @@ export function WeekStreak({
               <View
                 className={twMerge(
                   'h-8 w-full rounded-md',
-                  played && 'bg-zinc-950 dark:bg-[#EDEDED]',
-                  !played && isToday && 'border border-zinc-950 dark:border-[#EDEDED]',
+                  played && 'bg-brand-600 dark:bg-brand-500',
+                  !played && isToday && 'border border-brand-600 dark:border-brand-400',
                   !played && !isToday && 'bg-zinc-100 dark:bg-ink-raised',
                 )}
               />
@@ -68,7 +68,7 @@ export function WeekStreak({
                 className={twMerge(
                   'text-[11px]',
                   isToday
-                    ? 'text-zinc-950 dark:text-[#EDEDED]'
+                    ? 'text-zinc-900 dark:text-[#E6EAF5]'
                     : 'text-zinc-400 dark:text-zinc-500',
                 )}
               >

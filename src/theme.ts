@@ -7,63 +7,60 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** The one accent: ink. Black in light mode... */
-  brand: '#0A0A0A',
-  brandDark: '#000000',
-  brandSoft: '#F4F4F5',
-  /** ...and white in dark mode (active tab, links). */
-  brandOnDark: '#FAFAFA',
-  /** Ink for progress, "open now" and highlights. */
-  pop: '#0A0A0A',
-  popLight: '#FAFAFA',
-  popDark: '#262626',
+  /** The main colour: Scholar blue (light mode). */
+  brand: '#2F51E0',
+  brandDark: '#2541B8',
+  brandSoft: '#EEF3FF',
+  /** Blue on dark backgrounds (active tab, links). */
+  brandOnDark: '#93AEFF',
+  /** Blue for progress, "open now" and highlights. */
+  pop: '#2F51E0',
+  popLight: '#6A8BFF',
+  popDark: '#2541B8',
   /** Older names. */
-  leaf: '#0A0A0A',
-  leafLight: '#FAFAFA',
-  volt: '#0A0A0A',
+  leaf: '#2F51E0',
+  leafLight: '#6A8BFF',
+  volt: '#2F51E0',
   /** Darkest text colour, used where code needs "black". */
-  black: '#0A0A0A',
+  black: '#121926',
   white: '#FFFFFF',
-  text: '#0A0A0A',
-  textDark: '#EDEDED',
-  muted: '#737373',
-  mutedDark: '#8F8F8F',
-  line: '#EAEAEA',
-  inkLine: '#242424',
-  /** Right / wrong / late stay readable as green, red and amber (quiz feedback only). */
-  success: '#16A34A',
+  text: '#121926',
+  textDark: '#E6EAF5',
+  muted: '#667085',
+  mutedDark: '#8E99B3',
+  line: '#E4E7EF',
+  inkLine: '#232E48',
+  success: '#12A150',
   danger: '#E5484D',
-  warning: '#737373',
-  /** Streak and points: a neutral grey that reads on black and on white. */
-  streak: '#8A8A8A',
-  points: '#8A8A8A',
-  canvas: '#FFFFFF',
-  ink: '#0A0A0A',
+  warning: '#D97706',
+  /** Warm amber for streaks and points. */
+  streak: '#F97316',
+  points: '#F59E0B',
+  canvas: '#F6F7FB',
+  ink: '#0B1020',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#111111',
+  inkSolid: '#121A2E',
   /** Empty part of progress rings. */
-  track: '#EAEAEA',
-  trackDark: '#242424',
+  track: '#E4E8F0',
+  trackDark: '#232E48',
 } as const;
 
-/** Colours of the 3D stat icons (Icon3D draws them in black/white anyway). */
-export const ICON3D = { flame: '#0A0A0A', star: '#0A0A0A', trophy: '#0A0A0A' } as const;
+/** Colours of the stat icons. */
+export const ICON3D = { flame: '#F97316', star: '#F59E0B', trophy: '#2F51E0' } as const;
 
-/** The hero gradient on Home: charcoal to black (white text on top, in both themes). */
-export const HERO_GRADIENT = ['#2A2A2A', '#141414', '#000000'] as const;
+/** Kept for older code. */
+export const HERO_GRADIENT = ['#2F51E0', '#2541B8', '#1F3173'] as const;
 
 /**
- * The ink colour on the current background: black stays black in light mode and
- * becomes white in dark mode. Any other colour is returned as it is.
+ * The main colour on the current background: blue stays blue in light mode and
+ * becomes a lighter blue in dark mode. Any other colour is returned as it is.
  */
 export function inkOn(color: string, dark: boolean): string {
   if (!dark) return color;
-  return color === colors.brand || color === colors.black || color === colors.brandDark
-    ? colors.brandOnDark
-    : color;
+  return color === colors.brand || color === colors.brandDark ? colors.brandOnDark : color;
 }
 
-/** Ink for progress bars, rings and accent icons, readable on the current background. */
+/** Blue for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.popLight : colors.pop;
 }
@@ -85,8 +82,14 @@ export const BADGE_ICONS: Record<string, IconName> = {
   'all-categories': 'palette',
 };
 
-/** Colour of each badge's 3D icon (unused: the theme is black and white). */
-export const BADGE_COLORS: Record<string, string> = {};
+/** Colour of each badge's icon tile (when earned). */
+export const BADGE_COLORS: Record<string, string> = {
+  'first-drop': '#2F51E0',
+  'streak-7': '#F97316',
+  'streak-30': '#F59E0B',
+  'correct-100': '#8B5CF6',
+  'all-categories': '#12A150',
+};
 
 /** Icon for each drop slot: morning, afternoon, evening. */
 export const SLOT_ICONS: IconName[] = ['sunrise', 'sun', 'moon'];
@@ -107,12 +110,9 @@ export function darken(hex: string, amount: number): string {
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
 }
 
-/**
- * The colour for a subject's text and chips. The theme is black and white, so every
- * subject uses ink (the hex is kept in content/categories.json but not shown).
- */
-export function categoryTone(_hex: string, dark: boolean): string {
-  return dark ? '#E5E5E5' : '#262626';
+/** A subject colour that reads well on the current background (lighter in dark mode). */
+export function categoryTone(hex: string, dark: boolean): string {
+  return dark ? lighten(hex, 0.25) : darken(hex, 0.12);
 }
 
 /** Adds transparency to a hex colour: withAlpha('#FF0000', 0.2). */

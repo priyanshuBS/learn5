@@ -1,9 +1,9 @@
 /**
- * Today — the daily dashboard. Flat, black and white, built from lists and type:
- *   1. "Today", the date and a one-line status, with a segmented progress line
- *   2. Drops: the four subjects as one list, one drop each (all open at 4 AM)
+ * Today — the daily dashboard ("Scholar" theme).
+ *   1. A blue welcome card: greeting, today's progress, streak and ONE "continue" button
+ *   2. Today's drops: one card per subject (2-column grid), all open at 4 AM
  *   3. Today's read: ONE article a day, the subject rotates
- *   4. Side column (below on phones): streak/points/level, this week, level progress
+ *   4. Side column (below on phones): overview numbers, this week, level progress
  */
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
@@ -25,15 +25,16 @@ import { WeekStreak } from '@/components/WeekStreak';
 import { useArticleReads, useArticles } from '@/features/articles/store';
 import { dropKey, getCatchUpEntry, getNextOpening, getTodaySlots } from '@/features/drops/status';
 import { useAppData } from '@/hooks/useAppData';
+import { useColorScheme } from '@/hooks/useScheme';
 import { articleKey } from '@/lib/articles';
 import { addDays } from '@/lib/dates';
+import { quizHref } from '@/lib/routes';
 import { scheduledArticleCategory } from '@/lib/rotation';
-import { localClockLabel, longDate } from '@/lib/time';
-import { useColorScheme } from '@/hooks/useScheme';
-import { colors } from '@/theme';
+import { greeting, localClockLabel, longDate } from '@/lib/time';
+import { colors, ICON3D } from '@/theme';
 
 export default function TodayScreen() {
-  const { ready, index, zonedNow, today, stats, results, isDone } = useAppData();
+  const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
   const articles = useArticles((s) => s.articles);
   const readMarks = useArticleReads((s) => s.read);
   const dark = useColorScheme() === 'dark';
@@ -49,10 +50,11 @@ export default function TodayScreen() {
   const slotsToday = rows.flatMap((r) => r.slots);
   const doneToday = slotsToday.filter((s) => s.status === 'done').length;
   const totalToday = slotsToday.length;
-  const openNow = slotsToday.filter((s) => s.status === 'available').length;
+  const nextOpen = rows.find((r) => r.slots[0]?.status === 'available');
   const next = getNextOpening(index, zonedNow);
   const nextTime = next ? localClockLabel(next.time, zonedNow.offsetMinutes) : '4:00 AM';
   const { streak, level, points } = stats;
+  const allDone = totalToday > 0 && doneToday === totalToday;
 
   // Today's read: one article a day (before 4 AM, the latest one).
   const latestDate = articles?.reduce((max, a) => (a.date > max ? a.date : max), '') ?? '';
@@ -66,68 +68,91 @@ export default function TodayScreen() {
   const tomorrowCategory = index.categories.find((c) => c.id === tomorrowId);
   const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
-  const status =
-    totalToday > 0 && doneToday === totalToday
-      ? `All ${totalToday} drops done. New ones ${next?.tomorrow === false ? 'today' : 'tomorrow'} at ${nextTime}.`
-      : openNow > 0
-        ? `${doneToday} of ${totalToday} done · ${openNow} ready to play`
-        : `${doneToday} of ${totalToday} done · next drops at ${nextTime}`;
+  const headline = allDone
+    ? 'You finished today’s drops.'
+    : doneToday > 0
+      ? 'Nice progress. Keep going.'
+      : 'Ready for today’s drops?';
 
   return (
     <Screen>
       {/* Phone top bar (the sidebar has these on wide screens) */}
-      <View className="mb-8 flex-row items-center justify-between lg:hidden">
+      <View className="mb-6 flex-row items-center justify-between lg:hidden">
         <Logo />
         <ThemeIconButton />
       </View>
 
-      {/* Header */}
-      <Muted className="text-[13px]">{longDate(zonedNow.date)}</Muted>
-      <Txt
-        weight="display"
-        accessibilityRole="header"
-        className="mt-1 text-[32px] leading-[38px] md:text-[36px] md:leading-[42px]"
-      >
-        Today
-      </Txt>
-      <Muted className="mt-1.5 text-[15px] leading-6">{status}</Muted>
-      <View
-        className="mt-5 flex-row gap-1"
-        accessible
-        accessibilityRole="progressbar"
-        accessibilityLabel={`${doneToday} of ${totalToday} drops done today`}
-      >
-        {rows.map((r) => (
-          <View
-            key={r.category.id}
-            className={twMerge(
-              'h-1 flex-1 rounded-full',
-              r.slots[0]?.status === 'done'
-                ? 'bg-zinc-950 dark:bg-[#EDEDED]'
-                : 'bg-zinc-200 dark:bg-ink-raised',
-            )}
-          />
-        ))}
-      </View>
-
-      <View className="lg:flex-row lg:gap-10">
+      <View className="lg:flex-row lg:gap-8">
         {/* ── Main column ── */}
         <View className="lg:flex-[2]">
+          {/* Welcome card */}
+          <View className="overflow-hidden rounded-3xl bg-brand-600 p-6 dark:bg-brand-700 md:p-7">
+            <View
+              pointerEvents="none"
+              className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/[0.06]"
+            />
+            <View className="flex-row items-center justify-between gap-3">
+              <Txt className="text-[13px] text-white/75 dark:text-white/75">
+                {longDate(zonedNow.date)}
+              </Txt>
+              <View className="flex-row items-center gap-1.5 rounded-full bg-white/15 px-3 py-1">
+                <Icon name="flame" size={13} color="#FDBA74" filled />
+                <Txt weight="semibold" className="text-[12.5px] text-white dark:text-white">
+                  {streak.current} day streak
+                </Txt>
+              </View>
+            </View>
+            <Txt
+              weight="display"
+              accessibilityRole="header"
+              className="mt-4 text-[26px] leading-[32px] text-white dark:text-white md:text-[30px] md:leading-[36px]"
+            >
+              {greeting(now)}. {headline}
+            </Txt>
+            <View className="mt-5 flex-row items-center gap-3">
+              <View className="h-2 flex-1 overflow-hidden rounded-full bg-white/20">
+                <View
+                  className="h-full rounded-full bg-white"
+                  style={{ width: `${totalToday ? (doneToday / totalToday) * 100 : 0}%` }}
+                />
+              </View>
+              <Txt weight="semibold" className="text-[13px] text-white dark:text-white">
+                {doneToday}/{totalToday} done
+              </Txt>
+            </View>
+            <View className="mt-6 flex-row flex-wrap items-center gap-3">
+              {nextOpen?.slots[0]?.entry ? (
+                <Button3
+                  label={`Continue with ${nextOpen.category.name}`}
+                  onPress={() =>
+                    nextOpen.slots[0]?.entry && router.push(quizHref(nextOpen.slots[0].entry))
+                  }
+                />
+              ) : (
+                <Txt className="text-[14px] text-white/85 dark:text-white/85">
+                  {allDone
+                    ? `New drops ${next?.tomorrow === false ? 'today' : 'tomorrow'} at ${nextTime}.`
+                    : `Next drops at ${nextTime}.`}
+                </Txt>
+              )}
+            </View>
+          </View>
+
           <SectionTitle
-            title="Drops"
-            subtitle={`One per subject · 5 questions · opens daily at ${nextTime}`}
+            title="Today's drops"
+            subtitle={`One per subject · 5 questions each · new at ${nextTime}`}
           />
-          <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
-            {rows.map((row, i) => (
-              <CategoryCard
-                key={row.category.id}
-                category={row.category}
-                slots={row.slots}
-                offsetMinutes={zonedNow.offsetMinutes}
-                catchUp={row.catchUp}
-                divider={i > 0}
-                getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
-              />
+          <View className="-m-1.5 flex-row flex-wrap">
+            {rows.map((row) => (
+              <View key={row.category.id} className="w-full p-1.5 sm:w-1/2">
+                <CategoryCard
+                  category={row.category}
+                  slots={row.slots}
+                  offsetMinutes={zonedNow.offsetMinutes}
+                  catchUp={row.catchUp}
+                  getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
+                />
+              </View>
             ))}
           </View>
 
@@ -143,10 +168,14 @@ export default function TodayScreen() {
                 hitSlop={8}
                 className="flex-row items-center gap-1"
               >
-                <Txt weight="medium" className="text-[13px] text-zinc-600 dark:text-zinc-400">
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
                   All reads
                 </Txt>
-                <Icon name="chevron-right" size={14} color={dark ? '#8F8F8F' : '#737373'} />
+                <Icon
+                  name="chevron-right"
+                  size={14}
+                  color={dark ? colors.brandOnDark : colors.brand}
+                />
               </Pressable>
             }
           />
@@ -157,7 +186,7 @@ export default function TodayScreen() {
               read={!!readMarks[articleKey(read)]}
             />
           ) : (
-            <View className="rounded-xl border border-dashed border-line px-5 py-8 dark:border-ink-line">
+            <View className="rounded-2xl border border-dashed border-line px-5 py-8 dark:border-ink-line">
               <Muted className="text-center text-[14px]">
                 Today&apos;s article is being written. Check back soon.
               </Muted>
@@ -167,12 +196,17 @@ export default function TodayScreen() {
 
         {/* ── Side column ── */}
         <View className="lg:flex-1">
-          <SectionTitle title="Overview" />
+          <SectionTitle title="Your progress" />
           <StatStrip
             stats={[
-              { label: 'Points', value: points.toLocaleString('en-IN') },
-              { label: 'Level', value: `${level.level}` },
-              { label: 'Drops done', value: `${stats.dropsDone}` },
+              { icon: 'flame', color: ICON3D.flame, label: 'Streak', value: `${streak.current}d` },
+              {
+                icon: 'star',
+                color: ICON3D.star,
+                label: 'Points',
+                value: points.toLocaleString('en-IN'),
+              },
+              { icon: 'trophy', color: ICON3D.trophy, label: 'Level', value: `${level.level}` },
             ]}
           />
           <WeekStreak
@@ -190,7 +224,7 @@ export default function TodayScreen() {
                   {level.name}
                 </Txt>
               </View>
-              <Txt weight="mono" className="text-[12.5px] text-zinc-500 dark:text-zinc-400">
+              <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
                 {Math.round(level.progress * 100)}%
               </Txt>
             </View>
@@ -205,17 +239,26 @@ export default function TodayScreen() {
                 : 'You reached the highest level.'}
             </Muted>
           </View>
-          {streak.current > 0 && !streak.playedToday ? (
-            <View className="mt-3 flex-row items-center gap-2.5 rounded-xl border border-line px-4 py-3 dark:border-ink-line">
-              <Icon name="flame" size={14} color={colors.brand} />
-              <Txt className="flex-1 text-[13px] text-zinc-700 dark:text-zinc-300">
-                Play one drop today to keep your {streak.current}-day streak.
-              </Txt>
-            </View>
-          ) : null}
         </View>
       </View>
     </Screen>
+  );
+}
+
+/** White button on the blue welcome card. */
+function Button3({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      onPress={onPress}
+      className="h-11 flex-row items-center gap-2 rounded-xl bg-white px-4 active:opacity-90 web:hover:bg-brand-50"
+    >
+      <Txt weight="semibold" className="text-[14px] text-brand-700 dark:text-brand-700">
+        {label}
+      </Txt>
+      <Icon name="arrow-right" size={15} color="#2541B9" />
+    </Pressable>
   );
 }
 
@@ -223,14 +266,17 @@ export default function TodayScreen() {
 function TodaySkeleton() {
   return (
     <Screen>
-      <View className="mb-8 lg:hidden">
+      <View className="mb-6 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-3 w-36" />
-      <SkeletonBlock className="mt-3 h-9 w-32" />
-      <SkeletonBlock className="mt-3 h-3 w-56" />
-      <SkeletonBlock className="mt-5 h-1 rounded-full" />
-      <SkeletonBlock className="mt-12 h-72" />
+      <SkeletonBlock className="h-56 rounded-3xl" />
+      <View className="-m-1.5 mt-10 flex-row flex-wrap">
+        {[0, 1, 2, 3].map((i) => (
+          <View key={i} className="w-full p-1.5 sm:w-1/2">
+            <SkeletonBlock className="h-52" />
+          </View>
+        ))}
+      </View>
     </Screen>
   );
 }

@@ -30,7 +30,6 @@ const DENIED_MESSAGE =
   'Notifications are turned off for Learn5. You can allow them in your phone’s Settings, then try again.';
 
 export function RemindersSettings() {
-  const dark = useColorScheme() === 'dark';
   const { enabled, hour, minute } = useReminders();
   const [busy, setBusy] = useState(false);
 
@@ -85,14 +84,14 @@ export function RemindersSettings() {
                 className={twMerge(
                   'rounded-md border px-3 py-1.5',
                   active
-                    ? 'border-zinc-950 bg-zinc-950 dark:border-[#EDEDED] dark:bg-[#EDEDED]'
+                    ? 'border-brand-600 bg-brand-600 dark:border-brand-400 dark:bg-brand-500'
                     : 'border-line dark:border-ink-line',
                 )}
               >
                 <Txt
                   weight="semibold"
                   className="text-[13px]"
-                  style={active ? { color: dark ? '#111111' : '#FFFFFF' } : undefined}
+                  style={active ? { color: '#FFFFFF' } : undefined}
                 >
                   {t.label}
                 </Txt>

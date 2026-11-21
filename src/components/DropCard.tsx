@@ -27,8 +27,8 @@ export function StatusChip({
   const dark = useColorScheme() === 'dark';
   if (status === 'available') {
     return (
-      <View className="h-8 flex-row items-center rounded-md bg-zinc-950 px-3 dark:bg-[#EDEDED]">
-        <Txt weight="medium" className="text-[13px] text-white dark:text-[#111111]">
+      <View className="h-8 flex-row items-center rounded-md bg-brand-600 px-3 dark:bg-brand-500">
+        <Txt weight="medium" className="text-[13px] text-white dark:text-white">
           Start
         </Txt>
       </View>

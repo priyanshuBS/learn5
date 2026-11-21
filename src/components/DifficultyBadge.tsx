@@ -9,7 +9,8 @@ import { twMerge } from 'tailwind-merge';
 
 import { POINTS_BY_DIFFICULTY } from '@/features/points/points';
 import type { Difficulty } from '@/lib/schema';
-import { colors } from '@/theme';
+import { useColorScheme } from '@/hooks/useScheme';
+import { categoryTone, colors, withAlpha } from '@/theme';
 
 import { Icon, type IconName } from './Icon';
 import { Txt } from './Txt';
@@ -23,9 +24,9 @@ const TONES: Record<Tone, { box: string; text: string; icon: string }> = {
     icon: colors.muted,
   },
   brand: {
-    box: 'bg-zinc-950 dark:bg-[#EDEDED]',
-    text: 'text-white dark:text-[#111111]',
-    icon: '#FFFFFF',
+    box: 'bg-brand-50 dark:bg-brand-400/15',
+    text: 'text-brand-700 dark:text-brand-300',
+    icon: colors.brand,
   },
   success: {
     box: 'bg-emerald-50 dark:bg-emerald-500/10',
@@ -59,7 +60,7 @@ export function Pill({
   return (
     <View
       className={twMerge(
-        'flex-row items-center gap-1 self-start rounded-md px-2 py-1',
+        'flex-row items-center gap-1 self-start rounded-lg px-2.5 py-1',
         t.box,
         className,
       )}
@@ -84,7 +85,7 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
     <View
       accessible
       accessibilityLabel={`${s.label} question, worth ${POINTS_BY_DIFFICULTY[difficulty]} points`}
-      className="flex-row items-center gap-1.5 rounded-md border border-line px-2 py-1 dark:border-ink-line"
+      className="flex-row items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 dark:border-ink-line"
     >
       <View className={twMerge('h-1.5 w-1.5 rounded-full', s.dot)} />
       <Txt weight="medium" className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -94,10 +95,23 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
   );
 }
 
-export function Tag({ label }: { label: string; color?: string }) {
+export function Tag({ label, color: base }: { label: string; color?: string }) {
+  const dark = useColorScheme() === 'dark';
+  const color = base ? categoryTone(base, dark) : undefined;
   return (
-    <View className="rounded-md border border-line px-2 py-1 dark:border-ink-line">
-      <Txt weight="medium" className="text-xs text-zinc-700 dark:text-zinc-300" numberOfLines={1}>
+    <View
+      className={twMerge(
+        'rounded-lg px-2.5 py-1',
+        !color && 'border border-line dark:border-ink-line',
+      )}
+      style={color ? { backgroundColor: withAlpha(base ?? color, dark ? 0.18 : 0.12) } : undefined}
+    >
+      <Txt
+        weight="semibold"
+        className="text-xs text-zinc-700 dark:text-zinc-300"
+        style={color ? { color } : undefined}
+        numberOfLines={1}
+      >
         {label}
       </Txt>
     </View>

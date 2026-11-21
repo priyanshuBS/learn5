@@ -13,7 +13,7 @@ Math · Reasoning · English · Computer Science
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Neon Postgres](https://img.shields.io/badge/Neon-Postgres-00E599?logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Groq](https://img.shields.io/badge/AI-Groq-F55036)](https://groq.com/)
-![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20Web-0A0A0A)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20Web-2F51E0)
 
 Made by **[Priyanshu Singh](https://priyanshusingh.co.in)** · [priyanshusingh.co.in](https://priyanshusingh.co.in)
 
@@ -29,15 +29,15 @@ plain-English explanation, so you learn something even when you get it wrong.
 One Expo codebase ships as an **Android app**, an **iOS app** and a **website**.
 
 <div align="center">
-  <img src="docs/screenshots/home-light.png" alt="Learn5 home screen in light mode" width="300" />
+  <img src="docs/screenshots/home-light.png" alt="Learn5 Today screen on a phone (light mode)" width="300" />
   &nbsp;&nbsp;
-  <img src="docs/screenshots/home-dark.png" alt="Learn5 home screen in dark mode" width="300" />
+  <img src="docs/screenshots/home-dark.png" alt="Learn5 Today screen on desktop (dark mode)" width="520" />
 </div>
 
 <br />
 
 <div align="center">
-  <img src="docs/screenshots/home-desktop.png" alt="Learn5 home screen on desktop" width="820" />
+  <img src="docs/screenshots/home-desktop.png" alt="Learn5 landing page" width="820" />
 </div>
 
 ## Contents
@@ -73,30 +73,30 @@ Change the times, subjects or rotation in [`schedule.config.json`](schedule.conf
 
 ## Features
 
-| Feature             | Details                                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------------------- |
-| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)         |
-| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                 |
-| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                          |
-| 🔁 **Review**       | Replay wrong answers until you get them right                                                       |
-| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                           |
-| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                            |
-| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                         |
-| 🔔 **Reminders**    | Optional daily notification on phones                                                               |
-| 🌗 **Design**       | Flat black-and-white design (Geist type, hairlines, no gradients) with Light, Dark and System modes |
+| Feature             | Details                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)                 |
+| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                         |
+| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                  |
+| 🔁 **Review**       | Replay wrong answers until you get them right                                                               |
+| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                                   |
+| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                    |
+| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                                 |
+| 🔔 **Reminders**    | Optional daily notification on phones                                                                       |
+| 🌗 **Design**       | "Scholar" design: focused blue, warm amber for progress, a colour per subject; Light, Dark and System modes |
 
 ## Tech stack
 
-| Layer          | Technology                                                                               |
-| -------------- | ---------------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand       |
-| **Design**     | Flat monochrome: black on white (light) / white on near-black (dark); Geist + Geist Mono |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                            |
-| **Database**   | Neon (serverless Postgres)                                                               |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                        |
-| **Email**      | Resend (sign-in codes and owner alerts)                                                  |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                                |
-| **Tests**      | Jest (`jest-expo`)                                                                       |
+| Layer          | Technology                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                                  |
+| **Design**     | "Scholar": blue main colour, amber for streaks and points, soft subject colours; navy dark mode; Geist + Geist Mono |
+| **API**        | Expo Router API routes, hosted on EAS Hosting                                                                       |
+| **Database**   | Neon (serverless Postgres)                                                                                          |
+| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                                   |
+| **Email**      | Resend (sign-in codes and owner alerts)                                                                             |
+| **Validation** | Zod schemas shared by the app, the server and the scripts                                                           |
+| **Tests**      | Jest (`jest-expo`)                                                                                                  |
 
 ## Getting started
 

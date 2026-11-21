@@ -16,8 +16,8 @@ const DESCRIPTION =
 // later (same value Tailwind writes for darkMode: 'class').
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
-body { background-color: #FFFFFF; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #0A0A0A; }
+body { background-color: #F6F7FB; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #0B1020; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):
@@ -57,7 +57,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content={DESCRIPTION} />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0B1020" />
         <meta name="color-scheme" content="dark light" />
         <meta name="apple-mobile-web-app-title" content="Learn5" />
         {/* Tab icon. A new file name (and ?v=) makes browsers drop any old cached icon;
