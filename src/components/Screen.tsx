@@ -1,6 +1,5 @@
 /**
- * Screen — page wrapper: safe area (avoids the notch), background colour with a
- * still glow at the top (Backdrop),
+ * Screen — page wrapper: safe area (avoids the notch), the flat page background,
  * scrolling, and a centred column that looks good on phones and wide screens.
  */
 import type { ReactNode } from 'react';
