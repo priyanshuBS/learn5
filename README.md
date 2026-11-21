@@ -1,249 +1,198 @@
 <div align="center">
 
-<img src="public/learn5-icon.png" alt="Learn5 logo" width="96" height="96" />
+<img src="public/learn5-icon.png" alt="Learn5 logo" width="88" height="88" />
 
 # Learn5
 
-**Daily learning, five minutes at a time.**
+**Learn a little, every day.**
 
-Math · Reasoning · English · Computer Science
+Short daily quizzes in Math, Reasoning, English and Computer Science —
+five minutes a day, with a clear explanation after every answer.
 
+[![Portfolio](https://img.shields.io/badge/Portfolio-priyanshusingh.co.in-4338CA?style=flat)](https://priyanshusingh.co.in)
 [![Expo SDK 58](https://img.shields.io/badge/Expo-SDK%2058-000020?logo=expo&logoColor=white)](https://docs.expo.dev/)
-[![React Native](https://img.shields.io/badge/React%20Native-0.88-61DAFB?logo=react&logoColor=black)](https://reactnative.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Neon Postgres](https://img.shields.io/badge/Neon-Postgres-00E599?logo=postgresql&logoColor=white)](https://neon.tech/)
-[![Groq](https://img.shields.io/badge/AI-Groq-F55036)](https://groq.com/)
-![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20Web-4338CA)
+![Platforms](https://img.shields.io/badge/Android%20·%20iOS%20·%20Web-4338CA)
 
-Made by **[Priyanshu Singh](https://priyanshusingh.co.in)** · [priyanshusingh.co.in](https://priyanshusingh.co.in)
+Made by **[Priyanshu Singh](https://priyanshusingh.co.in)** — [priyanshusingh.co.in](https://priyanshusingh.co.in)
 
 </div>
 
----
-
-Learn5 is a micro-learning app that builds a daily habit. **Every morning at 4 AM** each of the
-four subjects gets **one fresh 5-question drop** that climbs from easy to hard, and there is
-**one short, easy-to-read article**, on a different subject each day. Every answer comes with a
-plain-English explanation, so you learn something even when you get it wrong.
-
-One Expo codebase ships as an **Android app**, an **iOS app** and a **website**.
-
 <div align="center">
-  <img src="docs/screenshots/home-light.png" alt="Learn5 Today screen on a phone (light mode)" width="300" />
-  &nbsp;&nbsp;
-  <img src="docs/screenshots/home-dark.png" alt="Learn5 Today screen on a phone (dark mode)" width="300" />
-</div>
-
-<br />
-
-<div align="center">
-  <img src="docs/screenshots/home-desktop.png" alt="Learn5 landing page" width="820" />
+  <img src="docs/screenshots/home-light.png" alt="Today screen, light mode" width="260" />
+  &nbsp;
+  <img src="docs/screenshots/home-dark.png" alt="Today screen, dark mode" width="260" />
+  &nbsp;
+  <img src="docs/screenshots/sign-in.png" alt="Sign-in screen" width="260" />
 </div>
 
 ## Contents
 
-- [How a day works](#how-a-day-works)
-- [Features](#features)
-- [Tech stack](#tech-stack)
-- [Getting started](#getting-started)
-- [Configuration](#configuration)
-- [Content pipeline](#content-pipeline)
-- [Emails](#emails)
-- [Project structure](#project-structure)
-- [Scripts](#scripts)
-- [Deployment](#deployment)
-- [Launch checklist](#launch-checklist)
-- [Author](#author)
+1. [What Learn5 is](#what-learn5-is)
+2. [Quick start](#quick-start)
+3. [How a day works](#how-a-day-works)
+4. [Settings (`.env.local`)](#settings-envlocal)
+5. [How content is made](#how-content-is-made)
+6. [Emails](#emails)
+7. [Project layout](#project-layout)
+8. [Commands](#commands)
+9. [Deploying](#deploying)
+10. [Before launch](#before-launch)
+11. [Author](#author)
 
-## How a day works
+## What Learn5 is
 
-| Time (IST)   | What happens                                                                         |
-| ------------ | ------------------------------------------------------------------------------------ |
-| **16:00**    | The generator writes **tomorrow's** four drops in advance, so they are ready on time |
-| **04:00**    | All four drops open: Math, Reasoning, English and Computer Science                   |
-| **04:00**    | Today's article is written and published (a back-up run follows at 05:00)            |
-| **Any time** | Play each drop in about 5 minutes, read the article, review mistakes                 |
+A small daily habit app. Every morning at **4 AM**:
 
-The daily article rotates through the subjects:
+- each of the four subjects gets **one new drop** — 5 questions that go from easy to hard;
+- there is **one short article** to read, on a different subject each day.
 
-```
-Math  →  Reasoning  →  English  →  Computer Science  →  Math  → …
-```
+Every answer explains the _why_. Wrong answers go to **Review** so you can try them again, and
+fact cards are saved as **Flashcards**. Points, levels, streaks and badges keep you coming back.
 
-Change the times, subjects or rotation in [`schedule.config.json`](schedule.config.json).
+It is one Expo codebase that runs as an **Android app**, an **iOS app** and a **website**, in
+**light and dark mode**.
 
-## Features
+| You get           | In short                                                       |
+| ----------------- | -------------------------------------------------------------- |
+| **Daily drops**   | 1 per subject per day · 5 questions · 1 easy, 2 medium, 2 hard |
+| **Daily read**    | 1 article a day in simple English · 2–5 minutes                |
+| **Review**        | Replay the questions you got wrong until you get them right    |
+| **Flashcards**    | "Did you know?" facts you collected                            |
+| **Progress**      | Points, levels, streaks and badges, synced across your devices |
+| **Sign-in**       | Email + 6-digit code. No password                              |
+| **Works offline** | Opens instantly from a saved copy                              |
+| **Reminders**     | An optional daily notification on phones                       |
 
-| Feature             | Details                                                                                                     |
-| ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)                 |
-| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                         |
-| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                  |
-| 🔁 **Review**       | Replay wrong answers until you get them right                                                               |
-| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                                   |
-| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                    |
-| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                                 |
-| 🔔 **Reminders**    | Optional daily notification on phones                                                                       |
-| 🌗 **Design**       | Calm, minimal design: one indigo accent, Figtree type, a handwritten greeting; Light, Dark and System modes |
+## Quick start
 
-## Tech stack
-
-| Layer          | Technology                                                                                    |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand            |
-| **Design**     | Deep Indigo accent; Figtree (headings and text), Patrick Hand (greeting), Geist Mono (labels) |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                                 |
-| **Database**   | Neon (serverless Postgres)                                                                    |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                             |
-| **Email**      | Resend: branded sign-in code email and owner alert emails (one shared layout)                 |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                                     |
-| **Tests**      | Jest (`jest-expo`)                                                                            |
-
-## Getting started
-
-**Requirements:** Node.js 24 LTS and npm.
+You need **Node.js 24** and **npm**.
 
 ```bash
 git clone git@github.com:priyanshuBS/learn5.git
 cd learn5
-npm install                 # install dependencies
-cp .env.example .env.local  # then fill in the values (see Configuration)
-npm run db:migrate          # create or update the database tables
-npm start                   # press w for the website, or scan the QR code with Expo Go
+npm install
+cp .env.example .env.local     # fill in the values — see "Settings" below
+npm run db:migrate             # create the database tables
+npm run generate-drops         # write today's and tomorrow's questions
+npm run generate-articles      # write today's article
+npx expo start --clear         # press w for the website, or scan the QR code with Expo Go
 ```
 
-To fill an empty database with today's and tomorrow's content:
+> No `RESEND_API_KEY` yet? In development the sign-in code is printed in the terminal instead
+> of being emailed.
 
-```bash
-npm run generate-drops      # 4 drops for today + 4 for tomorrow
-npm run generate-articles   # today's article
+## How a day works
+
+| Time (India) | What happens                                             |
+| ------------ | -------------------------------------------------------- |
+| **4:00 PM**  | Tomorrow's four drops are written in advance             |
+| **4:00 AM**  | The four drops open, and today's article is published    |
+| **Any time** | Play a drop in about 5 minutes, read the article, review |
+
+The article's subject changes every day:
+
+```
+Math  →  Reasoning  →  English  →  Computer Science  →  Math …
 ```
 
-> In development without `RESEND_API_KEY`, sign-in codes are printed in the terminal instead of
-> being emailed.
+Times, subjects and the rotation are set in [`schedule.config.json`](schedule.config.json).
 
-## Configuration
+## Settings (`.env.local`)
 
-All settings live in `.env.local` (git-ignored; template: [`.env.example`](.env.example)).
+Copy [`.env.example`](.env.example) to `.env.local` and fill it in. This file is never committed.
 
-| Variable                   | Used by         | Purpose                                                         |
-| -------------------------- | --------------- | --------------------------------------------------------------- |
-| `DATABASE_URL`             | server, scripts | Neon Postgres connection string                                 |
-| `AUTH_SECRET`              | server          | Random secret used to hash sign-in codes and session tokens     |
-| `RESEND_API_KEY`           | server, scripts | Sends sign-in codes and alert emails                            |
-| `EMAIL_FROM`               | server, scripts | Sender address on a verified Resend domain                      |
-| `GROQ_API_KEY`             | scripts         | Groq key for the content generators                             |
-| `GROQ_API_KEY_2`           | scripts         | _Optional._ Fallback key; must be from a different Groq account |
-| `GROQ_MODEL`               | scripts         | _Optional._ Model name (default `openai/gpt-oss-120b`)          |
-| `ALERT_EMAIL`              | scripts         | Where problem alerts are emailed                                |
-| `EXPO_PUBLIC_APP_URL`      | app             | Live website; production phone builds call its API              |
-| `EXPO_PUBLIC_REPORT_EMAIL` | app             | Where "Report wrong answer" emails go                           |
+| Setting                    | What it is for                                                       |
+| -------------------------- | -------------------------------------------------------------------- |
+| `DATABASE_URL`             | Your Neon Postgres database                                          |
+| `AUTH_SECRET`              | A long random secret used to protect sign-in codes and sessions      |
+| `RESEND_API_KEY`           | Sends the sign-in and alert emails ([Resend](https://resend.com))    |
+| `EMAIL_FROM`               | The sender, e.g. `Learn5 <no-reply@your-domain.com>`                 |
+| `GROQ_API_KEY`             | Writes the questions and articles ([Groq](https://console.groq.com)) |
+| `GROQ_API_KEY_2`           | _Optional._ A backup key from a different Groq account               |
+| `ALERT_EMAIL`              | Where problem alerts are sent                                        |
+| `EXPO_PUBLIC_APP_URL`      | Your live website (the phone apps talk to its API)                   |
+| `EXPO_PUBLIC_REPORT_EMAIL` | Where "Report a wrong answer" emails go                              |
 
-> `EXPO_PUBLIC_*` values are bundled into the app, so they must never contain secrets.
+> Anything starting with `EXPO_PUBLIC_` is built into the app, so never put a secret there.
 
-## Content pipeline
+## How content is made
 
-All learning content lives in the database and reaches the app through the API, so new content
-appears without an app update.
+All questions and articles are written by AI on a schedule and saved in the database. The app
+fetches them, so new content appears **without an app update**.
 
 ```mermaid
 flowchart LR
-    A[GitHub Actions<br/>cron] --> B[Groq writes<br/>drop / article]
-    B --> C{Schema, repeat and<br/>readability checks}
+    A[GitHub Actions<br/>on a schedule] --> B[Groq writes<br/>a drop or article]
+    B --> C{Checks:<br/>shape, repeats,<br/>simple English}
     C -- fail --> B
     C -- pass --> D{AI fact-check}
     D -- fail --> B
-    D -- pass --> E[(Neon Postgres)]
-    E --> F[API<br/>/api/content<br/>/api/articles]
-    F --> G[Android · iOS · Web]
+    D -- pass --> E[(Database)]
+    E --> F[App: Android · iOS · Web]
 ```
 
-**Drops**
+- **Drops** — [`generate-drops.yml`](.github/workflows/generate-drops.yml) runs at 4:00 PM
+  (tomorrow) and 4:00 AM (back-up). Each drop: 3 multiple choice, 1 true/false, 1 fill-in-the-blank
+  or fact card. No topic repeats within 30 days, no question within 60.
+- **Article** — [`generate-articles.yml`](.github/workflows/generate-articles.yml) runs at 4:00 AM
+  (back-up 5:00 AM). 300–800 words, short sentences, fact-checked.
+- **Cost** — about 10 Groq requests a day (4 drops + 1 article). If the main key runs out, the
+  backup key takes over.
+- **Rules** for the AI and for people writing content: [`CONTENT_GUIDE.md`](CONTENT_GUIDE.md).
 
-- `.github/workflows/generate-drops.yml` runs at **16:00 IST** (tomorrow's drops) and **04:00 IST**
-  (back-up). Existing drops are skipped, so every run is safe to repeat.
-- 5 items per drop: 3 multiple choice, 1 true/false, 1 fill-in-the-blank or fact card.
-- Each question comes from a different area of its subject, and the areas rotate every day
-  (`CATEGORY_AREAS` in [`scripts/lib/prompt.ts`](scripts/lib/prompt.ts)).
-- No repeated topics within 30 days or questions within 60 days. A drop is only served after it opens.
+## Emails
 
-**Articles**
+Learn5 sends two kinds of email, both in one design that matches the app
+([`src/server/email.ts`](src/server/email.ts)):
 
-- `.github/workflows/generate-articles.yml` runs at **04:00 IST**, with a 05:00 back-up.
-- One article a day on the subject chosen by the rotation; the AI picks a topic not covered in the
-  last 90 days and writes 300–800 words.
-- Checked for shape, simple English (no sentence over 25 words) and facts.
+| Email            | Sent to       | When                                                          |
+| ---------------- | ------------- | ------------------------------------------------------------- |
+| **Sign-in code** | The user      | When they sign in or sign up (the code works for 10 minutes)  |
+| **Alert**        | `ALERT_EMAIL` | A Groq key ran out, content was not written, or a job crashed |
 
-**Budget and alerts**
+**To change the alert address**, update `ALERT_EMAIL` in **both** places:
 
-- A normal day is **4 drops (20 questions) + 1 article**, about 10 Groq requests.
-- When `GROQ_API_KEY` hits its limit, the generators switch to `GROQ_API_KEY_2` if one is set.
-- Problems (key limits, content not written, crashes) are emailed to `ALERT_EMAIL`, at most once
-  per run.
-
-### Emails
-
-Both emails use one layout that matches the app (indigo logo, clear heading, quiet footer),
-built in [`src/server/email.ts`](src/server/email.ts) with `renderEmail()`:
-
-- **Sign-in code** — sent to the user; the 6-digit code in large, spaced digits. Works for 10 minutes.
-- **Owner alerts** — sent to `ALERT_EMAIL` by the content jobs ([`scripts/lib/alerts.ts`](scripts/lib/alerts.ts)),
-  as plain text plus the same text in the layout.
-
-To change where alerts go, set `ALERT_EMAIL` in `.env.local` **and** in the GitHub Actions secrets
-(the daily jobs read the secret, not your local file).
+1. `.env.local` — for runs on your computer;
+2. GitHub → your repo → **Settings → Secrets and variables → Actions** — for the daily jobs.
 
 <div align="center">
-  <img src="docs/screenshots/sign-in-email.png" alt="The Learn5 sign-in code email" width="420" />
+  <img src="docs/screenshots/sign-in-email.png" alt="The sign-in code email" width="380" />
 </div>
 
-Writing rules for people and for the AI are in [`CONTENT_GUIDE.md`](CONTENT_GUIDE.md).
-
-## Project structure
+## Project layout
 
 ```
-app/                    Screens and API routes (Expo Router: every file is a route)
-  (tabs)/               Home, Read, Review, Flashcards, Progress and subject pages
-  api/                  auth, content, articles, progress, account
+app/                   Screens and API routes (every file is a page)
+  (tabs)/              Today, Read, Review, Flashcards, Progress, subject pages
+  api/                 Sign-in, content, articles, progress, account
 src/
-  components/           UI building blocks (Card, Button, CategoryCard, Icon3D, …)
-  features/             App logic: auth, content, articles, progress sync, badges, streaks
-  lib/                  Shared helpers; schema.ts is the single source of truth for content
-  server/               Server-only code: database, auth, drops, articles, email
-scripts/                Generators, validators, migrations (sql/) and AI prompts (lib/)
-content/                Subjects (categories.json) and seed content for offline use
-schedule.config.json    Drop and article times, and the article rotation
+  components/          Buttons, cards, rows, icons…
+  features/            App logic: sign-in, content, progress sync, streaks, badges
+  lib/                 Shared helpers (schema.ts describes all content)
+  server/              Server-only code: database, sign-in, emails
+scripts/               Content generators, checks and database migrations
+content/               Subjects (categories.json) and offline sample content
+schedule.config.json   When drops and articles open, and the article rotation
 ```
 
-**Progress sync.** Results, fixed mistakes and answer reports are stored per user through
-`POST /api/progress/sync`. The device keeps a local copy and sends pending changes on the next
-sync; points are recalculated on the server.
+**Privacy and security** — only hashes of sign-in codes and sessions are stored, sign-in codes
+are rate-limited, and deleting an account removes all of its data.
 
-**Security.** Only hashes of sign-in codes and session tokens are stored. Sign-in codes are
-rate-limited (1 per minute and 5 per hour per email, 20 per hour per network). Deleting an
-account removes all of the user's data.
+## Commands
 
-## Scripts
+| Command                     | What it does                                   |
+| --------------------------- | ---------------------------------------------- |
+| `npx expo start --clear`    | Run the app (press `w` for the website)        |
+| `npm run db:migrate`        | Create or update the database tables           |
+| `npm run generate-drops`    | Write any missing drops for today and tomorrow |
+| `npm run generate-articles` | Write today's article                          |
+| `npm run cleanup`           | Delete expired sign-in codes and sessions      |
+| `npm test`                  | Run the tests                                  |
+| `npm run typecheck`         | Check types                                    |
+| `npm run lint`              | Check code style                               |
 
-| Command                     | Description                                          |
-| --------------------------- | ---------------------------------------------------- |
-| `npm start`                 | Start the dev server (app and website)               |
-| `npm run web`               | Start the dev server and open the website            |
-| `npm run db:migrate`        | Create or update the database tables                 |
-| `npm run generate-drops`    | Write missing drops for today and tomorrow           |
-| `npm run generate-articles` | Write today's article                                |
-| `npm run validate-content`  | Validate the files in `content/`                     |
-| `npm run build-index`       | Rebuild `content/index.json`                         |
-| `npm run bundle-content`    | Pack the newest content into the app for offline use |
-| `npm run seed-drops`        | Copy the files in `content/` into the database       |
-| `npm run cleanup`           | Delete expired sign-in codes and sessions            |
-| `npm test`                  | Run the test suite                                   |
-| `npm run typecheck`         | Type-check the project                               |
-| `npm run lint`              | Lint the project                                     |
-| `npm run format`            | Format the project with Prettier                     |
-
-Generator options: `--date=YYYY-MM-DD`, `--category=<id>` (for articles: write this subject
-instead of the scheduled one), `--dry-run`.
+The generators also accept `--date=YYYY-MM-DD`, `--category=<subject>` and `--dry-run`.
 
 Before every commit:
 
@@ -251,37 +200,37 @@ Before every commit:
 npm run typecheck && npm run lint && npm test
 ```
 
-## Deployment
+## Deploying
 
-**Website and API** (EAS Hosting; `app.json` uses `"web": { "output": "server" }`):
-
-```bash
-npx expo export --platform web       # build dist/ (EXPO_PUBLIC_* values are baked in)
-npx eas-cli@latest deploy --prod     # publish to production
-```
-
-Server secrets (`DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`) live in the EAS
-`production` environment (`npx eas-cli@latest env:create`).
-
-**Phone apps** (EAS Build):
+**Website and API** — [EAS Hosting](https://docs.expo.dev/eas/hosting/introduction/):
 
 ```bash
-npx eas-cli@latest build -p android --profile preview      # installable test APK
-npx eas-cli@latest build --profile production              # store builds
-npx eas-cli@latest submit                                  # upload to the stores
+npx expo export --platform web
+npx eas-cli@latest deploy --prod
 ```
 
-**Scheduled jobs** need these GitHub Actions secrets (Settings → Secrets and variables →
-Actions): `DATABASE_URL`, `GROQ_API_KEY`, `RESEND_API_KEY`, `EMAIL_FROM` and `ALERT_EMAIL`.
+Add the server secrets (`DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`) to the EAS
+`production` environment with `npx eas-cli@latest env:create`.
 
-## Launch checklist
+**Phone apps** — [EAS Build](https://docs.expo.dev/build/introduction/):
 
-- [ ] GitHub Actions secrets set (see [Deployment](#deployment))
-- [ ] Latest website and API deployed with `eas deploy --prod`
-- [ ] Custom domain pointed at the deployment; `EXPO_PUBLIC_APP_URL` updated in `.env.local` and `eas.json`
-- [ ] Support inbox (`EXPO_PUBLIC_REPORT_EMAIL`) receives email
-- [ ] Legal pages (`/privacy`, `/terms`) reviewed
-- [ ] Store listings: screenshots, description, privacy policy URL and data-safety form
+```bash
+npx eas-cli@latest build -p android --profile preview   # a test APK
+npx eas-cli@latest build --profile production           # store builds
+npx eas-cli@latest submit                               # send to the stores
+```
+
+**Daily jobs** — add these GitHub Actions secrets: `DATABASE_URL`, `GROQ_API_KEY`,
+`RESEND_API_KEY`, `EMAIL_FROM`, `ALERT_EMAIL`.
+
+## Before launch
+
+- [ ] GitHub Actions secrets added
+- [ ] Website and API deployed (`eas deploy --prod`) on your own domain
+- [ ] `EXPO_PUBLIC_APP_URL` points at that domain
+- [ ] The support inbox (`EXPO_PUBLIC_REPORT_EMAIL`) receives email
+- [ ] Privacy and Terms pages reviewed
+- [ ] Store listings ready: screenshots, description, privacy policy link
 
 ## Author
 
@@ -289,13 +238,13 @@ Actions): `DATABASE_URL`, `GROQ_API_KEY`, `RESEND_API_KEY`, `EMAIL_FROM` and `AL
   <tr>
     <td>
       <strong>Priyanshu Singh</strong><br />
-      Designed and built Learn5.<br />
-      🌐 <a href="https://priyanshusingh.co.in">priyanshusingh.co.in</a> ·
-      🐙 <a href="https://github.com/priyanshuBS">@priyanshuBS</a>
+      Designed and built Learn5.<br /><br />
+      🌐 Portfolio — <a href="https://priyanshusingh.co.in"><strong>priyanshusingh.co.in</strong></a><br />
+      💻 GitHub — <a href="https://github.com/priyanshuBS">@priyanshuBS</a>
     </td>
   </tr>
 </table>
 
 <div align="center">
-<sub>Made with care by <a href="https://priyanshusingh.co.in">Priyanshu Singh</a>.</sub>
+<sub>Learn5 · made by <a href="https://priyanshusingh.co.in">Priyanshu Singh</a></sub>
 </div>
