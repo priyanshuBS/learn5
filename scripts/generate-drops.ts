@@ -3,13 +3,15 @@
  * generate-drops.ts — run with:  npm run generate-drops
  *
  * Writes missing drops with the Groq AI and saves them in the database.
- * Run by the cron job (.github/workflows/generate-drops.yml) at 04:00 and 16:00 IST.
+ * Run by the cron job (.github/workflows/generate-drops.yml) at 16:00 IST (tomorrow's
+ * drops, written ahead) and 04:00 IST (a back-up that fills anything missing).
  *
  * By default it fills TODAY and TOMORROW (content time zone, Asia/Kolkata):
  * drops that already exist are skipped, so running it again is always safe,
  * and a failed run is simply finished by the next one.
  *
- * Each category gets 2 drops a day (they open at 04:00 and 16:00). Everyone gets the
+ * Each subject (Math, Reasoning, English, Computer Science) gets ONE drop a day, opening
+ * at 04:00. Everyone gets the
  * same drop: 5 questions that climb from easy to hard, each from a DIFFERENT area of
  * the subject. The areas rotate day by day (scripts/lib/prompt.ts), so over time a
  * category covers its whole domain.

@@ -2,9 +2,9 @@
 
 **Daily learning, five minutes at a time.**
 
-Learn5 is a daily micro-learning app for **English, Reasoning, Puzzles and Computer Science**.
-Twice a day every subject gets a fresh 5-question drop that climbs from easy to hard, and every
-morning a short, easy-to-read article. One Expo codebase ships as an **Android app**, an
+Learn5 is a daily micro-learning app for **Math, Reasoning, English and Computer Science**.
+Every day at 4 AM each subject gets one fresh 5-question drop that climbs from easy to hard, and
+there is one short, easy-to-read article a day (a different subject each morning). One Expo codebase ships as an **Android app**, an
 **iOS app** and a **website**.
 
 ---
@@ -26,22 +26,22 @@ morning a short, easy-to-read article. One Expo codebase ships as an **Android a
 
 ## Features
 
-| Area             | What it does                                                                                                       |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **Daily drops**  | 2 drops per subject per day (04:00 and 16:00 IST), 5 questions each, from easy to hard, each from a different area |
-| **Daily reads**  | One short article per subject every morning at 04:00, in simple English, with key points and "words to know"       |
-| **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                         |
-| **Review**       | Wrong answers can be replayed until they are answered correctly                                                    |
-| **Progress**     | Points, levels, streaks and badges, synced to the user's account across devices                                    |
-| **Accounts**     | Passwordless sign-in with a 6-digit email code; account deletion; privacy and terms pages                          |
-| **Offline**      | The app opens instantly from a local copy and keeps working offline                                                |
-| **Reminders**    | Optional daily local notification (phones)                                                                         |
-| **Design**       | Light and dark themes, 3D subject and badge icons, and motion only in response to taps                             |
+| Area             | What it does                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Daily drops**  | 1 drop per subject per day, all at 04:00 IST, 5 questions each, from easy to hard, each from a different area |
+| **Daily reads**  | One short article a day at 04:00; the subject rotates Math → Reasoning → English → Computer Science           |
+| **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                    |
+| **Review**       | Wrong answers can be replayed until they are answered correctly                                               |
+| **Progress**     | Points, levels, streaks and badges, synced to the user's account across devices                               |
+| **Accounts**     | Passwordless sign-in with a 6-digit email code; account deletion; privacy and terms pages                     |
+| **Offline**      | The app opens instantly from a local copy and keeps working offline                                           |
+| **Reminders**    | Optional daily local notification (phones)                                                                    |
+| **Design**       | Light and dark themes, 3D subject and badge icons, and motion only in response to taps                        |
 
 ## Tech stack
 
 - **App:** Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand
-- **Design:** "Studio Mono & Indigo" — near-black and white with one indigo accent; Geist + Geist Mono
+- **Design:** "Slate & Teal" — cool slate surfaces (deep navy in dark mode) with one teal accent; Plus Jakarta Sans + Geist Mono
 - **Server:** Expo Router API routes, hosted on EAS Hosting
 - **Database:** Neon (serverless Postgres)
 - **Content generation:** Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions
@@ -89,8 +89,8 @@ content appears without an app update.
 
 ### Daily drops
 
-- **Schedule:** `.github/workflows/generate-drops.yml` runs at **04:00 and 16:00 IST** and
-  fills any missing drops for today and tomorrow. Existing drops are skipped, so every run is
+- **Schedule:** `.github/workflows/generate-drops.yml` runs at **16:00 IST** (writes tomorrow's
+  drops ahead) and **04:00 IST** (back-up), filling any missing drops for today and tomorrow. Existing drops are skipped, so every run is
   safe to repeat and a failed run is finished by the next one.
 - **Shape:** 5 items per drop (3 multiple choice, 1 true/false, 1 fill-in-the-blank or fact
   card) on a difficulty ladder: 1 easy, 2 medium, 2 hard.
@@ -106,15 +106,16 @@ content appears without an app update.
 
 - **Schedule:** `.github/workflows/generate-articles.yml` runs at **04:00 IST** (a 05:00 run
   retries anything that failed).
-- **Writing:** for each subject the AI chooses a topic not covered in the last 90 days and
-  writes a 300–800 word article.
+- **Writing:** ONE article a day. The subject rotates (`articleRotation` and
+  `articleRotationStart` in `schedule.config.json`); the AI chooses a topic not covered in the
+  last 90 days and writes a 300–800 word article.
 - **Checks:** `ArticleSchema`, a simple-English check (no sentence over 25 words, average
   under 15; `src/features/articles/readability.ts`) and an AI fact-check.
 - **Serving:** `GET /api/articles` and `GET /api/articles/article?category=…&date=…`.
 
 ### Budget and alerts
 
-- A normal day is **8 drops (40 questions) + 4 articles**, about 24 Groq requests.
+- A normal day is **4 drops (20 questions) + 1 article**, about 10 Groq requests.
 - If `GROQ_API_KEY` reaches its limit, the generators switch to `GROQ_API_KEY_2` when one is set.
 - **Alerts** are emailed to `ALERT_EMAIL` when a key's limit is reached or a key is refused,
   when drops or articles could not be written, or when a generator crashes. Each alert is sent

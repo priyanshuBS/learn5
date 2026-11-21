@@ -1,8 +1,10 @@
 /**
- * Read — the daily articles. Every morning at 04:00 the AI writes one short
- * article per subject in simple English.
- *   - filter by subject (All / English / …)
- *   - Today: one card per subject (or "being written" until it arrives)
+ * Read — the daily articles. Every morning at 04:00 the AI writes ONE short
+ * article in simple English; the subject rotates day by day
+ * (Math → Reasoning → English → Computer Science).
+ *   - filter by subject (All / Math / …)
+ *   - Today: the day's one article (or "being written" until it arrives),
+ *     and which subject comes tomorrow
  *   - Earlier: every older article, newest first
  */
 import { useState } from 'react';
@@ -18,6 +20,8 @@ import { Muted, Txt } from '@/components/Txt';
 import { useArticleReads, useArticles } from '@/features/articles/store';
 import { useAppData } from '@/hooks/useAppData';
 import { articleKey } from '@/lib/articles';
+import { addDays } from '@/lib/dates';
+import { scheduledArticleCategory } from '@/lib/rotation';
 import type { ArticleSummary } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
 import { useColorScheme } from '@/hooks/useScheme';
@@ -47,7 +51,13 @@ export default function ArticlesScreen() {
 
   const categoryOf = (a: ArticleSummary) => index.categories.find((c) => c.id === a.category);
   const order = new Map(index.categories.map((c, i) => [c.id, i]));
-  const shownCategories = index.categories.filter((c) => !subject || c.id === subject);
+  // One article a day: today's subject (older content indexes: every subject).
+  const todaysId = scheduledArticleCategory(index, zonedNow.date);
+  const tomorrowId = scheduledArticleCategory(index, addDays(zonedNow.date, 1));
+  const tomorrow = index.categories.find((c) => c.id === tomorrowId);
+  const shownCategories = index.categories.filter(
+    (c) => (!subject || c.id === subject) && (!todaysId || c.id === todaysId),
+  );
   const list = (articles ?? [])
     .filter((a) => categoryOf(a) && (!subject || a.category === subject))
     .sort(
@@ -65,7 +75,7 @@ export default function ArticlesScreen() {
     <Screen>
       <PageHeader
         title="Daily reads"
-        subtitle="One short article for each subject, written fresh every morning in simple English."
+        subtitle="One short article a day in simple English. A new subject every morning."
       />
 
       {/* Subject filter */}
@@ -99,17 +109,26 @@ export default function ArticlesScreen() {
         <>
           <SectionTitle
             title="Today"
-            subtitle={`${today.length} of ${shownCategories.length} ready · new every day at ${articlesTime}`}
+            subtitle={`New every day at ${articlesTime}${tomorrow ? ` · tomorrow: ${tomorrow.name}` : ''}`}
           />
+          {shownCategories.length === 0 ? (
+            <Muted className="text-[14px]">
+              No {index.categories.find((c) => c.id === subject)?.name} article today. Its next one
+              comes in the rotation.
+            </Muted>
+          ) : null}
           <View className="-m-1.5 flex-row flex-wrap">
             {shownCategories.map((category) => {
               const a = today.find((x) => x.category === category.id);
               return (
-                <View key={category.id} className="w-full p-1.5 md:w-1/2">
+                <View
+                  key={category.id}
+                  className={twMerge('w-full p-1.5', shownCategories.length > 1 && 'md:w-1/2')}
+                >
                   {a ? (
                     <ArticleCard article={a} category={category} read={!!read[articleKey(a)]} />
                   ) : (
-                    <View className="flex-row items-center gap-3.5 rounded-2xl border border-dashed border-line p-4 dark:border-ink-line">
+                    <View className="flex-row items-center gap-3.5 rounded-[20px] border border-dashed border-line p-4 dark:border-ink-line">
                       <CategoryIcon category={category} size="sm" />
                       <View className="flex-1">
                         <Txt weight="semibold" className="text-[15px]">

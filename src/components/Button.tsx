@@ -1,7 +1,7 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid indigo with white text: the main action
+ *   primary   = solid teal with white text: the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
  *   soft      = light grey tint
@@ -35,11 +35,11 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'accent':
       return dark
         ? {
-            box: 'bg-brand-600 web:shadow-[0_8px_28px_-12px_rgba(110,120,255,0.75)] web:hover:bg-brand-500',
+            box: 'bg-brand-600 web:shadow-[0_8px_28px_-12px_rgba(22,165,148,0.6)] web:hover:bg-brand-500',
             text: '#FFFFFF',
           }
         : {
-            box: 'bg-brand-600 web:shadow-[0_8px_24px_-14px_rgba(79,91,255,0.6)] web:hover:bg-brand-700',
+            box: 'bg-brand-600 web:shadow-[0_8px_24px_-14px_rgba(14,127,116,0.55)] web:hover:bg-brand-700',
             text: '#FFFFFF',
           };
     case 'secondary':
@@ -61,11 +61,11 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-brand-50', text: '#0E0F14' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#0F172A' };
     case 'ghost':
       return dark
-        ? { box: 'web:hover:bg-white/5', text: '#CFD0D9' }
-        : { box: 'web:hover:bg-black/5', text: '#3A3C48' };
+        ? { box: 'web:hover:bg-white/5', text: '#CBD5E1' }
+        : { box: 'web:hover:bg-black/5', text: '#334155' };
   }
 }
 

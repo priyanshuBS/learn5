@@ -3,10 +3,11 @@
  * generate-articles.ts — run with:  npm run generate-articles
  *
  * Every day at 04:00 (Asia/Kolkata) the cron job (.github/workflows/generate-articles.yml)
- * runs this. For each category the AI picks ONE topic by itself and writes a short
- * article about it in simple, easy English.
+ * runs this. ONE article a day: the subject rotates (Math → Reasoning → English →
+ * Computer Science, see articleRotation in schedule.config.json). The AI picks the
+ * topic by itself and writes a short article in simple, easy English.
  *
- * For each category:
+ * For the day's subject:
  *   1. ask the AI to choose a topic (not used in the last 90 days) and write the article
  *   2. check it in code: shape (ArticleSchema), length, short sentences (readability.ts)
  *   3. ask the AI to fact-check it
@@ -16,7 +17,7 @@
  *
  * Options:
  *   --date=2026-11-12     this date (default: today)
- *   --category=english    only this category
+ *   --category=english    write this subject instead of the scheduled one
  *   --dry-run             print instead of saving
  *
  * Needs: DATABASE_URL and GROQ_API_KEY (optional GROQ_MODEL).
@@ -24,6 +25,7 @@
 import { readabilityProblems, readingMinutes } from '../src/features/articles/readability';
 import { ArticleSchema, isRealDate, type Article, type Category } from '../src/lib/schema';
 import { getZonedNow } from '../src/lib/time';
+import { articleCategoryFor } from '../src/lib/rotation';
 import { recentArticleTopics, saveArticle } from '../src/server/articles';
 import { getSql } from '../src/server/db';
 import { categories, schedule } from '../src/server/drops';
@@ -173,8 +175,14 @@ async function main(): Promise<void> {
   if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
   if (ONLY_DATE && !isRealDate(ONLY_DATE)) throw new Error('--date must be YYYY-MM-DD');
   const date = ONLY_DATE ?? getZonedNow(schedule.timezone).date;
-  const targets = categories.filter((c) => !ONLY_CATEGORY || c.id === ONLY_CATEGORY);
-  if (targets.length === 0) throw new Error(`Unknown category "${ONLY_CATEGORY}"`);
+  const scheduled = articleCategoryFor(
+    date,
+    schedule.articleRotation,
+    schedule.articleRotationStart,
+  );
+  const wanted = ONLY_CATEGORY ?? scheduled;
+  const targets = categories.filter((c) => c.id === wanted);
+  if (targets.length === 0) throw new Error(`Unknown category "${wanted}"`);
 
   const sql = getSql();
   const existingRows = await sql`

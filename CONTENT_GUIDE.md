@@ -135,7 +135,7 @@ Every drop is a ladder: each question is harder than the one before.
 - **Never all easy.** The idea gets harder, never the English.
 - **Wide range:** the 5 questions come from 5 different areas of the subject, and the areas
   rotate every drop (see `CATEGORY_AREAS` in `scripts/lib/prompt.ts`).
-- 2 drops a day per subject, opening at 04:00 and 16:00. Older drops (2 easy, 2 medium,
+- 1 drop a day per subject, opening at 04:00. Older drops (2 easy, 2 medium,
   1 hard; up to 3 a day) are still valid.
 
 ## 4. Writing good questions
@@ -167,9 +167,9 @@ Every drop is a ladder: each question is harder than the one before.
 
 | Category             | What to cover                                                                                                                                                                                                                                           |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Math**             | Mental math tricks, everyday math (percentages, discounts, interest, ratios, averages, time and speed), basic concepts (fractions, primes, LCM/HCF, area, simple algebra). Small friendly numbers; ONE step-by-step working. Use ₹ for money.           |
 | **English**          | Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (e.g. "its/it's", "advice/advise"), idioms and phrases, correct word usage. Show the word inside a short example sentence.                                                         |
 | **Reasoning**        | Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it **step by step** ("Step 1: … Step 2: …").                                               |
-| **Puzzles**          | Riddles, number puzzles, word puzzles, logic-grid and truth-teller puzzles, fair lateral-thinking puzzles — all in words, each with ONE clear answer. Solve it **step by step** in the explanation. Not exam drills (those are Reasoning).              |
 | **Computer Science** | How computers work (input, processing, output, storage), hardware and software, binary and storage units, the internet and the web, algorithms and flowcharts, simple coding logic in plain pseudocode, and online safety. No company or product names. |
 
 ## 6. No repeats **[checked]**

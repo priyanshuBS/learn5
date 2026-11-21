@@ -7,9 +7,12 @@
  *
  * An article for a day is published at the "articles" time in schedule.config.json
  * (04:00 in the content time zone), when the generator writes it.
+ * Since articleRotationStart there is ONE article a day, and its subject rotates
+ * (src/lib/rotation.ts). Older days keep their one-per-subject articles.
  */
 import { addDays } from '../lib/dates';
 import { ArticleSchema, type Article, type ArticleSummary } from '../lib/schema';
+import { articleCategoryFor, isRotationDay } from '../lib/rotation';
 import { getZonedNow, timeToMinutes } from '../lib/time';
 
 import { getSql } from './db';
@@ -26,6 +29,14 @@ export function isArticlePublished(date: string, now: Date = new Date()): boolea
   return zoned.minutes >= timeToMinutes(schedule.articles);
 }
 
+/** True when the article (category, date) belongs to the schedule (one subject a day since the rotation began). */
+export function isScheduledArticle(category: string, date: string): boolean {
+  if (!isRotationDay(date, schedule.articleRotationStart)) return true;
+  return (
+    articleCategoryFor(date, schedule.articleRotation, schedule.articleRotationStart) === category
+  );
+}
+
 /** Recent published articles, newest first. */
 export async function listArticles(now: Date = new Date()): Promise<ArticleSummary[]> {
   const sql = getSql();
@@ -37,7 +48,7 @@ export async function listArticles(now: Date = new Date()): Promise<ArticleSumma
       AND article_date > ${addDays(today, -ARTICLE_ARCHIVE_DAYS)}::date
     ORDER BY article_date DESC, category`;
   return rows
-    .filter((r) => isArticlePublished(r.date, now))
+    .filter((r) => isArticlePublished(r.date, now) && isScheduledArticle(r.category, r.date))
     .map((r) => ({
       category: r.category as string,
       date: r.date as string,
@@ -59,6 +70,7 @@ export async function getArticle(
   if (!/^[a-z][a-z0-9-]*$/.test(category) || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return { status: 'not-found' };
   }
+  if (!isScheduledArticle(category, date)) return { status: 'not-found' };
   if (!isArticlePublished(date, now)) return { status: 'not-published' };
   const sql = getSql();
   const [row] = await sql`

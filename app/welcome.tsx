@@ -38,25 +38,25 @@ const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string
     },
     {
       icon: 'calendar',
-      color: '#38BDF8',
-      title: 'Two drops a day',
-      text: 'Five new questions at 4 AM and 4 PM, from easy to hard.',
+      color: '#0EA5E9',
+      title: 'One drop per subject',
+      text: 'Five new questions in every subject at 4 AM, from easy to hard.',
     },
     {
       icon: 'articles',
-      color: '#6E78FF',
+      color: '#8B5CF6',
       title: 'A daily read',
-      text: 'A fresh, easy-to-read article for every subject each morning.',
+      text: 'One fresh, easy-to-read article every morning, a new subject each day.',
     },
     {
       icon: 'review',
-      color: '#10B981',
+      color: '#F43F5E',
       title: 'Review mistakes',
       text: 'Replay the questions you got wrong until they stick.',
     },
     {
       icon: 'flashcards',
-      color: '#10B981',
+      color: '#16A594',
       title: 'Flashcards',
       text: 'Keep the facts you liked and flip through them any time.',
     },
@@ -69,7 +69,7 @@ const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string
     },
     {
       icon: 'smartphone',
-      color: '#6E6E7A',
+      color: '#64748B',
       title: 'Phone and web',
       text: 'Use it on Android, iPhone or in your browser.',
     },
@@ -118,7 +118,7 @@ export default function WelcomeScreen() {
               a day.
             </Txt>
             <Muted className="mt-5 max-w-lg text-[17px] leading-7">
-              Short daily quizzes in English, Reasoning, Puzzles and Computer Science, with a clear
+              Short daily quizzes in Math, Reasoning, English and Computer Science, with a clear
               explanation after every answer. Free, and no password needed.
             </Muted>
             <View className="mt-8 gap-3 sm:flex-row">
@@ -141,7 +141,7 @@ export default function WelcomeScreen() {
         {/* Subjects */}
         <Section
           title="Subjects"
-          text="Four core skills, explained simply: language, logic, puzzles and how computers work."
+          text="Four core skills, explained simply: numbers, logic, language and how computers work."
         />
         <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
           {/* -1px: the card's edge hides the last row's divider line. */}
@@ -319,7 +319,7 @@ function ProductPreview() {
           );
         })}
       </View>
-      <View className="mt-4 rounded-xl bg-[#EFEFF3] p-3.5 dark:bg-ink-raised">
+      <View className="mt-4 rounded-xl bg-zinc-100 p-3.5 dark:bg-ink-raised">
         <Txt weight="semibold" className="text-[13px]">
           Why
         </Txt>

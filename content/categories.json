@@ -1,30 +1,30 @@
 [
   {
-    "id": "english",
-    "name": "English",
-    "emoji": "📖",
-    "color": "#6E78FF",
-    "tagline": "Words, grammar and idioms"
+    "id": "math",
+    "name": "Math",
+    "emoji": "➗",
+    "color": "#F59E0B",
+    "tagline": "Numbers, percentages and everyday maths"
   },
   {
     "id": "reasoning",
     "name": "Reasoning",
     "emoji": "🧩",
-    "color": "#F59E0B",
-    "tagline": "Puzzles, patterns and logic"
+    "color": "#8B5CF6",
+    "tagline": "Patterns, series and logic"
   },
   {
-    "id": "puzzles",
-    "name": "Puzzles",
-    "emoji": "🧠",
-    "color": "#10B981",
-    "tagline": "Riddles, brain teasers and number puzzles"
+    "id": "english",
+    "name": "English",
+    "emoji": "📖",
+    "color": "#F43F5E",
+    "tagline": "Words, grammar and idioms"
   },
   {
     "id": "computer-science",
     "name": "Computer Science",
     "emoji": "💻",
-    "color": "#38BDF8",
+    "color": "#0EA5E9",
     "tagline": "Computers, coding and the internet"
   }
 ]

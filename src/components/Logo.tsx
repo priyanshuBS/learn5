@@ -1,7 +1,7 @@
 /**
  * Logo — the Learn5 mark and wordmark.
- * The mark is a "5-minute timer": a studio-black rounded tile with an indigo ring
- * that is almost closed, a light indigo dot where the ring ends, and a white "5".
+ * The mark is a "5-minute timer": a deep teal rounded tile with a white ring
+ * that is almost closed, a white dot where the ring ends, and a white "5".
  * The app icon, splash screen and browser tab icon use the same drawing.
  */
 import { View } from 'react-native';
@@ -14,7 +14,7 @@ import { Txt } from './Txt';
 const R = 30;
 const CIRCUMFERENCE = 2 * Math.PI * R;
 const ARC = (CIRCUMFERENCE * 300) / 360;
-// Where the ring ends (210° clockwise from the right = upper left), for the mint dot.
+// Where the ring ends (210° clockwise from the right = upper left), for the end dot.
 const END_X = 50 + R * Math.cos((210 * Math.PI) / 180);
 const END_Y = 50 + R * Math.sin((210 * Math.PI) / 180);
 
@@ -26,12 +26,12 @@ export function LogoMark({ size = 28 }: { size?: number }) {
       <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute' }}>
         <Defs>
           <LinearGradient id="learn5tile" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#1F1F26" />
-            <Stop offset="1" stopColor="#0B0B0D" />
+            <Stop offset="0" stopColor="#16A594" />
+            <Stop offset="1" stopColor="#0B4F63" />
           </LinearGradient>
           <LinearGradient id="learn5ring" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0" stopColor="#B8BEFF" />
-            <Stop offset="1" stopColor="#5B66FF" />
+            <Stop offset="0" stopColor="#FFFFFF" />
+            <Stop offset="1" stopColor="#A6EBDD" />
           </LinearGradient>
         </Defs>
         {/* The tile, with a hairline edge so it also reads on dark backgrounds */}
@@ -59,7 +59,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
           strokeDasharray={`${ARC} ${CIRCUMFERENCE}`}
           transform="rotate(-90 50 50)"
         />
-        <Circle cx={END_X} cy={END_Y} r={7} fill="#B8BEFF" />
+        <Circle cx={END_X} cy={END_Y} r={7} fill="#FFFFFF" />
       </Svg>
       <View
         style={{

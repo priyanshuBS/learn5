@@ -331,7 +331,7 @@ function SyncLine() {
 function TextLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} hitSlop={6}>
-      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#99A6A3]">{label}</Txt>
+      <Txt className="text-[13px] text-zinc-500 underline dark:text-[#8B96AB]">{label}</Txt>
     </Pressable>
   );
 }

@@ -11,10 +11,9 @@ import { daysBetween } from '../../src/lib/dates';
 import { DIFFICULTY_LADDER, DROPS_PER_DAY, type Category } from '../../src/lib/schema';
 
 const CATEGORY_RULES: Record<string, string> = {
+  math: 'Mental math tricks, everyday math (percentages, discounts, profit and loss, simple and compound interest, ratios, averages, time and speed, unit conversion), and basic concepts (fractions, decimals, primes, LCM/HCF, area and perimeter, simple algebra). Use small, friendly numbers that can be worked out without a calculator. Show ONE clear step-by-step working in the explanation ("Step 1: … Step 2: …"), not two methods. Use ₹ for money.',
   english:
     'Vocabulary (meanings, synonyms, opposites), grammar, common mistakes (its/it’s, advice/advise), idioms and phrases, correct word usage. Show the word inside a short example sentence.',
-  puzzles:
-    'Fun brain teasers that have ONE clear answer: classic riddles, number puzzles (missing numbers, magic squares, simple age and counting puzzles), word puzzles (anagrams, hidden words, letter patterns), logic grid and truth-teller puzzles, and lateral-thinking puzzles with a fair, well-known answer. Describe everything in words. Never use puzzles that need a picture to solve (no matchsticks, shapes, mirror images or grids drawn as art). Not exam-style reasoning drills (series, analogies, blood relations) — those belong in Reasoning. The explanation MUST show how to solve it step by step.',
   reasoning:
     'Logic puzzles, number and letter series, analogies, coding-decoding, odd one out, directions, blood relations, simple syllogisms. The explanation MUST solve it step by step ("Step 1: … Step 2: …").',
   'computer-science':
@@ -27,6 +26,30 @@ const CATEGORY_RULES: Record<string, string> = {
  * whole domain instead of circling the same few ideas.
  */
 export const CATEGORY_AREAS: Record<string, string[]> = {
+  math: [
+    'mental math tricks',
+    'percentages',
+    'profit and loss',
+    'discounts',
+    'simple interest',
+    'compound interest',
+    'ratio and proportion',
+    'averages',
+    'time and speed',
+    'time and work',
+    'fractions',
+    'decimals',
+    'prime numbers and divisibility',
+    'LCM and HCF',
+    'squares, cubes and roots',
+    'area and perimeter',
+    'volume',
+    'angles and triangles',
+    'simple algebra (one unknown)',
+    'unit conversion',
+    'number patterns',
+    'basic probability',
+  ],
   english: [
     'word meanings (vocabulary)',
     'synonyms',
@@ -67,25 +90,6 @@ export const CATEGORY_AREAS: Record<string, string[]> = {
     'counting and grouping',
     'input–output patterns',
     'data sufficiency',
-  ],
-  puzzles: [
-    'classic riddles',
-    'number puzzles (missing number)',
-    'magic squares',
-    'age puzzles',
-    'counting puzzles',
-    'anagrams',
-    'hidden words',
-    'word ladders',
-    'logic grid puzzles',
-    'truth-tellers and liars',
-    'lateral thinking',
-    'river-crossing puzzles',
-    'weighing and balance puzzles',
-    'calendar and clock puzzles',
-    'cryptarithms (letters for digits)',
-    'sequence of moves (e.g. pouring water)',
-    'probability brain teasers',
   ],
   'computer-science': [
     'hardware parts (CPU, RAM, storage)',
@@ -147,7 +151,7 @@ QUESTIONS
 - fact_card: one surprising but true fact in 1–2 sentences ("fact" field, no question); the explanation adds the "why".
 - explanation: 2–4 simple sentences (20–600 characters). Say why the right answer is right; when useful, why the tempting wrong answer is wrong.
 - funFact (optional): one fun line, max 200 characters.
-- source: a real, well-known reference for THIS subject that covers the fact: e.g. "Oxford Learner's Dictionary" or "NCERT Class 8 English" for English, "NCERT Class 11 Computer Science" for computer science, "RS Aggarwal Verbal & Non-Verbal Reasoning" for reasoning. For Puzzles, use "Classic puzzle" (a well-known riddle or brain teaser) or "Original puzzle" (one you made up) — never a dictionary or textbook.
+- source: a real, well-known reference for THIS subject that covers the fact: e.g. "Oxford Learner's Dictionary" or "NCERT Class 8 English" for English, "NCERT Class 11 Computer Science" for computer science, "RS Aggarwal Verbal & Non-Verbal Reasoning" for reasoning. "NCERT Class 8 Mathematics" (or another class) or "RS Aggarwal Quantitative Aptitude" for math.
 - topic: short name, max 60 characters. All 5 topics in a drop must be different.
 - title: short and catchy, max 60 characters, about the TOPICS in this drop (e.g. "Bits, Bytes and Binary"). Never use the time of day, the date, the subject name or the words "quiz"/"drop" in the title.
 
@@ -175,7 +179,6 @@ const LADDER_GUIDE = [
   'challenging: several steps, or a fact that needs real understanding',
   'the hardest: only a well-prepared player gets it (still fair, still school-level, up to Class 10–12)',
 ];
-const SLOT = ['morning (opens 4 AM)', 'afternoon (opens 4 PM)'];
 
 export function userPrompt(opts: {
   category: Category;
@@ -188,7 +191,7 @@ export function userPrompt(opts: {
 }): string {
   const plan = PLANS[opts.drop] ?? PLANS[1];
   const lines = [
-    `Write drop ${opts.drop} of ${DROPS_PER_DAY} (${SLOT[opts.drop - 1] ?? 'extra'}) for the category "${opts.category.name}" (${opts.category.tagline}) for ${opts.date}.`,
+    `Write today's drop (it opens at 4 AM) for the category "${opts.category.name}" (${opts.category.tagline}) for ${opts.date}.`,
     `What to cover in ${opts.category.name}: ${CATEGORY_RULES[opts.category.id] ?? opts.category.tagline}`,
     '',
     'Exactly 5 items, in this order. They form a DIFFICULTY LADDER: every item must be harder than the one before it. Never make them all easy.',
@@ -224,6 +227,6 @@ For each item check:
 4. For fill_blank: exactly one answer fits the blank, and it is the given answer. acceptedAnswers are just other spellings of that SAME answer (e.g. "12" and "twelve") — that is fine, not a second answer.
 5. The explanation agrees with the answer and its facts and numbers are right.
 6. The fact is well-established, school-level, not controversial, not time-sensitive.
-7. The source is a real reference that fits the subject (e.g. not a dictionary for a math fact). For puzzles, "Classic puzzle" or "Original puzzle" is fine.
+7. The source is a real reference that fits the subject (e.g. not a dictionary for a math fact).
 Be strict: if you have real doubt, mark it not ok.
 Reply with JSON only: {"items":[{"position":1,"ok":true,"problem":""}, …]} — one entry per item, "problem" explains what is wrong when ok is false.`;

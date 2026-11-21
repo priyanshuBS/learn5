@@ -1,77 +1,59 @@
 {
-  "version": "604d769fff64",
+  "version": "68f3823557c4",
   "latestDate": "2026-11-08",
   "timezone": "Asia/Kolkata",
   "schedule": {
-    "english": [
-      "04:00",
-      "16:00"
+    "math": [
+      "04:00"
     ],
     "reasoning": [
-      "04:00",
-      "16:00"
+      "04:00"
     ],
-    "puzzles": [
-      "04:00",
-      "16:00"
+    "english": [
+      "04:00"
     ],
     "computer-science": [
-      "04:00",
-      "16:00"
+      "04:00"
     ]
   },
   "categories": [
     {
-      "id": "english",
-      "name": "English",
-      "emoji": "📖",
-      "color": "#6E78FF",
-      "tagline": "Words, grammar and idioms"
+      "id": "math",
+      "name": "Math",
+      "emoji": "➗",
+      "color": "#F59E0B",
+      "tagline": "Numbers, percentages and everyday maths"
     },
     {
       "id": "reasoning",
       "name": "Reasoning",
       "emoji": "🧩",
-      "color": "#F59E0B",
-      "tagline": "Puzzles, patterns and logic"
+      "color": "#8B5CF6",
+      "tagline": "Patterns, series and logic"
     },
     {
-      "id": "puzzles",
-      "name": "Puzzles",
-      "emoji": "🧠",
-      "color": "#10B981",
-      "tagline": "Riddles, brain teasers and number puzzles"
+      "id": "english",
+      "name": "English",
+      "emoji": "📖",
+      "color": "#F43F5E",
+      "tagline": "Words, grammar and idioms"
     },
     {
       "id": "computer-science",
       "name": "Computer Science",
       "emoji": "💻",
-      "color": "#38BDF8",
+      "color": "#0EA5E9",
       "tagline": "Computers, coding and the internet"
     }
   ],
+  "articleRotation": [
+    "math",
+    "reasoning",
+    "english",
+    "computer-science"
+  ],
+  "articleRotationStart": "2026-11-21",
   "drops": [
-    {
-      "category": "english",
-      "date": "2026-11-07",
-      "drop": 1,
-      "title": "Words That Confuse Everyone",
-      "path": "english/2026-11-07/drop-1.json"
-    },
-    {
-      "category": "english",
-      "date": "2026-11-07",
-      "drop": 2,
-      "title": "Grammar Made Easy",
-      "path": "english/2026-11-07/drop-2.json"
-    },
-    {
-      "category": "english",
-      "date": "2026-11-07",
-      "drop": 3,
-      "title": "Idioms and Everyday Phrases",
-      "path": "english/2026-11-07/drop-3.json"
-    },
     {
       "category": "reasoning",
       "date": "2026-11-07",
@@ -95,24 +77,24 @@
     },
     {
       "category": "english",
-      "date": "2026-11-08",
+      "date": "2026-11-07",
       "drop": 1,
-      "title": "Spot the Mistake",
-      "path": "english/2026-11-08/drop-1.json"
+      "title": "Words That Confuse Everyone",
+      "path": "english/2026-11-07/drop-1.json"
     },
     {
       "category": "english",
-      "date": "2026-11-08",
+      "date": "2026-11-07",
       "drop": 2,
-      "title": "Words With Power",
-      "path": "english/2026-11-08/drop-2.json"
+      "title": "Grammar Made Easy",
+      "path": "english/2026-11-07/drop-2.json"
     },
     {
       "category": "english",
-      "date": "2026-11-08",
+      "date": "2026-11-07",
       "drop": 3,
-      "title": "Grammar Check-Up",
-      "path": "english/2026-11-08/drop-3.json"
+      "title": "Idioms and Everyday Phrases",
+      "path": "english/2026-11-07/drop-3.json"
     },
     {
       "category": "reasoning",
@@ -134,6 +116,27 @@
       "drop": 3,
       "title": "Logic Lab",
       "path": "reasoning/2026-11-08/drop-3.json"
+    },
+    {
+      "category": "english",
+      "date": "2026-11-08",
+      "drop": 1,
+      "title": "Spot the Mistake",
+      "path": "english/2026-11-08/drop-1.json"
+    },
+    {
+      "category": "english",
+      "date": "2026-11-08",
+      "drop": 2,
+      "title": "Words With Power",
+      "path": "english/2026-11-08/drop-2.json"
+    },
+    {
+      "category": "english",
+      "date": "2026-11-08",
+      "drop": 3,
+      "title": "Grammar Check-Up",
+      "path": "english/2026-11-08/drop-3.json"
     }
   ]
 }

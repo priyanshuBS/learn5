@@ -11,6 +11,7 @@ import { Icon3D } from './Icon3D';
 import { Txt } from './Txt';
 
 const SIZES = {
+  xs: { box: 22, emoji: 'text-sm' },
   sm: { box: 34, emoji: 'text-base' },
   md: { box: 48, emoji: 'text-xl' },
   lg: { box: 64, emoji: 'text-3xl' },

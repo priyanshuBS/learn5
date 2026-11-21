@@ -32,7 +32,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
           <View style={{ opacity: badge.earned ? 1 : 0.45 }}>
             <Icon3D
               icon={BADGE_ICONS[badge.id] ?? 'medal'}
-              color={badge.earned ? (BADGE_COLORS[badge.id] ?? colors.points) : '#8A8D9A'}
+              color={badge.earned ? (BADGE_COLORS[badge.id] ?? colors.points) : '#94A3B8'}
               size={48}
               filled={badge.id.startsWith('streak-7')}
             />
@@ -40,7 +40,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
           {badge.earned ? (
             <Icon name="badge-check" size={18} color={colors.success} />
           ) : (
-            <Icon name="lock" size={14} color={scheme === 'dark' ? '#3A3C48' : '#CFD0D9'} />
+            <Icon name="lock" size={14} color={scheme === 'dark' ? '#334155' : '#CBD5E1'} />
           )}
         </View>
         <Txt weight="semibold" className="mt-3.5 text-[15px]">

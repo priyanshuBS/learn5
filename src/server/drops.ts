@@ -5,7 +5,7 @@
  *   getOpenDrop()     → one drop's 5 questions, ONLY once its opening time has passed
  *   saveDrop()        → used by the generator and the seed script
  *
- * Categories and drop times still come from content/categories.json and
+ * Categories, drop times and the article rotation come from content/categories.json and
  * schedule.config.json, so there is one place to change them.
  */
 import categoriesFile from '../../content/categories.json';
@@ -82,6 +82,8 @@ export async function getContentIndex(now: Date = new Date()): Promise<ContentIn
     timezone: schedule.timezone,
     schedule: schedule.drops,
     categories,
+    articleRotation: schedule.articleRotation,
+    articleRotationStart: schedule.articleRotationStart,
     drops,
   };
 }

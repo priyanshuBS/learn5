@@ -3,9 +3,9 @@ make-icons.py — draws the Learn5 app icons and saves them as PNG files.
 
     python scripts/make-icons.py
 
-The logo is a "5-minute timer": a studio-black rounded tile with an indigo ring
-that is almost closed, a light indigo dot where the ring ends, and a white "5" in
-Geist Bold (the same drawing as src/components/Logo.tsx).
+The logo is a "5-minute timer": a deep teal rounded tile with a white ring
+that is almost closed, a white dot where the ring ends, and a white "5" in
+Plus Jakarta Sans ExtraBold (the same drawing as src/components/Logo.tsx).
 Each image is an SVG in a small HTML page, saved as a PNG by headless Chrome.
 
 Writes:
@@ -25,7 +25,7 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FONT = (ROOT / 'node_modules/@expo-google-fonts/geist/700Bold/Geist_700Bold.ttf').as_uri()
+FONT = (ROOT / 'node_modules/@expo-google-fonts/plus-jakarta-sans/800ExtraBold/PlusJakartaSans_800ExtraBold.ttf').as_uri()
 CHROME_PATHS = [
     r'C:\Program Files\Google\Chrome\Application\chrome.exe',
     r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
@@ -37,24 +37,24 @@ CHROME_PATHS = [
 DEFS = '''
 <defs>
   <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#1F1F26"/>
-    <stop offset="1" stop-color="#0B0B0D"/>
+    <stop offset="0" stop-color="#16A594"/>
+    <stop offset="1" stop-color="#0B4F63"/>
   </linearGradient>
   <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#B8BEFF"/>
-    <stop offset="1" stop-color="#5B66FF"/>
+    <stop offset="0" stop-color="#FFFFFF"/>
+    <stop offset="1" stop-color="#A6EBDD"/>
   </linearGradient>
   <radialGradient id="glow" cx="50%" cy="0%" r="75%">
-    <stop offset="0" stop-color="#6E78FF" stop-opacity="0.32"/>
-    <stop offset="1" stop-color="#6E78FF" stop-opacity="0"/>
+    <stop offset="0" stop-color="#6FDCC8" stop-opacity="0.32"/>
+    <stop offset="1" stop-color="#6FDCC8" stop-opacity="0"/>
   </radialGradient>
   <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
-    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#6E78FF" flood-opacity="0.5"/>
+    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#6FDCC8" flood-opacity="0.5"/>
   </filter>
 </defs>'''
 
 
-def mark(cx, cy, scale, ring='url(#ring)', text='#FFFFFF', dot='#B8BEFF', glow=True):
+def mark(cx, cy, scale, ring='url(#ring)', text='#FFFFFF', dot='#FFFFFF', glow=True):
     """The timer ring + dot + "5", centred at (cx, cy). scale 1 = a 100px logo."""
     r = 30 * scale
     circ = 2 * math.pi * r

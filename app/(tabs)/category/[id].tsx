@@ -126,9 +126,13 @@ export default function CategoryScreen() {
       ) : null}
 
       {/* Today, as a timeline */}
-      <SectionTitle title="Today" subtitle="Two new drops every day: at 4 AM and 4 PM." />
+      <SectionTitle
+        title="Today"
+        subtitle={`One new drop every day at ${localClockLabel(slots[0]?.time ?? '04:00', zonedNow.offsetMinutes)}.`}
+      />
       {slots.map((slot, i) => {
-        const name = SLOT_NAMES[slot.drop - 1] ?? `Drop ${slot.drop}`;
+        const name =
+          slots.length === 1 ? 'Today’s drop' : (SLOT_NAMES[slot.drop - 1] ?? `Drop ${slot.drop}`);
         const time = localClockLabel(slot.time, zonedNow.offsetMinutes);
         const result = slot.entry ? results[dropKey(slot.entry)] : undefined;
         const entry = slot.entry;
@@ -150,7 +154,7 @@ export default function CategoryScreen() {
       })}
 
       {hasMissing && catchUp ? (
-        <View className="rounded-2xl border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
+        <View className="rounded-[20px] border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
           <View className="flex-row items-center gap-2">
             <Icon name="hourglass" size={16} color={colors.warning} />
             <Txt weight="semibold" className="text-amber-900 dark:text-amber-200">

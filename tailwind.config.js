@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Studio Mono & Indigo".
-//   Near-black and white, with ONE accent: indigo.
-//   brand  = indigo: buttons, links, the active tab, progress
-//   pop    = the same indigo (older class names)
+// Learn5 design system for Tailwind (NativeWind) — "Slate & Teal".
+//   Cool slate surfaces (deep navy in dark mode), with ONE accent: teal.
+//   brand  = teal: buttons, links, the active tab, progress
+//   pop    = the same teal (older class names)
 //   canvas / line = light mode page and hairlines
 //   ink-*  = dark mode: page, soft (bars), card, raised, line
 // Subjects keep their own colour, used only on their 3D icons.
@@ -17,69 +17,69 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Indigo. 50-200: light tints, 300-400: bright indigo for dark mode,
-        // 500-700: deeper indigo for light mode.
+        // Teal. 50-200: light tints, 300-400: bright teal for dark mode,
+        // 500-700: deeper teal for light mode (white text passes contrast on 600+).
         brand: {
-          50: '#F1F2FF',
-          100: '#E4E6FF',
-          200: '#CBCFFF',
-          300: '#9AA2FF',
-          400: '#7C85FF',
-          500: '#6E78FF',
-          600: '#4F5BFF',
-          700: '#3B45E0',
-          800: '#2F37B3',
-          900: '#262C8C',
-          950: '#171A52',
+          50: '#EEFBF8',
+          100: '#D3F5EE',
+          200: '#A6EBDD',
+          300: '#6FDCC8',
+          400: '#38C6AF',
+          500: '#16A594',
+          600: '#0E7F74',
+          700: '#0D6A62',
+          800: '#0F5550',
+          900: '#114642',
+          950: '#032B28',
         },
         pop: {
-          DEFAULT: '#4F5BFF',
-          light: '#7C85FF',
-          dark: '#3B45E0',
-          soft: '#F1F2FF',
+          DEFAULT: '#0E7F74',
+          light: '#38C6AF',
+          dark: '#0D6A62',
+          soft: '#EEFBF8',
         },
         // Kept as aliases (older class names).
-        leaf: { DEFAULT: '#4F5BFF', light: '#7C85FF', dark: '#3B45E0' },
-        accent: { 300: '#9AA2FF', 400: '#7C85FF', 500: '#6E78FF' },
-        volt: { DEFAULT: '#4F5BFF', dim: '#3B45E0' },
+        leaf: { DEFAULT: '#0E7F74', light: '#38C6AF', dark: '#0D6A62' },
+        accent: { 300: '#6FDCC8', 400: '#38C6AF', 500: '#16A594' },
+        volt: { DEFAULT: '#0E7F74', dim: '#0D6A62' },
         gold: { DEFAULT: '#F5B70A', soft: '#FEF3C7', light: '#FCD34D' },
-        // Light mode: a clean near-white page, white cards, soft hairlines.
-        canvas: '#FAFAFB',
-        line: '#ECECF0',
-        // Dark mode: studio black, not pure black.
+        // Light mode: a cool, airy page, white cards, soft slate hairlines.
+        canvas: '#F5F7FA',
+        line: '#E3E8EF',
+        // Dark mode: deep slate-navy, never pure black.
         ink: {
-          DEFAULT: '#0B0B0D',
-          soft: '#0F0F12',
-          card: '#131316',
-          raised: '#1A1A1F',
-          line: '#222228',
-          solid: '#131316',
+          DEFAULT: '#0A0F1A',
+          soft: '#0C1220',
+          card: '#111827',
+          raised: '#172033',
+          line: '#1E293B',
+          solid: '#111827',
         },
-        // Neutral greys with the faintest cool bias.
+        // Slate greys (cool, a touch of blue).
         zinc: {
-          50: '#F8F8FA',
-          100: '#F1F1F4',
-          200: '#E6E6EB',
-          300: '#D2D2DA',
-          400: '#9C9CA8',
-          500: '#6E6E7A',
-          600: '#55555F',
-          700: '#3B3B43',
-          800: '#26262C',
-          900: '#16161A',
-          950: '#0B0B0D',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+          950: '#0A0F1A',
         },
       },
-      // Geist for everything; Geist Mono for numbers, times and small labels.
+      // Plus Jakarta Sans for everything; Geist Mono for numbers, times and small labels.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['Geist_700Bold'],
-        body: ['Geist_400Regular'],
-        'body-medium': ['Geist_500Medium'],
-        'body-semibold': ['Geist_600SemiBold'],
-        'body-bold': ['Geist_700Bold'],
-        'body-heavy': ['Geist_700Bold'],
+        display: ['PlusJakartaSans_800ExtraBold'],
+        body: ['PlusJakartaSans_400Regular'],
+        'body-medium': ['PlusJakartaSans_500Medium'],
+        'body-semibold': ['PlusJakartaSans_600SemiBold'],
+        'body-bold': ['PlusJakartaSans_700Bold'],
+        'body-heavy': ['PlusJakartaSans_800ExtraBold'],
         mono: ['GeistMono_500Medium'],
         'mono-semibold': ['GeistMono_600SemiBold'],
       },

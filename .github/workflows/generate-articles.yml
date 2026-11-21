@@ -1,8 +1,9 @@
 # Daily article writer (cron job).
 #
-# Runs in GitHub's cloud at 04:00 Asia/Kolkata. For each category the AI picks
-# one topic and writes a short article in simple English. Articles that already
-# exist are skipped, so the 05:00 back-up run only finishes what failed.
+# Runs in GitHub's cloud at 04:00 Asia/Kolkata. ONE article a day; the subject
+# rotates Math → Reasoning → English → Computer Science (schedule.config.json).
+# An article that already exists is skipped, so the 05:00 back-up run only
+# finishes what failed.
 #
 # Uses the same secrets as "Generate drops":
 #   DATABASE_URL   your Neon connection string
@@ -24,7 +25,7 @@ on:
         description: 'Only this date (YYYY-MM-DD). Empty = today.'
         required: false
       category:
-        description: 'Only this category (e.g. english). Empty = all.'
+        description: 'Write this subject instead of the scheduled one (e.g. math). Empty = the rotation.'
         required: false
 
 concurrency:

@@ -96,7 +96,7 @@ export function AppNav({
                     'flex-1 text-[14px]',
                     active
                       ? 'text-brand-700 dark:text-brand-300'
-                      : 'text-zinc-600 dark:text-[#9A9CAA]',
+                      : 'text-zinc-600 dark:text-zinc-400',
                   )}
                 >
                   {item.label}

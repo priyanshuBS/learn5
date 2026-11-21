@@ -7,56 +7,59 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** The one accent: indigo (light mode). */
-  brand: '#4F5BFF',
-  brandDark: '#3B45E0',
-  brandSoft: '#F1F2FF',
-  /** Indigo on dark backgrounds (active tab, links). */
-  brandOnDark: '#9AA2FF',
-  /** Indigo for progress, "open now" and highlights. */
-  pop: '#4F5BFF',
-  popLight: '#7C85FF',
-  popDark: '#3B45E0',
+  /** The one accent: teal (light mode). */
+  brand: '#0E7F74',
+  brandDark: '#0D6A62',
+  brandSoft: '#EEFBF8',
+  /** Teal on dark backgrounds (active tab, links). */
+  brandOnDark: '#6FDCC8',
+  /** Teal for progress, "open now" and highlights. */
+  pop: '#0E7F74',
+  popLight: '#38C6AF',
+  popDark: '#0D6A62',
   /** Older names. */
-  leaf: '#4F5BFF',
-  leafLight: '#7C85FF',
-  volt: '#4F5BFF',
+  leaf: '#0E7F74',
+  leafLight: '#38C6AF',
+  volt: '#0E7F74',
   /** Darkest text colour, used where code needs "black". */
-  black: '#0D0D10',
+  black: '#0F172A',
   white: '#FFFFFF',
-  text: '#0D0D10',
-  textDark: '#F1F1F3',
-  muted: '#6B6B75',
-  mutedDark: '#8C8C96',
-  line: '#ECECF0',
-  inkLine: '#222228',
+  text: '#0F172A',
+  textDark: '#E8EDF5',
+  muted: '#5B6578',
+  mutedDark: '#8B96AB',
+  line: '#E3E8EF',
+  inkLine: '#1E293B',
   success: '#16A34A',
   danger: '#E5484D',
   warning: '#D97706',
   streak: '#FF7A2E',
   points: '#F5B70A',
-  canvas: '#FAFAFB',
-  ink: '#0B0B0D',
+  canvas: '#F5F7FA',
+  ink: '#0A0F1A',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#131316',
+  inkSolid: '#111827',
   /** Empty part of progress rings. */
-  track: '#ECECF0',
-  trackDark: '#222228',
+  track: '#E3E8EF',
+  trackDark: '#1E293B',
 } as const;
 
 /** Colours of the 3D stat icons. */
-export const ICON3D = { flame: '#FF7A2E', star: '#F5B70A', trophy: '#6E78FF' } as const;
+export const ICON3D = { flame: '#FF7A2E', star: '#F5B70A', trophy: '#16A594' } as const;
 
-/** Indigo for progress bars, rings and accent icons, readable on the current background. */
+/** The hero gradient on Home (deep teal to navy). */
+export const HERO_GRADIENT = ['#0E7F74', '#0B4F63', '#0F2747'] as const;
+
+/** Teal for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.popLight : colors.pop;
 }
 
 /** Line icons for each category (falls back to the category emoji if missing). */
 export const CATEGORY_ICONS: Record<string, IconName> = {
-  english: 'english',
+  math: 'math',
   reasoning: 'reasoning',
-  puzzles: 'puzzles',
+  english: 'english',
   'computer-science': 'computer-science',
 };
 
@@ -71,11 +74,11 @@ export const BADGE_ICONS: Record<string, IconName> = {
 
 /** Colour of each badge's 3D icon (when earned). */
 export const BADGE_COLORS: Record<string, string> = {
-  'first-drop': '#38BDF8',
+  'first-drop': '#0EA5E9',
   'streak-7': '#FF7A2E',
   'streak-30': '#F5B70A',
-  'correct-100': '#6E78FF',
-  'all-categories': '#10B981',
+  'correct-100': '#8B5CF6',
+  'all-categories': '#16A594',
 };
 
 /** Icon for each drop slot: morning, afternoon, evening. */

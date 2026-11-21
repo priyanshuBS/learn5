@@ -17,8 +17,8 @@ import { z } from 'zod';
 
 /** Every drop has exactly this many items. */
 export const ITEMS_PER_DROP = 5;
-/** Each category gets this many drops per day (times in schedule.config.json: 04:00 and 16:00). */
-export const DROPS_PER_DAY = 2;
+/** Each category gets this many drops per day (time in schedule.config.json: 04:00). */
+export const DROPS_PER_DAY = 1;
 /** Older days had up to 3 drops; their files and results stay valid. */
 export const MAX_DROP_NO = 3;
 /**
@@ -233,6 +233,10 @@ export const ScheduleConfigSchema = z.object({
   timezone: nonEmpty('timezone'),
   /** When each day's articles are written and shown (HH:MM, content time zone). */
   articles: TimeStringSchema.default('04:00'),
+  /** One article a day: the subject rotates through this list (category ids). */
+  articleRotation: z.array(SlugSchema).min(1),
+  /** The date that gets the FIRST subject of articleRotation. */
+  articleRotationStart: DateStringSchema,
   drops: z.record(
     SlugSchema,
     z.array(TimeStringSchema).length(DROPS_PER_DAY, `each category needs ${DROPS_PER_DAY} times`),
@@ -257,6 +261,9 @@ export const ContentIndexSchema = z.strictObject({
   timezone: z.string(),
   schedule: z.record(SlugSchema, z.array(TimeStringSchema)),
   categories: CategoriesFileSchema,
+  /** Which subject gets the daily article (optional: older indexes don't have it). */
+  articleRotation: z.array(SlugSchema).optional(),
+  articleRotationStart: DateStringSchema.optional(),
   drops: z.array(IndexEntrySchema),
 });
 

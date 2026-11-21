@@ -55,6 +55,8 @@ function main(): void {
     timezone: schedule.timezone,
     schedule: schedule.drops,
     categories,
+    articleRotation: schedule.articleRotation,
+    articleRotationStart: schedule.articleRotationStart,
     drops: entries,
   };
 

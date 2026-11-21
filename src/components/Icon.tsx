@@ -48,7 +48,7 @@ import Monitor from 'lucide-react-native/icons/monitor';
 import Moon from 'lucide-react-native/icons/moon';
 import Palette from 'lucide-react-native/icons/palette';
 import Play from 'lucide-react-native/icons/play';
-import Puzzle from 'lucide-react-native/icons/puzzle';
+import Calculator from 'lucide-react-native/icons/calculator';
 import RefreshCw from 'lucide-react-native/icons/refresh-cw';
 import RotateCcw from 'lucide-react-native/icons/rotate-ccw';
 import Search from 'lucide-react-native/icons/search';
@@ -91,7 +91,7 @@ const ICONS = {
   // Categories
   english: BookOpen,
   reasoning: Brain,
-  puzzles: Puzzle,
+  math: Calculator,
   'computer-science': CodeXml,
   // Arrows
   'arrow-left': ArrowLeft,

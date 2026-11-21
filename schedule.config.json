@@ -1,11 +1,13 @@
 {
-  "$comment": "When each drop OPENS (24-hour HH:MM, in the timezone below): 2 drops per category, at 04:00 and 16:00. Used by the API (a drop is only served after its time) and the app. Drops are written ahead by the generator (cron at 04:00 and 16:00 IST). \"articles\" is when each day's articles are written and shown.",
+  "$comment": "When content OPENS (24-hour HH:MM, in the timezone below). One drop per subject per day, all at 04:00. Drops are written ahead by the generator (cron at 16:00 IST for tomorrow, 04:00 IST back-up). One article a day at 04:00; its subject rotates through articleRotation, starting with the first one on articleRotationStart.",
   "timezone": "Asia/Kolkata",
   "articles": "04:00",
+  "articleRotation": ["math", "reasoning", "english", "computer-science"],
+  "articleRotationStart": "2026-11-21",
   "drops": {
-    "english": ["04:00", "16:00"],
-    "reasoning": ["04:00", "16:00"],
-    "puzzles": ["04:00", "16:00"],
-    "computer-science": ["04:00", "16:00"]
+    "math": ["04:00"],
+    "reasoning": ["04:00"],
+    "english": ["04:00"],
+    "computer-science": ["04:00"]
   }
 }

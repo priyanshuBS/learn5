@@ -2,34 +2,34 @@
 // Offline content packed inside the app: 2026-11-07, 2026-11-08.
 
 import index from '../../content/index.json';
-import drop0 from '../../content/english/2026-11-07/drop-1.json';
-import drop1 from '../../content/english/2026-11-07/drop-2.json';
-import drop2 from '../../content/english/2026-11-07/drop-3.json';
-import drop3 from '../../content/reasoning/2026-11-07/drop-1.json';
-import drop4 from '../../content/reasoning/2026-11-07/drop-2.json';
-import drop5 from '../../content/reasoning/2026-11-07/drop-3.json';
-import drop6 from '../../content/english/2026-11-08/drop-1.json';
-import drop7 from '../../content/english/2026-11-08/drop-2.json';
-import drop8 from '../../content/english/2026-11-08/drop-3.json';
-import drop9 from '../../content/reasoning/2026-11-08/drop-1.json';
-import drop10 from '../../content/reasoning/2026-11-08/drop-2.json';
-import drop11 from '../../content/reasoning/2026-11-08/drop-3.json';
+import drop0 from '../../content/reasoning/2026-11-07/drop-1.json';
+import drop1 from '../../content/reasoning/2026-11-07/drop-2.json';
+import drop2 from '../../content/reasoning/2026-11-07/drop-3.json';
+import drop3 from '../../content/english/2026-11-07/drop-1.json';
+import drop4 from '../../content/english/2026-11-07/drop-2.json';
+import drop5 from '../../content/english/2026-11-07/drop-3.json';
+import drop6 from '../../content/reasoning/2026-11-08/drop-1.json';
+import drop7 from '../../content/reasoning/2026-11-08/drop-2.json';
+import drop8 from '../../content/reasoning/2026-11-08/drop-3.json';
+import drop9 from '../../content/english/2026-11-08/drop-1.json';
+import drop10 from '../../content/english/2026-11-08/drop-2.json';
+import drop11 from '../../content/english/2026-11-08/drop-3.json';
 
 /** The content index at build time (checked with Zod when the app starts). */
 export const bundledIndex: unknown = index;
 
 /** Drop files packed in the app, keyed by their path inside content/. */
 export const bundledDrops: Record<string, unknown> = {
-  'english/2026-11-07/drop-1.json': drop0,
-  'english/2026-11-07/drop-2.json': drop1,
-  'english/2026-11-07/drop-3.json': drop2,
-  'reasoning/2026-11-07/drop-1.json': drop3,
-  'reasoning/2026-11-07/drop-2.json': drop4,
-  'reasoning/2026-11-07/drop-3.json': drop5,
-  'english/2026-11-08/drop-1.json': drop6,
-  'english/2026-11-08/drop-2.json': drop7,
-  'english/2026-11-08/drop-3.json': drop8,
-  'reasoning/2026-11-08/drop-1.json': drop9,
-  'reasoning/2026-11-08/drop-2.json': drop10,
-  'reasoning/2026-11-08/drop-3.json': drop11,
+  'reasoning/2026-11-07/drop-1.json': drop0,
+  'reasoning/2026-11-07/drop-2.json': drop1,
+  'reasoning/2026-11-07/drop-3.json': drop2,
+  'english/2026-11-07/drop-1.json': drop3,
+  'english/2026-11-07/drop-2.json': drop4,
+  'english/2026-11-07/drop-3.json': drop5,
+  'reasoning/2026-11-08/drop-1.json': drop6,
+  'reasoning/2026-11-08/drop-2.json': drop7,
+  'reasoning/2026-11-08/drop-3.json': drop8,
+  'english/2026-11-08/drop-1.json': drop9,
+  'english/2026-11-08/drop-2.json': drop10,
+  'english/2026-11-08/drop-3.json': drop11,
 };
