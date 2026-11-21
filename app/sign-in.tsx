@@ -150,7 +150,7 @@ export default function SignInScreen() {
                 <Txt
                   weight="display"
                   accessibilityRole="header"
-                  className="mt-10 text-[44px] leading-[48px]"
+                  className="mt-10 text-[32px] leading-[38px] tracking-[-1px]"
                 >
                   {step === 'code'
                     ? 'Check your email'

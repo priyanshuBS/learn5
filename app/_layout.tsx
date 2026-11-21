@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the fonts (Instrument Serif for headings, Geist for text, Caveat for handwritten touches, Geist Mono for labels)
+ *   - loads Tailwind styles and the fonts (Figtree for text and headings, Patrick Hand for the greeting, Geist Mono for labels)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -9,17 +9,14 @@
 import '../global.css';
 
 import {
-  Geist_400Regular,
-  Geist_500Medium,
-  Geist_600SemiBold,
-  Geist_700Bold,
-} from '@expo-google-fonts/geist';
+  Figtree_400Regular,
+  Figtree_500Medium,
+  Figtree_600SemiBold,
+  Figtree_700Bold,
+  Figtree_800ExtraBold,
+} from '@expo-google-fonts/figtree';
 import { GeistMono_500Medium, GeistMono_600SemiBold } from '@expo-google-fonts/geist-mono';
-import {
-  InstrumentSerif_400Regular,
-  InstrumentSerif_400Regular_Italic,
-} from '@expo-google-fonts/instrument-serif';
-import { Caveat_600SemiBold } from '@expo-google-fonts/caveat';
+import { PatrickHand_400Regular } from '@expo-google-fonts/patrick-hand';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -43,14 +40,13 @@ void SplashScreen.preventAutoHideAsync().catch(() => {});
 export default function RootLayout() {
   const scheme = useColorScheme();
   const [fontsLoaded, fontError] = useFonts({
-    Geist_400Regular,
-    Geist_500Medium,
-    Geist_600SemiBold,
-    Geist_700Bold,
+    Figtree_400Regular,
+    Figtree_500Medium,
+    Figtree_600SemiBold,
+    Figtree_700Bold,
+    Figtree_800ExtraBold,
     GeistMono_500Medium,
-    InstrumentSerif_400Regular,
-    InstrumentSerif_400Regular_Italic,
-    Caveat_600SemiBold,
+    PatrickHand_400Regular,
     GeistMono_600SemiBold,
   });
   useContentBootstrap();

@@ -142,7 +142,7 @@ export default function ResultsScreen() {
         >
           <Txt
             weight="display"
-            className="text-[72px] leading-[80px] tracking-[-2px] text-brand-600 dark:text-brand-400"
+            className="text-[64px] leading-[72px] tracking-[-2.5px] text-brand-600 dark:text-brand-400"
           >
             {attempt.correctCount}
           </Txt>

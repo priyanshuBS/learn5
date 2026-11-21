@@ -87,7 +87,7 @@ export function ArticleCard({
           </View>
         ) : null}
       </View>
-      <Txt weight="display" className="mt-3 text-[28px] leading-[32px]" numberOfLines={3}>
+      <Txt weight="display" className="mt-3 text-[22px] leading-7" numberOfLines={3}>
         {article.title}
       </Txt>
       <Muted className="mt-2 text-[15px] leading-6" numberOfLines={3}>

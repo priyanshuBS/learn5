@@ -76,13 +76,13 @@ export default function ProgressScreen() {
       <PageHeader title="Progress" />
 
       {/* Level */}
-      <View className="border-t border-zinc-900 pt-6 dark:border-zinc-300">
+      <View className="rounded-2xl bg-brand-50 p-5 dark:bg-brand-400/10">
         <View className="flex-row items-end justify-between gap-4">
           <View className="flex-1">
             <Txt weight="mono" className="text-[11.5px] uppercase tracking-[1px] text-zinc-500">
               Level {level.level}
             </Txt>
-            <Txt weight="display" className="mt-2 text-[44px] leading-[46px]">
+            <Txt weight="display" className="mt-2 text-[34px] leading-10">
               {level.name}
             </Txt>
           </View>
@@ -90,7 +90,7 @@ export default function ProgressScreen() {
             <Txt weight="mono" className="text-[11.5px] uppercase tracking-[1px] text-zinc-500">
               Points
             </Txt>
-            <Txt weight="display" className="mt-2 text-[44px] leading-[46px]">
+            <Txt weight="display" className="mt-2 text-[34px] leading-10">
               {points.toLocaleString('en-IN')}
             </Txt>
           </View>

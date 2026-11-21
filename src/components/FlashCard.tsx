@@ -83,11 +83,8 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
           <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
               <View className="flex-row items-center gap-2.5">
-                <Txt
-                  weight="script"
-                  className="text-[24px] leading-7 text-brand-600 dark:text-brand-300"
-                >
-                  why it’s true
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
+                  Why it’s true
                 </Txt>
               </View>
               <Txt className="mt-4 text-[17px] leading-7 text-zinc-800 dark:text-zinc-200">
@@ -107,11 +104,8 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
           <View className={twMerge(CARD_CLASSES, 'min-h-72 justify-between p-6 md:p-8')}>
             <View>
               <View className="flex-row items-center gap-2.5">
-                <Txt
-                  weight="script"
-                  className="text-[24px] leading-7 text-brand-600 dark:text-brand-300"
-                >
-                  did you know?
+                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
+                  Did you know?
                 </Txt>
                 <Txt weight="semibold" className="text-[13px] text-amber-700 dark:text-amber-300">
                   Did you know??
@@ -119,7 +113,7 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
               </View>
               <Txt
                 weight="display"
-                className="mt-4 text-[30px] leading-[36px] md:text-[34px] md:leading-[40px]"
+                className="mt-4 text-[24px] leading-[32px] md:text-[28px] md:leading-9"
               >
                 {item.fact}
               </Txt>

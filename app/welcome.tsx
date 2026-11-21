@@ -45,21 +45,18 @@ export default function WelcomeScreen() {
 
       {/* The promise */}
       <View className="mt-20 md:mt-28">
-        <Txt
-          weight="script"
-          className="text-[26px] leading-[30px] text-brand-600 dark:text-brand-300"
-        >
+        <Txt weight="script" className="text-[22px] leading-7 text-brand-600 dark:text-brand-300">
           five minutes a day
         </Txt>
         <Txt
           weight="display"
           accessibilityRole="header"
-          className="mt-3 text-[52px] leading-[54px] md:text-[76px] md:leading-[76px]"
+          className="mt-2 text-[44px] leading-[48px] tracking-[-1.6px] md:text-[64px] md:leading-[68px] md:tracking-[-2.4px]"
         >
           Learn a little,{'\n'}
           <Txt
-            weight="italic"
-            className="text-[52px] leading-[54px] md:text-[76px] md:leading-[76px]"
+            weight="display"
+            className="text-[44px] leading-[48px] tracking-[-1.6px] text-brand-600 dark:text-brand-400 md:text-[64px] md:leading-[68px] md:tracking-[-2.4px]"
           >
             every day.
           </Txt>
@@ -86,7 +83,7 @@ export default function WelcomeScreen() {
 
       {/* A real question */}
       <View className="mt-24">
-        <Txt weight="italic" className="text-[22px] leading-7">
+        <Txt weight="italic" className="text-[18px]">
           A question from today
         </Txt>
         <SampleQuestion />
@@ -94,10 +91,10 @@ export default function WelcomeScreen() {
 
       {/* How a day works */}
       <View className="mt-20">
-        <Txt weight="italic" className="text-[22px] leading-7">
+        <Txt weight="italic" className="text-[18px]">
           How a day works
         </Txt>
-        <View className="mt-2 border-t border-zinc-900 dark:border-zinc-300">
+        <View className="mt-3 border-t border-line dark:border-ink-line">
           {DAY.map((d, i) => (
             <View
               key={d.time}
@@ -117,11 +114,11 @@ export default function WelcomeScreen() {
 
       {/* Closing line */}
       <View className="mt-24 items-start">
-        <Txt weight="display" className="text-[40px] leading-[44px]">
+        <Txt weight="display" className="text-[32px] leading-[38px] tracking-[-1px]">
           Free. No password.{'\n'}
           <Txt
-            weight="italic"
-            className="text-[40px] leading-[44px] text-brand-600 dark:text-brand-300"
+            weight="display"
+            className="text-[32px] leading-[38px] tracking-[-1px] text-brand-600 dark:text-brand-400"
           >
             Just start.
           </Txt>
@@ -169,12 +166,12 @@ function SampleQuestion() {
     <View
       accessible
       accessibilityLabel="Sample question: What comes next: 2, 6, 12, 20? Answer: 30"
-      className="mt-2 border-t border-zinc-900 pt-6 dark:border-zinc-300"
+      className="mt-3 rounded-2xl border border-line p-6 dark:border-ink-line"
     >
       <Txt weight="mono" className="text-[11.5px] uppercase tracking-[1px] text-zinc-500">
         Reasoning · question 3 of 5
       </Txt>
-      <Txt weight="display" className="mt-3 text-[30px] leading-[34px]">
+      <Txt weight="display" className="mt-3 text-[24px] leading-8">
         What comes next: 2, 6, 12, 20, ?
       </Txt>
       <View className="mt-6 flex-row flex-wrap gap-2">
@@ -201,8 +198,8 @@ function SampleQuestion() {
         })}
       </View>
       <View className="mt-6 flex-row gap-3">
-        <Txt weight="script" className="text-[22px] leading-6 text-brand-600 dark:text-brand-300">
-          why?
+        <Txt weight="semibold" className="text-[15px] leading-6 text-brand-700 dark:text-brand-300">
+          Why?
         </Txt>
         <Txt className="flex-1 text-[15px] leading-6 text-zinc-600 dark:text-zinc-400">
           The gaps grow by 2 each time: +4, +6, +8. So the next gap is +10, and 20 + 10 = 30.

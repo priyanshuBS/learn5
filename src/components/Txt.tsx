@@ -1,7 +1,7 @@
 /**
- * Text components. weight="display" = Instrument Serif (headings, big numbers),
- * "italic" = Instrument Serif Italic, "script" = Caveat (small handwritten touches),
- * everything else = Geist: weight="display" (Bold, slightly tight) for headings and big
+ * Text components in Figtree. weight="display" = bold headings and big numbers,
+ * "italic" = semibold section titles (name kept for older code), "script" = Patrick Hand
+ * (the one handwritten touch), "mono" = Geist Mono: weight="display" (Bold, slightly tight) for headings and big
  * numbers, weight="mono" (Geist Mono) for times, counts and small labels.
  *   Txt     — body text; weight picks the font weight
  *   Muted   — soft grey helper text
@@ -17,8 +17,8 @@ const WEIGHTS = {
   semibold: 'font-body-semibold',
   bold: 'font-body-bold',
   heavy: 'font-body-heavy',
-  display: 'font-display tracking-[-0.2px]',
-  italic: 'font-serif-italic tracking-[-0.2px]',
+  display: 'font-display tracking-[-0.6px]',
+  italic: 'font-serif-italic tracking-[-0.3px]',
   script: 'font-script',
   mono: 'font-mono',
 } as const;

@@ -1,5 +1,5 @@
 /**
- * CategoryCard — one subject as a quiet ROW on Today (minimal design):
+ * CategoryCard — one subject as a quiet ROW on Today: a small colour dot, the name,
  *   Math                                         Start →
  *   Everyday Math Fun                             (or ✓ 4/5, or 4:00 AM)
  * A hairline above every row but the first. Tap the left side to open the subject.
@@ -10,7 +10,6 @@ import { twMerge } from 'tailwind-merge';
 
 import type { DropSlot } from '@/features/drops/status';
 import type { DropResult } from '@/features/progress/store';
-import { useColorScheme } from '@/hooks/useScheme';
 import { categoryHref, quizHref, resultsHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
@@ -39,8 +38,6 @@ export function CategoryCard({
   catchUp,
   divider,
 }: CategoryCardProps) {
-  const dark = useColorScheme() === 'dark';
-  const accent = dark ? colors.brandOnDark : colors.brand;
   const slot = slots[0];
   const result = slot ? getResult(slot) : undefined;
   const status = slot?.status ?? 'missing';
@@ -58,7 +55,7 @@ export function CategoryCard({
   return (
     <View
       className={twMerge(
-        'flex-row items-center gap-4 py-5',
+        'flex-row items-center gap-3.5 py-4',
         divider && 'border-t border-line dark:border-ink-line',
       )}
     >
@@ -66,14 +63,17 @@ export function CategoryCard({
         accessibilityRole="button"
         accessibilityLabel={`${category.name}. ${subline}. Open subject`}
         onPress={() => router.push(categoryHref(category.id))}
-        className="flex-1 active:opacity-60 web:hover:opacity-75"
+        className="flex-1 flex-row items-center gap-3.5 active:opacity-60 web:hover:opacity-75"
       >
-        <Txt weight="display" className="text-[24px] leading-[28px]" numberOfLines={1}>
-          {category.name}
-        </Txt>
-        <Muted className="mt-1 text-[14px]" numberOfLines={1}>
-          {subline}
-        </Muted>
+        <View className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: category.color }} />
+        <View className="flex-1">
+          <Txt weight="semibold" className="text-[17px] leading-6" numberOfLines={1}>
+            {category.name}
+          </Txt>
+          <Muted className="text-[14px] leading-5" numberOfLines={1}>
+            {subline}
+          </Muted>
+        </View>
       </Pressable>
 
       {action ? (
@@ -82,12 +82,12 @@ export function CategoryCard({
           accessibilityLabel={`${action.label} ${category.name}`}
           onPress={action.onPress}
           hitSlop={10}
-          className="flex-row items-center gap-1.5 rounded-full border border-brand-600 px-4 py-2 active:bg-brand-50 web:hover:bg-brand-50 dark:border-brand-400 dark:active:bg-brand-400/10"
+          className="flex-row items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 active:opacity-80 web:hover:bg-brand-700 dark:bg-brand-500"
         >
-          <Txt weight="medium" className="text-[14px] text-brand-700 dark:text-brand-300">
+          <Txt weight="semibold" className="text-[13.5px] text-white dark:text-white">
             {action.label}
           </Txt>
-          <Icon name="arrow-right" size={14} color={accent} />
+          <Icon name="arrow-right" size={14} color="#FFFFFF" />
         </Pressable>
       ) : status === 'done' && slot?.entry ? (
         <Pressable

@@ -65,22 +65,19 @@ module.exports = {
           950: '#0D0C1D',
         },
       },
-      // Three typefaces, each with one job:
-      //   display / serif-italic = Instrument Serif (headings, big numbers)
-      //   body-*                 = Geist (everything you read)
-      //   script                 = Caveat (small handwritten touches only)
-      //   mono                   = Geist Mono (times, counts, tiny labels)
+      // Figtree for everything (bold headings, friendly and very readable);
+      // Patrick Hand for ONE handwritten touch (the greeting); Geist Mono for times and counts.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['InstrumentSerif_400Regular'],
-        'serif-italic': ['InstrumentSerif_400Regular_Italic'],
-        script: ['Caveat_600SemiBold'],
-        body: ['Geist_400Regular'],
-        'body-medium': ['Geist_500Medium'],
-        'body-semibold': ['Geist_600SemiBold'],
-        'body-bold': ['Geist_700Bold'],
-        'body-heavy': ['Geist_700Bold'],
+        display: ['Figtree_700Bold'],
+        'serif-italic': ['Figtree_600SemiBold'],
+        script: ['PatrickHand_400Regular'],
+        body: ['Figtree_400Regular'],
+        'body-medium': ['Figtree_500Medium'],
+        'body-semibold': ['Figtree_600SemiBold'],
+        'body-bold': ['Figtree_700Bold'],
+        'body-heavy': ['Figtree_800ExtraBold'],
         mono: ['GeistMono_500Medium'],
         'mono-semibold': ['GeistMono_600SemiBold'],
       },

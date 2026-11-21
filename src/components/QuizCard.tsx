@@ -71,7 +71,7 @@ export function QuizCard({ item, answer, onChoose, onSubmitText }: QuizCardProps
 
 /** The question. For fill-in-the-blank, the gap is drawn as an underlined blank. */
 function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer | null }) {
-  const base = 'text-[28px] leading-[34px] md:text-[32px] md:leading-[38px]';
+  const base = 'text-[22px] leading-[30px] md:text-[26px] md:leading-[34px]';
   if (item.type !== 'fill_blank') {
     return (
       <Txt weight="display" accessibilityRole="header" className={base}>

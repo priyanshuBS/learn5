@@ -48,6 +48,7 @@ One Expo codebase ships as an **Android app**, an **iOS app** and a **website**.
 - [Getting started](#getting-started)
 - [Configuration](#configuration)
 - [Content pipeline](#content-pipeline)
+- [Emails](#emails)
 - [Project structure](#project-structure)
 - [Scripts](#scripts)
 - [Deployment](#deployment)
@@ -73,30 +74,30 @@ Change the times, subjects or rotation in [`schedule.config.json`](schedule.conf
 
 ## Features
 
-| Feature             | Details                                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------------------- |
-| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)             |
-| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                     |
-| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                              |
-| 🔁 **Review**       | Replay wrong answers until you get them right                                                           |
-| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                               |
-| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                |
-| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                             |
-| 🔔 **Reminders**    | Optional daily notification on phones                                                                   |
-| 🌗 **Design**       | Minimal design: one indigo accent, serif headings and handwritten touches; Light, Dark and System modes |
+| Feature             | Details                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)                 |
+| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                         |
+| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                  |
+| 🔁 **Review**       | Replay wrong answers until you get them right                                                               |
+| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                                   |
+| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                    |
+| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                                 |
+| 🔔 **Reminders**    | Optional daily notification on phones                                                                       |
+| 🌗 **Design**       | Calm, minimal design: one indigo accent, Figtree type, a handwritten greeting; Light, Dark and System modes |
 
 ## Tech stack
 
-| Layer          | Technology                                                                                                        |
-| -------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                                |
-| **Design**     | Minimal Deep Indigo: Instrument Serif (headings), Caveat (handwritten touches), Geist (text), Geist Mono (labels) |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                                                     |
-| **Database**   | Neon (serverless Postgres)                                                                                        |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                                 |
-| **Email**      | Resend (sign-in codes and owner alerts)                                                                           |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                                                         |
-| **Tests**      | Jest (`jest-expo`)                                                                                                |
+| Layer          | Technology                                                                                    |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand            |
+| **Design**     | Deep Indigo accent; Figtree (headings and text), Patrick Hand (greeting), Geist Mono (labels) |
+| **API**        | Expo Router API routes, hosted on EAS Hosting                                                 |
+| **Database**   | Neon (serverless Postgres)                                                                    |
+| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                             |
+| **Email**      | Resend: branded sign-in code email and owner alert emails (one shared layout)                 |
+| **Validation** | Zod schemas shared by the app, the server and the scripts                                     |
+| **Tests**      | Jest (`jest-expo`)                                                                            |
 
 ## Getting started
 
@@ -179,6 +180,22 @@ flowchart LR
 - When `GROQ_API_KEY` hits its limit, the generators switch to `GROQ_API_KEY_2` if one is set.
 - Problems (key limits, content not written, crashes) are emailed to `ALERT_EMAIL`, at most once
   per run.
+
+### Emails
+
+Both emails use one layout that matches the app (indigo logo, clear heading, quiet footer),
+built in [`src/server/email.ts`](src/server/email.ts) with `renderEmail()`:
+
+- **Sign-in code** — sent to the user; the 6-digit code in large, spaced digits. Works for 10 minutes.
+- **Owner alerts** — sent to `ALERT_EMAIL` by the content jobs ([`scripts/lib/alerts.ts`](scripts/lib/alerts.ts)),
+  as plain text plus the same text in the layout.
+
+To change where alerts go, set `ALERT_EMAIL` in `.env.local` **and** in the GitHub Actions secrets
+(the daily jobs read the secret, not your local file).
+
+<div align="center">
+  <img src="docs/screenshots/sign-in-email.png" alt="The Learn5 sign-in code email" width="420" />
+</div>
 
 Writing rules for people and for the AI are in [`CONTENT_GUIDE.md`](CONTENT_GUIDE.md).
 

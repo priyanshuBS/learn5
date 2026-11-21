@@ -109,9 +109,9 @@ export default function ReviewScreen() {
         />
       ) : (
         <>
-          <View className="flex-row flex-wrap items-end justify-between gap-5 border-t border-zinc-900 pt-6 dark:border-zinc-300">
+          <View className="flex-row flex-wrap items-end justify-between gap-5 rounded-2xl bg-brand-50 p-5 dark:bg-brand-400/10">
             <View className="min-w-48 flex-1">
-              <Txt weight="display" className="text-[44px] leading-[46px]">
+              <Txt weight="display" className="text-[34px] leading-10">
                 {available.length} to fix
               </Txt>
               <Muted className="mt-1 text-[14px] leading-5">
