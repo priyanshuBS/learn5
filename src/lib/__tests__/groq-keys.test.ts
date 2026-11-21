@@ -3,7 +3,7 @@
  */
 import { describe, expect, it, jest } from '@jest/globals';
 
-import { groqKeys } from '../../../scripts/lib/groq';
+import { groqKeys, parseGroqDuration } from '../../../scripts/lib/groq';
 
 jest.mock('../../../scripts/lib/alerts', () => ({ notifyKeyLimit: jest.fn() }));
 
@@ -19,5 +19,21 @@ describe('groqKeys', () => {
     expect(groqKeys({ GROQ_API_KEY: 'a', GROQ_API_KEY_2: '  ' }).map((k) => k.label)).toEqual([
       'groq-1',
     ]);
+  });
+});
+
+describe('parseGroqDuration (rate-limit reset times)', () => {
+  it('reads Groq durations and plain seconds', () => {
+    expect(parseGroqDuration('7.66s')).toBeCloseTo(7.66);
+    expect(parseGroqDuration('2m59.56s')).toBeCloseTo(179.56);
+    expect(parseGroqDuration('1h2m3s')).toBe(3723);
+    expect(parseGroqDuration('420ms')).toBeCloseTo(0.42);
+    expect(parseGroqDuration('30')).toBe(30);
+  });
+
+  it('returns 0 for missing or unreadable values', () => {
+    expect(parseGroqDuration(null)).toBe(0);
+    expect(parseGroqDuration('')).toBe(0);
+    expect(parseGroqDuration('soon')).toBe(0);
   });
 });

@@ -8,15 +8,14 @@
  */
 import '../global.css';
 
-import {
-  Figtree_400Regular,
-  Figtree_500Medium,
-  Figtree_600SemiBold,
-  Figtree_700Bold,
-  Figtree_800ExtraBold,
-} from '@expo-google-fonts/figtree';
-import { GeistMono_500Medium, GeistMono_600SemiBold } from '@expo-google-fonts/geist-mono';
-import { PatrickHand_400Regular } from '@expo-google-fonts/patrick-hand';
+// Each weight is imported from its own file, so ONLY these font files ship with the app
+// (importing the package root would bundle every weight and italic, ~2.8 MB).
+import { Figtree_400Regular } from '@expo-google-fonts/figtree/400Regular';
+import { Figtree_500Medium } from '@expo-google-fonts/figtree/500Medium';
+import { Figtree_600SemiBold } from '@expo-google-fonts/figtree/600SemiBold';
+import { Figtree_700Bold } from '@expo-google-fonts/figtree/700Bold';
+import { GeistMono_500Medium } from '@expo-google-fonts/geist-mono/500Medium';
+import { PatrickHand_400Regular } from '@expo-google-fonts/patrick-hand/400Regular';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -44,10 +43,8 @@ export default function RootLayout() {
     Figtree_500Medium,
     Figtree_600SemiBold,
     Figtree_700Bold,
-    Figtree_800ExtraBold,
     GeistMono_500Medium,
     PatrickHand_400Regular,
-    GeistMono_600SemiBold,
   });
   useContentBootstrap();
   useArticlesBootstrap();

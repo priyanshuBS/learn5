@@ -228,5 +228,6 @@ For each item check:
 5. The explanation agrees with the answer and its facts and numbers are right.
 6. The fact is well-established, school-level, not controversial, not time-sensitive.
 7. The source is a real reference that fits the subject (e.g. not a dictionary for a math fact).
-Be strict: if you have real doubt, mark it not ok.
+Be strict about correctness: if you have real doubt that an answer is right, mark it not ok.
+Do NOT mark an item not ok for style, wording you would change, or extra details it leaves out.
 Reply with JSON only: {"items":[{"position":1,"ok":true,"problem":""}, …]} — one entry per item, "problem" explains what is wrong when ok is false.`;

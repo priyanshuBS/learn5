@@ -37,7 +37,7 @@ STRUCTURE
 - summary: 1–2 short sentences, max 220 characters, saying what the reader will learn.
 - sections: 4–6 sections (never more than 8). Each has a short heading (max 70 characters) and 2–5 paragraphs (never more than 8).
   Start with why the topic matters, then teach it step by step with examples, then end with a short wrap-up.
-- The sections together must be ${ARTICLE_WORDS.min}–${ARTICLE_WORDS.max} words. Aim for about 500 words: count them before you answer.
+- The sections together must be ${ARTICLE_WORDS.min}–${ARTICLE_WORDS.max} words. Aim for 450–550 words (never under 350): count them before you answer.
 - keyPoints: 3–5 short lines (max 160 characters each) to remember.
 - glossary: up to 6 harder words from the article, each with a simple meaning (max 160 characters). Use [] if none.
 - source: a real, well-known reference that covers this topic (e.g. "NCERT Class 8 English", "Oxford Learner's Dictionary", "NCERT Class 11 Computer Science").
@@ -82,5 +82,8 @@ Check this article:
 3. Nothing is controversial, time-sensitive, medical, political or religious, and there are no brand names.
 4. The English is simple enough for a 12-year-old who is still learning English.
 5. The source fits the topic.
-Be strict: if you have real doubt, mark it not ok.
+Only report REAL problems: a statement that is wrong, an incorrect example or answer, or
+something that breaks rule 3. Do NOT report simplifications that are true for beginners, extra
+meanings or details the article leaves out, or wording you would merely phrase differently.
+If every statement is correct, reply ok: true.
 Reply with JSON only: {"ok": true, "problems": []} or {"ok": false, "problems": ["…", "…"]}`;

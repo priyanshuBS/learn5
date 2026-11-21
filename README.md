@@ -137,8 +137,11 @@ flowchart LR
   or fact card. No topic repeats within 30 days, no question within 60.
 - **Article** — [`generate-articles.yml`](.github/workflows/generate-articles.yml) runs at 4:00 AM
   (back-up 5:00 AM). 300–800 words, short sentences, fact-checked.
-- **Cost** — about 10 Groq requests a day (4 drops + 1 article). If the main key runs out, the
-  backup key takes over.
+- **Cost** — a normal day is about **10 Groq calls** (each drop and the article: one write + one
+  fact-check). The client reads Groq's rate-limit headers and waits for the reset instead of
+  sending calls that would be rejected, asks only for the tokens it needs, and **repairs** a
+  rejected draft instead of rewriting it. Every run ends with a line like
+  `Groq: 10 call(s), 0 retried, 31,000 tokens`. If the main key runs out, the backup key takes over.
 - **Rules** for the AI and for people writing content: [`CONTENT_GUIDE.md`](CONTENT_GUIDE.md).
 
 ## Emails

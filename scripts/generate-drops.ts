@@ -44,10 +44,12 @@ import { getSql } from '../src/server/db';
 import { categories, saveDrop, schedule } from '../src/server/drops';
 import { formatZodError } from './lib/content-files';
 import { notifyCrash, notifyRunProblems } from './lib/alerts';
-import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
+import { chatJson, GROQ_MODEL, groqUsageSummary, RateLimitExhaustedError } from './lib/groq';
 import { SYSTEM_PROMPT, topicAreas, userPrompt, VERIFY_SYSTEM_PROMPT } from './lib/prompt';
 
 const MAX_ATTEMPTS = 4;
+const REPAIR_NOTE =
+  'Fix ONLY these problems in your draft above. Keep everything else exactly the same. Reply with the full corrected JSON object.';
 const TOPIC_WINDOW_DAYS = 30;
 const QUESTION_WINDOW_DAYS = 60;
 const DIFFICULTY_ORDER = { easy: 0, medium: 1, hard: 2 } as const;
@@ -182,7 +184,7 @@ async function factCheck(drop: Drop): Promise<string[]> {
       { role: 'system', content: VERIFY_SYSTEM_PROMPT },
       { role: 'user', content: JSON.stringify(drop.items.map(({ id: _id, ...rest }) => rest)) },
     ],
-    { temperature: 0 },
+    { temperature: 0, maxTokens: 3000 },
   );
   const parsed = JSON.parse(reply) as {
     items?: { position?: number; ok?: boolean; problem?: string }[];
@@ -198,23 +200,36 @@ async function generateOne(category: Category, date: string, drop: number): Prom
   const history = await loadHistory(category.id, date);
   const areas = topicAreas(category.id, date, drop);
   let feedback: string[] = [];
+  /** The last draft that parsed: a rejected draft is REPAIRED, not rewritten (fewer calls). */
+  let lastDraft: string | null = null;
+  const firstAsk = userPrompt({ category, date, drop, areas, avoidTopics: history.topicNames });
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     let reply: string;
     try {
-      reply = await chatJson([
-        { role: 'system', content: SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: userPrompt({
-            category,
-            date,
-            drop,
-            areas,
-            avoidTopics: history.topicNames,
-            feedback,
-          }),
-        },
-      ]);
+      reply = await chatJson(
+        lastDraft && feedback.length > 0
+          ? [
+              { role: 'system', content: SYSTEM_PROMPT },
+              { role: 'user', content: firstAsk },
+              { role: 'assistant', content: lastDraft },
+              { role: 'user', content: [...feedback.map((f) => `- ${f}`), REPAIR_NOTE].join('\n') },
+            ]
+          : [
+              { role: 'system', content: SYSTEM_PROMPT },
+              {
+                role: 'user',
+                content: userPrompt({
+                  category,
+                  date,
+                  drop,
+                  areas,
+                  avoidTopics: history.topicNames,
+                  feedback,
+                }),
+              },
+            ],
+        { maxTokens: 5000 },
+      );
     } catch (err) {
       // A bad reply from the AI (e.g. broken JSON) is worth another try; a used-up limit is not.
       if (err instanceof RateLimitExhaustedError) throw err;
@@ -226,6 +241,7 @@ async function generateOne(category: Category, date: string, drop: number): Prom
     let candidate: unknown;
     try {
       candidate = toDrop(reply, category.id, date, drop);
+      lastDraft = reply;
     } catch {
       feedback = ['Your reply was not valid JSON. Reply with the JSON object only.'];
       console.log(`    attempt ${attempt}: invalid JSON`);
@@ -312,6 +328,7 @@ async function main(): Promise<void> {
 
   console.log(`
 Done: ${made} new, ${skipped} already there, ${failed.length} failed.`);
+  console.log(groqUsageSummary());
   if (failed.length > 0) {
     console.error(`Failed: ${failed.join(', ')}`);
     await notifyRunProblems('drops', failed, made); // email the owner

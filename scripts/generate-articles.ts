@@ -36,9 +36,11 @@ import {
 } from './lib/article-prompt';
 import { formatZodError } from './lib/content-files';
 import { notifyCrash, notifyRunProblems } from './lib/alerts';
-import { chatJson, GROQ_MODEL, RateLimitExhaustedError } from './lib/groq';
+import { chatJson, GROQ_MODEL, groqUsageSummary, RateLimitExhaustedError } from './lib/groq';
 
 const MAX_ATTEMPTS = 4;
+const REPAIR_NOTE =
+  'Fix ONLY these problems in your draft above. Keep everything else exactly the same. Reply with the full corrected JSON object.';
 /** Don't repeat a topic from the last this-many days. */
 const TOPIC_WINDOW_DAYS = 90;
 
@@ -100,7 +102,7 @@ async function factCheck(article: Article): Promise<string[]> {
       { role: 'system', content: ARTICLE_VERIFY_PROMPT },
       { role: 'user', content: JSON.stringify(body) },
     ],
-    { temperature: 0 },
+    { temperature: 0, maxTokens: 3000 },
   );
   const parsed = JSON.parse(reply) as { ok?: boolean; problems?: unknown[] };
   if (parsed.ok === true) return [];
@@ -112,18 +114,28 @@ async function generateOne(category: Category, date: string): Promise<Article> {
   const recent = await recentArticleTopics(category.id, date, TOPIC_WINDOW_DAYS);
   const recentKeys = new Set(recent.map((t) => normalize(t.replace(/\s*\(.*\)$/, ''))));
   let feedback: string[] = [];
+  /** The last draft that parsed: a rejected draft is REPAIRED, not rewritten (fewer calls). */
+  let lastDraft: string | null = null;
+  const firstAsk = articleUserPrompt({ category, date, avoidTopics: recent });
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     let reply: string;
     try {
       reply = await chatJson(
-        [
-          { role: 'system', content: ARTICLE_SYSTEM_PROMPT },
-          {
-            role: 'user',
-            content: articleUserPrompt({ category, date, avoidTopics: recent, feedback }),
-          },
-        ],
-        { maxTokens: 10000 },
+        lastDraft && feedback.length > 0
+          ? [
+              { role: 'system', content: ARTICLE_SYSTEM_PROMPT },
+              { role: 'user', content: firstAsk },
+              { role: 'assistant', content: lastDraft },
+              { role: 'user', content: [...feedback.map((f) => `- ${f}`), REPAIR_NOTE].join('\n') },
+            ]
+          : [
+              { role: 'system', content: ARTICLE_SYSTEM_PROMPT },
+              {
+                role: 'user',
+                content: articleUserPrompt({ category, date, avoidTopics: recent, feedback }),
+              },
+            ],
+        { maxTokens: 7000 },
       );
     } catch (err) {
       // A bad reply from the AI (e.g. broken JSON) is worth another try; a used-up limit is not.
@@ -136,6 +148,7 @@ async function generateOne(category: Category, date: string): Promise<Article> {
     let candidate: unknown;
     try {
       candidate = toArticle(reply, category.id, date);
+      lastDraft = reply;
     } catch {
       feedback = ['Your reply was not valid JSON. Reply with the JSON object only.'];
       console.log(`    attempt ${attempt}: invalid JSON`);
@@ -218,6 +231,7 @@ async function main(): Promise<void> {
   }
 
   console.log(`\nDone: ${made} new, ${skipped} already there, ${failed.length} failed.`);
+  console.log(groqUsageSummary());
   if (failed.length > 0) {
     console.error(`Failed: ${failed.join(', ')}`);
     await notifyRunProblems('articles', failed, made); // email the owner
