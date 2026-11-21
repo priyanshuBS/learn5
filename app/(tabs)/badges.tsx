@@ -76,7 +76,7 @@ export default function ProgressScreen() {
       <PageHeader title="Progress" subtitle="Level, streaks, badges and settings." />
 
       {/* Level */}
-      <View className="overflow-hidden rounded-3xl bg-brand-600 p-6 dark:bg-brand-700 md:p-7">
+      <View className="overflow-hidden rounded-3xl bg-brand-900 p-6 dark:bg-[#272366] md:p-7">
         <View
           pointerEvents="none"
           className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/[0.06]"
@@ -95,9 +95,9 @@ export default function ProgressScreen() {
             </Txt>
           </View>
         </View>
-        <View className="mt-6 h-2 overflow-hidden rounded-full bg-white/20">
+        <View className="mt-6 h-2 overflow-hidden rounded-full bg-white/15">
           <View
-            className="h-full rounded-full bg-white"
+            className="h-full rounded-full bg-gold"
             style={{ width: `${Math.round(level.progress * 100)}%` }}
           />
         </View>
@@ -115,7 +115,7 @@ export default function ProgressScreen() {
           stats={[
             {
               icon: 'flame',
-              color: '#F97316',
+              color: '#F59E0B',
               label: 'Current streak',
               value: `${streak.current}d`,
             },
@@ -132,11 +132,11 @@ export default function ProgressScreen() {
           stats={[
             {
               icon: 'check-circle',
-              color: '#12A150',
+              color: '#0F8A5F',
               label: 'Correct answers',
               value: `${stats.correctAnswers}`,
             },
-            { icon: 'layers', color: '#2F51E0', label: 'Drops done', value: `${stats.dropsDone}` },
+            { icon: 'layers', color: '#4338CA', label: 'Drops done', value: `${stats.dropsDone}` },
           ]}
         />
       </View>

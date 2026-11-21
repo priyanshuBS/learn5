@@ -46,7 +46,7 @@ export function AppNav({
   };
 
   const iconColor = (active: boolean) =>
-    active ? (dark ? colors.brandOnDark : colors.brand) : dark ? '#667085' : '#98A2B6';
+    active ? (dark ? colors.brandOnDark : colors.brand) : dark ? '#6E6C8C' : '#9F9DBA';
 
   const badgeFor = (name: string) =>
     name === 'review' && ready && mistakes.length > 0 ? mistakes.length : 0;

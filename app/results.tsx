@@ -182,11 +182,11 @@ export default function ResultsScreen() {
           },
           {
             icon: 'timer',
-            color: '#2F51E0',
+            color: '#4338CA',
             label: 'Time',
             value: formatDuration(attempt.durationSec),
           },
-          { icon: 'target', color: '#12A150', label: 'Accuracy', value: `${accuracy}%` },
+          { icon: 'target', color: '#0F8A5F', label: 'Accuracy', value: `${accuracy}%` },
         ]}
       />
       {attempt.perfect && !attempt.practice ? (

@@ -87,7 +87,7 @@ export function ExplanationPanel({
         {funFact && kind !== 'fact' ? (
           <View className="mt-4 border-l-2 border-zinc-200 pl-3.5 dark:border-zinc-700">
             <Txt className="text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
-              <Txt weight="medium" className="text-[14px] text-zinc-900 dark:text-[#E6EAF5]">
+              <Txt weight="medium" className="text-[14px] text-zinc-900 dark:text-[#ECEBFA]">
                 Did you know?{' '}
               </Txt>
               {funFact}

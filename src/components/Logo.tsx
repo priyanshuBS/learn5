@@ -1,6 +1,6 @@
 /**
  * Logo — the Learn5 mark and wordmark.
- * The mark is a "5-minute timer": a blue rounded tile with a white ring
+ * The mark is a "5-minute timer": an indigo rounded tile with a white ring
  * that is almost closed, a white dot where the ring ends, and a white "5".
  * The app icon, splash screen and browser tab icon use the same drawing.
  */
@@ -26,8 +26,8 @@ export function LogoMark({ size = 28 }: { size?: number }) {
       <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute' }}>
         <Defs>
           <LinearGradient id="learn5tile" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#4767F5" />
-            <Stop offset="1" stopColor="#2541B8" />
+            <Stop offset="0" stopColor="#4338CA" />
+            <Stop offset="1" stopColor="#1E1B4B" />
           </LinearGradient>
           <LinearGradient id="learn5ring" x1="0" y1="0" x2="1" y2="1">
             <Stop offset="0" stopColor="#FFFFFF" />
@@ -59,7 +59,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
           strokeDasharray={`${ARC} ${CIRCUMFERENCE}`}
           transform="rotate(-90 50 50)"
         />
-        <Circle cx={END_X} cy={END_Y} r={7} fill="#FFFFFF" />
+        <Circle cx={END_X} cy={END_Y} r={7} fill="#FBBF24" />
       </Svg>
       <View
         style={{

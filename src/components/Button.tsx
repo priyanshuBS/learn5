@@ -26,7 +26,7 @@ import { Icon, type IconName } from './Icon';
 import { Txt } from './Txt';
 
 export type ButtonVariant =
-  'primary' | 'accent' | 'secondary' | 'soft' | 'success' | 'danger' | 'inverse' | 'ghost';
+  'primary' | 'accent' | 'secondary' | 'soft' | 'success' | 'danger' | 'inverse' | 'gold' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
 
 function styles(variant: ButtonVariant, dark: boolean): { box: string; text: string } {
@@ -34,9 +34,9 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-brand-500 web:hover:bg-brand-400', text: '#FFFFFF' }
+        ? { box: 'bg-brand-500 web:hover:bg-[#6B63F0]', text: '#FFFFFF' }
         : {
-            box: 'bg-brand-600 web:shadow-[0_1px_2px_rgba(16,24,40,0.12),inset_0_1px_0_rgba(255,255,255,0.12)] web:hover:bg-brand-700',
+            box: 'bg-brand-600 web:shadow-[0_1px_2px_rgba(30,27,75,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] web:hover:bg-brand-700',
             text: '#FFFFFF',
           };
     case 'secondary':
@@ -57,8 +57,10 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
       return { box: 'bg-green-600 web:hover:bg-green-700', text: '#FFFFFF' };
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
+    case 'gold':
+      return { box: 'bg-gold web:hover:bg-gold-light', text: '#1E1B4C' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-brand-50', text: '#2541B8' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#3730A4' };
     case 'ghost':
       return dark
         ? { box: 'web:hover:bg-white/5', text: '#D4D4D4' }

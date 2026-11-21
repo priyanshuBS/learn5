@@ -34,7 +34,7 @@ export function ArticleCard({
   const dark = useColorScheme() === 'dark';
   const label = `${category.name} article: ${article.title}. ${article.readingMinutes} minute read${read ? '. Read' : ''}`;
   const open = () => router.push(articleHref(article));
-  const muted = dark ? '#667085' : '#98A2B6';
+  const muted = dark ? '#6E6C8C' : '#9F9DBA';
   const tone = categoryTone(category.color, dark);
 
   if (variant === 'row') {

@@ -6,7 +6,7 @@ import { View, type ViewProps } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 export const CARD_CLASSES =
-  'rounded-2xl border border-line bg-white web:shadow-[0_1px_2px_rgba(16,24,40,0.04)] dark:border-ink-line dark:bg-ink-card';
+  'rounded-2xl border border-line bg-white web:shadow-[0_1px_2px_rgba(30,27,75,0.04)] dark:border-ink-line dark:bg-ink-card';
 
 /** Tappable cards: a faint grey wash on hover and press. */
 export const CARD_PRESSABLE_CLASSES =

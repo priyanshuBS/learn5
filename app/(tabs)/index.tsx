@@ -86,7 +86,7 @@ export default function TodayScreen() {
         {/* ── Main column ── */}
         <View className="lg:flex-[2]">
           {/* Welcome card */}
-          <View className="overflow-hidden rounded-3xl bg-brand-600 p-6 dark:bg-brand-700 md:p-7">
+          <View className="overflow-hidden rounded-3xl bg-brand-900 p-6 dark:bg-[#272366] md:p-7">
             <View
               pointerEvents="none"
               className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/[0.06]"
@@ -96,7 +96,7 @@ export default function TodayScreen() {
                 {longDate(zonedNow.date)}
               </Txt>
               <View className="flex-row items-center gap-1.5 rounded-full bg-white/15 px-3 py-1">
-                <Icon name="flame" size={13} color="#FDBA74" filled />
+                <Icon name="flame" size={13} color="#FBBF24" filled />
                 <Txt weight="semibold" className="text-[12.5px] text-white dark:text-white">
                   {streak.current} day streak
                 </Txt>
@@ -110,9 +110,9 @@ export default function TodayScreen() {
               {greeting(now)}. {headline}
             </Txt>
             <View className="mt-5 flex-row items-center gap-3">
-              <View className="h-2 flex-1 overflow-hidden rounded-full bg-white/20">
+              <View className="h-2 flex-1 overflow-hidden rounded-full bg-white/15">
                 <View
-                  className="h-full rounded-full bg-white"
+                  className="h-full rounded-full bg-gold"
                   style={{ width: `${totalToday ? (doneToday / totalToday) * 100 : 0}%` }}
                 />
               </View>
@@ -252,12 +252,12 @@ function Button3({ label, onPress }: { label: string; onPress: () => void }) {
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={onPress}
-      className="h-11 flex-row items-center gap-2 rounded-xl bg-white px-4 active:opacity-90 web:hover:bg-brand-50"
+      className="h-11 flex-row items-center gap-2 rounded-xl bg-gold px-4 active:opacity-90 web:hover:bg-gold-light"
     >
-      <Txt weight="semibold" className="text-[14px] text-brand-700 dark:text-brand-700">
+      <Txt weight="semibold" className="text-[14px] text-brand-900 dark:text-brand-900">
         {label}
       </Txt>
-      <Icon name="arrow-right" size={15} color="#2541B9" />
+      <Icon name="arrow-right" size={15} color="#1E1B4C" />
     </Pressable>
   );
 }

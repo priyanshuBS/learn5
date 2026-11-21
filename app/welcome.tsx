@@ -39,7 +39,7 @@ const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string
     },
     {
       icon: 'calendar',
-      color: '#2F51E0',
+      color: '#4338CA',
       title: 'One drop per subject',
       text: 'Five new questions in every subject at 4 AM, from easy to hard.',
     },
@@ -51,7 +51,7 @@ const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string
     },
     {
       icon: 'review',
-      color: '#F43F5E',
+      color: '#EC4899',
       title: 'Review mistakes',
       text: 'Replay the questions you got wrong until they stick.',
     },
@@ -63,7 +63,7 @@ const FEATURES: { icon: IconName; color: string; filled?: boolean; title: string
     },
     {
       icon: 'flame',
-      color: '#F97316',
+      color: '#F59E0B',
       filled: true,
       title: 'Streaks and levels',
       text: 'Points, levels and badges that reward showing up.',
@@ -203,7 +203,7 @@ export default function WelcomeScreen() {
       </View>
 
       {/* Call to action */}
-      <View className="mt-20 overflow-hidden rounded-3xl bg-brand-600 p-8 dark:bg-brand-700 md:flex-row md:items-center md:justify-between md:p-12">
+      <View className="mt-20 overflow-hidden rounded-3xl bg-brand-900 p-8 dark:bg-[#272366] md:flex-row md:items-center md:justify-between md:p-12">
         <View
           pointerEvents="none"
           className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/[0.07]"
@@ -220,7 +220,7 @@ export default function WelcomeScreen() {
           </Txt>
         </View>
         <View className="mt-6 md:mt-0">
-          <Button label="Create free account" variant="inverse" onPress={goSignUp} />
+          <Button label="Create free account" variant="gold" onPress={goSignUp} />
         </View>
       </View>
 

@@ -1,7 +1,7 @@
 /**
  * Icon3D — kept under its old name: a soft colour TILE with a line icon.
- *   <Icon3D icon="flame" color="#F97316" />   → a light orange tile with an orange icon
- * Without a colour it uses the main blue. `solid` fills the tile with the colour
+ *   <Icon3D icon="flame" color="#F59E0B" />   → a light orange tile with an orange icon
+ * Without a colour it uses the main indigo. `solid` fills the tile with the colour
  * and draws the icon in white. `muted` draws a quiet grey tile (e.g. a badge not
  * earned yet). `filled` fills the icon shape (flame, star).
  */
@@ -34,8 +34,8 @@ export function Icon3D({
   let background: string;
   let iconColor: string;
   if (muted) {
-    background = dark ? '#19233B' : '#F1F4F9';
-    iconColor = dark ? '#4B5565' : '#98A2B6';
+    background = dark ? '#1D1C38' : '#F1F1F8';
+    iconColor = dark ? '#514F6E' : '#9F9DBA';
   } else if (solid) {
     background = dark ? lighten(color, 0.05) : color;
     iconColor = '#FFFFFF';

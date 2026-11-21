@@ -411,15 +411,15 @@ const PERKS = [
 /** The blue side panel on wide screens: what Learn5 is, at a glance. */
 function BrandPanel() {
   return (
-    <View className="hidden overflow-hidden bg-brand-600 p-10 dark:bg-brand-700 lg:flex lg:w-[44%] lg:justify-between">
+    <View className="hidden overflow-hidden bg-brand-900 p-10 dark:bg-[#272366] lg:flex lg:w-[44%] lg:justify-between">
       <View
         pointerEvents="none"
         className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-white/[0.07]"
       />
       <View>
         <View className="flex-row items-center gap-2.5">
-          <View className="h-8 w-8 items-center justify-center rounded-lg bg-white">
-            <Txt weight="display" className="text-[16px] text-brand-700 dark:text-brand-700">
+          <View className="h-8 w-8 items-center justify-center rounded-lg bg-gold">
+            <Txt weight="display" className="text-[16px] text-brand-900 dark:text-brand-900">
               5
             </Txt>
           </View>
@@ -436,8 +436,8 @@ function BrandPanel() {
         <View className="mt-8 gap-4">
           {PERKS.map((perk) => (
             <View key={perk} className="flex-row items-start gap-3">
-              <View className="mt-0.5 h-5 w-5 items-center justify-center rounded-full bg-white/20">
-                <Icon name="check" size={12} color="#FFFFFF" strokeWidth={3} />
+              <View className="mt-0.5 h-5 w-5 items-center justify-center rounded-full bg-gold">
+                <Icon name="check" size={12} color="#1E1B4C" strokeWidth={3} />
               </View>
               <Txt className="flex-1 text-[15px] leading-6 text-white/90 dark:text-white/90">
                 {perk}

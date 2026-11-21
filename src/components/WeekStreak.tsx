@@ -68,7 +68,7 @@ export function WeekStreak({
                 className={twMerge(
                   'text-[11px]',
                   isToday
-                    ? 'text-zinc-900 dark:text-[#E6EAF5]'
+                    ? 'text-zinc-900 dark:text-[#ECEBFA]'
                     : 'text-zinc-400 dark:text-zinc-500',
                 )}
               >

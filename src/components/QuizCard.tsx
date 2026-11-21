@@ -94,7 +94,7 @@ function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer
         className={twMerge(
           base,
           'underline',
-          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-[#E6EAF5]',
+          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-[#ECEBFA]',
         )}
       >
         {answer ? item.answer : '      '}
@@ -231,7 +231,7 @@ function FillBlankInput({
         autoCorrect={false}
         returnKeyType="done"
         className={twMerge(
-          'min-h-[54px] rounded-lg border bg-white px-4 font-body-medium text-lg text-zinc-900 web:outline-none dark:bg-ink dark:text-[#E6EAF5]',
+          'min-h-[54px] rounded-lg border bg-white px-4 font-body-medium text-lg text-zinc-900 web:outline-none dark:bg-ink dark:text-[#ECEBFA]',
           !answer &&
             'border-line focus:border-brand-600 dark:border-ink-line dark:focus:border-brand-400',
           answer?.correct && 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10',

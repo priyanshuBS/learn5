@@ -7,60 +7,64 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** The main colour: Scholar blue (light mode). */
-  brand: '#2F51E0',
-  brandDark: '#2541B8',
-  brandSoft: '#EEF3FF',
-  /** Blue on dark backgrounds (active tab, links). */
-  brandOnDark: '#93AEFF',
-  /** Blue for progress, "open now" and highlights. */
-  pop: '#2F51E0',
-  popLight: '#6A8BFF',
-  popDark: '#2541B8',
+  /** The main colour: indigo (light mode). */
+  brand: '#4338CA',
+  brandDark: '#3730A3',
+  brandSoft: '#EFEEFD',
+  /** Indigo on dark backgrounds (active tab, links). */
+  brandOnDark: '#A9A4FF',
+  /** Indigo for progress, "open now" and highlights. */
+  pop: '#4338CA',
+  popLight: '#8B85FF',
+  popDark: '#3730A3',
   /** Older names. */
-  leaf: '#2F51E0',
-  leafLight: '#6A8BFF',
-  volt: '#2F51E0',
+  leaf: '#4338CA',
+  leafLight: '#8B85FF',
+  volt: '#4338CA',
   /** Darkest text colour, used where code needs "black". */
-  black: '#121926',
+  black: '#171630',
   white: '#FFFFFF',
-  text: '#121926',
-  textDark: '#E6EAF5',
-  muted: '#667085',
-  mutedDark: '#8E99B3',
-  line: '#E4E7EF',
-  inkLine: '#232E48',
-  success: '#12A150',
+  text: '#171630',
+  textDark: '#ECEBFA',
+  muted: '#636280',
+  mutedDark: '#9897B8',
+  line: '#E5E4F0',
+  inkLine: '#26244A',
+  success: '#0F8A5F',
   danger: '#E5484D',
   warning: '#D97706',
-  /** Warm amber for streaks and points. */
-  streak: '#F97316',
-  points: '#F59E0B',
-  canvas: '#F6F7FB',
-  ink: '#0B1020',
+  /** Gold for streaks and points. */
+  streak: '#F59E0B',
+  points: '#FBBF24',
+  gold: '#FBBF24',
+  /** Deep indigo of the hero cards (light / dark mode). */
+  hero: '#1E1B4B',
+  heroDark: '#272366',
+  canvas: '#F6F6FB',
+  ink: '#0D0C1D',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#121A2E',
+  inkSolid: '#15142B',
   /** Empty part of progress rings. */
-  track: '#E4E8F0',
-  trackDark: '#232E48',
+  track: '#E5E4F0',
+  trackDark: '#26244A',
 } as const;
 
 /** Colours of the stat icons. */
-export const ICON3D = { flame: '#F97316', star: '#F59E0B', trophy: '#2F51E0' } as const;
+export const ICON3D = { flame: '#F59E0B', star: '#EAB308', trophy: '#4338CA' } as const;
 
 /** Kept for older code. */
-export const HERO_GRADIENT = ['#2F51E0', '#2541B8', '#1F3173'] as const;
+export const HERO_GRADIENT = ['#1E1B4B', '#272366', '#13113A'] as const;
 
 /**
- * The main colour on the current background: blue stays blue in light mode and
- * becomes a lighter blue in dark mode. Any other colour is returned as it is.
+ * The main colour on the current background: indigo stays indigo in light mode and
+ * becomes a lighter indigo in dark mode. Any other colour is returned as it is.
  */
 export function inkOn(color: string, dark: boolean): string {
   if (!dark) return color;
   return color === colors.brand || color === colors.brandDark ? colors.brandOnDark : color;
 }
 
-/** Blue for progress bars, rings and accent icons, readable on the current background. */
+/** Indigo for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.popLight : colors.pop;
 }
@@ -84,11 +88,11 @@ export const BADGE_ICONS: Record<string, IconName> = {
 
 /** Colour of each badge's icon tile (when earned). */
 export const BADGE_COLORS: Record<string, string> = {
-  'first-drop': '#2F51E0',
-  'streak-7': '#F97316',
-  'streak-30': '#F59E0B',
-  'correct-100': '#8B5CF6',
-  'all-categories': '#12A150',
+  'first-drop': '#4338CA',
+  'streak-7': '#F59E0B',
+  'streak-30': '#EAB308',
+  'correct-100': '#EC4899',
+  'all-categories': '#10B981',
 };
 
 /** Icon for each drop slot: morning, afternoon, evening. */

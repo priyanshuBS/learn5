@@ -1,5 +1,5 @@
 {
-  "version": "68f3823557c4",
+  "version": "de82258e9eea",
   "latestDate": "2026-11-08",
   "timezone": "Asia/Kolkata",
   "schedule": {
@@ -28,14 +28,14 @@
       "id": "reasoning",
       "name": "Reasoning",
       "emoji": "🧩",
-      "color": "#8B5CF6",
+      "color": "#EC4899",
       "tagline": "Patterns, series and logic"
     },
     {
       "id": "english",
       "name": "English",
       "emoji": "📖",
-      "color": "#F43F5E",
+      "color": "#10B981",
       "tagline": "Words, grammar and idioms"
     },
     {

@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Scholar".
-//   A focused blue (brand) for actions and progress, warm amber (gold) for streaks
-//   and points, and a soft colour per subject. Cool-white light mode, navy dark mode.
+// Learn5 design system for Tailwind (NativeWind) — "Deep Indigo".
+//   A rich indigo (brand) for actions and progress, gold for streaks, points and the
+//   main call to action on deep indigo hero cards, and a soft colour per subject.
+//   Lavender-white light mode, deep ink-violet dark mode.
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -15,51 +16,54 @@ module.exports = {
       colors: {
         // Scholar blue: the main colour (buttons, links, progress, the active tab).
         // 50-200 soft tints, 300-400 bright blue for dark mode, 500-700 for light mode.
+        // Deep Indigo: the main colour (buttons, links, progress, the active tab).
+        // 50-200 soft tints, 300-400 bright indigo for dark mode, 500-700 for light mode,
+        // 900 = the deep indigo of hero cards.
         brand: {
-          50: '#EEF3FF',
-          100: '#DCE6FF',
-          200: '#BACBFF',
-          300: '#93AEFF',
-          400: '#6A8BFF',
-          500: '#4767F5',
-          600: '#2F51E0',
-          700: '#2541B8',
-          800: '#213792',
-          900: '#1F3173',
-          950: '#141E45',
+          50: '#EFEEFD',
+          100: '#E2E0FC',
+          200: '#C8C4FA',
+          300: '#A9A4FF',
+          400: '#8B85FF',
+          500: '#5B52E6',
+          600: '#4338CA',
+          700: '#3730A3',
+          800: '#2E2A85',
+          900: '#1E1B4B',
+          950: '#13113A',
         },
-        pop: { DEFAULT: '#2F51E0', light: '#6A8BFF', dark: '#2541B8', soft: '#EEF3FF' },
-        // Amber: progress, streaks and points (warm, motivating).
-        gold: { DEFAULT: '#F59E0B', soft: '#FEF3C7', light: '#FCD34D' },
+        pop: { DEFAULT: '#4338CA', light: '#8B85FF', dark: '#3730A3', soft: '#EFEEFD' },
+        // Gold: streaks, points and the main call to action on dark cards.
+        gold: { DEFAULT: '#FBBF24', soft: '#FEF3C7', light: '#FCD34D', dark: '#B7791F' },
         // Kept as aliases (older class names).
-        leaf: { DEFAULT: '#2F51E0', light: '#6A8BFF', dark: '#2541B8' },
-        accent: { 300: '#93AEFF', 400: '#6A8BFF', 500: '#4767F5' },
-        volt: { DEFAULT: '#2F51E0', dim: '#2541B8' },
-        // Light mode: a soft cool-white page with white cards.
-        canvas: '#F6F7FB',
-        line: '#E4E7EF',
-        // Dark mode: deep navy.
+        leaf: { DEFAULT: '#4338CA', light: '#8B85FF', dark: '#3730A3' },
+        accent: { 300: '#A9A4FF', 400: '#8B85FF', 500: '#5B52E6' },
+        volt: { DEFAULT: '#4338CA', dim: '#3730A3' },
+        // Light mode: a soft lavender-white page with white cards.
+        canvas: '#F6F6FB',
+        line: '#E5E4F0',
+        // Dark mode: deep ink-violet.
         ink: {
-          DEFAULT: '#0B1020',
-          soft: '#0D1326',
-          card: '#121A2E',
-          raised: '#19233B',
-          line: '#232E48',
-          solid: '#121A2E',
+          DEFAULT: '#0D0C1D',
+          soft: '#100F23',
+          card: '#15142B',
+          raised: '#1D1C38',
+          line: '#26244A',
+          solid: '#15142B',
         },
-        // Cool slate greys.
+        // Greys with a soft indigo tint.
         zinc: {
-          50: '#F8FAFC',
-          100: '#F1F4F9',
-          200: '#E4E8F0',
-          300: '#CDD4E0',
-          400: '#98A2B6',
-          500: '#667085',
-          600: '#4B5565',
-          700: '#364152',
-          800: '#202939',
-          900: '#121926',
-          950: '#0B1020',
+          50: '#F8F8FC',
+          100: '#F1F1F8',
+          200: '#E5E4F0',
+          300: '#CFCEE0',
+          400: '#9F9DBA',
+          500: '#6E6C8C',
+          600: '#514F6E',
+          700: '#3B3A55',
+          800: '#24223F',
+          900: '#171630',
+          950: '#0D0C1D',
         },
       },
       // Geist for everything; Geist Mono for numbers, times and small labels.
