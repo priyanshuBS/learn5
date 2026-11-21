@@ -22,6 +22,10 @@ import { colors } from '@/theme';
 
 const categories = CategoriesFileSchema.parse(categoriesFile);
 
+/** Where people download the Android app (the latest Android build on Expo). */
+const ANDROID_APP_URL =
+  'https://expo.dev/accounts/priyanshu69/projects/learn5/builds/5f43439b-8288-4e2b-b37d-809a5574e50a';
+
 const goSignUp = () => router.push(signInHref('signup'));
 const goLogIn = () => router.push(signInHref('login'));
 
@@ -126,8 +130,34 @@ export default function WelcomeScreen() {
         <Button label="Create your account" onPress={goSignUp} className="mt-7" />
       </View>
 
+      {/* Android app */}
+      <View className="mt-20 flex-row flex-wrap items-center justify-between gap-5 rounded-2xl border border-line p-6 dark:border-ink-line">
+        <View className="min-w-56 flex-1 flex-row items-center gap-4">
+          <View className="h-11 w-11 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-400/15">
+            <Icon name="smartphone" size={20} color={colors.brand} />
+          </View>
+          <View className="flex-1">
+            <Txt weight="semibold" className="text-[16px]">
+              Get the Android app
+            </Txt>
+            <Muted className="mt-0.5 text-[13.5px] leading-5">
+              Download the APK and install it on your phone.
+            </Muted>
+          </View>
+        </View>
+        <Button
+          label="Download for Android"
+          icon="arrow-up-right"
+          iconRight
+          variant="secondary"
+          size="md"
+          onPress={() => void Linking.openURL(ANDROID_APP_URL)}
+          accessibilityHint="Opens the Android download page"
+        />
+      </View>
+
       {/* Footer */}
-      <View className="mt-24 flex-row flex-wrap items-center justify-between gap-4 border-t border-line pt-6 dark:border-ink-line">
+      <View className="mt-16 flex-row flex-wrap items-center justify-between gap-4 border-t border-line pt-6 dark:border-ink-line">
         <Txt className="text-[13px] text-zinc-500 dark:text-zinc-400">
           Made by{' '}
           <Txt
