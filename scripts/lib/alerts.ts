@@ -41,7 +41,7 @@ export async function sendAlert(key: string, subject: string, lines: string[]): 
       ...lines,
       '',
       `Time: ${new Date().toISOString()} (content day ${now.date}, ${window} run, ${TIMEZONE}).`,
-      'Whatever was not written will be retried by the next scheduled run (04:00 / 16:00 IST).',
+      'Anything not written is retried by the next scheduled run (drops: 16:00 and 04:00 IST; article: 04:00 and 05:00 IST).',
     ].join('\n');
     await sendAlertEmail(to, subject, text);
     console.log(`    … emailed alert: ${subject}`);
