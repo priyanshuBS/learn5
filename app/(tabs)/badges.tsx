@@ -73,35 +73,35 @@ export default function ProgressScreen() {
 
   return (
     <Screen>
-      <PageHeader title="Progress" subtitle="Level, streaks, badges and settings." />
+      <PageHeader title="Progress" />
 
       {/* Level */}
-      <View className="overflow-hidden rounded-3xl bg-brand-900 p-6 dark:bg-[#272366] md:p-7">
-        <View
-          pointerEvents="none"
-          className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/[0.06]"
-        />
+      <View className="border-t border-zinc-900 pt-6 dark:border-zinc-300">
         <View className="flex-row items-end justify-between gap-4">
           <View className="flex-1">
-            <Txt className="text-[13px] text-white/75 dark:text-white/75">Level {level.level}</Txt>
-            <Txt weight="display" className="mt-1 text-[30px] leading-9 text-white dark:text-white">
+            <Txt weight="mono" className="text-[11.5px] uppercase tracking-[1px] text-zinc-500">
+              Level {level.level}
+            </Txt>
+            <Txt weight="display" className="mt-2 text-[44px] leading-[46px]">
               {level.name}
             </Txt>
           </View>
           <View className="items-end">
-            <Txt className="text-[13px] text-white/75 dark:text-white/75">Points</Txt>
-            <Txt weight="display" className="mt-1 text-[30px] leading-9 text-white dark:text-white">
+            <Txt weight="mono" className="text-[11.5px] uppercase tracking-[1px] text-zinc-500">
+              Points
+            </Txt>
+            <Txt weight="display" className="mt-2 text-[44px] leading-[46px]">
               {points.toLocaleString('en-IN')}
             </Txt>
           </View>
         </View>
-        <View className="mt-6 h-2 overflow-hidden rounded-full bg-white/15">
+        <View className="mt-6 h-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-ink-raised">
           <View
-            className="h-full rounded-full bg-gold"
+            className="h-full rounded-full bg-brand-600 dark:bg-brand-400"
             style={{ width: `${Math.round(level.progress * 100)}%` }}
           />
         </View>
-        <Txt className="mt-3 text-[13px] text-white/80 dark:text-white/80">
+        <Txt className="mt-3 text-[13px] text-zinc-500 dark:text-zinc-400">
           {level.nextAt === null || !nextLevel
             ? 'You reached the top level.'
             : `${(level.nextAt - points).toLocaleString('en-IN')} points to level ${nextLevel.level} · ${nextLevel.name}`}

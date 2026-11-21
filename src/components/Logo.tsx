@@ -102,8 +102,8 @@ export function Logo({
       <LogoMark size={lg ? 40 : 24} />
       {showWordmark ? (
         <Txt
-          weight="display"
-          className={twMerge(lg ? 'text-[24px]' : 'text-[16px] tracking-[-0.3px]')}
+          weight="script"
+          className={twMerge(lg ? 'text-[34px] leading-[38px]' : 'text-[26px] leading-[30px]')}
         >
           Learn5
         </Txt>

@@ -39,7 +39,7 @@ export function PageHeader({
           <Txt
             weight="display"
             accessibilityRole="header"
-            className="text-[28px] leading-[34px] md:text-[32px] md:leading-[38px]"
+            className="text-[36px] leading-[40px] md:text-[44px] md:leading-[48px]"
             numberOfLines={2}
           >
             {title}
@@ -66,10 +66,10 @@ export function SectionTitle({
   right?: ReactNode;
 }) {
   return (
-    <View className="mb-3 mt-12 flex-row items-end justify-between gap-4">
+    <View className="mb-4 mt-14 flex-row items-end justify-between gap-4">
       <View className="flex-1">
         {eyebrow ? <Eyebrow className="mb-1">{eyebrow}</Eyebrow> : null}
-        <Txt weight="semibold" accessibilityRole="header" className="text-[15px] leading-6">
+        <Txt weight="display" accessibilityRole="header" className="text-[22px] leading-7">
           {title}
         </Txt>
         {subtitle ? <Muted className="mt-0.5 text-[13px]">{subtitle}</Muted> : null}

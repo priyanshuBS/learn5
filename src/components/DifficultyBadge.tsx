@@ -9,8 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { POINTS_BY_DIFFICULTY } from '@/features/points/points';
 import type { Difficulty } from '@/lib/schema';
-import { useColorScheme } from '@/hooks/useScheme';
-import { categoryTone, colors, withAlpha } from '@/theme';
+import { colors } from '@/theme';
 
 import { Icon, type IconName } from './Icon';
 import { Txt } from './Txt';
@@ -85,7 +84,7 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
     <View
       accessible
       accessibilityLabel={`${s.label} question, worth ${POINTS_BY_DIFFICULTY[difficulty]} points`}
-      className="flex-row items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 dark:border-ink-line"
+      className="flex-row items-center gap-1.5 rounded-full border border-line px-2.5 py-1 dark:border-ink-line"
     >
       <View className={twMerge('h-1.5 w-1.5 rounded-full', s.dot)} />
       <Txt weight="medium" className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -95,23 +94,10 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
   );
 }
 
-export function Tag({ label, color: base }: { label: string; color?: string }) {
-  const dark = useColorScheme() === 'dark';
-  const color = base ? categoryTone(base, dark) : undefined;
+export function Tag({ label }: { label: string; color?: string }) {
   return (
-    <View
-      className={twMerge(
-        'rounded-lg px-2.5 py-1',
-        !color && 'border border-line dark:border-ink-line',
-      )}
-      style={color ? { backgroundColor: withAlpha(base ?? color, dark ? 0.18 : 0.12) } : undefined}
-    >
-      <Txt
-        weight="semibold"
-        className="text-xs text-zinc-700 dark:text-zinc-300"
-        style={color ? { color } : undefined}
-        numberOfLines={1}
-      >
+    <View className="rounded-full border border-line px-2.5 py-1 dark:border-ink-line">
+      <Txt weight="medium" className="text-xs text-zinc-600 dark:text-zinc-400" numberOfLines={1}>
         {label}
       </Txt>
     </View>

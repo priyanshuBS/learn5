@@ -37,7 +37,7 @@ One Expo codebase ships as an **Android app**, an **iOS app** and a **website**.
 <br />
 
 <div align="center">
-  <img src="docs/screenshots/home-desktop.png" alt="Learn5 landing page (dark mode)" width="820" />
+  <img src="docs/screenshots/home-desktop.png" alt="Learn5 landing page" width="820" />
 </div>
 
 ## Contents
@@ -73,30 +73,30 @@ Change the times, subjects or rotation in [`schedule.config.json`](schedule.conf
 
 ## Features
 
-| Feature             | Details                                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)                        |
-| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                                |
-| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                                         |
-| 🔁 **Review**       | Replay wrong answers until you get them right                                                                      |
-| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                                          |
-| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                           |
-| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                                        |
-| 🔔 **Reminders**    | Optional daily notification on phones                                                                              |
-| 🌗 **Design**       | "Deep Indigo" design: rich indigo, gold for streaks and points, a colour per subject; Light, Dark and System modes |
+| Feature             | Details                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)             |
+| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                     |
+| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                              |
+| 🔁 **Review**       | Replay wrong answers until you get them right                                                           |
+| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                               |
+| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                                |
+| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                             |
+| 🔔 **Reminders**    | Optional daily notification on phones                                                                   |
+| 🌗 **Design**       | Minimal design: one indigo accent, serif headings and handwritten touches; Light, Dark and System modes |
 
 ## Tech stack
 
-| Layer          | Technology                                                                                                      |
-| -------------- | --------------------------------------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                              |
-| **Design**     | "Deep Indigo": indigo main colour, gold accents, soft subject colours; ink-violet dark mode; Geist + Geist Mono |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                                                   |
-| **Database**   | Neon (serverless Postgres)                                                                                      |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                               |
-| **Email**      | Resend (sign-in codes and owner alerts)                                                                         |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                                                       |
-| **Tests**      | Jest (`jest-expo`)                                                                                              |
+| Layer          | Technology                                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                                |
+| **Design**     | Minimal Deep Indigo: Instrument Serif (headings), Caveat (handwritten touches), Geist (text), Geist Mono (labels) |
+| **API**        | Expo Router API routes, hosted on EAS Hosting                                                                     |
+| **Database**   | Neon (serverless Postgres)                                                                                        |
+| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                                 |
+| **Email**      | Resend (sign-in codes and owner alerts)                                                                           |
+| **Validation** | Zod schemas shared by the app, the server and the scripts                                                         |
+| **Tests**      | Jest (`jest-expo`)                                                                                                |
 
 ## Getting started
 

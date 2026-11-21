@@ -13,7 +13,6 @@ import { twMerge } from 'tailwind-merge';
 import { Button, IconButton } from '@/components/Button';
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryIcon } from '@/components/CategoryIcon';
-import { Icon3D } from '@/components/Icon3D';
 import { Tag } from '@/components/DifficultyBadge';
 import { ExplanationPanel } from '@/components/ExplanationPanel';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
@@ -93,10 +92,7 @@ export default function ReviewScreen() {
 
   return (
     <Screen width="narrow">
-      <PageHeader
-        title="Review mistakes"
-        subtitle={categoryName ? `${categoryName} only` : 'Questions you got wrong'}
-      />
+      <PageHeader title="Review" subtitle={categoryName ? `${categoryName} only` : undefined} />
 
       {available.length === 0 ? (
         <MessageView
@@ -113,17 +109,14 @@ export default function ReviewScreen() {
         />
       ) : (
         <>
-          <View className="flex-row flex-wrap items-center justify-between gap-5 rounded-3xl bg-rose-50 p-6 dark:bg-rose-500/10">
-            <View className="min-w-48 flex-1 flex-row items-center gap-4">
-              <Icon3D icon="review" color="#F43F5E" size={52} />
-              <View className="flex-1">
-                <Txt weight="display" className="text-[30px] leading-9">
-                  {available.length} to fix
-                </Txt>
-                <Muted className="text-[14px] leading-5">
-                  Get a question right and it leaves the list.
-                </Muted>
-              </View>
+          <View className="flex-row flex-wrap items-end justify-between gap-5 border-t border-zinc-900 pt-6 dark:border-zinc-300">
+            <View className="min-w-48 flex-1">
+              <Txt weight="display" className="text-[44px] leading-[46px]">
+                {available.length} to fix
+              </Txt>
+              <Muted className="mt-1 text-[14px] leading-5">
+                Get one right and it leaves the list.
+              </Muted>
             </View>
             <Button
               label={`Start review (${Math.min(ROUND_SIZE, available.length)})`}

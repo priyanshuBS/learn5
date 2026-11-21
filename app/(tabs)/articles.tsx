@@ -72,10 +72,7 @@ export default function ArticlesScreen() {
 
   return (
     <Screen>
-      <PageHeader
-        title="Daily reads"
-        subtitle="One short article a day in simple English. A new subject every morning."
-      />
+      <PageHeader title="Reads" subtitle="One short article a day." />
 
       {/* Subject filter */}
       <ScrollView

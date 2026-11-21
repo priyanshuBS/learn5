@@ -301,9 +301,9 @@ function Celebration({ icon, title, text }: { icon: IconName; title: string; tex
       <View
         accessible
         accessibilityLabel={`${title}. ${text}`}
-        className="mt-3 flex-row items-center gap-3.5 rounded-2xl bg-amber-50 p-4 dark:bg-amber-500/10"
+        className="mt-3 flex-row items-center gap-3.5 border-t border-line pt-4 dark:border-ink-line"
       >
-        <Icon3D icon={icon} color="#F59E0B" size={40} solid />
+        <Icon3D icon={icon} size={36} solid />
         <View className="flex-1">
           <Txt weight="semibold" className="text-[15px]">
             {title}

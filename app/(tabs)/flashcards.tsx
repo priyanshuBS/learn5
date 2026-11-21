@@ -58,7 +58,7 @@ export default function FlashcardsScreen() {
   if (ids.length === 0) {
     return (
       <Screen width="narrow">
-        <PageHeader title="Flashcards" subtitle="Facts you have collected" />
+        <PageHeader title="Flashcards" />
         <MessageView
           icon="flashcards"
           title="No flashcards yet"

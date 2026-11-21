@@ -1,5 +1,7 @@
 /**
- * Text components in Geist: weight="display" (Bold, slightly tight) for headings and big
+ * Text components. weight="display" = Instrument Serif (headings, big numbers),
+ * "italic" = Instrument Serif Italic, "script" = Caveat (small handwritten touches),
+ * everything else = Geist: weight="display" (Bold, slightly tight) for headings and big
  * numbers, weight="mono" (Geist Mono) for times, counts and small labels.
  *   Txt     — body text; weight picks the font weight
  *   Muted   — soft grey helper text
@@ -15,7 +17,9 @@ const WEIGHTS = {
   semibold: 'font-body-semibold',
   bold: 'font-body-bold',
   heavy: 'font-body-heavy',
-  display: 'font-display tracking-[-0.6px]',
+  display: 'font-display tracking-[-0.2px]',
+  italic: 'font-serif-italic tracking-[-0.2px]',
+  script: 'font-script',
   mono: 'font-mono',
 } as const;
 

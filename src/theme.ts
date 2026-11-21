@@ -28,8 +28,8 @@ export const colors = {
   textDark: '#ECEBFA',
   muted: '#636280',
   mutedDark: '#9897B8',
-  line: '#E5E4F0',
-  inkLine: '#26244A',
+  line: '#ECEBF3',
+  inkLine: '#24233A',
   success: '#0F8A5F',
   danger: '#E5484D',
   warning: '#D97706',
@@ -40,17 +40,17 @@ export const colors = {
   /** Deep indigo of the hero cards (light / dark mode). */
   hero: '#1E1B4B',
   heroDark: '#272366',
-  canvas: '#F6F6FB',
-  ink: '#0D0C1D',
+  canvas: '#FBFBFD',
+  ink: '#0E0D18',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#15142B',
+  inkSolid: '#13121F',
   /** Empty part of progress rings. */
-  track: '#E5E4F0',
-  trackDark: '#26244A',
+  track: '#ECEBF3',
+  trackDark: '#24233A',
 } as const;
 
 /** Colours of the stat icons. */
-export const ICON3D = { flame: '#F59E0B', star: '#EAB308', trophy: '#4338CA' } as const;
+export const ICON3D = { flame: '#4338CA', star: '#4338CA', trophy: '#4338CA' } as const;
 
 /** Kept for older code. */
 export const HERO_GRADIENT = ['#1E1B4B', '#272366', '#13113A'] as const;
@@ -114,9 +114,12 @@ export function darken(hex: string, amount: number): string {
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
 }
 
-/** A subject colour that reads well on the current background (lighter in dark mode). */
-export function categoryTone(hex: string, dark: boolean): string {
-  return dark ? lighten(hex, 0.25) : darken(hex, 0.12);
+/**
+ * The colour for a subject's small labels. The design keeps ONE accent, so subjects
+ * use quiet neutral text (their hex stays in content/categories.json for later use).
+ */
+export function categoryTone(_hex: string, dark: boolean): string {
+  return dark ? '#9897B8' : '#6E6C8C';
 }
 
 /** Adds transparency to a hex colour: withAlpha('#FF0000', 0.2). */

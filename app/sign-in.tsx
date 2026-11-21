@@ -19,7 +19,6 @@ import {
 import { twMerge } from 'tailwind-merge';
 
 import { Button, IconButton } from '@/components/Button';
-import { CARD_CLASSES } from '@/components/Card';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { Screen } from '@/components/Screen';
@@ -137,24 +136,21 @@ export default function SignInScreen() {
       className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Screen fill contentClassName="max-w-5xl pt-4 md:pt-6">
+      <Screen width="narrow" fill contentClassName="max-w-[440px] pt-4 md:pt-6">
         <View className="flex-row items-center justify-between">
           <IconButton icon="arrow-left" label="Back to home page" onPress={goBack} />
           <ThemeIconButton />
         </View>
 
         <View className="flex-1 justify-center py-6">
-          <View className={twMerge(CARD_CLASSES, 'overflow-hidden lg:flex-row')}>
-            <BrandPanel />
-            <View className="mx-auto w-full max-w-[460px] p-6 md:p-10 lg:flex-1">
-              <View className="mb-7 items-center lg:items-start">
-                <View className="lg:hidden">
-                  <Logo showWordmark={false} size="lg" />
-                </View>
+          <View>
+            <View>
+              <View className="mb-9">
+                <Logo />
                 <Txt
                   weight="display"
                   accessibilityRole="header"
-                  className="mt-5 text-center text-[26px] leading-[32px] lg:mt-0 lg:text-left lg:text-[30px] lg:leading-9"
+                  className="mt-10 text-[44px] leading-[48px]"
                 >
                   {step === 'code'
                     ? 'Check your email'
@@ -162,7 +158,7 @@ export default function SignInScreen() {
                       ? 'Create your account'
                       : 'Welcome back'}
                 </Txt>
-                <Muted className="mt-2 text-center text-[15px] leading-6 lg:text-left">
+                <Muted className="mt-3 text-[15px] leading-6">
                   {step === 'email' ? (
                     mode === 'signup' ? (
                       'We’ll email you a code — no password needed.'
@@ -399,62 +395,5 @@ export default function SignInScreen() {
         <View className="h-10" />
       </Screen>
     </KeyboardAvoidingView>
-  );
-}
-
-const PERKS = [
-  'One 5-question drop in each subject, every morning',
-  'A clear explanation after every answer',
-  'Streaks, points and badges to keep you going',
-];
-
-/** The blue side panel on wide screens: what Learn5 is, at a glance. */
-function BrandPanel() {
-  return (
-    <View className="hidden overflow-hidden bg-brand-900 p-10 dark:bg-[#272366] lg:flex lg:w-[44%] lg:justify-between">
-      <View
-        pointerEvents="none"
-        className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-white/[0.07]"
-      />
-      <View>
-        <View className="flex-row items-center gap-2.5">
-          <View className="h-8 w-8 items-center justify-center rounded-lg bg-gold">
-            <Txt weight="display" className="text-[16px] text-brand-900 dark:text-brand-900">
-              5
-            </Txt>
-          </View>
-          <Txt weight="display" className="text-[18px] text-white dark:text-white">
-            Learn5
-          </Txt>
-        </View>
-        <Txt
-          weight="display"
-          className="mt-12 text-[32px] leading-[38px] tracking-[-0.8px] text-white dark:text-white"
-        >
-          Five minutes a day is all it takes.
-        </Txt>
-        <View className="mt-8 gap-4">
-          {PERKS.map((perk) => (
-            <View key={perk} className="flex-row items-start gap-3">
-              <View className="mt-0.5 h-5 w-5 items-center justify-center rounded-full bg-gold">
-                <Icon name="check" size={12} color="#1E1B4C" strokeWidth={3} />
-              </View>
-              <Txt className="flex-1 text-[15px] leading-6 text-white/90 dark:text-white/90">
-                {perk}
-              </Txt>
-            </View>
-          ))}
-        </View>
-      </View>
-      <View className="mt-12 flex-row flex-wrap gap-2">
-        {['Math', 'Reasoning', 'English', 'Computer Science'].map((s) => (
-          <View key={s} className="rounded-full bg-white/15 px-3 py-1.5">
-            <Txt weight="semibold" className="text-[12.5px] text-white dark:text-white">
-              {s}
-            </Txt>
-          </View>
-        ))}
-      </View>
-    </View>
   );
 }

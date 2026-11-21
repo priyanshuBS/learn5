@@ -36,7 +36,7 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
       return dark
         ? { box: 'bg-brand-500 web:hover:bg-[#6B63F0]', text: '#FFFFFF' }
         : {
-            box: 'bg-brand-600 web:shadow-[0_1px_2px_rgba(30,27,75,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] web:hover:bg-brand-700',
+            box: 'bg-brand-600 web:hover:bg-brand-700',
             text: '#FFFFFF',
           };
     case 'secondary':
@@ -58,7 +58,7 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'gold':
-      return { box: 'bg-gold web:hover:bg-gold-light', text: '#1E1B4C' };
+      return { box: 'bg-white web:hover:bg-brand-50', text: '#1E1B4C' };
     case 'inverse':
       return { box: 'bg-white web:hover:bg-brand-50', text: '#3730A4' };
     case 'ghost':
@@ -152,7 +152,7 @@ export function Button({
             <View className="flex-row items-center gap-2">
               {!iconRight && iconEl}
               <Txt
-                weight="semibold"
+                weight="medium"
                 className={twMerge(s.text, labelClassName)}
                 style={{ color: v.text }}
               >

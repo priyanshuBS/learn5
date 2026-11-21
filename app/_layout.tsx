@@ -1,6 +1,6 @@
 /**
  * Root layout — wraps every screen.
- *   - loads Tailwind styles and the fonts (Geist for text, Geist Mono for numbers and labels)
+ *   - loads Tailwind styles and the fonts (Instrument Serif for headings, Geist for text, Caveat for handwritten touches, Geist Mono for labels)
  *   - starts loading content (bundled/cached first, then checks the website)
  *   - restores the sign-in session (7 days) and guards the app behind sign-in
  *   - keeps progress in step with the user's account (features/progress/sync.ts)
@@ -15,6 +15,11 @@ import {
   Geist_700Bold,
 } from '@expo-google-fonts/geist';
 import { GeistMono_500Medium, GeistMono_600SemiBold } from '@expo-google-fonts/geist-mono';
+import {
+  InstrumentSerif_400Regular,
+  InstrumentSerif_400Regular_Italic,
+} from '@expo-google-fonts/instrument-serif';
+import { Caveat_600SemiBold } from '@expo-google-fonts/caveat';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -43,6 +48,9 @@ export default function RootLayout() {
     Geist_600SemiBold,
     Geist_700Bold,
     GeistMono_500Medium,
+    InstrumentSerif_400Regular,
+    InstrumentSerif_400Regular_Italic,
+    Caveat_600SemiBold,
     GeistMono_600SemiBold,
   });
   useContentBootstrap();

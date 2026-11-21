@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Deep Indigo".
-//   A rich indigo (brand) for actions and progress, gold for streaks, points and the
-//   main call to action on deep indigo hero cards, and a soft colour per subject.
-//   Lavender-white light mode, deep ink-violet dark mode.
+// Learn5 design system for Tailwind (NativeWind) — minimal "Deep Indigo".
+//   Near-white / deep-ink surfaces, ONE accent (indigo), hairlines instead of boxes.
+//   Green and red appear only as right / wrong feedback.
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -40,16 +39,16 @@ module.exports = {
         accent: { 300: '#A9A4FF', 400: '#8B85FF', 500: '#5B52E6' },
         volt: { DEFAULT: '#4338CA', dim: '#3730A3' },
         // Light mode: a soft lavender-white page with white cards.
-        canvas: '#F6F6FB',
-        line: '#E5E4F0',
+        canvas: '#FBFBFD',
+        line: '#ECEBF3',
         // Dark mode: deep ink-violet.
         ink: {
-          DEFAULT: '#0D0C1D',
-          soft: '#100F23',
-          card: '#15142B',
-          raised: '#1D1C38',
-          line: '#26244A',
-          solid: '#15142B',
+          DEFAULT: '#0E0D18',
+          soft: '#0E0D18',
+          card: '#13121F',
+          raised: '#1B1A2B',
+          line: '#24233A',
+          solid: '#13121F',
         },
         // Greys with a soft indigo tint.
         zinc: {
@@ -66,11 +65,17 @@ module.exports = {
           950: '#0D0C1D',
         },
       },
-      // Geist for everything; Geist Mono for numbers, times and small labels.
+      // Three typefaces, each with one job:
+      //   display / serif-italic = Instrument Serif (headings, big numbers)
+      //   body-*                 = Geist (everything you read)
+      //   script                 = Caveat (small handwritten touches only)
+      //   mono                   = Geist Mono (times, counts, tiny labels)
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['Geist_700Bold'],
+        display: ['InstrumentSerif_400Regular'],
+        'serif-italic': ['InstrumentSerif_400Regular_Italic'],
+        script: ['Caveat_600SemiBold'],
         body: ['Geist_400Regular'],
         'body-medium': ['Geist_500Medium'],
         'body-semibold': ['Geist_600SemiBold'],

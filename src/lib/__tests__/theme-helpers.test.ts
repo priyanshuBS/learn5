@@ -11,9 +11,9 @@ describe('colour helpers', () => {
     expect(lighten('#2563EB', 1)).toBe('#ffffff');
   });
 
-  it('makes subject colours lighter in dark mode and a little darker in light mode', () => {
-    expect(categoryTone('#2563EB', true)).toBe(lighten('#2563EB', 0.25));
-    expect(categoryTone('#2563EB', false)).toBe(darken('#2563EB', 0.12));
+  it('shows subjects in quiet neutral text (one-accent design)', () => {
+    expect(categoryTone('#2563EB', true)).toBe('#9897B8');
+    expect(categoryTone('#F59E0B', false)).toBe('#6E6C8C');
   });
 
   it('turns the main blue lighter in dark mode and leaves other colours alone', () => {

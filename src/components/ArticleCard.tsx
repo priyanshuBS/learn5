@@ -13,7 +13,6 @@ import type { ArticleSummary, Category } from '@/lib/schema';
 import { categoryTone, colors } from '@/theme';
 
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
-import { CategoryIcon } from './CategoryIcon';
 import { Icon } from './Icon';
 import { Eyebrow, Muted, Txt } from './Txt';
 
@@ -74,15 +73,13 @@ export function ArticleCard({
       className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'p-5 md:p-6')}
     >
       <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center gap-2.5">
-          <CategoryIcon category={category} size="sm" />
-          <View>
-            <Txt weight="semibold" className="text-[13px]" style={{ color: tone }}>
-              {category.name}
-            </Txt>
-            <Muted className="text-[12px]">{article.readingMinutes} min read</Muted>
-          </View>
-        </View>
+        <Txt
+          weight="mono"
+          className="text-[11.5px] uppercase tracking-[1px]"
+          style={{ color: tone }}
+        >
+          {category.name} · {article.readingMinutes} min
+        </Txt>
         {read ? (
           <View className="flex-row items-center gap-1">
             <Icon name="check" size={12} color={colors.success} strokeWidth={2.5} />
@@ -90,11 +87,7 @@ export function ArticleCard({
           </View>
         ) : null}
       </View>
-      <Txt
-        weight="display"
-        className="mt-4 text-[22px] leading-[28px] md:text-[24px] md:leading-[30px]"
-        numberOfLines={3}
-      >
+      <Txt weight="display" className="mt-3 text-[28px] leading-[32px]" numberOfLines={3}>
         {article.title}
       </Txt>
       <Muted className="mt-2 text-[15px] leading-6" numberOfLines={3}>
