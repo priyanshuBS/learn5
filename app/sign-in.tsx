@@ -44,9 +44,7 @@ function goBack() {
 
 export default function SignInScreen() {
   const params = useLocalSearchParams<{ mode?: string }>();
-  const [mode, setMode] = useState<'signup' | 'login'>(
-    params.mode === 'signup' ? 'signup' : 'login',
-  );
+  const [mode] = useState<'signup' | 'login'>(params.mode === 'signup' ? 'signup' : 'login');
   const requestOtp = useAuth((s) => s.requestOtp);
   const verifyOtp = useAuth((s) => s.verifyOtp);
 
@@ -125,7 +123,6 @@ export default function SignInScreen() {
     if (digits.length === OTP_LENGTH) void checkCode(digits);
   };
 
-
   return (
     <KeyboardAvoidingView
       className="flex-1"
@@ -142,70 +139,38 @@ export default function SignInScreen() {
           <ThemeIconButton />
         </View>
 
-        <View className="flex-1 justify-center py-8">
-          <Logo />
+        {/* Three zones: heading above, the input in the exact middle, actions below. */}
+        <View className="flex-1">
+          <View className="flex-1 items-center justify-end pb-8">
+            <Logo />
+            <Txt
+              weight="display"
+              accessibilityRole="header"
+              className="mt-8 text-center text-[28px] leading-[34px] tracking-[-0.8px]"
+            >
+              {step === 'code'
+                ? 'Check your email'
+                : mode === 'signup'
+                  ? 'Create your account'
+                  : 'Welcome back'}
+            </Txt>
+            <Muted className="mt-2 text-center text-[15px] leading-6">
+              {step === 'email' ? (
+                'Enter your email and we’ll send you a sign-in code.'
+              ) : (
+                <>
+                  Enter the {OTP_LENGTH}-digit code we sent to{' '}
+                  <Txt weight="semibold" className="text-[15px]">
+                    {email}
+                  </Txt>
+                </>
+              )}
+            </Muted>
+          </View>
 
-          <Txt
-            weight="display"
-            accessibilityRole="header"
-            className="mt-10 text-[28px] leading-[34px] tracking-[-0.8px]"
-          >
-            {step === 'code'
-              ? 'Check your email'
-              : mode === 'signup'
-                ? 'Create your account'
-                : 'Welcome back'}
-          </Txt>
-          <Muted className="mt-2 text-[15px] leading-6">
+          {/* The middle */}
+          <View className="w-full">
             {step === 'email' ? (
-              'Enter your email and we’ll send you a sign-in code.'
-            ) : (
-              <>
-                Enter the {OTP_LENGTH}-digit code we sent to{' '}
-                <Txt weight="semibold" className="text-[15px]">
-                  {email}
-                </Txt>
-              </>
-            )}
-          </Muted>
-
-          {step === 'email' ? (
-            <>
-              {/* Log in / Sign up */}
-              <View
-                accessibilityRole="tablist"
-                className="mt-8 flex-row rounded-xl bg-zinc-100 p-1 dark:bg-ink-raised"
-              >
-                {(['login', 'signup'] as const).map((m) => {
-                  const active = mode === m;
-                  return (
-                    <Pressable
-                      key={m}
-                      accessibilityRole="tab"
-                      accessibilityState={{ selected: active }}
-                      onPress={() => {
-                        setMode(m);
-                        setError(null);
-                      }}
-                      className={twMerge(
-                        'h-9 flex-1 items-center justify-center rounded-lg',
-                        active && 'bg-white dark:bg-ink-card',
-                      )}
-                    >
-                      <Txt
-                        weight={active ? 'semibold' : 'medium'}
-                        className={twMerge(
-                          'text-[14px]',
-                          active ? '' : 'text-zinc-500 dark:text-zinc-400',
-                        )}
-                      >
-                        {m === 'login' ? 'Log in' : 'Sign up'}
-                      </Txt>
-                    </Pressable>
-                  );
-                })}
-              </View>
-
               <TextInput
                 value={email}
                 onChangeText={(t) => {
@@ -229,150 +194,159 @@ export default function SignInScreen() {
                 autoFocus
                 className={twMerge(
                   INPUT_CLASSES,
-                  'mt-4 h-12 rounded-xl border bg-zinc-100 px-4 dark:bg-ink-raised',
+                  'h-12 w-full rounded-xl border bg-zinc-100 px-4 text-center dark:bg-ink-raised',
                   emailFocused
                     ? 'border-brand-500 bg-white dark:border-brand-400 dark:bg-ink-card'
                     : 'border-transparent',
                   error && 'border-rose-400 dark:border-rose-500/70',
                 )}
               />
+            ) : (
+              <>
+                {/* 6 boxes on top of one invisible input (keeps paste and email autofill working) */}
+                <Pressable
+                  accessible={false}
+                  onPress={() => codeInput.current?.focus()}
+                  className="relative w-full"
+                >
+                  <View className="flex-row gap-2">
+                    {Array.from({ length: OTP_LENGTH }, (_, i) => {
+                      const digit = code[i];
+                      const active = codeFocused && i === Math.min(code.length, OTP_LENGTH - 1);
+                      return (
+                        <View
+                          key={i}
+                          className={twMerge(
+                            'h-14 flex-1 items-center justify-center rounded-xl border bg-zinc-100 dark:bg-ink-raised',
+                            active
+                              ? 'border-brand-500 bg-white dark:border-brand-400 dark:bg-ink-card'
+                              : 'border-transparent',
+                            error && 'border-rose-400 dark:border-rose-500/70',
+                          )}
+                        >
+                          <Txt weight="display" className="text-[24px]">
+                            {digit ?? ''}
+                          </Txt>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <TextInput
+                    ref={codeInput}
+                    value={code}
+                    onChangeText={onCodeChange}
+                    onFocus={() => setCodeFocused(true)}
+                    onBlur={() => setCodeFocused(false)}
+                    onSubmitEditing={() => void checkCode()}
+                    accessibilityLabel={`${OTP_LENGTH}-digit code`}
+                    keyboardType="number-pad"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    textContentType="oneTimeCode"
+                    maxLength={OTP_LENGTH}
+                    editable={!busy}
+                    caretHidden
+                    autoFocus
+                    className="absolute inset-0 text-transparent opacity-[0.02] web:outline-none"
+                  />
+                </Pressable>
+              </>
+            )}
+          </View>
+
+          <View className="flex-1 items-center pt-3">
+            {step === 'email' ? (
               <Button
                 label="Continue"
                 onPress={() => void sendCode()}
                 loading={busy}
                 disabled={!email.trim()}
-                className="mt-3"
+                className="w-full"
               />
-            </>
-          ) : (
-            <>
-              {/* 6 boxes on top of one invisible input (keeps paste and email autofill working) */}
-              <Pressable
-                accessible={false}
-                onPress={() => codeInput.current?.focus()}
-                className="relative mt-8"
-              >
-                <View className="flex-row gap-2">
-                  {Array.from({ length: OTP_LENGTH }, (_, i) => {
-                    const digit = code[i];
-                    const active = codeFocused && i === Math.min(code.length, OTP_LENGTH - 1);
-                    return (
-                      <View
-                        key={i}
-                        className={twMerge(
-                          'h-14 flex-1 items-center justify-center rounded-xl border bg-zinc-100 dark:bg-ink-raised',
-                          active
-                            ? 'border-brand-500 bg-white dark:border-brand-400 dark:bg-ink-card'
-                            : 'border-transparent',
-                          error && 'border-rose-400 dark:border-rose-500/70',
-                        )}
-                      >
-                        <Txt weight="display" className="text-[24px]">
-                          {digit ?? ''}
-                        </Txt>
-                      </View>
-                    );
-                  })}
-                </View>
-                <TextInput
-                  ref={codeInput}
-                  value={code}
-                  onChangeText={onCodeChange}
-                  onFocus={() => setCodeFocused(true)}
-                  onBlur={() => setCodeFocused(false)}
-                  onSubmitEditing={() => void checkCode()}
-                  accessibilityLabel={`${OTP_LENGTH}-digit code`}
-                  keyboardType="number-pad"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  textContentType="oneTimeCode"
-                  maxLength={OTP_LENGTH}
-                  editable={!busy}
-                  caretHidden
-                  autoFocus
-                  className="absolute inset-0 text-transparent opacity-[0.02] web:outline-none"
+            ) : (
+              <>
+                <Button
+                  label="Verify"
+                  onPress={() => void checkCode()}
+                  loading={busy}
+                  disabled={code.length !== OTP_LENGTH}
+                  className="w-full"
                 />
-              </Pressable>
-              <Button
-                label="Verify"
-                onPress={() => void checkCode()}
-                loading={busy}
-                disabled={code.length !== OTP_LENGTH}
-                className="mt-4"
-              />
-              <View className="mt-5 flex-row items-center justify-between">
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => {
-                    setStep('email');
-                    setError(null);
-                    setNotice(null);
-                  }}
-                  hitSlop={8}
-                >
-                  <Txt weight="medium" className="text-[14px] text-zinc-600 dark:text-zinc-400">
-                    Change email
-                  </Txt>
-                </Pressable>
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityState={{ disabled: resendIn > 0 || busy }}
-                  disabled={resendIn > 0 || busy}
-                  onPress={() => void sendCode(true)}
-                  hitSlop={8}
-                >
-                  <Txt
-                    weight="medium"
-                    className={twMerge(
-                      'text-[14px]',
-                      resendIn > 0 || busy
-                        ? 'text-zinc-400 dark:text-zinc-500'
-                        : 'text-brand-700 dark:text-brand-300',
-                    )}
+                <View className="mt-5 w-full flex-row items-center justify-between">
+                  <Pressable
+                    accessibilityRole="button"
+                    onPress={() => {
+                      setStep('email');
+                      setError(null);
+                      setNotice(null);
+                    }}
+                    hitSlop={8}
                   >
-                    {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
-                  </Txt>
-                </Pressable>
+                    <Txt weight="medium" className="text-[14px] text-zinc-600 dark:text-zinc-400">
+                      Change email
+                    </Txt>
+                  </Pressable>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityState={{ disabled: resendIn > 0 || busy }}
+                    disabled={resendIn > 0 || busy}
+                    onPress={() => void sendCode(true)}
+                    hitSlop={8}
+                  >
+                    <Txt
+                      weight="medium"
+                      className={twMerge(
+                        'text-[14px]',
+                        resendIn > 0 || busy
+                          ? 'text-zinc-400 dark:text-zinc-500'
+                          : 'text-brand-700 dark:text-brand-300',
+                      )}
+                    >
+                      {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
+                    </Txt>
+                  </Pressable>
+                </View>
+              </>
+            )}
+            {error ? (
+              <View accessibilityLiveRegion="polite" className="mt-4 flex-row items-start gap-2">
+                <Icon name="alert" size={15} color={colors.danger} />
+                <Txt className="flex-1 text-[13.5px] leading-5 text-rose-600 dark:text-rose-400">
+                  {error}
+                </Txt>
               </View>
-            </>
-          )}
+            ) : notice ? (
+              <View className="mt-4 flex-row items-start gap-2">
+                <Icon name="check-circle" size={15} color={colors.success} />
+                <Txt className="flex-1 text-[13.5px] leading-5 text-emerald-700 dark:text-emerald-400">
+                  {notice}
+                </Txt>
+              </View>
+            ) : null}
 
-          {error ? (
-            <View accessibilityLiveRegion="polite" className="mt-4 flex-row items-start gap-2">
-              <Icon name="alert" size={15} color={colors.danger} />
-              <Txt className="flex-1 text-[13.5px] leading-5 text-rose-600 dark:text-rose-400">
-                {error}
+            <Muted className="mt-8 text-center text-[12.5px] leading-5">
+              No password needed. By continuing you agree to our{' '}
+              <Txt
+                accessibilityRole="link"
+                onPress={() => router.push('/terms')}
+                className="text-[12.5px] text-zinc-600 underline dark:text-zinc-300"
+              >
+                Terms
+              </Txt>{' '}
+              and{' '}
+              <Txt
+                accessibilityRole="link"
+                onPress={() => router.push('/privacy')}
+                className="text-[12.5px] text-zinc-600 underline dark:text-zinc-300"
+              >
+                Privacy Policy
               </Txt>
-            </View>
-          ) : notice ? (
-            <View className="mt-4 flex-row items-start gap-2">
-              <Icon name="check-circle" size={15} color={colors.success} />
-              <Txt className="flex-1 text-[13.5px] leading-5 text-emerald-700 dark:text-emerald-400">
-                {notice}
-              </Txt>
-            </View>
-          ) : null}
-
-          <Muted className="mt-10 text-[12.5px] leading-5">
-            No password needed. By continuing you agree to our{' '}
-            <Txt
-              accessibilityRole="link"
-              onPress={() => router.push('/terms')}
-              className="text-[12.5px] text-zinc-600 underline dark:text-zinc-300"
-            >
-              Terms
-            </Txt>{' '}
-            and{' '}
-            <Txt
-              accessibilityRole="link"
-              onPress={() => router.push('/privacy')}
-              className="text-[12.5px] text-zinc-600 underline dark:text-zinc-300"
-            >
-              Privacy Policy
-            </Txt>
-            .
-          </Muted>
+              .
+            </Muted>
+          </View>
         </View>
+        {/* Same height as the top bar, so the middle of the page really is the middle. */}
+        <View className="h-9" />
       </Screen>
     </KeyboardAvoidingView>
   );
