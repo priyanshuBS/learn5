@@ -154,8 +154,8 @@ export function AppNav({
             onPress={() => go('badges')}
             className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-brand-600">
-              <Txt weight="semibold" className="text-xs uppercase text-white dark:text-white">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-zinc-950 dark:bg-white">
+              <Txt weight="semibold" className="text-xs uppercase text-white dark:text-black">
                 {email[0]}
               </Txt>
             </View>

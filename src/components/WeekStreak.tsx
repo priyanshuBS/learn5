@@ -43,8 +43,8 @@ export function WeekStreak({
     >
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
-          <View className="h-10 w-10 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-500/15">
-            <Icon name="flame" size={20} color={colors.streak} filled />
+          <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-ink-raised">
+            <Icon name="flame" size={20} color={colors.brand} filled />
           </View>
           <View>
             <Txt weight="display" className="text-lg">
@@ -70,7 +70,7 @@ export function WeekStreak({
               <View
                 className={twMerge(
                   'h-9 w-9 items-center justify-center rounded-full',
-                  played && 'bg-orange-500',
+                  played && 'bg-zinc-950 dark:bg-white',
                   !played && isToday && 'border border-dashed border-zinc-400 dark:border-zinc-500',
                   !played && !isToday && 'bg-zinc-100 dark:bg-ink-raised',
                 )}

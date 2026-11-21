@@ -13,7 +13,7 @@ Math · Reasoning · English · Computer Science
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Neon Postgres](https://img.shields.io/badge/Neon-Postgres-00E599?logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Groq](https://img.shields.io/badge/AI-Groq-F55036)](https://groq.com/)
-![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20Web-0E7F74)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20Web-0A0A0A)
 
 Made by **[Priyanshu Singh](https://priyanshusingh.co.in)** · [priyanshusingh.co.in](https://priyanshusingh.co.in)
 
@@ -29,9 +29,9 @@ plain-English explanation, so you learn something even when you get it wrong.
 One Expo codebase ships as an **Android app**, an **iOS app** and a **website**.
 
 <div align="center">
-  <img src="docs/screenshots/home-phone.png" alt="Learn5 home screen on a phone" width="300" />
+  <img src="docs/screenshots/home-light.png" alt="Learn5 home screen in light mode" width="300" />
   &nbsp;&nbsp;
-  <img src="docs/screenshots/daily-read.png" alt="Learn5 daily read screen on a phone" width="300" />
+  <img src="docs/screenshots/home-dark.png" alt="Learn5 home screen in dark mode" width="300" />
 </div>
 
 <br />
@@ -83,20 +83,20 @@ Change the times, subjects or rotation in [`schedule.config.json`](schedule.conf
 | 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                    |
 | 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                 |
 | 🔔 **Reminders**    | Optional daily notification on phones                                                       |
-| 🌗 **Design**       | "Slate & Teal" light and dark themes, 3D subject icons, motion only in response to taps     |
+| 🌗 **Design**       | Black-and-white "Monochrome" design with Light, Dark and System modes, motion only on tap   |
 
 ## Tech stack
 
-| Layer          | Technology                                                                         |
-| -------------- | ---------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand |
-| **Design**     | Plus Jakarta Sans + Geist Mono, a teal accent on slate (deep navy in dark mode)    |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                      |
-| **Database**   | Neon (serverless Postgres)                                                         |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                  |
-| **Email**      | Resend (sign-in codes and owner alerts)                                            |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                          |
-| **Tests**      | Jest (`jest-expo`)                                                                 |
+| Layer          | Technology                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
+| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                    |
+| **Design**     | Monochrome: black on white in light mode, white on black in dark mode; Plus Jakarta Sans + Geist Mono |
+| **API**        | Expo Router API routes, hosted on EAS Hosting                                                         |
+| **Database**   | Neon (serverless Postgres)                                                                            |
+| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                     |
+| **Email**      | Resend (sign-in codes and owner alerts)                                                               |
+| **Validation** | Zod schemas shared by the app, the server and the scripts                                             |
+| **Tests**      | Jest (`jest-expo`)                                                                                    |
 
 ## Getting started
 

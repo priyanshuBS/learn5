@@ -77,7 +77,7 @@ import BookOpenText from 'lucide-react-native/icons/book-open-text';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { useColorScheme } from '@/hooks/useScheme';
-import { colors } from '@/theme';
+import { colors, inkOn } from '@/theme';
 
 const ICONS = {
   // Navigation
@@ -176,7 +176,11 @@ export function Icon({
 }) {
   const scheme = useColorScheme();
   const Component = ICONS[name];
-  const stroke = color ?? (scheme === 'dark' ? colors.textDark : colors.text);
+  const stroke = color
+    ? inkOn(color, scheme === 'dark')
+    : scheme === 'dark'
+      ? colors.textDark
+      : colors.text;
   return (
     <Component
       size={size}

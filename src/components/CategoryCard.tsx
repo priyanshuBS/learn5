@@ -18,7 +18,7 @@ import { categoryHref, quizHref, resultsHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { categoryTone, colors, withAlpha } from '@/theme';
+import { categoryTone, colors } from '@/theme';
 
 import { Button, usePress } from './Button';
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
@@ -76,10 +76,7 @@ export function CategoryCard({
           className="flex-1"
         >
           {/* Subject band */}
-          <View
-            className="flex-row items-center gap-3 px-5 pb-4 pt-5"
-            style={{ backgroundColor: withAlpha(category.color, dark ? 0.1 : 0.07) }}
-          >
+          <View className="flex-row items-center gap-3 border-b border-line bg-zinc-50 px-5 pb-4 pt-5 dark:border-ink-line dark:bg-white/[0.03]">
             <CategoryIcon category={category} size="md" />
             <View className="flex-1">
               <Txt weight="display" className="text-[17px] leading-6" numberOfLines={1}>
@@ -95,7 +92,7 @@ export function CategoryCard({
                 status === 'available' && 'bg-brand-600 dark:bg-brand-400',
                 status === 'done' && 'bg-emerald-50 dark:bg-emerald-500/15',
                 (status === 'upcoming' || status === 'locked' || status === 'missing') &&
-                  'bg-white/80 dark:bg-white/[0.06]',
+                  'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
               )}
             >
               {status === 'available' ? (

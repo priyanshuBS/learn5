@@ -63,7 +63,7 @@ export function ExplanationPanel({
               'h-7 w-7 items-center justify-center rounded-full',
               kind === 'correct' && 'bg-emerald-500',
               kind === 'wrong' && 'bg-rose-500',
-              kind === 'fact' && 'bg-amber-500',
+              kind === 'fact' && 'bg-zinc-900 dark:bg-white',
             )}
           >
             <Icon
@@ -108,7 +108,7 @@ export function ExplanationPanel({
           )}
 
           {funFact && kind !== 'fact' ? (
-            <View className="mt-4 flex-row gap-2.5 rounded-xl bg-amber-50/70 p-3.5 dark:bg-amber-500/5">
+            <View className="mt-4 flex-row gap-2.5 rounded-xl bg-zinc-100 p-3.5 dark:bg-white/[0.05]">
               <Icon name="sparkles" size={16} color={colors.points} />
               <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 <Txt weight="semibold" className="text-sm">

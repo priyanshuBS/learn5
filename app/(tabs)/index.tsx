@@ -108,7 +108,7 @@ export default function HomeScreen() {
       </Txt>
 
       {/* Hero: today's progress */}
-      <View className="mt-5 overflow-hidden rounded-[24px] web:shadow-[0_24px_60px_-28px_rgba(14,127,116,0.65)]">
+      <View className="mt-5 overflow-hidden rounded-[24px] border border-transparent web:shadow-[0_24px_60px_-28px_rgba(0,0,0,0.55)] dark:border-ink-line">
         <LinearGradient
           colors={[...HERO_GRADIENT]}
           start={{ x: 0, y: 0 }}
@@ -153,21 +153,16 @@ export default function HomeScreen() {
           </View>
 
           <View className="mt-5 flex-row gap-2">
-            <HeroStat
-              icon="flame"
-              color={ICON3D.flame}
-              value={`${streak.current}`}
-              label="day streak"
-            />
+            <HeroStat icon="flame" color="#FFFFFF" value={`${streak.current}`} label="day streak" />
             <HeroStat
               icon="star"
-              color={ICON3D.star}
+              color="#FFFFFF"
               value={points.toLocaleString('en-IN')}
               label="points"
             />
             <HeroStat
               icon="trophy"
-              color="#6FDCC8"
+              color="#FFFFFF"
               value={`Lv ${level.level}`}
               label={level.name}
             />
@@ -176,9 +171,9 @@ export default function HomeScreen() {
       </View>
 
       {streak.current > 0 && !streak.playedToday ? (
-        <View className="mt-3 flex-row items-center gap-2.5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 dark:border-orange-500/20 dark:bg-orange-500/10">
-          <Icon name="flame" size={15} color={colors.streak} />
-          <Txt className="flex-1 text-[13px] text-orange-800 dark:text-orange-200">
+        <View className="mt-3 flex-row items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-3 dark:border-ink-line dark:bg-ink-card">
+          <Icon name="flame" size={15} color={colors.brand} />
+          <Txt className="flex-1 text-[13px] text-zinc-700 dark:text-zinc-200">
             Play one drop today to keep your {streak.current}-day streak.
           </Txt>
         </View>

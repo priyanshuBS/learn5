@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Slate & Teal".
-//   Cool slate surfaces (deep navy in dark mode), with ONE accent: teal.
-//   brand  = teal: buttons, links, the active tab, progress
-//   pop    = the same teal (older class names)
+// Learn5 design system for Tailwind (NativeWind) — "Monochrome".
+//   Pure black and white. The accent is ink: black in light mode, white in dark mode.
+//   brand  = ink: buttons, links, the active tab, progress
+//   pop    = the same (older class names)
 //   canvas / line = light mode page and hairlines
 //   ink-*  = dark mode: page, soft (bars), card, raised, line
 // Subjects keep their own colour, used only on their 3D icons.
@@ -17,57 +17,57 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Teal. 50-200: light tints, 300-400: bright teal for dark mode,
-        // 500-700: deeper teal for light mode (white text passes contrast on 600+).
+        // The "accent" is ink: near-black in light mode (600-900) and near-white
+        // in dark mode (300-400, used with the dark: prefix). 50-200 are soft greys.
         brand: {
-          50: '#EEFBF8',
-          100: '#D3F5EE',
-          200: '#A6EBDD',
-          300: '#6FDCC8',
-          400: '#38C6AF',
-          500: '#16A594',
-          600: '#0E7F74',
-          700: '#0D6A62',
-          800: '#0F5550',
-          900: '#114642',
-          950: '#032B28',
+          50: '#F4F4F5',
+          100: '#E9E9EB',
+          200: '#D4D4D8',
+          300: '#E4E4E7',
+          400: '#FAFAFA',
+          500: '#71717A',
+          600: '#0A0A0A',
+          700: '#000000',
+          800: '#171717',
+          900: '#0A0A0A',
+          950: '#000000',
         },
         pop: {
-          DEFAULT: '#0E7F74',
-          light: '#38C6AF',
-          dark: '#0D6A62',
-          soft: '#EEFBF8',
+          DEFAULT: '#0A0A0A',
+          light: '#FAFAFA',
+          dark: '#262626',
+          soft: '#F4F4F5',
         },
         // Kept as aliases (older class names).
-        leaf: { DEFAULT: '#0E7F74', light: '#38C6AF', dark: '#0D6A62' },
-        accent: { 300: '#6FDCC8', 400: '#38C6AF', 500: '#16A594' },
-        volt: { DEFAULT: '#0E7F74', dim: '#0D6A62' },
-        gold: { DEFAULT: '#F5B70A', soft: '#FEF3C7', light: '#FCD34D' },
-        // Light mode: a cool, airy page, white cards, soft slate hairlines.
-        canvas: '#F5F7FA',
-        line: '#E3E8EF',
-        // Dark mode: deep slate-navy, never pure black.
+        leaf: { DEFAULT: '#0A0A0A', light: '#FAFAFA', dark: '#262626' },
+        accent: { 300: '#E4E4E7', 400: '#FAFAFA', 500: '#71717A' },
+        volt: { DEFAULT: '#0A0A0A', dim: '#262626' },
+        gold: { DEFAULT: '#A3A3A3', soft: '#F5F5F5', light: '#D4D4D4' },
+        // Light mode: paper white.
+        canvas: '#FAFAFA',
+        line: '#E5E5E5',
+        // Dark mode: true black with charcoal cards.
         ink: {
-          DEFAULT: '#0A0F1A',
-          soft: '#0C1220',
-          card: '#111827',
-          raised: '#172033',
-          line: '#1E293B',
-          solid: '#111827',
+          DEFAULT: '#000000',
+          soft: '#0A0A0A',
+          card: '#111111',
+          raised: '#1A1A1A',
+          line: '#262626',
+          solid: '#111111',
         },
-        // Slate greys (cool, a touch of blue).
+        // Pure neutral greys (no colour tint).
         zinc: {
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          300: '#CBD5E1',
-          400: '#94A3B8',
-          500: '#64748B',
-          600: '#475569',
-          700: '#334155',
-          800: '#1E293B',
-          900: '#0F172A',
-          950: '#0A0F1A',
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0A0A0A',
         },
       },
       // Plus Jakarta Sans for everything; Geist Mono for numbers, times and small labels.

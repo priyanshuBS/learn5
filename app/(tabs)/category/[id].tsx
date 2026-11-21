@@ -154,14 +154,14 @@ export default function CategoryScreen() {
       })}
 
       {hasMissing && catchUp ? (
-        <View className="rounded-[20px] border border-dashed border-amber-300 bg-amber-50/60 p-5 dark:border-amber-500/30 dark:bg-amber-500/5">
+        <View className="rounded-[20px] border border-dashed border-zinc-300 bg-zinc-100 p-5 dark:border-ink-line dark:bg-white/[0.05]">
           <View className="flex-row items-center gap-2">
             <Icon name="hourglass" size={16} color={colors.warning} />
-            <Txt weight="semibold" className="text-amber-900 dark:text-amber-200">
+            <Txt weight="semibold" className="text-zinc-900 dark:text-zinc-200">
               Today’s drop is running late
             </Txt>
           </View>
-          <Txt className="mt-1 text-sm text-amber-900 dark:text-amber-200">
+          <Txt className="mt-1 text-sm text-zinc-900 dark:text-zinc-200">
             While you wait, try the latest one: {displayTitle(catchUp.title)}
           </Txt>
           <Button

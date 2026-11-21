@@ -96,7 +96,7 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
                 {item.explanation}
               </Txt>
               {item.funFact ? (
-                <View className="mt-4 flex-row gap-2.5 rounded-xl bg-amber-50/70 p-3.5 dark:bg-amber-500/5">
+                <View className="mt-4 flex-row gap-2.5 rounded-xl bg-zinc-100 p-3.5 dark:bg-white/[0.05]">
                   <Icon name="sparkles" size={16} color={colors.points} />
                   <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                     {item.funFact}

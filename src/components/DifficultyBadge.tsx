@@ -34,8 +34,8 @@ const TONES: Record<Tone, { box: string; text: string; icon: string }> = {
     icon: colors.success,
   },
   warning: {
-    box: 'bg-amber-50 dark:bg-amber-500/10',
-    text: 'text-amber-700 dark:text-amber-300',
+    box: 'bg-zinc-100 dark:bg-white/[0.05]',
+    text: 'text-zinc-700 dark:text-zinc-300',
     icon: colors.warning,
   },
   danger: {

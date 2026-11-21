@@ -3,7 +3,7 @@ make-icons.py — draws the Learn5 app icons and saves them as PNG files.
 
     python scripts/make-icons.py
 
-The logo is a "5-minute timer": a deep teal rounded tile with a white ring
+The logo is a "5-minute timer": a black rounded tile with a white ring
 that is almost closed, a white dot where the ring ends, and a white "5" in
 Plus Jakarta Sans ExtraBold (the same drawing as src/components/Logo.tsx).
 Each image is an SVG in a small HTML page, saved as a PNG by headless Chrome.
@@ -37,19 +37,19 @@ CHROME_PATHS = [
 DEFS = '''
 <defs>
   <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#16A594"/>
-    <stop offset="1" stop-color="#0B4F63"/>
+    <stop offset="0" stop-color="#2A2A2A"/>
+    <stop offset="1" stop-color="#000000"/>
   </linearGradient>
   <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="#FFFFFF"/>
-    <stop offset="1" stop-color="#A6EBDD"/>
+    <stop offset="1" stop-color="#BDBDBD"/>
   </linearGradient>
   <radialGradient id="glow" cx="50%" cy="0%" r="75%">
-    <stop offset="0" stop-color="#6FDCC8" stop-opacity="0.32"/>
-    <stop offset="1" stop-color="#6FDCC8" stop-opacity="0"/>
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
   </radialGradient>
   <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
-    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#6FDCC8" flood-opacity="0.5"/>
+    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#FFFFFF" flood-opacity="0.25"/>
   </filter>
 </defs>'''
 

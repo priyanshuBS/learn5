@@ -148,7 +148,7 @@ export default function ResultsScreen() {
                 <Txt weight="display" className="text-5xl">
                   {attempt.correctCount}
                 </Txt>
-                <Txt weight="medium" className="text-xl text-[#5B6578] dark:text-[#8B96AB]">
+                <Txt weight="medium" className="text-xl text-[#6B6B6B] dark:text-[#A1A1A1]">
                   /{total}
                 </Txt>
               </View>
@@ -308,16 +308,16 @@ function Celebration({ icon, title, text }: { icon: IconName; title: string; tex
       <View
         accessible
         accessibilityLabel={`${title}. ${text}`}
-        className="mt-3 flex-row items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-500/20 dark:bg-amber-500/10"
+        className="mt-3 flex-row items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-100 p-4 dark:border-ink-line dark:bg-white/[0.05]"
       >
-        <View className="h-11 w-11 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-500/20">
+        <View className="h-11 w-11 items-center justify-center rounded-xl bg-zinc-200 dark:bg-white/[0.05]">
           <Icon name={icon} size={20} color={colors.points} />
         </View>
         <View className="flex-1">
-          <Txt weight="semibold" className="text-amber-900 dark:text-amber-100">
+          <Txt weight="semibold" className="text-zinc-900 dark:text-zinc-100">
             {title}
           </Txt>
-          <Txt className="text-sm text-amber-800 dark:text-amber-200">{text}</Txt>
+          <Txt className="text-sm text-zinc-800 dark:text-zinc-200">{text}</Txt>
         </View>
       </View>
     </Animated.View>

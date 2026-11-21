@@ -14,7 +14,7 @@ import { Muted, Txt } from './Txt';
 export function LoadingView({ label = 'Loading…' }: { label?: string }) {
   return (
     <View className="flex-1 items-center justify-center py-24" accessibilityLabel={label}>
-      <ActivityIndicator color={colors.brand} />
+      <ActivityIndicator color={colors.muted} />
       <Muted className="mt-3">{label}</Muted>
     </View>
   );
@@ -50,7 +50,7 @@ export function MessageView({
           tone === 'success' &&
             'border-emerald-100 bg-emerald-50 dark:border-emerald-500/20 dark:bg-emerald-500/10',
           tone === 'warning' &&
-            'border-amber-100 bg-amber-50 dark:border-amber-500/20 dark:bg-amber-500/10',
+            'border-zinc-200 bg-zinc-100 dark:border-ink-line dark:bg-white/[0.05]',
           tone === 'brand' &&
             'border-brand-100 bg-brand-50 dark:border-brand-400/20 dark:bg-brand-400/10',
         )}

@@ -15,7 +15,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
 
 import { useColorScheme } from '@/hooks/useScheme';
-import { brandTone, colors } from '@/theme';
+import { brandTone, colors, inkOn } from '@/theme';
 
 export function ProgressBar({
   value,
@@ -109,7 +109,7 @@ export function ProgressRing({
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke={color ?? brandTone(scheme === 'dark')}
+            stroke={color ? inkOn(color, scheme === 'dark') : brandTone(scheme === 'dark')}
             strokeWidth={strokeWidth}
             fill="none"
             strokeLinecap="round"

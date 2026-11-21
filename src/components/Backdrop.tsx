@@ -1,5 +1,5 @@
 /**
- * Backdrop — one soft, STILL teal light at the top of every screen, fading out
+ * Backdrop — one soft, STILL white light at the top of every screen, fading out
  * as you scroll down. Gives the slate theme a little depth. Nothing moves.
  */
 import { StyleSheet, View } from 'react-native';
@@ -12,16 +12,16 @@ export function Backdrop() {
     <View
       pointerEvents="none"
       style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}
-      className="opacity-60 dark:opacity-100"
+      className="opacity-0 dark:opacity-50"
     >
       <Svg width="100%" height={720} style={{ position: 'absolute', top: 0, left: 0 }}>
         <Defs>
-          <RadialGradient id="bd-teal" cx="50%" cy="0%" rx="70%" ry="60%">
-            <Stop offset="0" stopColor="#16A594" stopOpacity={0.14} />
-            <Stop offset="1" stopColor="#16A594" stopOpacity={0} />
+          <RadialGradient id="bd-mono" cx="50%" cy="0%" rx="70%" ry="60%">
+            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0.14} />
+            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
           </RadialGradient>
         </Defs>
-        <Rect width="100%" height="100%" fill="url(#bd-teal)" />
+        <Rect width="100%" height="100%" fill="url(#bd-mono)" />
       </Svg>
     </View>
   );

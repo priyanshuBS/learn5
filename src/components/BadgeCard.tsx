@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { BadgeStatus } from '@/features/badges/badges';
 import { useColorScheme } from '@/hooks/useScheme';
-import { BADGE_COLORS, BADGE_ICONS, colors } from '@/theme';
+import { BADGE_ICONS, colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
 import { Icon } from './Icon';
@@ -29,10 +29,10 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
     >
       <View>
         <View className="flex-row items-start justify-between">
-          <View style={{ opacity: badge.earned ? 1 : 0.45 }}>
+          <View>
             <Icon3D
               icon={BADGE_ICONS[badge.id] ?? 'medal'}
-              color={badge.earned ? (BADGE_COLORS[badge.id] ?? colors.points) : '#94A3B8'}
+              muted={!badge.earned}
               size={48}
               filled={badge.id.startsWith('streak-7')}
             />
@@ -40,7 +40,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
           {badge.earned ? (
             <Icon name="badge-check" size={18} color={colors.success} />
           ) : (
-            <Icon name="lock" size={14} color={scheme === 'dark' ? '#334155' : '#CBD5E1'} />
+            <Icon name="lock" size={14} color={scheme === 'dark' ? '#404040' : '#D4D4D4'} />
           )}
         </View>
         <Txt weight="semibold" className="mt-3.5 text-[15px]">

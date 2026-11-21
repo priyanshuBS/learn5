@@ -1,7 +1,7 @@
 /**
  * Button — the app's buttons. They squish slightly when pressed.
  *
- *   primary   = solid teal with white text: the main action
+ *   primary   = solid ink: black in light mode, white in dark mode: the main action
  *   accent    = the same as primary (older name)
  *   secondary = outlined
  *   soft      = light grey tint
@@ -34,12 +34,9 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? {
-            box: 'bg-brand-600 web:shadow-[0_8px_28px_-12px_rgba(22,165,148,0.6)] web:hover:bg-brand-500',
-            text: '#FFFFFF',
-          }
+        ? { box: 'bg-white web:hover:bg-zinc-200', text: '#111111' }
         : {
-            box: 'bg-brand-600 web:shadow-[0_8px_24px_-14px_rgba(14,127,116,0.55)] web:hover:bg-brand-700',
+            box: 'bg-zinc-950 web:shadow-[0_8px_24px_-14px_rgba(0,0,0,0.5)] web:hover:bg-black',
             text: '#FFFFFF',
           };
     case 'secondary':
@@ -64,8 +61,8 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
       return { box: 'bg-white web:hover:bg-brand-50', text: '#0F172A' };
     case 'ghost':
       return dark
-        ? { box: 'web:hover:bg-white/5', text: '#CBD5E1' }
-        : { box: 'web:hover:bg-black/5', text: '#334155' };
+        ? { box: 'web:hover:bg-white/5', text: '#D4D4D4' }
+        : { box: 'web:hover:bg-black/5', text: '#404040' };
   }
 }
 

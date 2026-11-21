@@ -132,7 +132,7 @@ export function SlotTile({
           'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
         waiting && 'border-dashed border-line dark:border-ink-line',
         status === 'missing' &&
-          'border-amber-100 bg-amber-50/70 dark:border-amber-500/15 dark:bg-amber-500/10',
+          'border-zinc-200 bg-zinc-100 dark:border-ink-line dark:bg-white/[0.05]',
       )}
     >
       <View className="flex-row items-center gap-1.5">
@@ -163,7 +163,7 @@ export function SlotTile({
             available && 'text-white dark:text-white',
             done && 'text-emerald-700 dark:text-emerald-300',
             waiting && 'text-zinc-500 dark:text-zinc-400',
-            status === 'missing' && 'text-amber-700 dark:text-amber-300',
+            status === 'missing' && 'text-zinc-700 dark:text-zinc-300',
           )}
         >
           {value}
@@ -277,7 +277,7 @@ export function TimelineDrop({
             'h-12 w-12 items-center justify-center rounded-full',
             done && 'bg-emerald-500',
             available && 'bg-brand-600 dark:bg-pop-dark',
-            status === 'missing' && 'bg-amber-50 dark:bg-amber-500/10',
+            status === 'missing' && 'bg-zinc-100 dark:bg-white/[0.05]',
             waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
           )}
         >

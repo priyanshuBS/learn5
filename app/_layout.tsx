@@ -110,7 +110,7 @@ export default function RootLayout() {
           className="items-center justify-center gap-6 bg-canvas dark:bg-ink"
         >
           <Logo />
-          <ActivityIndicator color={colors.brand} />
+          <ActivityIndicator color={scheme === 'dark' ? colors.brandOnDark : colors.brand} />
         </View>
       ) : null}
     </>

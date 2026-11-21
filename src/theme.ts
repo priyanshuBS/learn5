@@ -7,50 +7,63 @@ import type { IconName } from '@/components/Icon';
 export type { IconName } from '@/components/Icon';
 
 export const colors = {
-  /** The one accent: teal (light mode). */
-  brand: '#0E7F74',
-  brandDark: '#0D6A62',
-  brandSoft: '#EEFBF8',
-  /** Teal on dark backgrounds (active tab, links). */
-  brandOnDark: '#6FDCC8',
-  /** Teal for progress, "open now" and highlights. */
-  pop: '#0E7F74',
-  popLight: '#38C6AF',
-  popDark: '#0D6A62',
+  /** The one accent: ink. Black in light mode... */
+  brand: '#0A0A0A',
+  brandDark: '#000000',
+  brandSoft: '#F4F4F5',
+  /** ...and white in dark mode (active tab, links). */
+  brandOnDark: '#FAFAFA',
+  /** Ink for progress, "open now" and highlights. */
+  pop: '#0A0A0A',
+  popLight: '#FAFAFA',
+  popDark: '#262626',
   /** Older names. */
-  leaf: '#0E7F74',
-  leafLight: '#38C6AF',
-  volt: '#0E7F74',
+  leaf: '#0A0A0A',
+  leafLight: '#FAFAFA',
+  volt: '#0A0A0A',
   /** Darkest text colour, used where code needs "black". */
-  black: '#0F172A',
+  black: '#0A0A0A',
   white: '#FFFFFF',
-  text: '#0F172A',
-  textDark: '#E8EDF5',
-  muted: '#5B6578',
-  mutedDark: '#8B96AB',
-  line: '#E3E8EF',
-  inkLine: '#1E293B',
+  text: '#0A0A0A',
+  textDark: '#FAFAFA',
+  muted: '#6B6B6B',
+  mutedDark: '#A1A1A1',
+  line: '#E5E5E5',
+  inkLine: '#262626',
+  /** Right / wrong / late stay readable as green, red and amber (quiz feedback only). */
   success: '#16A34A',
   danger: '#E5484D',
-  warning: '#D97706',
-  streak: '#FF7A2E',
-  points: '#F5B70A',
-  canvas: '#F5F7FA',
-  ink: '#0A0F1A',
+  warning: '#737373',
+  /** Streak and points: a neutral grey that reads on black and on white. */
+  streak: '#8A8A8A',
+  points: '#8A8A8A',
+  canvas: '#FAFAFA',
+  ink: '#000000',
   /** A solid dark surface (for things that must not be see-through). */
-  inkSolid: '#111827',
+  inkSolid: '#111111',
   /** Empty part of progress rings. */
-  track: '#E3E8EF',
-  trackDark: '#1E293B',
+  track: '#E5E5E5',
+  trackDark: '#262626',
 } as const;
 
-/** Colours of the 3D stat icons. */
-export const ICON3D = { flame: '#FF7A2E', star: '#F5B70A', trophy: '#16A594' } as const;
+/** Colours of the 3D stat icons (Icon3D draws them in black/white anyway). */
+export const ICON3D = { flame: '#0A0A0A', star: '#0A0A0A', trophy: '#0A0A0A' } as const;
 
-/** The hero gradient on Home (deep teal to navy). */
-export const HERO_GRADIENT = ['#0E7F74', '#0B4F63', '#0F2747'] as const;
+/** The hero gradient on Home: charcoal to black (white text on top, in both themes). */
+export const HERO_GRADIENT = ['#2A2A2A', '#141414', '#000000'] as const;
 
-/** Teal for progress bars, rings and accent icons, readable on the current background. */
+/**
+ * The ink colour on the current background: black stays black in light mode and
+ * becomes white in dark mode. Any other colour is returned as it is.
+ */
+export function inkOn(color: string, dark: boolean): string {
+  if (!dark) return color;
+  return color === colors.brand || color === colors.black || color === colors.brandDark
+    ? colors.brandOnDark
+    : color;
+}
+
+/** Ink for progress bars, rings and accent icons, readable on the current background. */
 export function brandTone(dark: boolean): string {
   return dark ? colors.popLight : colors.pop;
 }
@@ -72,14 +85,8 @@ export const BADGE_ICONS: Record<string, IconName> = {
   'all-categories': 'palette',
 };
 
-/** Colour of each badge's 3D icon (when earned). */
-export const BADGE_COLORS: Record<string, string> = {
-  'first-drop': '#0EA5E9',
-  'streak-7': '#FF7A2E',
-  'streak-30': '#F5B70A',
-  'correct-100': '#8B5CF6',
-  'all-categories': '#16A594',
-};
+/** Colour of each badge's 3D icon (unused: the theme is black and white). */
+export const BADGE_COLORS: Record<string, string> = {};
 
 /** Icon for each drop slot: morning, afternoon, evening. */
 export const SLOT_ICONS: IconName[] = ['sunrise', 'sun', 'moon'];
@@ -100,9 +107,12 @@ export function darken(hex: string, amount: number): string {
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
 }
 
-/** A category colour that reads well on the current background (lighter in dark mode). */
-export function categoryTone(hex: string, dark: boolean): string {
-  return dark ? lighten(hex, 0.25) : darken(hex, 0.12);
+/**
+ * The colour for a subject's text and chips. The theme is black and white, so every
+ * subject uses ink (the hex is kept in content/categories.json but not shown).
+ */
+export function categoryTone(_hex: string, dark: boolean): string {
+  return dark ? '#E5E5E5' : '#262626';
 }
 
 /** Adds transparency to a hex colour: withAlpha('#FF0000', 0.2). */
