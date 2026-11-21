@@ -13,18 +13,6 @@ Five minutes a day, with a clear explanation after every answer.
 
 </div>
 
-<p align="center"><strong>Website</strong></p>
-<p align="center">
-  <img src="docs/screenshots/web.png" alt="Learn5 website" width="820" />
-</p>
-
-<p align="center"><strong>App</strong></p>
-<p align="center">
-  <img src="docs/screenshots/app-light.png" alt="Learn5 app, light mode" width="270" />
-  &nbsp;&nbsp;
-  <img src="docs/screenshots/app-dark.png" alt="Learn5 app, dark mode" width="270" />
-</p>
-
 ## Overview
 
 Every morning at 4 AM, Learn5 publishes:
