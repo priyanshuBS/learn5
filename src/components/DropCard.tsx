@@ -1,43 +1,19 @@
 /**
- * Drop status UI.
- *   StatusChip — small coloured label: Start / 4/5 / Opens 1:00 PM / Locked / Running late
- *   SlotTile   — one of today's 3 drops inside a Home category card
- *   DropCard   — full-width row card on the Category screen
+ * Drop rows (flat, black and white).
+ *   StatusChip   — the right-hand status: Start / 4/5 ✓ / Opens 4:00 AM / Late
+ *   DropCard     — one drop as a row inside a bordered list (archive)
+ *   TimelineDrop — today's drop as a bordered row (subject page)
  */
 import { Pressable, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 import type { SlotStatus } from '@/features/drops/status';
 import { useColorScheme } from '@/hooks/useScheme';
-import { colors, SLOT_ICONS } from '@/theme';
+import { colors } from '@/theme';
 
 import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
-import { Pill, type Tone } from './DifficultyBadge';
-import { Icon, type IconName } from './Icon';
+import { Icon } from './Icon';
 import { Muted, Txt } from './Txt';
-
-const CHIP: Record<SlotStatus, { tone: Tone; icon: IconName }> = {
-  available: { tone: 'brand', icon: 'play' },
-  done: { tone: 'success', icon: 'check' },
-  upcoming: { tone: 'neutral', icon: 'clock' },
-  locked: { tone: 'neutral', icon: 'lock' },
-  missing: { tone: 'warning', icon: 'hourglass' },
-};
-
-function chipLabel(status: SlotStatus, timeLabel: string, scoreLabel?: string): string {
-  switch (status) {
-    case 'available':
-      return 'Start';
-    case 'done':
-      return scoreLabel ?? 'Done';
-    case 'upcoming':
-      return timeLabel ? `Opens ${timeLabel}` : 'Soon';
-    case 'locked':
-      return timeLabel || 'Locked';
-    case 'missing':
-      return 'Running late';
-  }
-}
 
 export function StatusChip({
   status,
@@ -48,8 +24,38 @@ export function StatusChip({
   timeLabel: string;
   scoreLabel?: string;
 }) {
-  const c = CHIP[status];
-  return <Pill tone={c.tone} icon={c.icon} label={chipLabel(status, timeLabel, scoreLabel)} />;
+  const dark = useColorScheme() === 'dark';
+  if (status === 'available') {
+    return (
+      <View className="h-8 flex-row items-center rounded-md bg-zinc-950 px-3 dark:bg-[#EDEDED]">
+        <Txt weight="medium" className="text-[13px] text-white dark:text-[#111111]">
+          Start
+        </Txt>
+      </View>
+    );
+  }
+  if (status === 'done') {
+    return (
+      <View className="flex-row items-center gap-1.5">
+        <Icon name="check" size={14} color={colors.success} strokeWidth={2.5} />
+        <Txt weight="mono" className="text-[13px]">
+          {scoreLabel ?? 'Done'}
+        </Txt>
+      </View>
+    );
+  }
+  return (
+    <View className="flex-row items-center gap-1.5">
+      <Icon
+        name={status === 'missing' ? 'hourglass' : 'lock'}
+        size={12}
+        color={dark ? '#737373' : '#A3A3A3'}
+      />
+      <Txt weight="mono" className="text-[12.5px] text-zinc-500">
+        {status === 'missing' ? 'Late' : timeLabel || 'Soon'}
+      </Txt>
+    </View>
+  );
 }
 
 function a11yStatus(status: SlotStatus, time: string, score?: string): string {
@@ -63,140 +69,32 @@ function a11yStatus(status: SlotStatus, time: string, score?: string): string {
     case 'locked':
       return `Locked until ${time}`;
     case 'missing':
-      return 'Running late, tap to see the latest drop';
+      return 'Running late';
   }
 }
 
-/** One of today's 3 drops, as a small tile (Home category cards). */
-export function SlotTile({
-  name,
-  drop,
-  timeLabel,
-  status,
-  scoreLabel,
-  onPress,
-}: {
-  name: string;
-  /** 1, 2 or 3 (picks the sunrise / sun / moon icon). */
-  drop: number;
-  timeLabel: string;
-  status: SlotStatus;
-  scoreLabel?: string;
-  onPress?: () => void;
-}) {
-  const scheme = useColorScheme();
-  const dark = scheme === 'dark';
-  const available = status === 'available';
-  const done = status === 'done';
-  const waiting = status === 'upcoming' || status === 'locked';
-
-  const value =
-    status === 'available'
-      ? 'Start'
-      : status === 'done'
-        ? (scoreLabel ?? 'Done')
-        : status === 'missing'
-          ? 'Late'
-          : timeLabel;
-  const valueIcon: IconName | null = available
-    ? 'arrow-right'
-    : done
-      ? 'check'
-      : status === 'locked'
-        ? 'lock'
-        : status === 'missing'
-          ? 'hourglass'
-          : null;
-  const iconColor = available
-    ? colors.white
-    : done
-      ? colors.success
-      : status === 'missing'
-        ? colors.warning
-        : dark
-          ? colors.mutedDark
-          : colors.muted;
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${name} drop at ${timeLabel}: ${a11yStatus(status, timeLabel, scoreLabel)}`}
-      accessibilityState={{ disabled: !onPress }}
-      disabled={!onPress}
-      onPress={onPress}
-      className={twMerge(
-        'min-h-16 flex-1 justify-between rounded-xl border px-3 py-2.5 web:transition-colors',
-        available &&
-          'border-brand-600 bg-brand-600 active:opacity-90 web:hover:bg-brand-700 dark:border-pop-dark dark:bg-pop-dark dark:web:hover:bg-pop',
-        done &&
-          'border-emerald-100 bg-emerald-50/70 dark:border-emerald-500/15 dark:bg-emerald-500/10',
-        waiting && 'border-dashed border-line dark:border-ink-line',
-        status === 'missing' &&
-          'border-zinc-200 bg-zinc-100 dark:border-ink-line dark:bg-white/[0.05]',
-      )}
-    >
-      <View className="flex-row items-center gap-1.5">
-        <Icon
-          name={SLOT_ICONS[drop - 1] ?? 'clock'}
-          size={13}
-          color={available ? 'rgba(255,255,255,0.8)' : dark ? colors.mutedDark : colors.muted}
-        />
-        <Txt
-          className={twMerge(
-            'text-xs',
-            available ? 'text-white/80 dark:text-white/80' : 'text-zinc-500 dark:text-zinc-400',
-          )}
-          numberOfLines={1}
-        >
-          {name}
-        </Txt>
-      </View>
-      <View className="mt-1.5 flex-row items-center gap-1">
-        {valueIcon && !available ? (
-          <Icon name={valueIcon} size={13} color={iconColor} strokeWidth={2.5} />
-        ) : null}
-        <Txt
-          weight="semibold"
-          numberOfLines={1}
-          className={twMerge(
-            'text-[13px]',
-            available && 'text-white dark:text-white',
-            done && 'text-emerald-700 dark:text-emerald-300',
-            waiting && 'text-zinc-500 dark:text-zinc-400',
-            status === 'missing' && 'text-zinc-700 dark:text-zinc-300',
-          )}
-        >
-          {value}
-        </Txt>
-        {available && valueIcon ? (
-          <Icon name={valueIcon} size={13} color={iconColor} strokeWidth={2.5} />
-        ) : null}
-      </View>
-    </Pressable>
-  );
-}
-
-/** Full-width row card used on the Category screen. */
+/** One drop as a row inside a bordered list. */
 export function DropCard({
   status,
   title,
   meta,
-  drop,
   timeLabel,
   scoreLabel,
   onPress,
+  divider,
 }: {
   status: SlotStatus;
   title: string;
-  /** e.g. "Morning · 7:00 AM" */
+  /** e.g. "Today's drop" */
   meta: string;
-  /** 1, 2 or 3 (picks the sunrise / sun / moon icon). */
-  drop: number;
+  /** Kept for older callers. */
+  drop?: number;
   timeLabel: string;
   scoreLabel?: string;
   onPress?: () => void;
+  /** Hairline above the row (every row but the first). */
+  divider?: boolean;
 }) {
-  const scheme = useColorScheme();
   const muted = status === 'upcoming' || status === 'locked';
   return (
     <Pressable
@@ -206,114 +104,71 @@ export function DropCard({
       disabled={!onPress}
       onPress={onPress}
       className={twMerge(
-        CARD_CLASSES,
+        'min-h-14 flex-row items-center gap-4 px-4 py-3.5 md:px-5',
         onPress && CARD_PRESSABLE_CLASSES,
-        'mb-2 min-h-16 flex-row items-center gap-3.5 px-4 py-3.5',
+        divider && 'border-t border-line dark:border-ink-line',
       )}
     >
-      <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-ink-raised">
-        <Icon
-          name={SLOT_ICONS[drop - 1] ?? 'clock'}
-          size={18}
-          color={scheme === 'dark' ? colors.mutedDark : colors.muted}
-        />
-      </View>
       <View className="flex-1">
         <Txt
-          weight="semibold"
-          className={twMerge('text-[15px]', muted && 'text-zinc-500 dark:text-zinc-400')}
+          weight="medium"
+          className={twMerge('text-[15px] leading-[22px]', muted && 'text-zinc-500')}
           numberOfLines={2}
         >
           {title}
         </Txt>
-        <Muted className="mt-0.5 text-[13px]">{meta}</Muted>
+        {meta ? <Muted className="mt-0.5 text-[13px]">{meta}</Muted> : null}
       </View>
       <StatusChip status={status} timeLabel={timeLabel} scoreLabel={scoreLabel} />
     </Pressable>
   );
 }
 
-/** One of today's drops on a vertical timeline (Category screen): morning → afternoon → evening. */
+/** Today's drop as a single bordered row (subject page). */
 export function TimelineDrop({
-  drop,
   name,
   time,
   status,
   title,
   scoreLabel,
   onPress,
-  last,
 }: {
-  drop: number;
+  drop?: number;
   name: string;
   time: string;
   status: SlotStatus;
   title: string;
   scoreLabel?: string;
   onPress?: () => void;
-  /** No connecting line below the last item. */
   last?: boolean;
 }) {
-  const dark = useColorScheme() === 'dark';
-  const done = status === 'done';
-  const available = status === 'available';
   const waiting = status === 'upcoming' || status === 'locked';
-  const nodeIcon: IconName = done ? 'check' : (SLOT_ICONS[drop - 1] ?? 'clock');
-  const nodeColor = done
-    ? colors.white
-    : available
-      ? colors.white
-      : status === 'missing'
-        ? colors.warning
-        : dark
-          ? colors.mutedDark
-          : colors.muted;
-
   return (
-    <View className="flex-row gap-4">
-      <View className="items-center">
-        <View
-          className={twMerge(
-            'h-12 w-12 items-center justify-center rounded-full',
-            done && 'bg-emerald-500',
-            available && 'bg-brand-600 dark:bg-pop-dark',
-            status === 'missing' && 'bg-zinc-100 dark:bg-white/[0.05]',
-            waiting && 'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
-          )}
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${name} at ${time}. ${title}. ${a11yStatus(status, time, scoreLabel)}`}
+      accessibilityState={{ disabled: !onPress }}
+      disabled={!onPress}
+      onPress={onPress}
+      className={twMerge(
+        CARD_CLASSES,
+        onPress && CARD_PRESSABLE_CLASSES,
+        'mb-3 flex-row items-center gap-4 px-4 py-4 md:px-5',
+      )}
+    >
+      <View className="flex-1">
+        <Muted className="text-[13px]">
+          {name} · {time}
+        </Muted>
+        <Txt
+          weight="medium"
+          numberOfLines={2}
+          className={twMerge('mt-0.5 text-[16px] leading-6', waiting && 'text-zinc-500')}
         >
-          <Icon name={nodeIcon} size={18} color={nodeColor} strokeWidth={done ? 3 : 2} />
-        </View>
-        {!last ? (
-          <View className="my-1.5 w-0.5 flex-1 rounded-full bg-line dark:bg-ink-line" />
-        ) : null}
+          {title}
+        </Txt>
       </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`${name} drop at ${time}. ${title}. ${a11yStatus(status, time, scoreLabel)}`}
-        accessibilityState={{ disabled: !onPress }}
-        disabled={!onPress}
-        onPress={onPress}
-        className={twMerge(
-          CARD_CLASSES,
-          onPress && CARD_PRESSABLE_CLASSES,
-          'mb-4 flex-1 flex-row items-center gap-3 px-4 py-4',
-          available && 'border-brand-200 dark:border-brand-400/30',
-        )}
-      >
-        <View className="flex-1">
-          <Muted className="text-xs">
-            {name} · {time}
-          </Muted>
-          <Txt
-            weight="semibold"
-            numberOfLines={2}
-            className={twMerge('mt-0.5 text-[15px]', waiting && 'text-zinc-500 dark:text-zinc-400')}
-          >
-            {title}
-          </Txt>
-        </View>
-        <StatusChip status={status} timeLabel={time} scoreLabel={scoreLabel} />
-      </Pressable>
-    </View>
+      <StatusChip status={status} timeLabel={time} scoreLabel={scoreLabel} />
+    </Pressable>
   );
 }

@@ -26,22 +26,22 @@ export function LogoMark({ size = 28 }: { size?: number }) {
       <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute' }}>
         <Defs>
           <LinearGradient id="learn5tile" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#2A2A2A" />
-            <Stop offset="1" stopColor="#000000" />
+            <Stop offset="0" stopColor="#0A0A0A" />
+            <Stop offset="1" stopColor="#0A0A0A" />
           </LinearGradient>
           <LinearGradient id="learn5ring" x1="0" y1="0" x2="1" y2="1">
             <Stop offset="0" stopColor="#FFFFFF" />
-            <Stop offset="1" stopColor="#BDBDBD" />
+            <Stop offset="1" stopColor="#FFFFFF" />
           </LinearGradient>
         </Defs>
         {/* The tile, with a hairline edge so it also reads on dark backgrounds */}
-        <Rect x={1} y={1} width={98} height={98} rx={26} fill="url(#learn5tile)" />
+        <Rect x={1} y={1} width={98} height={98} rx={24} fill="url(#learn5tile)" />
         <Rect
           x={1}
           y={1}
           width={98}
           height={98}
-          rx={26}
+          rx={24}
           fill="none"
           stroke="#FFFFFF"
           strokeOpacity={0.12}
@@ -94,14 +94,17 @@ export function Logo({
   const lg = size === 'lg';
   return (
     <View
-      className="flex-row items-center gap-2"
+      className="flex-row items-center gap-2.5"
       accessible
       accessibilityRole="header"
       accessibilityLabel="Learn5"
     >
-      <LogoMark size={lg ? 44 : 30} />
+      <LogoMark size={lg ? 40 : 24} />
       {showWordmark ? (
-        <Txt weight="display" className={twMerge(lg ? 'text-[26px]' : 'text-[19px]')}>
+        <Txt
+          weight="display"
+          className={twMerge(lg ? 'text-[24px]' : 'text-[16px] tracking-[-0.3px]')}
+        >
           Learn5
         </Txt>
       ) : null}

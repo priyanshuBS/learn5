@@ -73,30 +73,30 @@ Change the times, subjects or rotation in [`schedule.config.json`](schedule.conf
 
 ## Features
 
-| Feature             | Details                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard) |
-| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"         |
-| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                  |
-| 🔁 **Review**       | Replay wrong answers until you get them right                                               |
-| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                   |
-| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                    |
-| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                 |
-| 🔔 **Reminders**    | Optional daily notification on phones                                                       |
-| 🌗 **Design**       | Black-and-white "Monochrome" design with Light, Dark and System modes, motion only on tap   |
+| Feature             | Details                                                                                             |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
+| 🎯 **Daily drops**  | One drop per subject per day, 5 questions on a difficulty ladder (1 easy, 2 medium, 2 hard)         |
+| 📖 **Daily read**   | One 2–5 minute article a day in simple English, with key points and "words to know"                 |
+| 💡 **Explanations** | Every answer explains the "why"; fact cards collect into a Flashcards deck                          |
+| 🔁 **Review**       | Replay wrong answers until you get them right                                                       |
+| 🔥 **Progress**     | Points, levels, streaks and badges, synced to your account across devices                           |
+| 🔐 **Accounts**     | Passwordless sign-in with a 6-digit email code; one-tap account deletion                            |
+| 📶 **Offline**      | Opens instantly from a local copy and keeps working offline                                         |
+| 🔔 **Reminders**    | Optional daily notification on phones                                                               |
+| 🌗 **Design**       | Flat black-and-white design (Geist type, hairlines, no gradients) with Light, Dark and System modes |
 
 ## Tech stack
 
-| Layer          | Technology                                                                                            |
-| -------------- | ----------------------------------------------------------------------------------------------------- |
-| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand                    |
-| **Design**     | Monochrome: black on white in light mode, white on black in dark mode; Plus Jakarta Sans + Geist Mono |
-| **API**        | Expo Router API routes, hosted on EAS Hosting                                                         |
-| **Database**   | Neon (serverless Postgres)                                                                            |
-| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                                     |
-| **Email**      | Resend (sign-in codes and owner alerts)                                                               |
-| **Validation** | Zod schemas shared by the app, the server and the scripts                                             |
-| **Tests**      | Jest (`jest-expo`)                                                                                    |
+| Layer          | Technology                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| **App**        | Expo SDK 58, React Native, Expo Router, NativeWind (Tailwind), Reanimated, Zustand       |
+| **Design**     | Flat monochrome: black on white (light) / white on near-black (dark); Geist + Geist Mono |
+| **API**        | Expo Router API routes, hosted on EAS Hosting                                            |
+| **Database**   | Neon (serverless Postgres)                                                               |
+| **AI content** | Groq (`openai/gpt-oss-120b`), run on a schedule by GitHub Actions                        |
+| **Email**      | Resend (sign-in codes and owner alerts)                                                  |
+| **Validation** | Zod schemas shared by the app, the server and the scripts                                |
+| **Tests**      | Jest (`jest-expo`)                                                                       |
 
 ## Getting started
 

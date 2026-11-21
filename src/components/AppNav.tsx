@@ -1,13 +1,11 @@
 /**
  * AppNav — the main navigation.
- *   Wide screens (desktop/tablet web): a sidebar on the left.
- *   Phones: a bottom tab bar.
+ *   Wide screens (desktop/tablet web): a quiet sidebar on the left.
+ *   Phones: a flat bottom tab bar.
  * Used as the custom tab bar of app/(tabs)/_layout.tsx.
  */
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
-import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { useAuth } from '@/features/auth/store';
@@ -17,15 +15,14 @@ import { colors } from '@/theme';
 
 import { Icon, type IconName } from './Icon';
 import { Logo } from './Logo';
-import { ProgressBar } from './ProgressBar';
 import { ThemeToggle } from './ThemeToggle';
 import { Muted, Txt } from './Txt';
 
 const NAV_ITEMS: { name: string; label: string; icon: IconName }[] = [
-  { name: 'index', label: 'Home', icon: 'home' },
+  { name: 'index', label: 'Today', icon: 'home' },
   { name: 'articles', label: 'Read', icon: 'articles' },
   { name: 'review', label: 'Review', icon: 'review' },
-  { name: 'flashcards', label: 'Flashcards', icon: 'flashcards' },
+  { name: 'flashcards', label: 'Cards', icon: 'flashcards' },
   { name: 'badges', label: 'Progress', icon: 'trophy' },
 ];
 
@@ -35,13 +32,12 @@ export function AppNav({
   insets,
   variant,
 }: BottomTabBarProps & { variant: 'sidebar' | 'bottom' }) {
-  const scheme = useColorScheme();
-  const dark = scheme === 'dark';
+  const dark = useColorScheme() === 'dark';
   const { ready, stats, mistakes } = useAppData();
   const email = useAuth((s) => s.user?.email);
 
   const focused = state.routes[state.index]?.name ?? 'index';
-  // The category page belongs to Home.
+  // The category page belongs to Today.
   const activeName = focused.startsWith('category') ? 'index' : focused;
 
   const go = (name: string) => {
@@ -50,7 +46,7 @@ export function AppNav({
   };
 
   const iconColor = (active: boolean) =>
-    active ? (dark ? colors.brandOnDark : colors.brand) : dark ? colors.mutedDark : colors.muted;
+    active ? (dark ? colors.textDark : colors.text) : dark ? '#737373' : '#8F8F8F';
 
   const badgeFor = (name: string) =>
     name === 'review' && ready && mistakes.length > 0 ? mistakes.length : 0;
@@ -58,15 +54,14 @@ export function AppNav({
   if (variant === 'sidebar') {
     return (
       <View
-        className="w-64 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink-soft"
-        style={{ paddingTop: insets.top + 20 }}
+        className="w-60 border-r border-line bg-white px-3 pb-4 dark:border-ink-line dark:bg-ink"
+        style={{ paddingTop: insets.top + 24 }}
       >
-        <View className="px-3">
+        <View className="px-2.5">
           <Logo />
         </View>
 
-        <View className="mt-8" />
-        <View className="gap-0.5" accessibilityRole="tablist">
+        <View className="mt-8 gap-px" accessibilityRole="tablist">
           {NAV_ITEMS.map((item) => {
             const active = item.name === activeName;
             const badge = badgeFor(item.name);
@@ -78,35 +73,28 @@ export function AppNav({
                 accessibilityState={{ selected: active }}
                 onPress={() => go(item.name)}
                 className={twMerge(
-                  'min-h-10 flex-row items-center gap-3 rounded-lg px-3 py-2 web:transition-colors',
+                  'h-9 flex-row items-center gap-2.5 rounded-md px-2.5 web:transition-colors',
                   active
-                    ? 'bg-brand-50 dark:bg-brand-400/10'
-                    : 'active:bg-black/5 web:hover:bg-black/[0.03] dark:active:bg-white/5 dark:web:hover:bg-white/[0.04]',
+                    ? 'bg-zinc-100 dark:bg-white/[0.07]'
+                    : 'active:bg-zinc-50 web:hover:bg-zinc-50 dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]',
                 )}
               >
-                <Icon
-                  name={item.icon}
-                  size={18}
-                  color={iconColor(active)}
-                  strokeWidth={active ? 2.25 : 2}
-                />
+                <Icon name={item.icon} size={16} color={iconColor(active)} strokeWidth={1.75} />
                 <Txt
-                  weight={active ? 'semibold' : 'medium'}
+                  weight={active ? 'medium' : 'regular'}
                   className={twMerge(
                     'flex-1 text-[14px]',
                     active
-                      ? 'text-brand-700 dark:text-brand-300'
-                      : 'text-zinc-600 dark:text-zinc-400',
+                      ? 'text-zinc-950 dark:text-[#EDEDED]'
+                      : 'text-zinc-500 dark:text-zinc-400',
                   )}
                 >
                   {item.label}
                 </Txt>
                 {badge ? (
-                  <View className="min-w-5 items-center rounded-md bg-rose-50 px-1.5 py-0.5 dark:bg-rose-500/15">
-                    <Txt weight="semibold" className="text-[11px] text-rose-600 dark:text-rose-300">
-                      {badge}
-                    </Txt>
-                  </View>
+                  <Txt weight="mono" className="text-[12px] text-zinc-500 dark:text-zinc-400">
+                    {badge}
+                  </Txt>
                 ) : null}
               </Pressable>
             );
@@ -116,50 +104,46 @@ export function AppNav({
         <View className="flex-1" />
 
         {ready ? (
-          <View className="mx-1 rounded-2xl border border-line bg-zinc-50 p-4 dark:border-ink-line dark:bg-ink-card">
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center gap-1.5">
-                <Icon name="flame" size={15} color={colors.streak} filled />
-                <Txt weight="semibold" className="text-[13px]">
-                  {stats.streak.current} day{stats.streak.current === 1 ? '' : 's'}
-                </Txt>
-              </View>
-              <View className="flex-row items-center gap-1.5">
-                <Icon name="star" size={14} color={colors.points} filled />
-                <Txt weight="semibold" className="text-[13px]">
-                  {stats.points.toLocaleString('en-IN')}
-                </Txt>
-              </View>
+          <View className="mx-1 mb-3 flex-row border-y border-line py-3 dark:border-ink-line">
+            <View className="flex-1 px-1.5">
+              <Muted className="text-[12px]">Streak</Muted>
+              <Txt weight="semibold" className="mt-0.5 text-[15px]">
+                {stats.streak.current}d
+              </Txt>
             </View>
-            <View className="mt-3 flex-row items-center justify-between">
-              <Muted className="text-xs">
-                Level {stats.level.level} · {stats.level.name}
-              </Muted>
-              <Muted className="text-xs">{Math.round(stats.level.progress * 100)}%</Muted>
+            <View className="flex-1 px-1.5">
+              <Muted className="text-[12px]">Points</Muted>
+              <Txt weight="semibold" className="mt-0.5 text-[15px]">
+                {stats.points.toLocaleString('en-IN')}
+              </Txt>
             </View>
-            <ProgressBar
-              value={stats.level.progress}
-              className="mt-1.5"
-              label={`Level progress ${Math.round(stats.level.progress * 100)} percent`}
-            />
+            <View className="flex-1 px-1.5">
+              <Muted className="text-[12px]">Level</Muted>
+              <Txt weight="semibold" className="mt-0.5 text-[15px]">
+                {stats.level.level}
+              </Txt>
+            </View>
           </View>
         ) : null}
 
-        <ThemeToggle compact className="mx-1 mt-3" />
+        <ThemeToggle compact className="mx-1" />
 
         {email ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={`Account: ${email}. Open progress and account`}
             onPress={() => go('badges')}
-            className="mt-2 flex-row items-center gap-2.5 rounded-lg px-3 py-2.5 active:bg-zinc-100 web:hover:bg-zinc-50 dark:active:bg-white/5 dark:web:hover:bg-white/[0.03]"
+            className="mt-2 flex-row items-center gap-2.5 rounded-md px-2.5 py-2 active:bg-zinc-50 web:hover:bg-zinc-50 dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]"
           >
-            <View className="h-7 w-7 items-center justify-center rounded-full bg-zinc-950 dark:bg-white">
-              <Txt weight="semibold" className="text-xs uppercase text-white dark:text-black">
+            <View className="h-6 w-6 items-center justify-center rounded-full bg-zinc-950 dark:bg-[#EDEDED]">
+              <Txt
+                weight="semibold"
+                className="text-[11px] uppercase text-white dark:text-[#111111]"
+              >
                 {email[0]}
               </Txt>
             </View>
-            <Txt weight="medium" className="flex-1 text-[13px]" numberOfLines={1}>
+            <Txt className="flex-1 text-[13px] text-zinc-600 dark:text-zinc-400" numberOfLines={1}>
               {email}
             </Txt>
           </Pressable>
@@ -168,99 +152,49 @@ export function AppNav({
     );
   }
 
-  // Phones: a bottom tab bar. A soft pill slides to the tab you tap.
-  return (
-    <BottomBar
-      activeIndex={Math.max(
-        0,
-        NAV_ITEMS.findIndex((i) => i.name === activeName),
-      )}
-      bottomInset={insets.bottom}
-    >
-      {NAV_ITEMS.map((item) => {
-        const active = item.name === activeName;
-        const badge = badgeFor(item.name);
-        return (
-          <Pressable
-            key={item.name}
-            accessibilityRole="tab"
-            accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
-            accessibilityState={{ selected: active }}
-            onPress={() => go(item.name)}
-            className="flex-1 items-center gap-0.5 py-2 active:opacity-70"
-          >
-            <View className="h-7 items-center justify-center">
-              <Icon
-                name={item.icon}
-                size={21}
-                color={iconColor(active)}
-                strokeWidth={active ? 2.4 : 1.75}
-              />
-              {badge ? (
-                <View className="absolute -right-2.5 -top-1 h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1">
-                  <Txt weight="bold" className="text-[9px] leading-3 text-white dark:text-white">
-                    {badge > 9 ? '9+' : badge}
-                  </Txt>
-                </View>
-              ) : null}
-            </View>
-            <Txt
-              weight={active ? 'semibold' : 'medium'}
-              className={twMerge(
-                'text-[10.5px]',
-                active ? 'text-brand-700 dark:text-brand-300' : 'text-zinc-500 dark:text-zinc-400',
-              )}
-              numberOfLines={1}
-            >
-              {item.label}
-            </Txt>
-          </Pressable>
-        );
-      })}
-    </BottomBar>
-  );
-}
-
-/** The bar and its sliding pill (the only motion: it moves when you switch tabs). */
-function BottomBar({
-  activeIndex,
-  bottomInset,
-  children,
-}: {
-  activeIndex: number;
-  bottomInset: number;
-  children: ReactNode;
-}) {
-  const [width, setWidth] = useState(0);
-  const x = useSharedValue(0);
-  const itemWidth = width / NAV_ITEMS.length;
-  useEffect(() => {
-    if (width > 0) x.set(withSpring(activeIndex * itemWidth, { damping: 18, stiffness: 220 }));
-  }, [activeIndex, itemWidth, width, x]);
-  const pill = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
-
+  // Phones: a flat bottom tab bar.
   return (
     <View
-      className="border-t border-line bg-white px-2 pt-1.5 dark:border-ink-line dark:bg-ink-soft"
-      style={{ paddingBottom: Math.max(bottomInset, 8) }}
+      className="border-t border-line bg-white px-1 pt-1.5 dark:border-ink-line dark:bg-ink"
+      style={{ paddingBottom: Math.max(insets.bottom, 8) }}
     >
-      <View
-        accessibilityRole="tablist"
-        onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
-        className="flex-row"
-      >
-        {width > 0 ? (
-          <Animated.View
-            pointerEvents="none"
-            style={[
-              { position: 'absolute', top: 4, bottom: 4, left: 0, width: itemWidth, padding: 0 },
-              pill,
-            ]}
-          >
-            <View className="mx-2 flex-1 rounded-xl bg-brand-50 dark:bg-brand-400/[0.12]" />
-          </Animated.View>
-        ) : null}
-        {children}
+      <View accessibilityRole="tablist" className="flex-row">
+        {NAV_ITEMS.map((item) => {
+          const active = item.name === activeName;
+          const badge = badgeFor(item.name);
+          return (
+            <Pressable
+              key={item.name}
+              accessibilityRole="tab"
+              accessibilityLabel={badge ? `${item.label}, ${badge} to fix` : item.label}
+              accessibilityState={{ selected: active }}
+              onPress={() => go(item.name)}
+              className="flex-1 items-center gap-1 py-1.5 active:opacity-60"
+            >
+              <View className="h-6 items-center justify-center">
+                <Icon
+                  name={item.icon}
+                  size={21}
+                  color={iconColor(active)}
+                  strokeWidth={active ? 2 : 1.6}
+                />
+                {badge ? (
+                  <View className="absolute -right-2 -top-0.5 h-2 w-2 rounded-full bg-zinc-950 dark:bg-[#EDEDED]" />
+                ) : null}
+              </View>
+              <Txt
+                weight={active ? 'medium' : 'regular'}
+                className={twMerge(
+                  'text-[10.5px]',
+                  active ? 'text-zinc-950 dark:text-[#EDEDED]' : 'text-zinc-500 dark:text-zinc-500',
+                )}
+                numberOfLines={1}
+              >
+                {item.label}
+              </Txt>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );

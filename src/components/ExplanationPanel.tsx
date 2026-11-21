@@ -12,7 +12,7 @@ import { CARD_CLASSES } from './Card';
 import { Icon } from './Icon';
 import { Muted, Txt } from './Txt';
 
-const PRAISE = ['Correct', 'Nicely done', 'Well done', 'Spot on', 'Exactly right'];
+const PRAISE = ['Correct', 'Correct', 'Correct', 'Correct', 'Correct'];
 
 interface ExplanationPanelProps {
   kind: 'correct' | 'wrong' | 'fact';
@@ -40,106 +40,80 @@ export function ExplanationPanel({
     kind === 'correct'
       ? PRAISE[position % PRAISE.length]
       : kind === 'wrong'
-        ? 'Not quite'
-        : 'Fact collected';
+        ? 'Incorrect'
+        : 'Fact saved';
 
   return (
-    <Animated.View entering={FadeInDown.duration(280)}>
-      <View
-        accessibilityLiveRegion="polite"
-        className={twMerge(CARD_CLASSES, 'mt-6 overflow-hidden')}
-      >
-        {/* Coloured header strip */}
-        <View
-          className={twMerge(
-            'flex-row items-center gap-3 px-5 py-3.5',
-            kind === 'correct' && 'bg-emerald-50 dark:bg-emerald-500/10',
-            kind === 'wrong' && 'bg-rose-50 dark:bg-rose-500/10',
-            kind === 'fact' && 'bg-brand-50 dark:bg-brand-400/10',
-          )}
-        >
+    <Animated.View entering={FadeInDown.duration(220)}>
+      <View accessibilityLiveRegion="polite" className={twMerge(CARD_CLASSES, 'mt-5 p-5')}>
+        <View className="flex-row items-center gap-2.5">
           <View
             className={twMerge(
-              'h-7 w-7 items-center justify-center rounded-full',
-              kind === 'correct' && 'bg-emerald-500',
+              'h-5 w-5 items-center justify-center rounded-full',
+              kind === 'correct' && 'bg-emerald-600',
               kind === 'wrong' && 'bg-rose-500',
-              kind === 'fact' && 'bg-zinc-900 dark:bg-white',
+              kind === 'fact' && 'bg-zinc-950 dark:bg-[#EDEDED]',
             )}
           >
             <Icon
               name={kind === 'correct' ? 'check' : kind === 'wrong' ? 'x' : 'bookmark'}
-              size={15}
-              color={colors.white}
+              size={11}
+              color={kind === 'fact' ? '#FFFFFF' : colors.white}
               strokeWidth={3}
             />
           </View>
-          <View className="flex-1">
-            <Txt
-              weight="bold"
-              accessibilityRole="header"
-              className={twMerge(
-                'text-[17px]',
-                kind === 'correct' && 'text-emerald-800 dark:text-emerald-200',
-                kind === 'wrong' && 'text-rose-800 dark:text-rose-200',
-                kind === 'fact' && 'text-brand-800 dark:text-brand-200',
-              )}
-            >
-              {heading}
-            </Txt>
-            {kind === 'wrong' ? (
-              <Txt className="text-sm text-rose-800/80 dark:text-rose-200/80">
-                Correct answer:{' '}
-                <Txt weight="semibold" className="text-sm text-rose-900 dark:text-rose-100">
-                  {correctAnswer}
-                </Txt>
-              </Txt>
-            ) : null}
-          </View>
+          <Txt weight="semibold" accessibilityRole="header" className="text-[15px]">
+            {heading}
+          </Txt>
         </View>
-
-        <View className="px-5 pb-4 pt-4">
-          {/* Fact cards show their explanation on the back of the card instead. */}
-          {kind !== 'fact' ? (
-            <Txt className="text-[15px] leading-7 text-zinc-700 dark:text-zinc-300">
-              {explanation}
+        {kind === 'wrong' ? (
+          <Txt className="mt-2 text-[14px] text-zinc-600 dark:text-zinc-400">
+            Correct answer:{' '}
+            <Txt weight="medium" className="text-[14px]">
+              {correctAnswer}
             </Txt>
-          ) : (
-            <Muted className="text-[15px]">Saved to your Flashcards deck.</Muted>
-          )}
+          </Txt>
+        ) : null}
 
-          {funFact && kind !== 'fact' ? (
-            <View className="mt-4 flex-row gap-2.5 rounded-xl bg-zinc-100 p-3.5 dark:bg-white/[0.05]">
-              <Icon name="sparkles" size={16} color={colors.points} />
-              <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
-                <Txt weight="semibold" className="text-sm">
-                  Fun fact{' '}
-                </Txt>
-                {funFact}
+        {/* Fact cards show their explanation on the back of the card instead. */}
+        {kind !== 'fact' ? (
+          <Txt className="mt-3 text-[15px] leading-[25px] text-zinc-700 dark:text-zinc-300">
+            {explanation}
+          </Txt>
+        ) : (
+          <Muted className="mt-2 text-[14px]">Saved to your flashcards.</Muted>
+        )}
+
+        {funFact && kind !== 'fact' ? (
+          <View className="mt-4 border-l-2 border-zinc-200 pl-3.5 dark:border-zinc-700">
+            <Txt className="text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
+              <Txt weight="medium" className="text-[14px] text-zinc-950 dark:text-[#EDEDED]">
+                Did you know?{' '}
               </Txt>
-            </View>
-          ) : null}
-
-          <View className="mt-4 flex-row flex-wrap items-center justify-between gap-2 border-t border-line pt-3 dark:border-ink-line">
-            <View className="flex-1 flex-row items-center gap-1.5">
-              <Icon name="library" size={13} color={colors.mutedDark} />
-              <Muted className="flex-1 text-xs">{source}</Muted>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={reported ? 'Reported. Thank you' : 'Report a wrong answer'}
-              disabled={reported}
-              onPress={onReport}
-              hitSlop={8}
-              className="min-h-9 flex-row items-center gap-1.5 rounded-lg px-2 active:bg-zinc-100 web:hover:bg-zinc-100 dark:active:bg-white/5 dark:web:hover:bg-white/5"
-            >
-              <Icon
-                name={reported ? 'check-circle' : 'flag'}
-                size={13}
-                color={reported ? colors.success : colors.mutedDark}
-              />
-              <Muted className="text-xs">{reported ? 'Thanks, reported' : 'Report an error'}</Muted>
-            </Pressable>
+              {funFact}
+            </Txt>
           </View>
+        ) : null}
+
+        <View className="mt-5 flex-row flex-wrap items-center justify-between gap-2 border-t border-line pt-3 dark:border-ink-line">
+          <Muted className="flex-1 text-[12px]" numberOfLines={1}>
+            Source: {source}
+          </Muted>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={reported ? 'Reported. Thank you' : 'Report a wrong answer'}
+            disabled={reported}
+            onPress={onReport}
+            hitSlop={8}
+            className="min-h-8 flex-row items-center gap-1.5 rounded-md px-2 active:bg-zinc-100 web:hover:bg-zinc-100 dark:active:bg-white/5 dark:web:hover:bg-white/5"
+          >
+            <Icon
+              name={reported ? 'check' : 'flag'}
+              size={12}
+              color={reported ? colors.success : colors.mutedDark}
+            />
+            <Muted className="text-[12px]">{reported ? 'Reported' : 'Report an error'}</Muted>
+          </Pressable>
         </View>
       </View>
     </Animated.View>

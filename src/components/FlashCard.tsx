@@ -88,17 +88,19 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
                   size={16}
                   color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
                 />
-                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
+                <Txt
+                  weight="mono"
+                  className="text-[11px] uppercase tracking-[1px] text-zinc-500 dark:text-zinc-400"
+                >
                   Why it’s true
                 </Txt>
               </View>
-              <Txt className="mt-4 text-[17px] leading-8 text-zinc-800 dark:text-zinc-200">
+              <Txt className="mt-4 text-[17px] leading-7 text-zinc-800 dark:text-zinc-200">
                 {item.explanation}
               </Txt>
               {item.funFact ? (
-                <View className="mt-4 flex-row gap-2.5 rounded-xl bg-zinc-100 p-3.5 dark:bg-white/[0.05]">
-                  <Icon name="sparkles" size={16} color={colors.points} />
-                  <Txt className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+                <View className="mt-5 border-l-2 border-zinc-200 pl-3.5 dark:border-zinc-700">
+                  <Txt className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
                     {item.funFact}
                   </Txt>
                 </View>
@@ -115,13 +117,16 @@ export function FlashCard({ item, flipped, onToggle }: FlashCardProps) {
                   size={16}
                   color={scheme === 'dark' ? colors.brandOnDark : colors.brand}
                 />
-                <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
+                <Txt
+                  weight="mono"
+                  className="text-[11px] uppercase tracking-[1px] text-zinc-500 dark:text-zinc-400"
+                >
                   Did you know?
                 </Txt>
               </View>
               <Txt
-                weight="semibold"
-                className="mt-5 text-2xl leading-9 md:text-[26px] md:leading-10"
+                weight="display"
+                className="mt-5 text-[24px] leading-[33px] md:text-[28px] md:leading-[38px]"
               >
                 {item.fact}
               </Txt>

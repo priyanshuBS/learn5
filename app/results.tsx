@@ -4,7 +4,7 @@
  */
 import { router, useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
-import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import { Button, IconButton } from '@/components/Button';
@@ -13,9 +13,9 @@ import { Icon } from '@/components/Icon';
 import { SectionTitle } from '@/components/PageHeader';
 import { Confetti } from '@/components/Confetti';
 import { ReminderPrompt } from '@/components/RemindersCard';
-import { ProgressRing } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
-import { StatCard } from '@/components/StatCard';
+import { StatStrip } from '@/components/StatCard';
+import { Icon3D } from '@/components/Icon3D';
 import { LoadingView, MessageView } from '@/components/StateViews';
 import { Muted, Txt } from '@/components/Txt';
 import { newlyEarned } from '@/features/badges/badges';
@@ -34,10 +34,10 @@ import { BADGE_ICONS, colors, type IconName } from '@/theme';
 
 function verdict(correct: number, total: number) {
   const ratio = total > 0 ? correct / total : 0;
-  if (ratio === 1) return { title: 'Perfect score', ring: colors.success };
-  if (ratio >= 0.8) return { title: 'Great job', ring: colors.success };
-  if (ratio >= 0.6) return { title: 'Good work', ring: colors.brand };
-  return { title: 'Keep practising', ring: colors.warning };
+  if (ratio === 1) return { title: 'Perfect score.' };
+  if (ratio >= 0.8) return { title: 'Great work.' };
+  if (ratio >= 0.6) return { title: 'Good effort.' };
+  return { title: 'Keep practising.' };
 }
 
 export default function ResultsScreen() {
@@ -82,7 +82,7 @@ export default function ResultsScreen() {
   }
 
   const total = attempt.items.length;
-  const { title, ring } = verdict(attempt.correctCount, total);
+  const { title } = verdict(attempt.correctCount, total);
   const accuracy = Math.round((attempt.correctCount / total) * 100);
 
   // Celebrations: only right after the first (scoring) play of this drop.
@@ -124,9 +124,9 @@ export default function ResultsScreen() {
   return (
     <Screen width="narrow">
       <View className="flex-row items-center justify-between">
-        <Txt weight="display" accessibilityRole="header" className="text-2xl">
-          Results
-        </Txt>
+        <Muted className="text-[13px]">
+          {category.name} · {displayTitle(attempt.title)}
+        </Muted>
         <IconButton icon="x" label="Close results" onPress={goHome} variant="ghost" />
       </View>
 
@@ -134,75 +134,62 @@ export default function ResultsScreen() {
       {justScored ? <Confetti /> : null}
 
       {/* Score */}
-      <View className="mt-5">
-        <View className={twMerge(CARD_CLASSES, 'items-center px-6 py-10')}>
-          <Animated.View entering={ZoomIn.duration(350)}>
-            <ProgressRing
-              value={total > 0 ? attempt.correctCount / total : 0}
-              size={136}
-              strokeWidth={11}
-              color={ring}
-              label={`You got ${attempt.correctCount} out of ${total} correct`}
-            >
-              <View className="flex-row items-baseline">
-                <Txt weight="display" className="text-5xl">
-                  {attempt.correctCount}
-                </Txt>
-                <Txt weight="medium" className="text-xl text-[#6B6B6B] dark:text-[#A1A1A1]">
-                  /{total}
-                </Txt>
-              </View>
-            </ProgressRing>
-          </Animated.View>
-          <Txt weight="display" className="mt-6 text-[26px]">
-            {title}
+      <Animated.View entering={FadeInDown.duration(260)} className="mt-6">
+        <View
+          accessible
+          accessibilityLabel={`You got ${attempt.correctCount} out of ${total} correct`}
+          className="flex-row items-baseline"
+        >
+          <Txt weight="display" className="text-[72px] leading-[80px] tracking-[-2px]">
+            {attempt.correctCount}
           </Txt>
-          <Muted className="mt-1 text-center text-[15px]">
-            {category.name} · {displayTitle(attempt.title)} · {accuracy}% accuracy
-          </Muted>
+          <Txt weight="display" className="text-[32px] text-zinc-300 dark:text-zinc-700">
+            /{total}
+          </Txt>
         </View>
-      </View>
+        <Txt weight="display" accessibilityRole="header" className="mt-1 text-[24px] leading-8">
+          {title}
+        </Txt>
+        <View className="mt-5 flex-row gap-1">
+          {attempt.items.map((r) => (
+            <View
+              key={r.itemId}
+              className={twMerge(
+                'h-1 flex-1 rounded-full',
+                r.type === 'fact_card'
+                  ? 'bg-zinc-300 dark:bg-zinc-700'
+                  : r.correct
+                    ? 'bg-emerald-600'
+                    : 'bg-rose-500',
+              )}
+            />
+          ))}
+        </View>
+      </Animated.View>
 
       {/* Stats */}
-      <Animated.View entering={FadeInDown.delay(100).duration(300)}>
-        <View className="-m-1.5 mt-3 flex-row">
-          <View className="flex-1 p-1.5">
-            <StatCard
-              icon="star"
-              color={colors.points}
-              value={attempt.practice ? '—' : `+${attempt.points}`}
-              label={attempt.practice ? 'Practice' : 'Points'}
-            />
-          </View>
-          <View className="flex-1 p-1.5">
-            <StatCard
-              icon="timer"
-              color={colors.brand}
-              value={formatDuration(attempt.durationSec)}
-              label="Time"
-            />
-          </View>
-          <View className="flex-1 p-1.5">
-            <StatCard
-              icon="target"
-              color={colors.success}
-              value={`${accuracy}%`}
-              label="Accuracy"
-            />
-          </View>
-        </View>
-        {attempt.perfect && !attempt.practice ? (
-          <Muted className="mt-2 text-center">
-            Includes a +{PERFECT_BONUS} bonus for a perfect drop.
-          </Muted>
-        ) : null}
-      </Animated.View>
+      <StatStrip
+        className="mt-8"
+        stats={[
+          {
+            label: attempt.practice ? 'Practice' : 'Points',
+            value: attempt.practice ? '—' : `+${attempt.points}`,
+          },
+          { label: 'Time', value: formatDuration(attempt.durationSec) },
+          { label: 'Accuracy', value: `${accuracy}%` },
+        ]}
+      />
+      {attempt.perfect && !attempt.practice ? (
+        <Muted className="mt-2 text-[13px]">
+          Includes a +{PERFECT_BONUS} bonus for a perfect drop.
+        </Muted>
+      ) : null}
 
       {/* Level up and new badges */}
       {levelUp ? (
         <Celebration
           icon="trending-up"
-          title={`Level up — Level ${levelUp.level}`}
+          title={`Level ${levelUp.level} reached`}
           text={`You are now a ${levelUp.name}.`}
         />
       ) : null}
@@ -219,34 +206,32 @@ export default function ResultsScreen() {
       {justScored ? <ReminderPrompt /> : null}
 
       {/* Actions */}
-      <View className="mt-6 gap-2.5">
+      <View className="mt-8 gap-2">
         {nextEntry && nextCategory ? (
           <Button
-            label={`Next drop: ${nextCategory.name}`}
+            label={`Next: ${nextCategory.name}`}
             icon="arrow-right"
             iconRight
             onPress={() => nextEntry && router.replace(quizHref(nextEntry))}
           />
-        ) : null}
-        <Button
-          label="Back to Home"
-          variant={nextEntry ? 'secondary' : 'primary'}
-          onPress={goHome}
-        />
-        <View className="flex-row gap-2.5">
+        ) : (
+          <Button label="Back to Today" onPress={goHome} />
+        )}
+        <View className="flex-row gap-2">
           <Button
             label="Play again"
-            icon="refresh"
             variant="secondary"
+            size="md"
             className="flex-1"
             accessibilityHint="Replay as practice. No new points."
             onPress={() => router.replace(quizHref(thisRef))}
           />
           <Button
-            label={category.name}
+            label={nextEntry ? 'Back to Today' : category.name}
             variant="secondary"
+            size="md"
             className="flex-1"
-            onPress={() => router.replace(categoryHref(category.id))}
+            onPress={() => (nextEntry ? goHome() : router.replace(categoryHref(category.id)))}
           />
         </View>
       </View>
@@ -263,36 +248,34 @@ export default function ResultsScreen() {
               accessible
               accessibilityLabel={`Question ${i + 1}: ${isFact ? 'fact card' : r.correct ? 'correct' : 'wrong'}`}
               className={twMerge(
-                'flex-row gap-3 px-4 py-3.5',
+                'flex-row gap-3.5 px-4 py-3.5',
                 i > 0 && 'border-t border-line dark:border-ink-line',
               )}
             >
-              <View
-                className={twMerge(
-                  'mt-0.5 h-6 w-6 items-center justify-center rounded-full',
-                  isFact
-                    ? 'bg-brand-50 dark:bg-brand-400/15'
-                    : r.correct
-                      ? 'bg-emerald-500'
-                      : 'bg-rose-500',
-                )}
+              <Txt
+                weight="mono"
+                className="mt-0.5 w-5 text-[12px] text-zinc-400 dark:text-zinc-500"
               >
-                <Icon
-                  name={isFact ? 'lightbulb' : r.correct ? 'check' : 'x'}
-                  size={13}
-                  color={isFact ? colors.brand : colors.white}
-                  strokeWidth={isFact ? 2.25 : 3}
-                />
-              </View>
+                {String(i + 1).padStart(2, '0')}
+              </Txt>
               <View className="flex-1">
                 <Txt className="text-[15px] leading-6">
                   {item ? itemText(item) : `Question ${i + 1}`}
                 </Txt>
                 {item && !isFact && !r.correct ? (
-                  <Muted className="mt-1">
-                    You answered “{r.given ?? '—'}” · Correct: {correctAnswerText(item)}
+                  <Muted className="mt-1 text-[13px]">
+                    You: “{r.given ?? '—'}” · Answer: {correctAnswerText(item)}
                   </Muted>
                 ) : null}
+              </View>
+              <View className="mt-1">
+                {isFact ? (
+                  <Icon name="bookmark" size={14} color={colors.mutedDark} />
+                ) : r.correct ? (
+                  <Icon name="check" size={15} color={colors.success} strokeWidth={2.5} />
+                ) : (
+                  <Icon name="x" size={15} color={colors.danger} strokeWidth={2.5} />
+                )}
               </View>
             </View>
           );
@@ -304,20 +287,18 @@ export default function ResultsScreen() {
 
 function Celebration({ icon, title, text }: { icon: IconName; title: string; text: string }) {
   return (
-    <Animated.View entering={ZoomIn.delay(300).duration(300)}>
+    <Animated.View entering={FadeInDown.delay(250).duration(260)}>
       <View
         accessible
         accessibilityLabel={`${title}. ${text}`}
-        className="mt-3 flex-row items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-100 p-4 dark:border-ink-line dark:bg-white/[0.05]"
+        className="mt-3 flex-row items-center gap-3.5 rounded-xl border border-line p-4 dark:border-ink-line"
       >
-        <View className="h-11 w-11 items-center justify-center rounded-xl bg-zinc-200 dark:bg-white/[0.05]">
-          <Icon name={icon} size={20} color={colors.points} />
-        </View>
+        <Icon3D icon={icon} size={36} solid />
         <View className="flex-1">
-          <Txt weight="semibold" className="text-zinc-900 dark:text-zinc-100">
+          <Txt weight="semibold" className="text-[15px]">
             {title}
           </Txt>
-          <Txt className="text-sm text-zinc-800 dark:text-zinc-200">{text}</Txt>
+          <Muted className="text-[13px]">{text}</Muted>
         </View>
       </View>
     </Animated.View>

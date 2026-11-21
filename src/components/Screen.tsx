@@ -8,8 +8,6 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { twMerge } from 'tailwind-merge';
 
-import { Backdrop } from './Backdrop';
-
 interface ScreenProps {
   children: ReactNode;
   /** Content pinned to the bottom (e.g. a "Next" button). */
@@ -34,14 +32,13 @@ export function Screen({
   width = 'wide',
   fill = false,
 }: ScreenProps) {
-  const maxWidth = width === 'narrow' ? 'max-w-2xl' : 'max-w-6xl';
+  const maxWidth = width === 'narrow' ? 'max-w-2xl' : 'max-w-5xl';
   return (
     <SafeAreaView edges={['top', 'left', 'right']} className="flex-1 bg-canvas dark:bg-ink">
-      <Backdrop />
       <ScrollView
         className="flex-1"
         contentContainerClassName={twMerge(
-          'w-full self-center px-4 pb-16 pt-4 md:px-8 md:pt-8 xl:px-10',
+          'w-full self-center px-5 pb-20 pt-4 md:px-10 md:pt-10',
           maxWidth,
           fill && 'flex-grow pb-8',
           contentClassName,
@@ -56,7 +53,7 @@ export function Screen({
       {footer ? (
         <SafeAreaView
           edges={footerSafeArea ? ['bottom'] : []}
-          className="border-t border-line bg-white dark:border-ink-line dark:bg-ink-soft"
+          className="border-t border-line bg-white dark:border-ink-line dark:bg-ink"
         >
           <View className={twMerge('w-full self-center px-4 py-3 md:px-8', maxWidth)}>
             {footer}

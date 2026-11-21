@@ -9,6 +9,7 @@ import { twMerge } from 'tailwind-merge';
 import categoriesFile from '../../../content/categories.json';
 import { Button, IconButton } from '@/components/Button';
 import { CARD_CLASSES } from '@/components/Card';
+import { StatStrip } from '@/components/StatCard';
 import { DropCard, TimelineDrop } from '@/components/DropCard';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { usePrefetchDrops } from '@/features/content/store';
@@ -95,33 +96,35 @@ export default function CategoryScreen() {
   return (
     <Screen width="narrow">
       {/* Subject header */}
-      <View className={twMerge(CARD_CLASSES, 'overflow-hidden p-6')}>
-        <View className="flex-row items-center justify-between">
-          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
-        </View>
-        <View className="mt-5 flex-row items-center gap-4">
-          <CategoryIcon category={category} size="lg" />
-          <View className="flex-1">
-            <Txt weight="display" accessibilityRole="header" className="text-[28px] leading-[34px]">
-              {category.name}
-            </Txt>
-            <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
-          </View>
-        </View>
-        <View className="mt-6 flex-row gap-2">
-          <HeroStat value={`${categoryResults.length}`} label="Drops done" />
-          <HeroStat value={accuracy} label="Accuracy" />
-          <HeroStat value={`${categoryMistakes}`} label="To review" />
+      <View className="flex-row">
+        <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+      </View>
+      <View className="mt-8 flex-row items-center gap-4">
+        <CategoryIcon category={category} size="lg" />
+        <View className="flex-1">
+          <Txt weight="display" accessibilityRole="header" className="text-[30px] leading-9">
+            {category.name}
+          </Txt>
+          <Muted className="mt-0.5 text-[15px]">{category.tagline}</Muted>
         </View>
       </View>
+      <StatStrip
+        className="mt-8"
+        stats={[
+          { label: 'Drops done', value: `${categoryResults.length}` },
+          { label: 'Accuracy', value: accuracy },
+          { label: 'To review', value: `${categoryMistakes}` },
+        ]}
+      />
 
       {categoryMistakes > 0 ? (
         <Button
           label={`Review ${categoryMistakes} ${categoryMistakes === 1 ? 'mistake' : 'mistakes'}`}
           icon="review"
-          variant="soft"
+          variant="secondary"
+          size="md"
           onPress={() => router.push({ pathname: '/review', params: { category: category.id } })}
-          className="mt-4"
+          className="mt-3"
         />
       ) : null}
 
@@ -154,7 +157,7 @@ export default function CategoryScreen() {
       })}
 
       {hasMissing && catchUp ? (
-        <View className="rounded-[20px] border border-dashed border-zinc-300 bg-zinc-100 p-5 dark:border-ink-line dark:bg-white/[0.05]">
+        <View className="rounded-xl border border-dashed border-zinc-300 bg-zinc-100 p-5 dark:border-ink-line dark:bg-white/[0.05]">
           <View className="flex-row items-center gap-2">
             <Icon name="hourglass" size={16} color={colors.warning} />
             <Txt weight="semibold" className="text-zinc-900 dark:text-zinc-200">
@@ -180,28 +183,30 @@ export default function CategoryScreen() {
         <Muted className="text-[15px]">Past drops will appear here. Come back tomorrow.</Muted>
       ) : (
         dates.slice(0, daysShown).map((date) => (
-          <View key={date} className="mb-4">
-            <Muted className="mb-2 mt-1 text-[13px]">{friendlyDate(date, zonedNow.date)}</Muted>
-            {(byDate.get(date) ?? [])
-              .slice()
-              .sort((a, b) => a.drop - b.drop)
-              .map((entry) => {
-                const result = results[dropKey(entry)];
-                return (
-                  <DropCard
-                    key={entry.path}
-                    drop={entry.drop}
-                    status={result ? 'done' : 'available'}
-                    title={displayTitle(entry.title)}
-                    meta={SLOT_NAMES[entry.drop - 1] ?? `Drop ${entry.drop}`}
-                    timeLabel=""
-                    scoreLabel={
-                      result ? `${result.correctCount}/${result.items.length}` : undefined
-                    }
-                    onPress={() => openDrop(entry)}
-                  />
-                );
-              })}
+          <View key={date} className="mb-5">
+            <Muted className="mb-2 text-[13px]">{friendlyDate(date, zonedNow.date)}</Muted>
+            <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
+              {(byDate.get(date) ?? [])
+                .slice()
+                .sort((x, y) => x.drop - y.drop)
+                .map((entry, i) => {
+                  const result = results[dropKey(entry)];
+                  return (
+                    <DropCard
+                      key={entry.path}
+                      divider={i > 0}
+                      status={result ? 'done' : 'available'}
+                      title={displayTitle(entry.title)}
+                      meta=""
+                      timeLabel=""
+                      scoreLabel={
+                        result ? `${result.correctCount}/${result.items.length}` : undefined
+                      }
+                      onPress={() => openDrop(entry)}
+                    />
+                  );
+                })}
+            </View>
           </View>
         ))
       )}
@@ -213,20 +218,5 @@ export default function CategoryScreen() {
         />
       ) : null}
     </Screen>
-  );
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return (
-    <View
-      accessible
-      accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 rounded-xl bg-zinc-100 px-3 py-3 dark:bg-ink-raised"
-    >
-      <Txt weight="display" className="text-xl">
-        {value}
-      </Txt>
-      <Muted className="text-xs">{label}</Muted>
-    </View>
   );
 }

@@ -16,8 +16,8 @@ const DESCRIPTION =
 // later (same value Tailwind writes for darkMode: 'class').
 const BACKGROUND_CSS = `
 :root { --css-interop-darkMode: class dark; }
-body { background-color: #FAFAFA; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html.dark body { background-color: #000000; }
+body { background-color: #FFFFFF; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html.dark body { background-color: #0A0A0A; }
 `;
 
 // Dark mode for the website, BEFORE the app loads (so the page never flashes):

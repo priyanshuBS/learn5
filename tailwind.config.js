@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-// Learn5 design system for Tailwind (NativeWind) — "Monochrome".
-//   Pure black and white. The accent is ink: black in light mode, white in dark mode.
+// Learn5 design system for Tailwind (NativeWind) — "Monochrome" (flat, Geist).
+//   Pure black and white, flat surfaces and hairlines. The accent is ink: black in light mode, white in dark mode.
 //   brand  = ink: buttons, links, the active tab, progress
 //   pop    = the same (older class names)
 //   canvas / line = light mode page and hairlines
@@ -43,16 +43,16 @@ module.exports = {
         accent: { 300: '#E4E4E7', 400: '#FAFAFA', 500: '#71717A' },
         volt: { DEFAULT: '#0A0A0A', dim: '#262626' },
         gold: { DEFAULT: '#A3A3A3', soft: '#F5F5F5', light: '#D4D4D4' },
-        // Light mode: paper white.
-        canvas: '#FAFAFA',
-        line: '#E5E5E5',
-        // Dark mode: true black with charcoal cards.
+        // Light mode: white page, flat white surfaces, hairlines.
+        canvas: '#FFFFFF',
+        line: '#EAEAEA',
+        // Dark mode: near-black page; surfaces are the page colour plus a hairline.
         ink: {
-          DEFAULT: '#000000',
+          DEFAULT: '#0A0A0A',
           soft: '#0A0A0A',
-          card: '#111111',
-          raised: '#1A1A1A',
-          line: '#262626',
+          card: '#0A0A0A',
+          raised: '#171717',
+          line: '#242424',
           solid: '#111111',
         },
         // Pure neutral greys (no colour tint).
@@ -70,16 +70,16 @@ module.exports = {
           950: '#0A0A0A',
         },
       },
-      // Plus Jakarta Sans for everything; Geist Mono for numbers, times and small labels.
+      // Geist for everything; Geist Mono for numbers, times and small labels.
       // Each weight is its own font file, so weights are chosen with these
       // classes (via the Txt component), not "font-bold".
       fontFamily: {
-        display: ['PlusJakartaSans_800ExtraBold'],
-        body: ['PlusJakartaSans_400Regular'],
-        'body-medium': ['PlusJakartaSans_500Medium'],
-        'body-semibold': ['PlusJakartaSans_600SemiBold'],
-        'body-bold': ['PlusJakartaSans_700Bold'],
-        'body-heavy': ['PlusJakartaSans_800ExtraBold'],
+        display: ['Geist_600SemiBold'],
+        body: ['Geist_400Regular'],
+        'body-medium': ['Geist_500Medium'],
+        'body-semibold': ['Geist_600SemiBold'],
+        'body-bold': ['Geist_700Bold'],
+        'body-heavy': ['Geist_700Bold'],
         mono: ['GeistMono_500Medium'],
         'mono-semibold': ['GeistMono_600SemiBold'],
       },

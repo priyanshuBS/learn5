@@ -1,14 +1,10 @@
 /**
- * Home — the daily dashboard ("Slate & Teal"). Simple by design:
- *   1. date and greeting
- *   2. a teal hero: today's progress (one drop per subject, all at 4 AM),
- *      plus streak, points and level
- *   3. the four subjects, each with its ONE drop for today
- *   4. today's read: ONE article a day, the subject rotates
- *   5. this week: streak days and level progress
- * No motion on load: the screen is calm until you interact with it.
+ * Today — the daily dashboard. Flat, black and white, built from lists and type:
+ *   1. "Today", the date and a one-line status, with a segmented progress line
+ *   2. Drops: the four subjects as one list, one drop each (all open at 4 AM)
+ *   3. Today's read: ONE article a day, the subject rotates
+ *   4. Side column (below on phones): streak/points/level, this week, level progress
  */
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
@@ -16,13 +12,12 @@ import { twMerge } from 'tailwind-merge';
 import { ArticleCard } from '@/components/ArticleCard';
 import { CARD_CLASSES } from '@/components/Card';
 import { CategoryCard } from '@/components/CategoryCard';
-import { CategoryIcon } from '@/components/CategoryIcon';
-import { Icon, type IconName } from '@/components/Icon';
-import { Icon3D } from '@/components/Icon3D';
+import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { SectionTitle } from '@/components/PageHeader';
-import { ProgressBar, ProgressRing } from '@/components/ProgressBar';
+import { ProgressBar } from '@/components/ProgressBar';
 import { Screen } from '@/components/Screen';
+import { StatStrip } from '@/components/StatCard';
 import { SkeletonBlock } from '@/components/StateViews';
 import { ThemeIconButton } from '@/components/ThemeToggle';
 import { Muted, Txt } from '@/components/Txt';
@@ -33,15 +28,17 @@ import { useAppData } from '@/hooks/useAppData';
 import { articleKey } from '@/lib/articles';
 import { addDays } from '@/lib/dates';
 import { scheduledArticleCategory } from '@/lib/rotation';
-import { greeting, localClockLabel, longDate } from '@/lib/time';
-import { colors, HERO_GRADIENT, ICON3D } from '@/theme';
+import { localClockLabel, longDate } from '@/lib/time';
+import { useColorScheme } from '@/hooks/useScheme';
+import { colors } from '@/theme';
 
-export default function HomeScreen() {
-  const { ready, index, zonedNow, now, today, stats, results, isDone } = useAppData();
+export default function TodayScreen() {
+  const { ready, index, zonedNow, today, stats, results, isDone } = useAppData();
   const articles = useArticles((s) => s.articles);
   const readMarks = useArticleReads((s) => s.read);
+  const dark = useColorScheme() === 'dark';
 
-  if (!ready || !index) return <HomeSkeleton />;
+  if (!ready || !index) return <TodaySkeleton />;
 
   // Every subject's drop for today.
   const rows = index.categories.map((category) => ({
@@ -49,17 +46,13 @@ export default function HomeScreen() {
     slots: getTodaySlots(index, category.id, zonedNow, isDone),
     catchUp: getCatchUpEntry(index, category.id, zonedNow, isDone),
   }));
-
+  const slotsToday = rows.flatMap((r) => r.slots);
+  const doneToday = slotsToday.filter((s) => s.status === 'done').length;
+  const totalToday = slotsToday.length;
+  const openNow = slotsToday.filter((s) => s.status === 'available').length;
   const next = getNextOpening(index, zonedNow);
-  const nextTime = next ? localClockLabel(next.time, zonedNow.offsetMinutes) : '—';
-  const doneToday = rows.reduce((n, r) => n + r.slots.filter((s) => s.status === 'done').length, 0);
-  const totalToday = rows.reduce((n, r) => n + r.slots.length, 0);
-  const openNow = rows.reduce(
-    (n, r) => n + r.slots.filter((s) => s.status === 'available').length,
-    0,
-  );
+  const nextTime = next ? localClockLabel(next.time, zonedNow.offsetMinutes) : '4:00 AM';
   const { streak, level, points } = stats;
-  const pct = totalToday ? Math.round((doneToday / totalToday) * 100) : 0;
 
   // Today's read: one article a day (before 4 AM, the latest one).
   const latestDate = articles?.reduce((max, a) => (a.date > max ? a.date : max), '') ?? '';
@@ -73,264 +66,171 @@ export default function HomeScreen() {
   const tomorrowCategory = index.categories.find((c) => c.id === tomorrowId);
   const playedDays = new Set(Object.values(results).map((r) => r.completedOn));
 
-  const headline =
+  const status =
     totalToday > 0 && doneToday === totalToday
-      ? 'All done for today'
+      ? `All ${totalToday} drops done. New ones ${next?.tomorrow === false ? 'today' : 'tomorrow'} at ${nextTime}.`
       : openNow > 0
-        ? `${openNow} ${openNow === 1 ? 'drop' : 'drops'} ready for you`
-        : `Next drops at ${nextTime}`;
-  const subline =
-    totalToday > 0 && doneToday === totalToday
-      ? `Great work. New drops ${next?.tomorrow === false ? 'today' : 'tomorrow'} at ${nextTime}.`
-      : `One drop per subject, every day at ${nextTime}. About 5 minutes each.`;
+        ? `${doneToday} of ${totalToday} done · ${openNow} ready to play`
+        : `${doneToday} of ${totalToday} done · next drops at ${nextTime}`;
 
   return (
     <Screen>
       {/* Phone top bar (the sidebar has these on wide screens) */}
-      <View className="mb-6 flex-row items-center justify-between lg:hidden">
+      <View className="mb-8 flex-row items-center justify-between lg:hidden">
         <Logo />
         <ThemeIconButton />
       </View>
 
-      {/* Greeting */}
-      <Txt
-        weight="mono"
-        className="text-[11.5px] uppercase tracking-[1.6px] text-zinc-500 dark:text-zinc-400"
-      >
-        {longDate(zonedNow.date)}
-      </Txt>
+      {/* Header */}
+      <Muted className="text-[13px]">{longDate(zonedNow.date)}</Muted>
       <Txt
         weight="display"
         accessibilityRole="header"
-        className="mt-1.5 text-[30px] leading-[36px] md:text-[38px] md:leading-[46px]"
+        className="mt-1 text-[32px] leading-[38px] md:text-[36px] md:leading-[42px]"
       >
-        {greeting(now)}
+        Today
       </Txt>
-
-      {/* Hero: today's progress */}
-      <View className="mt-5 overflow-hidden rounded-[24px] border border-transparent web:shadow-[0_24px_60px_-28px_rgba(0,0,0,0.55)] dark:border-ink-line">
-        <LinearGradient
-          colors={[...HERO_GRADIENT]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ padding: 22 }}
-        >
-          {/* A soft light in the corner for depth */}
+      <Muted className="mt-1.5 text-[15px] leading-6">{status}</Muted>
+      <View
+        className="mt-5 flex-row gap-1"
+        accessible
+        accessibilityRole="progressbar"
+        accessibilityLabel={`${doneToday} of ${totalToday} drops done today`}
+      >
+        {rows.map((r) => (
           <View
-            pointerEvents="none"
-            className="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/[0.07]"
+            key={r.category.id}
+            className={twMerge(
+              'h-1 flex-1 rounded-full',
+              r.slots[0]?.status === 'done'
+                ? 'bg-zinc-950 dark:bg-[#EDEDED]'
+                : 'bg-zinc-200 dark:bg-ink-raised',
+            )}
           />
-          <View className="flex-row items-center gap-5">
-            <View className="flex-1">
-              <Txt
-                weight="mono"
-                className="text-[11px] uppercase tracking-[1.6px] text-white/70 dark:text-white/70"
-              >
-                Today · {doneToday} of {totalToday} done
-              </Txt>
-              <Txt
-                weight="display"
-                className="mt-2 text-[24px] leading-[30px] text-white dark:text-white md:text-[28px] md:leading-[34px]"
-              >
-                {headline}
-              </Txt>
-              <Txt className="mt-1.5 text-[13.5px] leading-5 text-white/75 dark:text-white/75">
-                {subline}
-              </Txt>
-            </View>
-            <ProgressRing
-              value={totalToday ? doneToday / totalToday : 0}
-              size={84}
-              strokeWidth={8}
-              color="#FFFFFF"
-              trackColor="rgba(255,255,255,0.18)"
-              label={`${doneToday} of ${totalToday} drops done today`}
-            >
-              <Txt weight="display" className="text-[19px] text-white dark:text-white">
-                {pct}%
-              </Txt>
-            </ProgressRing>
-          </View>
-
-          <View className="mt-5 flex-row gap-2">
-            <HeroStat icon="flame" color="#FFFFFF" value={`${streak.current}`} label="day streak" />
-            <HeroStat
-              icon="star"
-              color="#FFFFFF"
-              value={points.toLocaleString('en-IN')}
-              label="points"
-            />
-            <HeroStat
-              icon="trophy"
-              color="#FFFFFF"
-              value={`Lv ${level.level}`}
-              label={level.name}
-            />
-          </View>
-        </LinearGradient>
-      </View>
-
-      {streak.current > 0 && !streak.playedToday ? (
-        <View className="mt-3 flex-row items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-3 dark:border-ink-line dark:bg-ink-card">
-          <Icon name="flame" size={15} color={colors.brand} />
-          <Txt className="flex-1 text-[13px] text-zinc-700 dark:text-zinc-200">
-            Play one drop today to keep your {streak.current}-day streak.
-          </Txt>
-        </View>
-      ) : null}
-
-      {/* ── Today's drops: one per subject ── */}
-      <SectionTitle
-        title="Today's drops"
-        subtitle="Five questions per subject, from easy to hard."
-        right={
-          <Txt weight="mono" className="text-[12px] text-zinc-500 dark:text-zinc-400">
-            {doneToday}/{totalToday}
-          </Txt>
-        }
-      />
-      <View className="-m-1.5 flex-row flex-wrap">
-        {rows.map((row) => (
-          <View key={row.category.id} className="w-full p-1.5 sm:w-1/2">
-            <CategoryCard
-              category={row.category}
-              slots={row.slots}
-              offsetMinutes={zonedNow.offsetMinutes}
-              catchUp={row.catchUp}
-              getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
-            />
-          </View>
         ))}
       </View>
 
-      {/* ── Today's read ── */}
-      <SectionTitle
-        title={latestDate === zonedNow.date ? "Today's read" : 'Latest read'}
-        subtitle="One short article a day, a new subject each morning."
-        right={
-          <Pressable accessibilityRole="link" onPress={() => router.push('/articles')} hitSlop={8}>
-            <Txt weight="semibold" className="text-[13px] text-brand-700 dark:text-brand-300">
-              All reads
-            </Txt>
-          </Pressable>
-        }
-      />
-      {read && readCategory ? (
-        <ArticleCard article={read} category={readCategory} read={!!readMarks[articleKey(read)]} />
-      ) : (
-        <View className="flex-row items-center gap-3 rounded-[20px] border border-dashed border-line p-5 dark:border-ink-line">
-          <Icon name="articles" size={18} color={colors.muted} />
-          <Muted className="flex-1 text-[14px]">Today&apos;s article is being written.</Muted>
-        </View>
-      )}
-      {tomorrowCategory ? (
-        <View className="mt-3 flex-row items-center gap-2.5 px-1">
-          <CategoryIcon category={tomorrowCategory} size="xs" />
-          <Muted className="text-[13px]">
-            Tomorrow&apos;s read:{' '}
-            <Txt weight="semibold" className="text-[13px]">
-              {tomorrowCategory.name}
-            </Txt>
-          </Muted>
-        </View>
-      ) : null}
+      <View className="lg:flex-row lg:gap-10">
+        {/* ── Main column ── */}
+        <View className="lg:flex-[2]">
+          <SectionTitle
+            title="Drops"
+            subtitle={`One per subject · 5 questions · opens daily at ${nextTime}`}
+          />
+          <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
+            {rows.map((row, i) => (
+              <CategoryCard
+                key={row.category.id}
+                category={row.category}
+                slots={row.slots}
+                offsetMinutes={zonedNow.offsetMinutes}
+                catchUp={row.catchUp}
+                divider={i > 0}
+                getResult={(slot) => (slot.entry ? results[dropKey(slot.entry)] : undefined)}
+              />
+            ))}
+          </View>
 
-      {/* ── This week ── */}
-      <SectionTitle title="This week" />
-      <View className="gap-3 md:flex-row">
-        <View className="md:flex-1">
+          <SectionTitle
+            title={latestDate === zonedNow.date ? "Today's read" : 'Latest read'}
+            subtitle={
+              tomorrowCategory ? `Tomorrow: ${tomorrowCategory.name}` : 'A new subject every day'
+            }
+            right={
+              <Pressable
+                accessibilityRole="link"
+                onPress={() => router.push('/articles')}
+                hitSlop={8}
+                className="flex-row items-center gap-1"
+              >
+                <Txt weight="medium" className="text-[13px] text-zinc-600 dark:text-zinc-400">
+                  All reads
+                </Txt>
+                <Icon name="chevron-right" size={14} color={dark ? '#8F8F8F' : '#737373'} />
+              </Pressable>
+            }
+          />
+          {read && readCategory ? (
+            <ArticleCard
+              article={read}
+              category={readCategory}
+              read={!!readMarks[articleKey(read)]}
+            />
+          ) : (
+            <View className="rounded-xl border border-dashed border-line px-5 py-8 dark:border-ink-line">
+              <Muted className="text-center text-[14px]">
+                Today&apos;s article is being written. Check back soon.
+              </Muted>
+            </View>
+          )}
+        </View>
+
+        {/* ── Side column ── */}
+        <View className="lg:flex-1">
+          <SectionTitle title="Overview" />
+          <StatStrip
+            stats={[
+              { label: 'Points', value: points.toLocaleString('en-IN') },
+              { label: 'Level', value: `${level.level}` },
+              { label: 'Drops done', value: `${stats.dropsDone}` },
+            ]}
+          />
           <WeekStreak
+            className="mt-3"
             playedDays={playedDays}
             today={today}
             current={streak.current}
             best={streak.best}
           />
-        </View>
-        <View className={twMerge(CARD_CLASSES, 'justify-between p-5 md:flex-1')}>
-          <View className="flex-row items-center gap-3.5">
-            <Icon3D icon="trophy" color={ICON3D.trophy} size={44} />
-            <View className="flex-1">
-              <Muted className="text-[13px]">Level {level.level}</Muted>
-              <Txt weight="display" className="mt-0.5 text-lg">
-                {level.name}
+          <View className={twMerge(CARD_CLASSES, 'mt-3 p-5')}>
+            <View className="flex-row items-end justify-between">
+              <View>
+                <Muted className="text-[13px]">Level {level.level}</Muted>
+                <Txt weight="display" className="mt-1 text-[20px] leading-7">
+                  {level.name}
+                </Txt>
+              </View>
+              <Txt weight="mono" className="text-[12.5px] text-zinc-500 dark:text-zinc-400">
+                {Math.round(level.progress * 100)}%
               </Txt>
             </View>
-            <View className="items-end">
-              <Muted className="text-[13px]">Points</Muted>
-              <Txt weight="display" className="mt-0.5 text-lg">
-                {points.toLocaleString('en-IN')}
-              </Txt>
-            </View>
-          </View>
-          <View className="mt-5">
             <ProgressBar
               value={level.progress}
+              className="mt-4"
               label={`Level progress ${Math.round(level.progress * 100)} percent`}
             />
-            <Muted className="mt-2 text-[13px]">
+            <Muted className="mt-2.5 text-[13px]">
               {level.nextAt
-                ? `${(level.nextAt - points).toLocaleString('en-IN')} points to Level ${level.level + 1}`
+                ? `${(level.nextAt - points).toLocaleString('en-IN')} points to level ${level.level + 1}`
                 : 'You reached the highest level.'}
             </Muted>
           </View>
+          {streak.current > 0 && !streak.playedToday ? (
+            <View className="mt-3 flex-row items-center gap-2.5 rounded-xl border border-line px-4 py-3 dark:border-ink-line">
+              <Icon name="flame" size={14} color={colors.brand} />
+              <Txt className="flex-1 text-[13px] text-zinc-700 dark:text-zinc-300">
+                Play one drop today to keep your {streak.current}-day streak.
+              </Txt>
+            </View>
+          ) : null}
         </View>
       </View>
     </Screen>
   );
 }
 
-/** One number on the hero, on a frosted chip. */
-function HeroStat({
-  icon,
-  color,
-  value,
-  label,
-}: {
-  icon: IconName;
-  color: string;
-  value: string;
-  label: string;
-}) {
-  return (
-    <View
-      accessible
-      accessibilityLabel={`${label}: ${value}`}
-      className="flex-1 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-white/10 px-3 py-2.5"
-    >
-      <Icon name={icon} size={16} color={color} filled={icon !== 'trophy'} />
-      <View className="flex-1">
-        <Txt
-          weight="bold"
-          className="text-[15px] leading-5 text-white dark:text-white"
-          numberOfLines={1}
-        >
-          {value}
-        </Txt>
-        <Txt className="text-[11px] text-white/70 dark:text-white/70" numberOfLines={1}>
-          {label}
-        </Txt>
-      </View>
-    </View>
-  );
-}
-
 /** Placeholder shapes while saved progress and content load. */
-function HomeSkeleton() {
+function TodaySkeleton() {
   return (
     <Screen>
-      <View className="mb-6 lg:hidden">
+      <View className="mb-8 lg:hidden">
         <Logo />
       </View>
-      <SkeletonBlock className="h-3 w-40" />
-      <SkeletonBlock className="mt-3 h-8 w-56" />
-      <SkeletonBlock className="mt-5 h-44 rounded-[24px]" />
-      <View className="-m-1.5 mt-10 flex-row flex-wrap">
-        {[0, 1, 2, 3].map((i) => (
-          <View key={i} className="w-full p-1.5 sm:w-1/2">
-            <SkeletonBlock className="h-52 rounded-[20px]" />
-          </View>
-        ))}
-      </View>
+      <SkeletonBlock className="h-3 w-36" />
+      <SkeletonBlock className="mt-3 h-9 w-32" />
+      <SkeletonBlock className="mt-3 h-3 w-56" />
+      <SkeletonBlock className="mt-5 h-1 rounded-full" />
+      <SkeletonBlock className="mt-12 h-72" />
     </Screen>
   );
 }

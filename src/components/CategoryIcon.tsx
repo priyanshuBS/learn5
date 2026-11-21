@@ -1,5 +1,5 @@
 /**
- * CategoryIcon — the subject's 3D icon (see Icon3D) in the subject's colour.
+ * CategoryIcon — the subject's line icon in a flat bordered tile (see Icon3D).
  * Falls back to the subject's emoji if it has no line icon.
  */
 import { View } from 'react-native';
@@ -12,9 +12,9 @@ import { Txt } from './Txt';
 
 const SIZES = {
   xs: { box: 22, emoji: 'text-sm' },
-  sm: { box: 34, emoji: 'text-base' },
-  md: { box: 48, emoji: 'text-xl' },
-  lg: { box: 64, emoji: 'text-3xl' },
+  sm: { box: 32, emoji: 'text-base' },
+  md: { box: 40, emoji: 'text-xl' },
+  lg: { box: 52, emoji: 'text-3xl' },
 } as const;
 
 export function CategoryIcon({

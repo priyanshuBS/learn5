@@ -83,18 +83,16 @@ export function RemindersSettings() {
                 accessibilityLabel={`Remind me at ${t.label}`}
                 onPress={() => void setReminderTime(t.hour, t.minute)}
                 className={twMerge(
-                  'rounded-full border px-4 py-2',
+                  'rounded-md border px-3 py-1.5',
                   active
-                    ? 'border-brand-500 bg-brand-500/15 dark:border-brand-400 dark:bg-brand-400/10'
+                    ? 'border-zinc-950 bg-zinc-950 dark:border-[#EDEDED] dark:bg-[#EDEDED]'
                     : 'border-line dark:border-ink-line',
                 )}
               >
                 <Txt
                   weight="semibold"
                   className="text-[13px]"
-                  style={
-                    active ? { color: dark ? colors.brandOnDark : colors.brandDark } : undefined
-                  }
+                  style={active ? { color: dark ? '#111111' : '#FFFFFF' } : undefined}
                 >
                   {t.label}
                 </Txt>
@@ -151,9 +149,9 @@ function IconTile({
   return (
     <View
       className={twMerge(
-        'h-11 w-11 items-center justify-center rounded-2xl border',
+        'h-10 w-10 items-center justify-center rounded-lg border',
         active
-          ? 'border-brand-500/30 bg-brand-500/15'
+          ? 'border-line bg-zinc-100 dark:border-ink-line dark:bg-ink-raised'
           : 'border-line bg-zinc-50 dark:border-ink-line dark:bg-ink-raised',
       )}
     >

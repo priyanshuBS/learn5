@@ -1,15 +1,13 @@
 /**
- * WeekStreak — the last 7 days as circles: filled = you played that day.
- * Today shows a dashed ring until you play.
+ * WeekStreak — the last 7 days as squares: filled = you played that day,
+ * outlined = today (not played yet). Current and best streak on top.
  */
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 import { addDays } from '@/lib/dates';
-import { colors } from '@/theme';
 
 import { CARD_CLASSES } from './Card';
-import { Icon } from './Icon';
 import { Muted, Txt } from './Txt';
 
 const LETTERS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -41,51 +39,37 @@ export function WeekStreak({
       } of the last 7 days.`}
       className={twMerge(CARD_CLASSES, 'p-5', className)}
     >
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center gap-3">
-          <View className="h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-ink-raised">
-            <Icon name="flame" size={20} color={colors.brand} filled />
-          </View>
-          <View>
-            <Txt weight="display" className="text-lg">
-              {current} day{current === 1 ? '' : 's'}
-            </Txt>
-            <Muted className="text-xs">Current streak</Muted>
-          </View>
-        </View>
-        <View className="items-end">
-          <Txt weight="semibold" className="text-sm">
-            {best}
+      <View className="flex-row items-end justify-between">
+        <View>
+          <Muted className="text-[13px]">Streak</Muted>
+          <Txt weight="display" className="mt-1 text-[26px] leading-8">
+            {current} {current === 1 ? 'day' : 'days'}
           </Txt>
-          <Muted className="text-xs">Best</Muted>
         </View>
+        <Muted className="text-[13px]">Best {best}</Muted>
       </View>
 
-      <View className="mt-5 flex-row justify-between">
+      <View className="mt-5 flex-row gap-1.5">
         {days.map((day) => {
           const played = playedDays.has(day);
           const isToday = day === today;
           return (
-            <View key={day} className="items-center gap-1.5">
+            <View key={day} className="flex-1 items-center gap-2">
               <View
                 className={twMerge(
-                  'h-9 w-9 items-center justify-center rounded-full',
-                  played && 'bg-zinc-950 dark:bg-white',
-                  !played && isToday && 'border border-dashed border-zinc-400 dark:border-zinc-500',
+                  'h-8 w-full rounded-md',
+                  played && 'bg-zinc-950 dark:bg-[#EDEDED]',
+                  !played && isToday && 'border border-zinc-950 dark:border-[#EDEDED]',
                   !played && !isToday && 'bg-zinc-100 dark:bg-ink-raised',
                 )}
-              >
-                {played ? (
-                  <Icon name="flame" size={16} color={colors.white} filled />
-                ) : isToday ? (
-                  <View className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />
-                ) : null}
-              </View>
+              />
               <Txt
-                weight={isToday ? 'bold' : 'medium'}
+                weight="mono"
                 className={twMerge(
                   'text-[11px]',
-                  isToday ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 dark:text-zinc-500',
+                  isToday
+                    ? 'text-zinc-950 dark:text-[#EDEDED]'
+                    : 'text-zinc-400 dark:text-zinc-500',
                 )}
               >
                 {LETTERS[weekday(day)]}

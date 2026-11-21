@@ -1,5 +1,5 @@
 /**
- * BadgeCard — one badge: a coloured 3D icon when earned; grey, faded and with a
+ * BadgeCard — one badge: a solid icon tile when earned; a quiet outline and a
  * progress bar when not.
  */
 import { View } from 'react-native';
@@ -25,7 +25,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
       }`}
       // A fixed height (not "stretch to fill") keeps every badge the same size on
       // phones and the web without the layout bugs stretching causes on phones.
-      className={twMerge(CARD_CLASSES, 'h-[232px] justify-between p-4')}
+      className={twMerge(CARD_CLASSES, 'h-[180px] justify-between p-4')}
     >
       <View>
         <View className="flex-row items-start justify-between">
@@ -33,17 +33,18 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
             <Icon3D
               icon={BADGE_ICONS[badge.id] ?? 'medal'}
               muted={!badge.earned}
-              size={48}
+              solid={badge.earned}
+              size={36}
               filled={badge.id.startsWith('streak-7')}
             />
           </View>
           {badge.earned ? (
-            <Icon name="badge-check" size={18} color={colors.success} />
+            <Icon name="check" size={15} color={colors.success} strokeWidth={2.5} />
           ) : (
             <Icon name="lock" size={14} color={scheme === 'dark' ? '#404040' : '#D4D4D4'} />
           )}
         </View>
-        <Txt weight="semibold" className="mt-3.5 text-[15px]">
+        <Txt weight="medium" className="mt-4 text-[15px]">
           {badge.name}
         </Txt>
         <Muted className="mt-0.5 text-[13px] leading-5" numberOfLines={3}>
@@ -51,7 +52,7 @@ export function BadgeCard({ badge }: { badge: BadgeStatus }) {
         </Muted>
       </View>
       {badge.earned ? (
-        <Txt weight="semibold" className="text-xs text-emerald-700 dark:text-emerald-300">
+        <Txt weight="mono" className="text-[11px] uppercase tracking-[1px] text-zinc-500">
           Earned
         </Txt>
       ) : (

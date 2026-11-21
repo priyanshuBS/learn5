@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { ArticleCard } from '@/components/ArticleCard';
+import { CARD_CLASSES } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { PageHeader, SectionTitle } from '@/components/PageHeader';
 import { Screen } from '@/components/Screen';
@@ -24,8 +25,6 @@ import { addDays } from '@/lib/dates';
 import { scheduledArticleCategory } from '@/lib/rotation';
 import type { ArticleSummary } from '@/lib/schema';
 import { friendlyDate, localClockLabel } from '@/lib/time';
-import { useColorScheme } from '@/hooks/useScheme';
-import { categoryTone, withAlpha } from '@/theme';
 import { twMerge } from 'tailwind-merge';
 
 const DAYS_PER_PAGE = 7;
@@ -82,7 +81,7 @@ export default function ArticlesScreen() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerClassName="gap-2 pb-1"
+        contentContainerClassName="gap-1.5 pb-1"
         className="-mx-4 px-4 md:mx-0 md:px-0"
       >
         <FilterChip label="All" active={!subject} onPress={() => setSubject(null)} />
@@ -128,7 +127,7 @@ export default function ArticlesScreen() {
                   {a ? (
                     <ArticleCard article={a} category={category} read={!!read[articleKey(a)]} />
                   ) : (
-                    <View className="flex-row items-center gap-3.5 rounded-[20px] border border-dashed border-line p-4 dark:border-ink-line">
+                    <View className="flex-row items-center gap-3.5 rounded-xl border border-dashed border-line p-4 dark:border-ink-line">
                       <CategoryIcon category={category} size="sm" />
                       <View className="flex-1">
                         <Txt weight="semibold" className="text-[15px]">
@@ -147,20 +146,23 @@ export default function ArticlesScreen() {
 
           {dates.length > 0 ? <SectionTitle title="Earlier" /> : null}
           {dates.slice(0, daysShown).map((date) => (
-            <View key={date} className="mb-3">
-              <Muted className="mb-2 mt-1 text-[13px]">{friendlyDate(date, zonedNow.date)}</Muted>
-              {(byDate.get(date) ?? []).map((a) => {
-                const category = categoryOf(a);
-                return category ? (
-                  <ArticleCard
-                    key={articleKey(a)}
-                    article={a}
-                    category={category}
-                    read={!!read[articleKey(a)]}
-                    variant="row"
-                  />
-                ) : null;
-              })}
+            <View key={date} className="mb-5">
+              <Muted className="mb-2 text-[13px]">{friendlyDate(date, zonedNow.date)}</Muted>
+              <View className={twMerge(CARD_CLASSES, 'overflow-hidden')}>
+                {(byDate.get(date) ?? []).map((a, i) => {
+                  const category = categoryOf(a);
+                  return category ? (
+                    <ArticleCard
+                      key={articleKey(a)}
+                      article={a}
+                      category={category}
+                      read={!!read[articleKey(a)]}
+                      variant="row"
+                      divider={i > 0}
+                    />
+                  ) : null;
+                })}
+              </View>
             </View>
           ))}
           {dates.length > daysShown ? (
@@ -182,10 +184,9 @@ export default function ArticlesScreen() {
   );
 }
 
-/** A pill to filter the list by subject. */
+/** A flat chip to filter the list by subject. */
 function FilterChip({
   label,
-  color,
   active,
   onPress,
 }: {
@@ -194,31 +195,23 @@ function FilterChip({
   active: boolean;
   onPress: () => void;
 }) {
-  const dark = useColorScheme() === 'dark';
-  const tone = color ? categoryTone(color, dark) : undefined;
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       onPress={onPress}
       className={twMerge(
-        'h-9 flex-row items-center gap-2 rounded-full border px-4',
+        'h-8 flex-row items-center rounded-md border px-3 web:transition-colors',
         active
-          ? 'border-transparent bg-zinc-900 dark:bg-white'
-          : 'border-line bg-white active:bg-zinc-100 dark:border-ink-line dark:bg-ink-card dark:active:bg-ink-raised',
+          ? 'border-zinc-950 bg-zinc-950 dark:border-[#EDEDED] dark:bg-[#EDEDED]'
+          : 'border-line bg-white active:bg-zinc-50 web:hover:bg-zinc-50 dark:border-ink-line dark:bg-ink dark:active:bg-white/[0.04] dark:web:hover:bg-white/[0.04]',
       )}
-      style={
-        active && tone
-          ? { backgroundColor: withAlpha(tone, dark ? 0.2 : 0.14), borderColor: tone }
-          : undefined
-      }
     >
-      {color ? <View className="h-2 w-2 rounded-full" style={{ backgroundColor: tone }} /> : null}
       <Txt
-        weight="semibold"
+        weight="medium"
         className={twMerge(
           'text-[13px]',
-          active && !color ? 'text-white dark:text-zinc-900' : 'text-zinc-700 dark:text-zinc-200',
+          active ? 'text-white dark:text-[#111111]' : 'text-zinc-600 dark:text-zinc-400',
         )}
       >
         {label}

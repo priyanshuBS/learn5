@@ -45,7 +45,7 @@ export function LegalPage({
       <Txt
         weight="display"
         accessibilityRole="header"
-        className="mt-3 text-[38px] leading-[42px] md:text-[52px] md:leading-[56px]"
+        className="mt-3 text-[34px] leading-[40px] tracking-[-0.8px] md:text-[44px] md:leading-[50px]"
       >
         {title}
       </Txt>
@@ -63,7 +63,7 @@ export function LegalPage({
               {section.body.map((line) =>
                 line.startsWith('• ') ? (
                   <View key={line} className="flex-row gap-2.5 pl-1">
-                    <Txt className="text-[15px] leading-6 text-brand-500">•</Txt>
+                    <Txt className="text-[15px] leading-6 text-zinc-400">•</Txt>
                     <Txt className="flex-1 text-[15px] leading-6 text-zinc-700 dark:text-zinc-300">
                       {line.slice(2)}
                     </Txt>

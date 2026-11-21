@@ -34,31 +34,28 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
     case 'primary':
     case 'accent':
       return dark
-        ? { box: 'bg-white web:hover:bg-zinc-200', text: '#111111' }
-        : {
-            box: 'bg-zinc-950 web:shadow-[0_8px_24px_-14px_rgba(0,0,0,0.5)] web:hover:bg-black',
-            text: '#FFFFFF',
-          };
+        ? { box: 'bg-[#EDEDED] web:hover:bg-white', text: '#111111' }
+        : { box: 'bg-zinc-950 web:hover:bg-zinc-800', text: '#FFFFFF' };
     case 'secondary':
       return dark
         ? {
-            box: 'border border-ink-line bg-ink-raised web:hover:border-zinc-600',
+            box: 'border border-ink-line bg-ink web:hover:bg-ink-raised',
             text: colors.textDark,
           }
         : {
-            box: 'border border-line bg-white web:hover:border-zinc-300 web:hover:bg-zinc-50',
+            box: 'border border-line bg-white web:hover:bg-zinc-50',
             text: colors.text,
           };
     case 'soft':
       return dark
-        ? { box: 'bg-brand-400/15 web:hover:bg-brand-400/25', text: colors.brandOnDark }
-        : { box: 'bg-brand-50 web:hover:bg-brand-100', text: colors.brandDark };
+        ? { box: 'bg-white/[0.06] web:hover:bg-white/[0.1]', text: colors.textDark }
+        : { box: 'bg-zinc-100 web:hover:bg-zinc-200', text: colors.text };
     case 'success':
       return { box: 'bg-green-600 web:hover:bg-green-700', text: '#FFFFFF' };
     case 'danger':
       return { box: 'bg-red-600 web:hover:bg-red-700', text: '#FFFFFF' };
     case 'inverse':
-      return { box: 'bg-white web:hover:bg-brand-50', text: '#0F172A' };
+      return { box: 'bg-white web:hover:bg-zinc-100', text: '#0A0A0A' };
     case 'ghost':
       return dark
         ? { box: 'web:hover:bg-white/5', text: '#D4D4D4' }
@@ -67,13 +64,13 @@ function styles(variant: ButtonVariant, dark: boolean): { box: string; text: str
 }
 
 const SIZE: Record<Size, { height: number; pad: string; text: string; icon: number }> = {
-  sm: { height: 38, pad: 'px-4', text: 'text-[13px]', icon: 15 },
-  md: { height: 46, pad: 'px-5', text: 'text-[14px]', icon: 16 },
-  lg: { height: 54, pad: 'px-6', text: 'text-[16px]', icon: 18 },
+  sm: { height: 32, pad: 'px-3', text: 'text-[13px]', icon: 14 },
+  md: { height: 40, pad: 'px-4', text: 'text-[14px]', icon: 15 },
+  lg: { height: 46, pad: 'px-5', text: 'text-[15px]', icon: 16 },
 };
 
 /** A gentle squish when pressed (shared by buttons and tappable cards). */
-export function usePress(amount = 0.97) {
+export function usePress(amount = 0.985) {
   const pressed = useSharedValue(0);
   const style = useAnimatedStyle(() => ({
     transform: [{ scale: 1 - pressed.get() * (1 - amount) }],
@@ -138,7 +135,7 @@ export function Button({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'flex-row items-center justify-center overflow-hidden rounded-xl web:transition-colors web:duration-150',
+            'flex-row items-center justify-center overflow-hidden rounded-lg web:transition-colors web:duration-150',
             s.pad,
             v.box,
           )}
@@ -150,7 +147,7 @@ export function Button({
             <View className="flex-row items-center gap-2">
               {!iconRight && iconEl}
               <Txt
-                weight="semibold"
+                weight="medium"
                 className={twMerge(s.text, labelClassName)}
                 style={{ color: v.text }}
               >
@@ -183,7 +180,7 @@ export function IconButton({
   variant?: 'outline' | 'ghost';
 }) {
   const dark = useColorScheme() === 'dark';
-  const press = usePress(0.92);
+  const press = usePress(0.95);
   const color = onDark || dark ? colors.textDark : colors.text;
   return (
     <Pressable
@@ -198,15 +195,15 @@ export function IconButton({
       <Animated.View style={press.style}>
         <View
           className={twMerge(
-            'h-10 w-10 items-center justify-center rounded-xl web:transition-colors',
+            'h-9 w-9 items-center justify-center rounded-lg web:transition-colors',
             onDark
               ? 'border border-white/25 bg-white/10 web:hover:bg-white/20'
               : variant === 'ghost'
                 ? 'web:hover:bg-black/5 dark:web:hover:bg-white/5'
-                : 'border border-line bg-white web:hover:border-zinc-300 dark:border-ink-line dark:bg-ink-card dark:web:hover:border-zinc-600',
+                : 'border border-line bg-white web:hover:bg-zinc-50 dark:border-ink-line dark:bg-ink dark:web:hover:bg-ink-raised',
           )}
         >
-          <Icon name={icon} size={18} color={color} strokeWidth={2} />
+          <Icon name={icon} size={16} color={color} strokeWidth={1.75} />
         </View>
       </Animated.View>
     </Pressable>

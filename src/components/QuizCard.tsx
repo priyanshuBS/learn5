@@ -35,7 +35,7 @@ export function QuizCard({ item, answer, onChoose, onSubmitText }: QuizCardProps
   return (
     <View>
       <QuestionText item={item} answer={answer} />
-      <View className="mt-7">
+      <View className="mt-8">
         {item.type === 'fill_blank' ? (
           <FillBlankInput answer={answer} onSubmit={onSubmitText} />
         ) : item.type === 'true_false' ? (
@@ -52,7 +52,7 @@ export function QuizCard({ item, answer, onChoose, onSubmitText }: QuizCardProps
             ))}
           </View>
         ) : (
-          <View className="gap-2.5">
+          <View className="gap-2">
             {item.options.map((option, i) => (
               <OptionButton
                 key={option}
@@ -71,10 +71,10 @@ export function QuizCard({ item, answer, onChoose, onSubmitText }: QuizCardProps
 
 /** The question. For fill-in-the-blank, the gap is drawn as an underlined blank. */
 function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer | null }) {
-  const base = 'text-[24px] leading-[34px] md:text-[28px] md:leading-[40px]';
+  const base = 'text-[22px] leading-[31px] md:text-[26px] md:leading-[36px]';
   if (item.type !== 'fill_blank') {
     return (
-      <Txt weight="semibold" accessibilityRole="header" className={base}>
+      <Txt weight="display" accessibilityRole="header" className={base}>
         {item.question}
       </Txt>
     );
@@ -83,7 +83,7 @@ function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer
   const after = rest.join(BLANK_MARKER);
   return (
     <Txt
-      weight="semibold"
+      weight="display"
       accessibilityRole="header"
       accessibilityLabel={item.question.replace(BLANK_MARKER, 'blank')}
       className={base}
@@ -94,7 +94,7 @@ function QuestionText({ item, answer }: { item: QuestionItem; answer: ItemAnswer
         className={twMerge(
           base,
           'underline',
-          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-brand-700 dark:text-brand-400',
+          answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-[#EDEDED]',
         )}
       >
         {answer ? item.answer : '      '}
@@ -144,13 +144,13 @@ function OptionButton({
     if (state === 'wrong') {
       shakeX.set(
         withSequence(
-          withTiming(-9, { duration: 45 }),
-          withRepeat(withTiming(9, { duration: 70 }), 4, true),
+          withTiming(-5, { duration: 45 }),
+          withRepeat(withTiming(5, { duration: 60 }), 3, true),
           withTiming(0, { duration: 45 }),
         ),
       );
     } else if (state === 'correct') {
-      scale.set(withSequence(withTiming(1.045, { duration: 110 }), withSpring(1, { damping: 8 })));
+      scale.set(withSequence(withTiming(1.015, { duration: 100 }), withSpring(1, { damping: 12 })));
     }
   }, [state, shakeX, scale]);
   const motion = useAnimatedStyle(() => ({
@@ -170,35 +170,35 @@ function OptionButton({
         disabled={answered}
         onPress={onPress}
         className={twMerge(
-          'min-h-[60px] flex-row items-center gap-3.5 rounded-2xl border bg-white px-4 py-3 web:transition-all web:duration-200 dark:bg-ink-card',
+          'min-h-[54px] flex-row items-center gap-3 rounded-lg border bg-white px-3.5 py-3 web:transition-colors web:duration-150 dark:bg-ink',
           state === 'idle' &&
-            'border-line active:border-brand-400 active:bg-brand-50 web:hover:border-brand-300 web:hover:bg-brand-50/50 dark:border-ink-line dark:active:bg-brand-400/10 dark:web:hover:border-brand-400/60 dark:web:hover:bg-brand-400/10',
+            'border-line active:border-zinc-950 active:bg-zinc-50 web:hover:border-zinc-400 web:hover:bg-zinc-50 dark:border-ink-line dark:active:border-[#EDEDED] dark:active:bg-white/[0.03] dark:web:hover:border-zinc-600 dark:web:hover:bg-white/[0.03]',
           good &&
-            'border-emerald-500 bg-emerald-50 web:shadow-[0_0_30px_-8px_rgba(52,211,153,0.7)] dark:border-emerald-400/70 dark:bg-emerald-500/10',
+            'border-emerald-600 bg-emerald-50/60 dark:border-emerald-500/70 dark:bg-emerald-500/[0.08]',
           state === 'wrong' &&
-            'border-rose-500 bg-rose-50 dark:border-rose-400/70 dark:bg-rose-500/10',
-          state === 'dim' && 'border-line opacity-40 dark:border-ink-line',
+            'border-rose-500 bg-rose-50/60 dark:border-rose-500/70 dark:bg-rose-500/[0.08]',
+          state === 'dim' && 'border-line opacity-45 dark:border-ink-line',
         )}
       >
         <View
           className={twMerge(
-            'h-9 w-9 items-center justify-center rounded-full border border-line bg-canvas dark:border-ink-line dark:bg-ink-card',
-            good && 'border-emerald-600 bg-emerald-500 dark:border-emerald-600 dark:bg-emerald-500',
+            'h-7 w-7 items-center justify-center rounded-md border border-line dark:border-ink-line',
+            good && 'border-emerald-600 bg-emerald-600 dark:border-emerald-600 dark:bg-emerald-600',
             state === 'wrong' &&
-              'border-rose-600 bg-rose-500 dark:border-rose-600 dark:bg-rose-500',
+              'border-rose-500 bg-rose-500 dark:border-rose-500 dark:bg-rose-500',
           )}
         >
           {good ? (
-            <Icon name="check" size={16} color={colors.white} strokeWidth={3.5} />
+            <Icon name="check" size={14} color={colors.white} strokeWidth={3} />
           ) : state === 'wrong' ? (
-            <Icon name="x" size={16} color={colors.white} strokeWidth={3.5} />
+            <Icon name="x" size={14} color={colors.white} strokeWidth={3} />
           ) : (
-            <Txt weight="bold" className="text-[13px] text-zinc-500 dark:text-zinc-400">
+            <Txt weight="mono" className="text-[12px] text-zinc-500 dark:text-zinc-400">
               {marker}
             </Txt>
           )}
         </View>
-        <Txt weight="bold" className="flex-1 text-[17px] leading-6">
+        <Txt weight="medium" className="flex-1 text-[16px] leading-6">
           {label}
         </Txt>
       </Pressable>
@@ -231,8 +231,9 @@ function FillBlankInput({
         autoCorrect={false}
         returnKeyType="done"
         className={twMerge(
-          'min-h-[60px] rounded-2xl border bg-white px-4 font-body-semibold text-xl text-zinc-900 web:outline-none dark:bg-ink-card dark:text-zinc-100',
-          !answer && 'border-line focus:border-brand-500 dark:border-ink-line',
+          'min-h-[54px] rounded-lg border bg-white px-4 font-body-medium text-lg text-zinc-950 web:outline-none dark:bg-ink dark:text-[#EDEDED]',
+          !answer &&
+            'border-line focus:border-zinc-950 dark:border-ink-line dark:focus:border-[#EDEDED]',
           answer?.correct && 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10',
           answer && !answer.correct && 'border-rose-500 bg-rose-50 dark:bg-rose-500/10',
         )}

@@ -1,14 +1,12 @@
 /**
- * CategoryCard — one subject on the Home screen ("Slate & Teal").
- * Every subject has ONE drop a day (opening at 4 AM), so the card is simple:
- *   - a soft subject-coloured band with the 3D icon, name and a status pill
- *   - today's drop title (or a calm line while it is not open yet)
- *   - ONE clear next step: Play, a score when done, a catch-up, or the opening time
- * Tap the top part to open the subject page (it presses down a little).
+ * CategoryCard — one subject as a ROW in the Today list (flat, black and white).
+ * Every subject has ONE drop a day (opening at 4 AM):
+ *   [icon]  Subject                                   [ Start ]
+ *           Drop title · 5 questions                  / 4/5 ✓ / 4:00 AM
+ * Tap the row to open the subject page; the button starts the drop.
  */
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
 import type { DropSlot } from '@/features/drops/status';
@@ -18,10 +16,9 @@ import { categoryHref, quizHref, resultsHref } from '@/lib/routes';
 import type { Category, IndexEntry } from '@/lib/schema';
 import { localClockLabel } from '@/lib/time';
 import { displayTitle } from '@/lib/title';
-import { categoryTone, colors } from '@/theme';
+import { colors } from '@/theme';
 
-import { Button, usePress } from './Button';
-import { CARD_CLASSES, CARD_PRESSABLE_CLASSES } from './Card';
+import { Button } from './Button';
 import { CategoryIcon } from './CategoryIcon';
 import { Icon } from './Icon';
 import { Muted, Txt } from './Txt';
@@ -33,6 +30,8 @@ interface CategoryCardProps {
   getResult: (slot: DropSlot) => DropResult | undefined;
   /** Latest available drop, shown when today's drop is missing. */
   catchUp: IndexEntry | null;
+  /** Draw a hairline above the row (every row but the first). */
+  divider?: boolean;
 }
 
 export function CategoryCard({
@@ -41,142 +40,81 @@ export function CategoryCard({
   offsetMinutes,
   getResult,
   catchUp,
+  divider,
 }: CategoryCardProps) {
   const dark = useColorScheme() === 'dark';
-  const press = usePress(0.985);
-  const tone = categoryTone(category.color, dark);
-  // One drop a day: today's slot (the first one).
   const slot = slots[0];
   const result = slot ? getResult(slot) : undefined;
   const status = slot?.status ?? 'missing';
   const time = slot ? localClockLabel(slot.time, offsetMinutes) : '';
   const title = slot?.entry ? displayTitle(slot.entry.title) : null;
 
-  const pill =
-    status === 'done'
-      ? {
-          text: `${result?.correctCount ?? 0}/${result?.items.length ?? 5}`,
-          icon: 'check' as const,
-        }
-      : status === 'available'
-        ? { text: 'Open', icon: null }
-        : status === 'missing'
-          ? { text: 'Late', icon: null }
-          : { text: time, icon: 'lock' as const };
+  const subline =
+    status === 'available' || status === 'done'
+      ? `${title} · 5 questions`
+      : status === 'missing'
+        ? 'Running late — check back soon'
+        : `Opens at ${time}`;
 
   return (
-    <Animated.View style={press.style} className="flex-1">
-      <View className={twMerge(CARD_CLASSES, CARD_PRESSABLE_CLASSES, 'flex-1 overflow-hidden')}>
+    <View
+      className={twMerge(
+        'flex-row items-center gap-3 px-4 py-3.5 md:px-5',
+        divider && 'border-t border-line dark:border-ink-line',
+      )}
+    >
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${category.name}. ${subline}. Open subject`}
+        onPress={() => router.push(categoryHref(category.id))}
+        className="flex-1 flex-row items-center gap-3.5 active:opacity-70 web:hover:opacity-80"
+      >
+        <CategoryIcon category={category} size="md" />
+        <View className="flex-1">
+          <Txt weight="medium" className="text-[15px] leading-5" numberOfLines={1}>
+            {category.name}
+          </Txt>
+          <Muted className="mt-0.5 text-[13px] leading-5" numberOfLines={1}>
+            {subline}
+          </Muted>
+        </View>
+      </Pressable>
+
+      {status === 'available' && slot?.entry ? (
+        <Button
+          label="Start"
+          size="sm"
+          onPress={() => slot.entry && router.push(quizHref(slot.entry))}
+          accessibilityHint={`Starts ${title}`}
+        />
+      ) : status === 'done' && slot?.entry ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${category.name}. ${category.tagline}. ${status === 'done' ? 'Done today' : status === 'available' ? 'Open now' : `Opens at ${time}`}. Open subject`}
-          onPress={() => router.push(categoryHref(category.id))}
-          onPressIn={press.onPressIn}
-          onPressOut={press.onPressOut}
-          className="flex-1"
+          accessibilityLabel={`Done, ${result?.correctCount ?? 0} of ${result?.items.length ?? 5} correct. See results`}
+          onPress={() => slot.entry && router.push(resultsHref(slot.entry))}
+          className="h-8 flex-row items-center gap-1.5 rounded-md px-2 active:bg-zinc-100 web:hover:bg-zinc-100 dark:active:bg-white/5 dark:web:hover:bg-white/5"
         >
-          {/* Subject band */}
-          <View className="flex-row items-center gap-3 border-b border-line bg-zinc-50 px-5 pb-4 pt-5 dark:border-ink-line dark:bg-white/[0.03]">
-            <CategoryIcon category={category} size="md" />
-            <View className="flex-1">
-              <Txt weight="display" className="text-[17px] leading-6" numberOfLines={1}>
-                {category.name}
-              </Txt>
-              <Muted className="text-[12.5px]" numberOfLines={1}>
-                {category.tagline}
-              </Muted>
-            </View>
-            <View
-              className={twMerge(
-                'flex-row items-center gap-1 rounded-full px-2.5 py-1',
-                status === 'available' && 'bg-brand-600 dark:bg-brand-400',
-                status === 'done' && 'bg-emerald-50 dark:bg-emerald-500/15',
-                (status === 'upcoming' || status === 'locked' || status === 'missing') &&
-                  'border border-line bg-white dark:border-ink-line dark:bg-ink-card',
-              )}
-            >
-              {status === 'available' ? (
-                <View className="h-1.5 w-1.5 rounded-full bg-white dark:bg-ink" />
-              ) : pill.icon ? (
-                <Icon
-                  name={pill.icon}
-                  size={11}
-                  strokeWidth={status === 'done' ? 3 : 2}
-                  color={
-                    status === 'done' ? colors.success : dark ? colors.mutedDark : colors.muted
-                  }
-                />
-              ) : null}
-              <Txt
-                weight="mono"
-                className={twMerge(
-                  'text-[11.5px]',
-                  status === 'available' && 'text-white dark:text-ink',
-                  status === 'done' && 'text-emerald-700 dark:text-emerald-300',
-                  status !== 'available' && status !== 'done' && 'text-zinc-600 dark:text-zinc-300',
-                )}
-              >
-                {pill.text}
-              </Txt>
-            </View>
-          </View>
-
-          {/* Today's drop */}
-          <View className="flex-1 px-5 pt-4">
-            <Txt
-              weight="mono"
-              className="text-[10.5px] uppercase tracking-[1.2px]"
-              style={{ color: tone }}
-            >
-              Today&apos;s drop · 5 questions
-            </Txt>
-            <Txt weight="semibold" className="mt-1.5 text-[15px] leading-[22px]" numberOfLines={2}>
-              {title ??
-                (status === 'missing'
-                  ? 'Today’s questions are on their way.'
-                  : `New questions at ${time}.`)}
-            </Txt>
-          </View>
+          <Icon name="check" size={14} color={colors.success} strokeWidth={2.5} />
+          <Txt weight="mono" className="text-[13px]">
+            {result?.correctCount ?? 0}/{result?.items.length ?? 5}
+          </Txt>
         </Pressable>
-
-        {/* The one next step */}
-        <View className="px-5 pb-5 pt-4">
-          {status === 'available' && slot?.entry ? (
-            <Button
-              label="Start drop"
-              size="md"
-              icon="play"
-              onPress={() => slot.entry && router.push(quizHref(slot.entry))}
-              accessibilityHint={`Starts ${title}`}
-            />
-          ) : status === 'done' && slot?.entry ? (
-            <Button
-              label="See results"
-              size="md"
-              variant="secondary"
-              icon="check-circle"
-              onPress={() => slot.entry && router.push(resultsHref(slot.entry))}
-            />
-          ) : status === 'missing' && catchUp ? (
-            <Button
-              label="Play the latest"
-              size="md"
-              variant="soft"
-              icon="arrow-right"
-              iconRight
-              onPress={() => router.push(quizHref(catchUp))}
-              accessibilityHint={`Plays ${displayTitle(catchUp.title)}`}
-            />
-          ) : (
-            <View className="h-[46px] flex-row items-center justify-center gap-2 rounded-xl bg-zinc-100 dark:bg-ink-raised">
-              <Icon name="clock" size={14} color={dark ? colors.mutedDark : colors.muted} />
-              <Muted className="text-[13px]">
-                {status === 'missing' ? 'Check back soon' : `Opens at ${time}`}
-              </Muted>
-            </View>
-          )}
+      ) : status === 'missing' && catchUp ? (
+        <Button
+          label="Play latest"
+          size="sm"
+          variant="secondary"
+          onPress={() => router.push(quizHref(catchUp))}
+          accessibilityHint={`Plays ${displayTitle(catchUp.title)}`}
+        />
+      ) : (
+        <View className="flex-row items-center gap-1.5 px-1">
+          <Icon name="lock" size={12} color={dark ? '#737373' : '#A3A3A3'} />
+          <Txt weight="mono" className="text-[12.5px] text-zinc-500 dark:text-zinc-500">
+            {status === 'missing' ? 'Soon' : time}
+          </Txt>
         </View>
-      </View>
-    </Animated.View>
+      )}
+    </View>
   );
 }

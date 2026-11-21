@@ -44,7 +44,7 @@ export function ProgressBar({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
       className={twMerge(
-        'h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-ink-raised',
+        'h-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-ink-raised',
         className,
       )}
     >
@@ -132,16 +132,16 @@ export function QuizProgress({ segments }: { segments: SegmentState[] }) {
       accessible
       accessibilityRole="progressbar"
       accessibilityLabel={`Question ${Math.min(done + 1, segments.length)} of ${segments.length}`}
-      className="flex-1 flex-row gap-1.5"
+      className="flex-1 flex-row gap-1"
     >
       {segments.map((state, i) => (
         <View
           key={i}
           className={twMerge(
-            'h-1.5 flex-1 overflow-hidden rounded-full',
+            'h-1 flex-1 overflow-hidden rounded-full',
             state === 'todo' && 'bg-zinc-200 dark:bg-ink-raised',
-            state === 'current' && 'bg-pop dark:bg-pop-light',
-            state === 'correct' && 'bg-green-600',
+            state === 'current' && 'bg-zinc-950 dark:bg-[#EDEDED]',
+            state === 'correct' && 'bg-emerald-600',
             state === 'wrong' && 'bg-red-500',
           )}
         />

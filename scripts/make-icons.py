@@ -5,7 +5,7 @@ make-icons.py — draws the Learn5 app icons and saves them as PNG files.
 
 The logo is a "5-minute timer": a black rounded tile with a white ring
 that is almost closed, a white dot where the ring ends, and a white "5" in
-Plus Jakarta Sans ExtraBold (the same drawing as src/components/Logo.tsx).
+Geist SemiBold (the same drawing as src/components/Logo.tsx).
 Each image is an SVG in a small HTML page, saved as a PNG by headless Chrome.
 
 Writes:
@@ -25,7 +25,7 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FONT = (ROOT / 'node_modules/@expo-google-fonts/plus-jakarta-sans/800ExtraBold/PlusJakartaSans_800ExtraBold.ttf').as_uri()
+FONT = (ROOT / 'node_modules/@expo-google-fonts/geist/600SemiBold/Geist_600SemiBold.ttf').as_uri()
 CHROME_PATHS = [
     r'C:\Program Files\Google\Chrome\Application\chrome.exe',
     r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',

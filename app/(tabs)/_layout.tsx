@@ -38,7 +38,7 @@ export default function TabsLayout() {
           : { backgroundColor: scheme === 'dark' ? colors.ink : colors.canvas },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
+      <Tabs.Screen name="index" options={{ title: 'Today' }} />
       <Tabs.Screen name="articles" options={{ title: 'Read' }} />
       <Tabs.Screen name="badges" options={{ title: 'Progress' }} />
       <Tabs.Screen name="review" options={{ title: 'Review' }} />

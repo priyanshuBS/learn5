@@ -46,18 +46,12 @@ export function MessageView({
     <View className="items-center px-6 py-16">
       <View
         className={twMerge(
-          'h-14 w-14 items-center justify-center rounded-2xl border',
-          tone === 'success' &&
-            'border-emerald-100 bg-emerald-50 dark:border-emerald-500/20 dark:bg-emerald-500/10',
-          tone === 'warning' &&
-            'border-zinc-200 bg-zinc-100 dark:border-ink-line dark:bg-white/[0.05]',
-          tone === 'brand' &&
-            'border-brand-100 bg-brand-50 dark:border-brand-400/20 dark:bg-brand-400/10',
+          'h-12 w-12 items-center justify-center rounded-xl border border-line dark:border-ink-line',
         )}
       >
-        <Icon name={icon} size={24} color={toneColor} />
+        <Icon name={icon} size={20} color={toneColor} strokeWidth={1.75} />
       </View>
-      <Txt weight="display" accessibilityRole="header" className="mt-5 text-center text-xl">
+      <Txt weight="semibold" accessibilityRole="header" className="mt-5 text-center text-[18px]">
         {title}
       </Txt>
       <Muted className="mt-2 max-w-sm text-center text-[15px] leading-6">{message}</Muted>
@@ -79,5 +73,5 @@ export function MessageView({
 
 /** Grey placeholder blocks while a page loads. */
 export function SkeletonBlock({ className }: { className: string }) {
-  return <View className={twMerge('rounded-2xl bg-zinc-200/60 dark:bg-ink-raised', className)} />;
+  return <View className={twMerge('rounded-xl bg-zinc-100 dark:bg-ink-raised', className)} />;
 }

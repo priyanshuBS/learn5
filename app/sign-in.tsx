@@ -183,9 +183,9 @@ export default function SignInScreen() {
                   </Txt>
                   <View
                     className={twMerge(
-                      'flex-row items-center gap-2.5 rounded-2xl border bg-white px-4 dark:bg-ink',
+                      'flex-row items-center gap-2.5 rounded-lg border bg-white px-3.5 dark:bg-ink',
                       emailFocused
-                        ? 'border-brand-500 web:ring-4 web:ring-brand-500/15'
+                        ? 'border-zinc-950 web:ring-4 web:ring-black/5 dark:border-[#EDEDED] dark:web:ring-white/10'
                         : 'border-line dark:border-ink-line',
                     )}
                   >
@@ -243,9 +243,9 @@ export default function SignInScreen() {
                           <View
                             key={i}
                             className={twMerge(
-                              'h-16 flex-1 items-center justify-center rounded-2xl border bg-white dark:bg-ink',
+                              'h-14 flex-1 items-center justify-center rounded-lg border bg-white dark:bg-ink',
                               active
-                                ? 'border-brand-500 web:ring-4 web:ring-brand-500/15'
+                                ? 'border-zinc-950 web:ring-4 web:ring-black/5 dark:border-[#EDEDED] dark:web:ring-white/10'
                                 : digit
                                   ? 'border-zinc-300 dark:border-zinc-600'
                                   : 'border-line dark:border-ink-line',
@@ -314,7 +314,7 @@ export default function SignInScreen() {
                           'text-sm',
                           resendIn > 0 || busy
                             ? 'text-zinc-400 dark:text-zinc-500'
-                            : 'text-brand-700 dark:text-brand-300',
+                            : 'text-zinc-950 underline dark:text-[#EDEDED]',
                         )}
                       >
                         {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
@@ -357,7 +357,10 @@ export default function SignInScreen() {
                       }}
                       hitSlop={8}
                     >
-                      <Txt weight="semibold" className="text-sm text-brand-700 dark:text-brand-300">
+                      <Txt
+                        weight="semibold"
+                        className="text-sm text-zinc-950 underline dark:text-[#EDEDED]"
+                      >
                         {mode === 'signup' ? 'Log in' : 'Create an account'}
                       </Txt>
                     </Pressable>

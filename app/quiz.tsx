@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { Button, IconButton } from '@/components/Button';
-import { Card } from '@/components/Card';
 import { DifficultyBadge, Tag } from '@/components/DifficultyBadge';
 import { ExplanationPanel } from '@/components/ExplanationPanel';
 import { FlashCard } from '@/components/FlashCard';
@@ -205,7 +204,7 @@ function QuizPlayer({
   const footer = answer ? (
     <Button
       label={isLast ? 'See results' : 'Continue'}
-      icon={isLast ? 'trophy' : 'arrow-right'}
+      icon="arrow-right"
       iconRight
       onPress={next}
     />
@@ -221,7 +220,7 @@ function QuizPlayer({
       <Button label="Flip to see why" icon="refresh" onPress={() => setFlipped(true)} />
     )
   ) : (
-    <Muted className="py-3 text-center">
+    <Muted className="py-3 text-center text-[13px]">
       {item.type === 'fill_blank' ? 'Type your answer above' : 'Choose an answer to continue'}
     </Muted>
   );
@@ -233,25 +232,27 @@ function QuizPlayer({
       <View className="flex-row items-center gap-4">
         <IconButton icon="x" label="Leave quiz" onPress={goBack} variant="ghost" />
         <QuizProgress segments={segments} />
-        <Muted className="w-10 text-right">
+        <Txt weight="mono" className="w-10 text-right text-[13px] text-zinc-500 dark:text-zinc-400">
           {position + 1}/{drop.items.length}
-        </Muted>
+        </Txt>
       </View>
 
       {practice ? (
-        <View className="mt-4 flex-row items-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 dark:bg-brand-400/10">
-          <Icon name="info" size={16} color={colors.brand} />
-          <Txt className="flex-1 text-sm text-brand-800 dark:text-brand-200">
+        <View className="mt-4 flex-row items-center gap-2 rounded-lg border border-line px-3.5 py-2.5 dark:border-ink-line">
+          <Icon name="info" size={14} color={colors.brand} />
+          <Txt className="flex-1 text-[13px] text-zinc-600 dark:text-zinc-400">
             Practice round — you already finished this drop, so no new points.
           </Txt>
         </View>
       ) : null}
 
       {/* Labels */}
-      <View className="mt-8 flex-row flex-wrap items-center gap-2">
+      <View className="mt-10 flex-row flex-wrap items-center gap-2">
         <Tag label={category.name} color={category.color} />
         <DifficultyBadge difficulty={item.difficulty} />
-        <Muted numberOfLines={1}>{item.topic}</Muted>
+        <Muted className="text-[13px]" numberOfLines={1}>
+          {item.topic}
+        </Muted>
       </View>
 
       {/* The item */}
@@ -259,9 +260,9 @@ function QuizPlayer({
         {item.type === 'fact_card' ? (
           <FlashCard item={item} flipped={flipped} onToggle={() => setFlipped((f) => !f)} />
         ) : (
-          <Card className="p-5 md:p-8">
+          <View className="pt-2">
             <QuizCard item={item} answer={answer} onChoose={onChoose} onSubmitText={onSubmitText} />
-          </Card>
+          </View>
         )}
       </View>
 

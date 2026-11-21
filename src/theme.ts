@@ -25,11 +25,11 @@ export const colors = {
   black: '#0A0A0A',
   white: '#FFFFFF',
   text: '#0A0A0A',
-  textDark: '#FAFAFA',
-  muted: '#6B6B6B',
-  mutedDark: '#A1A1A1',
-  line: '#E5E5E5',
-  inkLine: '#262626',
+  textDark: '#EDEDED',
+  muted: '#737373',
+  mutedDark: '#8F8F8F',
+  line: '#EAEAEA',
+  inkLine: '#242424',
   /** Right / wrong / late stay readable as green, red and amber (quiz feedback only). */
   success: '#16A34A',
   danger: '#E5484D',
@@ -37,13 +37,13 @@ export const colors = {
   /** Streak and points: a neutral grey that reads on black and on white. */
   streak: '#8A8A8A',
   points: '#8A8A8A',
-  canvas: '#FAFAFA',
-  ink: '#000000',
+  canvas: '#FFFFFF',
+  ink: '#0A0A0A',
   /** A solid dark surface (for things that must not be see-through). */
   inkSolid: '#111111',
   /** Empty part of progress rings. */
-  track: '#E5E5E5',
-  trackDark: '#262626',
+  track: '#EAEAEA',
+  trackDark: '#242424',
 } as const;
 
 /** Colours of the 3D stat icons (Icon3D draws them in black/white anyway). */

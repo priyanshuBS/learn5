@@ -1,17 +1,16 @@
 /**
- * Card — a solid surface: white with a hairline border and a soft shadow in
- * light mode; a charcoal panel with a hairline border and a faint top
- * highlight in dark mode.
+ * Card — a flat surface: the page colour with a 1px hairline and 12px corners.
+ * No shadows; depth comes from spacing and lines.
  */
 import { View, type ViewProps } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 export const CARD_CLASSES =
-  'rounded-[20px] border border-line bg-white web:shadow-[0_1px_2px_rgba(0,0,0,0.04),0_6px_20px_-12px_rgba(0,0,0,0.08)] dark:border-ink-line dark:bg-ink-card dark:web:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_16px_40px_-20px_rgba(0,0,0,0.9)]';
+  'rounded-xl border border-line bg-white dark:border-ink-line dark:bg-ink-card';
 
-/** Tappable cards: the border darkens a little on hover; a light press dims them. */
+/** Tappable cards: a faint grey wash on hover and press. */
 export const CARD_PRESSABLE_CLASSES =
-  'active:opacity-90 web:transition-colors web:duration-150 web:hover:border-zinc-300 dark:web:hover:border-zinc-600';
+  'active:bg-zinc-50 web:transition-colors web:duration-150 web:hover:bg-zinc-50 dark:active:bg-white/[0.03] dark:web:hover:bg-white/[0.03]';
 
 export function Card({ className, ...rest }: ViewProps) {
   return <View className={twMerge(CARD_CLASSES, 'p-5', className)} {...rest} />;

@@ -1,5 +1,5 @@
 /**
- * Text components in Plus Jakarta Sans: weight="display" (Bold, slightly tight) for headings and big
+ * Text components in Geist: weight="display" (Bold, slightly tight) for headings and big
  * numbers, weight="mono" (Geist Mono) for times, counts and small labels.
  *   Txt     — body text; weight picks the font weight
  *   Muted   — soft grey helper text
@@ -15,7 +15,7 @@ const WEIGHTS = {
   semibold: 'font-body-semibold',
   bold: 'font-body-bold',
   heavy: 'font-body-heavy',
-  display: 'font-display tracking-[-0.5px]',
+  display: 'font-display tracking-[-0.6px]',
   mono: 'font-mono',
 } as const;
 
@@ -26,7 +26,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'text-base text-[#0A0A0A] dark:text-[#FAFAFA]',
+        'text-base text-[#0A0A0A] dark:text-[#EDEDED]',
         WEIGHTS[weight],
         className,
       )}
@@ -38,7 +38,7 @@ export function Txt({ weight = 'regular', className, ...rest }: TxtProps) {
 /** Small grey helper text. */
 export function Muted({ className, ...rest }: TxtProps) {
   return (
-    <Txt className={twMerge('text-sm text-[#6B6B6B] dark:text-[#A1A1A1]', className)} {...rest} />
+    <Txt className={twMerge('text-sm text-[#737373] dark:text-[#8F8F8F]', className)} {...rest} />
   );
 }
 
@@ -47,7 +47,7 @@ export function Eyebrow({ className, ...rest }: TxtProps) {
   return (
     <Text
       className={twMerge(
-        'font-body-medium text-[13px] text-[#6B6B6B] dark:text-[#A1A1A1]',
+        'font-mono text-[11px] uppercase tracking-[1px] text-[#737373] dark:text-[#8F8F8F]',
         className,
       )}
       {...rest}

@@ -1,6 +1,8 @@
 /**
- * PageHeader — the title at the top of a page: a small label, a clear heading, an optional back button and something on the right.
- * SectionTitle — the same idea for sections inside a page.
+ * PageHeader — the title at the top of a page: optional back button, a clear
+ * heading, a short muted line and something on the right.
+ * SectionTitle — a small heading for sections inside a page, with an optional
+ * muted line and an action on the right.
  */
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
@@ -25,21 +27,27 @@ export function PageHeader({
   right?: ReactNode;
 }) {
   return (
-    <View className="mb-6 md:mb-8">
-      <View className="flex-row items-center gap-3">
-        {back ? <IconButton icon="arrow-left" label="Go back" onPress={goBack} /> : null}
-        <View className="flex-1">{eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}</View>
+    <View className="mb-8">
+      {back ? (
+        <View className="mb-6 flex-row">
+          <IconButton icon="arrow-left" label="Go back" onPress={goBack} />
+        </View>
+      ) : null}
+      <View className="flex-row items-end justify-between gap-4">
+        <View className="flex-1">
+          {eyebrow ? <Eyebrow className="mb-2">{eyebrow}</Eyebrow> : null}
+          <Txt
+            weight="display"
+            accessibilityRole="header"
+            className="text-[28px] leading-[34px] md:text-[32px] md:leading-[38px]"
+            numberOfLines={2}
+          >
+            {title}
+          </Txt>
+          {subtitle ? <Muted className="mt-2 text-[15px] leading-6">{subtitle}</Muted> : null}
+        </View>
         {right}
       </View>
-      <Txt
-        weight="display"
-        accessibilityRole="header"
-        className="mt-2 text-[28px] leading-[34px] md:text-[34px] md:leading-[40px]"
-        numberOfLines={2}
-      >
-        {title}
-      </Txt>
-      {subtitle ? <Muted className="mt-2 text-[15px] leading-6">{subtitle}</Muted> : null}
     </View>
   );
 }
@@ -58,13 +66,13 @@ export function SectionTitle({
   right?: ReactNode;
 }) {
   return (
-    <View className="mb-4 mt-10 flex-row items-end justify-between gap-4">
+    <View className="mb-3 mt-12 flex-row items-end justify-between gap-4">
       <View className="flex-1">
         {eyebrow ? <Eyebrow className="mb-1">{eyebrow}</Eyebrow> : null}
-        <Txt weight="display" accessibilityRole="header" className="text-[21px] leading-7">
+        <Txt weight="semibold" accessibilityRole="header" className="text-[15px] leading-6">
           {title}
         </Txt>
-        {subtitle ? <Muted className="mt-1">{subtitle}</Muted> : null}
+        {subtitle ? <Muted className="mt-0.5 text-[13px]">{subtitle}</Muted> : null}
       </View>
       {right}
     </View>
