@@ -11,15 +11,19 @@ Five minutes a day, with a clear explanation after every answer.
 [Android app](https://expo.dev/accounts/priyanshu69/projects/learn5/builds/5f43439b-8288-4e2b-b37d-809a5574e50a) ·
 [Author](https://priyanshusingh.co.in)
 
-<br />
-
-<img src="docs/screenshots/home-light.png" alt="Today screen, light mode" width="250" />
-&nbsp;
-<img src="docs/screenshots/home-dark.png" alt="Today screen, dark mode" width="250" />
-&nbsp;
-<img src="docs/screenshots/sign-in.png" alt="Sign-in screen" width="250" />
-
 </div>
+
+<p align="center"><strong>Website</strong></p>
+<p align="center">
+  <img src="docs/screenshots/web.png" alt="Learn5 website" width="820" />
+</p>
+
+<p align="center"><strong>App</strong></p>
+<p align="center">
+  <img src="docs/screenshots/app-light.png" alt="Learn5 app, light mode" width="270" />
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/app-dark.png" alt="Learn5 app, dark mode" width="270" />
+</p>
 
 ## Overview
 
